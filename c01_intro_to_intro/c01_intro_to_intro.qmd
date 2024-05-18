@@ -1,0 +1,73 @@
+---
+format:
+  revealjs:
+    slide-number: true
+    chalkboard: true
+    fig-width: 6
+    fig-asp: 0.618
+    template-partials:
+      - "../title-slide.html"
+css: "../slides_quarto.css"
+standalone: false
+include-in-header: "../header_quarto.html"
+logo: "../Intro2SL_logo_white.jpg"
+pagetitle: "Intro. to Statistical Learning"
+callout-appearance: simple
+smaller: true
+execute:
+  eval: false
+  echo: false
+code-line-numbers: false
+code-block-border-left: true
+highlight-style: github
+footer: "[Intro to Statistical Learning](https://intro2statlearn.github.io/mooc/){target='_blank'}"
+---
+
+## {.logo-slide}
+
+## Introduction to Statistical Learning {.title-slide}
+
+### Intro to Statistical Learning - Class 1
+
+### Giora Simchoni
+
+#### `gsimchoni@gmail.com` and add `#intro2sl` in subject
+
+### Stat. and OR Department, TAU
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+שלום. וברוכים הבאים לשיעור הראשון בקורס מבוא ללמידה סטטיסטית.
+
+:::
+:::
+---
+
+## What is Statistical Learning? {.title-slide}
+
+---
+
+### What is Statistical Learning?
+
+:::: {.columns}
+::: {.column width="50%"}
+
+::: {.fragment}
+Blah blah
+:::
+
+::: {.incremental}
+- something
+- something
+:::
+:::
+::: {.column width="50%"}
+![](images/data_science_crossroad.png){width=100%}
+:::
+::::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+
+:::
+:::
