@@ -21,20 +21,20 @@
 
 .slide h1, .slide h2, .slide h3, .slide h4, .slide h5{
   font-family: 'Lato', sans-serif;
-  color: #520f23;
+  color: #0f5037;
 }
 
 .reveal .title-slide {
   font-family: 'Lato', sans-serif;
-  background-color: #520f23;
+  background-color: #0f5037;
 }
 
 .reveal .section-slide {
-  background-color: #520f23;
+  background-color: #0f5037;
 }
 
 .title-slide footer{
-  background-color: #520f23;
+  background-color: #0f5037;
   display: none;
 }
 
@@ -56,7 +56,7 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
-  background-color: #520f23;
+  background-color: #0f5037;
 }
 
 .title-slide:after {
@@ -100,18 +100,18 @@
 /*.reveal .footer span {
     font-size: 12pt;
     position: absolute;
-    color: #520f23;
+    color: #0f5037;
     left: 20px;
     bottom: 10px;
 }*/
 .reveal .footer a {
     font-size: 14pt;
-    color: #520f23!important;
+    color: #0f5037!important;
 }
 
 .reveal .slide-number a{
   font-family: 'Lato', sans-serif;
-  color: #520f23;
+  color: #0f5037;
   opacity: 1;
   font-size: 14pt;
   right: 15px;
