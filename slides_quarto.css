@@ -83,6 +83,7 @@
   max-width: unset !important;
   max-height: unset !important;
   margin-bottom: 0%;
+  z-index: -999 !important;
 }
 
 .reveal .slides .footer {
