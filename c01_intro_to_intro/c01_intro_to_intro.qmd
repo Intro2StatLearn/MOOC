@@ -15,8 +15,8 @@ pagetitle: "Intro. to Statistical Learning"
 callout-appearance: simple
 smaller: true
 execute:
-  eval: false
-  echo: false
+  eval: true
+  echo: true
 code-line-numbers: false
 code-block-border-left: true
 highlight-style: github
@@ -49,25 +49,231 @@ footer: "[Intro to Statistical Learning](https://intro2statlearn.github.io/mooc/
 
 ### What is Statistical Learning?
 
-:::: {.columns}
-::: {.column width="50%"}
-
-::: {.fragment}
-Blah blah
-:::
-
 ::: {.incremental}
-- something
-- something
+- Statistical learning is the task of understanding data, and making predictions based on data
+- It is a sub-domain of machine learning
+- It uses statistics to build models that approximate the data
+- There is a diverse set of tools for this task, where different problems calls for different tools
+- We will focus on the statistical aspect of the task, and rarely mention computational aspects
 :::
-:::
-::: {.column width="50%"}
-![](images/data_science_crossroad.png){width=100%}
-:::
-::::
 
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
 
 :::
 :::
+
+---
+
+### Terminology
+
+::: {.incremental}
+- The data is a set of features (covariates/ independent variables/ predictors):
+  - Continuous
+  - Ordered Categorical (discrete)
+  - Unordered categorical
+- Using them we construct a model (learner) of the data
+- Usually we use the model to predict a goal:
+  - When the goal is continuous the model is a [regression model]{style="color:red;"}
+  - When the goal is categorical the model is a [classification model]{style="color:red;"} (classifier)
+:::
+
+::: {.fragment}
+::: {.callout-note}
+Question: Can one use regression for classification and vice versa? We will get back to it later.
+:::
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+
+:::
+:::
+
+---
+
+## Supervised and Unsupervised Learning {.title-slide}
+
+---
+
+### Supervised Learning
+
+::: {.incremental}
+- Definition: 
+  - Input: Let $x$ be a vector of length $n$, and let $y = f(x) + \varepsilon$, where $E(\varepsilon) = 0$, $Var(\varepsilon) = \sigma^2$, $(\varepsilon, x)$ are independent
+  - Goal: learn $f$ given a set of inputs $(X, y)$
+- In most cases we can only find a function $\hat{f} \approx f$, an estimator
+- The approximation is measured relative to some loss function $L(y, \hat{y})$
+  - Regression example: MSE (This will be our common choice)
+  - Classification example: misclassification rate
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+
+:::
+:::
+
+---
+
+### Supervised Learning: Examples
+
+- Goal: Predict the total sales of a product in a given day
+  - Covariates: price, geographical region, day of week, holiday, ...
+- Goal: Predict if a client of a cellular company will churn
+  - Covariates: usage, age, socio-economical status, phone type, ...
+- Goal: Personalized medicine (e.g. what is the effective medicine dosage for a *specific* patient)
+  - Covariates: genes profile, effectiveness on cell tissues, ...
+  - Drug cost is a part of the loss function $L$!
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+
+:::
+:::
+
+---
+
+### Supervised Learning: wage prediction
+
+```{python}
+#| echo: false
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+wage = pd.read_csv('../datasets/Wage.csv')
+wage['education'] = pd.Categorical(wage['education'], ordered=True)
+
+fig, axes = plt.subplots(1, 3, figsize = (3 * 5, 3))
+sns.regplot(data=wage, x='age', y='wage', color = 'grey', lowess=True, line_kws=dict(color="blue"), ax=axes[0])
+sns.regplot(data=wage, x='year', y='wage', color = 'grey', order=1, line_kws=dict(color="blue"), ax=axes[1])
+sns.boxplot(data=wage, x='education', y='wage', ax = axes[2])
+axes[1].set_ylabel('')
+axes[1].set_xlim((2003 - 0.5, 2009 + 0.5))
+axes[2].set_ylabel('')
+axes[2].set_xticklabels(range(1, 6))
+plt.show()
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+
+:::
+:::
+
+---
+
+### Unsupervised Learning
+
+What if there is no $y$?
+
+::: {.incremental}
+- Given set of features $x$ find a model that describes properties of the data:
+  - Clusters
+  - Dependencies
+  - Correlations
+  - Common factors (PCA)
+- Problems in which we model the *covariates data* are called [unsupervised]{style="color:red;"}
+- Most of the course: we will focus on supervised learning
+:::
+
+::: {.fragment}
+::: {.callout-note}
+[Semi-supervised]{style="color:red;"}: there exists a goal but it is partially labeled
+:::
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+
+:::
+:::
+
+---
+
+## The Estimation Problem {.title-slide}
+
+---
+
+### Why Estimate $f$?
+
+::: {.fragment}
+- For [prediction]{style="color:red;"}: Given a new instance vector $x$, predict: $\hat{y} = \hat{f}(x)$
+  - This seems like a reasonable choice since the noise is zero-mean
+:::
+::: {.fragment}
+- For [inference]{style="color:red;"}: Suppose that we learned an estimator $\hat{f}$, we can use it to learn properties of the input, such as:
+  - Which variables of $x$ affects $y$?
+  - Given a subset of variables $X^{'} \subset X$, is a variable $X^{''} \not\subset X^{'}$ informative for $f(y | X')$?
+  - How well can we approximate $y$?
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+
+:::
+:::
+
+---
+
+### The Estimation Problem
+
+How do we learn $\hat{f}$?
+
+::: {.incremental}
+- Let $T = \{(x_1, y_1 ) \dots (x_n, y_n)\}$ be a training sample of size $n$
+  - Note that $x_i = \begin{bmatrix}x_{i1} \\ \vdots \\ x_{ip}\end{bmatrix}$ is a vector of $p$ features (by notation a column vector)
+- We assume that there exists a joint distribution $X \times Y$, and that $(x_i, y_i)$ is sampled from it
+  - Usually we assume that the samples are iid
+- In general most learning methods can be divided into [parametric]{style="color:red;"} methods and [non-parametric]{style="color:red;"} methods
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+
+:::
+:::
+
+---
+
+### Parametric Models
+
+- To learn a parametric model we first assume a known parametric form for $f(x)$, and then learn the parameters of $f$
+- Example:
+
+::: {.incremental}
+  - Assume $f(x) = \beta_0 + \beta_1 x_1 + \dots + \beta_p x_p$, namely $f$ is a linear function of the inputs with unknown fixed coefficients
+  - Estimate the values of $\beta = \beta_0, \dots, \beta_p$
+  - How? For example using least squares: $\min_\beta \sum_i {(y_i - \beta^{T}x_i)^2}$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+
+:::
+:::
+
+---
+
+### Non-Parametric Models
+
+- Don't assume the form of $f(x)$, the model just wants $f(x)$ to be close to the data
+  - Under the assumption that $f(x)$ belongs to a wide family of smooth functions
+- Example:
+
+::: {.incremental}
+  - Splines – smooth piecewise polynomials.
+  - Why do we need the smoothness for?
+  - If we remove the smoothness assumption then what is the *best* $f(x)$? Is it a good choice?
+  - We will get back to them later in the course
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+
+:::
+:::
+

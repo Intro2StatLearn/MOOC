@@ -368,20 +368,342 @@
 <section class="slide level2">
 
 <h3 id="what-is-statistical-learning-1">What is Statistical Learning?</h3>
-<div class="columns">
-<div class="column" style="width:50%;">
-<div class="fragment">
-<p>Blah blah</p>
-</div>
 <div>
 <ul>
-<li class="fragment">something</li>
-<li class="fragment">something</li>
+<li class="fragment">Statistical learning is the task of understanding data, and making predictions based on data</li>
+<li class="fragment">It is a sub-domain of machine learning</li>
+<li class="fragment">It uses statistics to build models that approximate the data</li>
+<li class="fragment">There is a diverse set of tools for this task, where different problems calls for different tools</li>
+<li class="fragment">We will focus on the statistical aspect of the task, and rarely mention computational aspects</li>
 </ul>
 </div>
-</div><div class="column" style="width:50%;">
-<p><img data-src="images/data_science_crossroad.png" style="width:100.0%"></p>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
 </div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="terminology">Terminology</h3>
+<div>
+<ul>
+<li class="fragment">The data is a set of features (covariates/ independent variables/ predictors):
+<ul>
+<li class="fragment">Continuous</li>
+<li class="fragment">Ordered Categorical (discrete)</li>
+<li class="fragment">Unordered categorical</li>
+</ul></li>
+<li class="fragment">Using them we construct a model (learner) of the data</li>
+<li class="fragment">Usually we use the model to predict a goal:
+<ul>
+<li class="fragment">When the goal is continuous the model is a <span style="color:red;">regression model</span></li>
+<li class="fragment">When the goal is categorical the model is a <span style="color:red;">classification model</span> (classifier)</li>
+</ul></li>
+</ul>
+</div>
+<div class="fragment">
+<div class="callout callout-note callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<p>Question: Can one use regression for classification and vice versa? We will get back to it later.</p>
+</div>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="supervised-and-unsupervised-learning" class="slide level2 title-slide center">
+<h2>Supervised and Unsupervised Learning</h2>
+</section>
+<section class="slide level2">
+
+<h3 id="supervised-learning">Supervised Learning</h3>
+<div>
+<ul>
+<li class="fragment">Definition:
+<ul>
+<li class="fragment">Input: Let <span class="math inline">\(x\)</span> be a vector of length <span class="math inline">\(n\)</span>, and let <span class="math inline">\(y = f(x) + \varepsilon\)</span>, where <span class="math inline">\(E(\varepsilon) = 0\)</span>, <span class="math inline">\(Var(\varepsilon) = \sigma^2\)</span>, <span class="math inline">\((\varepsilon, x)\)</span> are independent</li>
+<li class="fragment">Goal: learn <span class="math inline">\(f\)</span> given a set of inputs <span class="math inline">\((X, y)\)</span></li>
+</ul></li>
+<li class="fragment">In most cases we can only find a function <span class="math inline">\(\hat{f} \approx f\)</span>, an estimator</li>
+<li class="fragment">The approximation is measured relative to some loss function <span class="math inline">\(L(y, \hat{y})\)</span>
+<ul>
+<li class="fragment">Regression example: MSE (This will be our common choice)</li>
+<li class="fragment">Classification example: misclassification rate</li>
+</ul></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="supervised-learning-examples">Supervised Learning: Examples</h3>
+<ul>
+<li>Goal: Predict the total sales of a product in a given day
+<ul>
+<li>Covariates: price, geographical region, day of week, holiday, …</li>
+</ul></li>
+<li>Goal: Predict if a client of a cellular company will churn
+<ul>
+<li>Covariates: usage, age, socio-economical status, phone type, …</li>
+</ul></li>
+<li>Goal: Personalized medicine (e.g.&nbsp;what is the effective medicine dosage for a <em>specific</em> patient)
+<ul>
+<li>Covariates: genes profile, effectiveness on cell tissues, …</li>
+<li>Drug cost is a part of the loss function <span class="math inline">\(L\)</span>!</li>
+</ul></li>
+</ul>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="supervised-learning-wage-prediction">Supervised Learning: wage prediction</h3>
+<div id="88c1b37c" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c01_intro_to_intro_files/figure-revealjs/cell-2-output-1.png" width="1188" height="282"></p>
+</figure>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="unsupervised-learning">Unsupervised Learning</h3>
+<p>What if there is no <span class="math inline">\(y\)</span>?</p>
+<div>
+<ul>
+<li class="fragment">Given set of features <span class="math inline">\(x\)</span> find a model that describes properties of the data:
+<ul>
+<li class="fragment">Clusters</li>
+<li class="fragment">Dependencies</li>
+<li class="fragment">Correlations</li>
+<li class="fragment">Common factors (PCA)</li>
+</ul></li>
+<li class="fragment">Problems in which we model the <em>covariates data</em> are called <span style="color:red;">unsupervised</span></li>
+<li class="fragment">Most of the course: we will focus on supervised learning</li>
+</ul>
+</div>
+<div class="fragment">
+<div class="callout callout-note callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<p><span style="color:red;">Semi-supervised</span>: there exists a goal but it is partially labeled</p>
+</div>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-estimation-problem" class="slide level2 title-slide center">
+<h2>The Estimation Problem</h2>
+</section>
+<section class="slide level2">
+
+<h3 id="why-estimate-f">Why Estimate <span class="math inline">\(f\)</span>?</h3>
+<div class="fragment">
+<ul>
+<li>For <span style="color:red;">prediction</span>: Given a new instance vector <span class="math inline">\(x\)</span>, predict: <span class="math inline">\(\hat{y} = \hat{f}(x)\)</span>
+<ul>
+<li>This seems like a reasonable choice since the noise is zero-mean</li>
+</ul></li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>For <span style="color:red;">inference</span>: Suppose that we learned an estimator <span class="math inline">\(\hat{f}\)</span>, we can use it to learn properties of the input, such as:
+<ul>
+<li>Which variables of <span class="math inline">\(x\)</span> affects <span class="math inline">\(y\)</span>?</li>
+<li>Given a subset of variables <span class="math inline">\(X^{'} \subset X\)</span>, is a variable <span class="math inline">\(X^{''} \not\subset X^{'}\)</span> informative for <span class="math inline">\(f(y | X')\)</span>?</li>
+<li>How well can we approximate <span class="math inline">\(y\)</span>?</li>
+</ul></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="the-estimation-problem-1">The Estimation Problem</h3>
+<p>How do we learn <span class="math inline">\(\hat{f}\)</span>?</p>
+<div>
+<ul>
+<li class="fragment">Let <span class="math inline">\(T = \{(x_1, y_1 ) \dots (x_n, y_n)\}\)</span> be a training sample of size <span class="math inline">\(n\)</span>
+<ul>
+<li class="fragment">Note that <span class="math inline">\(x_i = \begin{bmatrix}x_{i1} \\ \vdots \\ x_{ip}\end{bmatrix}\)</span> is a vector of <span class="math inline">\(p\)</span> features (by notation a column vector)</li>
+</ul></li>
+<li class="fragment">We assume that there exists a joint distribution <span class="math inline">\(X \times Y\)</span>, and that <span class="math inline">\((x_i, y_i)\)</span> is sampled from it
+<ul>
+<li class="fragment">Usually we assume that the samples are iid</li>
+</ul></li>
+<li class="fragment">In general most learning methods can be divided into <span style="color:red;">parametric</span> methods and <span style="color:red;">non-parametric</span> methods</li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="parametric-models">Parametric Models</h3>
+<ul>
+<li>To learn a parametric model we first assume a known parametric form for <span class="math inline">\(f(x)\)</span>, and then learn the parameters of <span class="math inline">\(f\)</span></li>
+<li>Example:</li>
+</ul>
+<div>
+<ul>
+<li class="fragment">Assume <span class="math inline">\(f(x) = \beta_0 + \beta_1 x_1 + \dots + \beta_p x_p\)</span>, namely <span class="math inline">\(f\)</span> is a linear function of the inputs with unknown fixed coefficients</li>
+<li class="fragment">Estimate the values of <span class="math inline">\(\beta = \beta_0, \dots, \beta_p\)</span></li>
+<li class="fragment">How? For example using least squares: <span class="math inline">\(\min_\beta \sum_i {(y_i - \beta^{T}x_i)^2}\)</span></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="non-parametric-models">Non-Parametric Models</h3>
+<ul>
+<li>Don’t assume the form of <span class="math inline">\(f(x)\)</span>, the model just wants <span class="math inline">\(f(x)\)</span> to be close to the data
+<ul>
+<li>Under the assumption that <span class="math inline">\(f(x)\)</span> belongs to a wide family of smooth functions</li>
+</ul></li>
+<li>Example:</li>
+</ul>
+<div>
+<ul>
+<li class="fragment">Splines – smooth piecewise polynomials.</li>
+<li class="fragment">Why do we need the smoothness for?</li>
+<li class="fragment">If we remove the smoothness assumption then what is the <em>best</em> <span class="math inline">\(f(x)\)</span>? Is it a good choice?</li>
+<li class="fragment">We will get back to them later in the course</li>
+</ul>
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
