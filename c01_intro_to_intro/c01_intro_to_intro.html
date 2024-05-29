@@ -395,13 +395,13 @@
 </section>
 <section class="slide level2">
 
-<h3 id="terminology">Terminology</h3>
+<h3 id="key-concepts">Key Concepts</h3>
 <div>
 <ul>
 <li class="fragment">The data is a set of features (covariates/ independent variables/ predictors):
 <ul>
 <li class="fragment">Continuous</li>
-<li class="fragment">Ordered Categorical (discrete)</li>
+<li class="fragment">Ordered categorical (discrete)</li>
 <li class="fragment">Unordered categorical</li>
 </ul></li>
 <li class="fragment">Using them we construct a model (learner) of the data</li>
@@ -456,8 +456,8 @@
 <li class="fragment">In most cases we can only find a function <span class="math inline">\(\hat{f} \approx f\)</span>, an estimator</li>
 <li class="fragment">The approximation is measured relative to some loss function <span class="math inline">\(L(y, \hat{y})\)</span>
 <ul>
-<li class="fragment">Regression example: MSE (This will be our common choice)</li>
-<li class="fragment">Classification example: misclassification rate</li>
+<li class="fragment">Regression example: MSE (This will be our common choice), MAE</li>
+<li class="fragment">Classification example: misclassification rate, recall and precision</li>
 </ul></li>
 </ul>
 </div>
@@ -479,7 +479,7 @@
 </section>
 <section class="slide level2">
 
-<h3 id="supervised-learning-examples">Supervised Learning: Examples</h3>
+<h3 id="supervised-learning-examples">Supervised Learning: examples</h3>
 <ul>
 <li>Goal: Predict the total sales of a product in a given day
 <ul>
@@ -514,7 +514,7 @@
 <section class="slide level2">
 
 <h3 id="supervised-learning-wage-prediction">Supervised Learning: wage prediction</h3>
-<div id="88c1b37c" class="cell" data-execution_count="1">
+<div id="f02c997a" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -584,8 +584,8 @@
           display:block!important;
       }</style></aside>
 </section>
-<section id="the-estimation-problem" class="slide level2 title-slide center">
-<h2>The Estimation Problem</h2>
+<section id="parametric-and-non-parametric-models" class="slide level2 title-slide center">
+<h2>Parametric and Non-Parametric Models</h2>
 </section>
 <section class="slide level2">
 
@@ -626,13 +626,13 @@
 </section>
 <section class="slide level2">
 
-<h3 id="the-estimation-problem-1">The Estimation Problem</h3>
+<h3 id="the-estimation-problem">The Estimation Problem</h3>
 <p>How do we learn <span class="math inline">\(\hat{f}\)</span>?</p>
 <div>
 <ul>
 <li class="fragment">Let <span class="math inline">\(T = \{(x_1, y_1 ) \dots (x_n, y_n)\}\)</span> be a training sample of size <span class="math inline">\(n\)</span>
 <ul>
-<li class="fragment">Note that <span class="math inline">\(x_i = \begin{bmatrix}x_{i1} \\ \vdots \\ x_{ip}\end{bmatrix}\)</span> is a vector of <span class="math inline">\(p\)</span> features (by notation a column vector)</li>
+<li class="fragment">Note that <span class="math inline">\(x_i = \begin{pmatrix}x_{i1} \\ \vdots \\ x_{ip}\end{pmatrix}\)</span> is a vector of <span class="math inline">\(p\)</span> features (by notation a column vector)</li>
 </ul></li>
 <li class="fragment">We assume that there exists a joint distribution <span class="math inline">\(X \times Y\)</span>, and that <span class="math inline">\((x_i, y_i)\)</span> is sampled from it
 <ul>
@@ -705,6 +705,228 @@
 <li class="fragment">We will get back to them later in the course</li>
 </ul>
 </div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="from-linear-regression-to-splines">From Linear Regression to Splines</h3>
+<div id="664c4cb6" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c01_intro_to_intro_files/figure-revealjs/cell-3-output-1.png" width="999" height="290"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>The rough spline seems to be <span style="color:red;">overfitting</span> the data.</p>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="overfitting" class="slide level2 title-slide center">
+<h2>Overfitting</h2>
+</section>
+<section class="slide level2">
+
+<h3 id="train-and-test">Train and Test</h3>
+<div>
+<ul>
+<li class="fragment">The goal of a model is its predictive power, namely how well will it fit on a new/unseen/out-of-sample set of observations.</li>
+<li class="fragment">The new set of observations is called <span style="color:red;">test set</span> (as opposed to the <span style="color:red;">train set</span>).</li>
+<li class="fragment">Usually:
+<ul>
+<li class="fragment">Dividing the data to a train and test sets</li>
+<li class="fragment">Learn models on train set, select models based on their performance on the test set</li>
+</ul></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="prediction-error-first-decomposition">Prediction Error First Decomposition</h3>
+<ul>
+<li>Assume an observation <span class="math inline">\((x, y)\)</span>, <span class="math inline">\(\hat{y} = \hat{f}(x)\)</span> is <em>given</em>, <span class="math inline">\(L(y, \hat{y})\)</span> is the MSE</li>
+<li>What is the expected loss?</li>
+</ul>
+<div class="fragment">
+<p><span class="math inline">\(E[(y - \hat{y})^2] = E[(f(x) + \varepsilon - \hat{f}(x))^2] = [f(x) - \hat{f}(x)]^2 + Var(\varepsilon)\)</span></p>
+</div>
+<div class="fragment">
+<ul>
+<li><p>First term: <span style="color:red;">reducible error</span></p></li>
+<li><p>Second term: <span style="color:red;">irreducible error</span></p></li>
+<li><p>Which part should we minimize?</p></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="a-taste-of-overfitting">A taste of Overfitting</h3>
+<ul>
+<li>But given an observation <span class="math inline">\((x, y, \hat{y})\)</span>, we never know which part of its error is irreducible!</li>
+<li>So the best prediction for a given x is not necessarily <span class="math inline">\(y\)</span>!</li>
+<li>Informally, being too close to the data is called overfitting</li>
+<li>Overfitting may get worse for non-parametric models (highly flexible).</li>
+</ul>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="overfitting-with-splines">Overfitting with Splines</h3>
+
+<img data-src="images/spline_train_test_demo.png" class="r-stretch"><aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="why-do-we-prefer-simple-models">Why do we prefer simple models?</h3>
+<ul>
+<li>The simpler the more interpretable (Try to explain Splines)</li>
+<li>Simpler for inference</li>
+<li>Reduces overfitting</li>
+<li>But: <span style="color:red;">May increase underfitting</span></li>
+</ul>
+<div class="fragment">
+<ul>
+<li>So: It all depends on your goal!</li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="why-do-we-prefer-simple-models-1">Why do we prefer simple models?</h3>
+<div id="e5628eaf" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c01_intro_to_intro_files/figure-revealjs/cell-4-output-1.png" width="833" height="511"></p>
+</figure>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="assessing-model-prediction" class="slide level2 title-slide center">
+<h2>Assessing Model Prediction</h2>
+</section>
+<section class="slide level2">
+
+<h3 id="the-bias-variance-tradeoff">The Bias-Variance Tradeoff</h3>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 
