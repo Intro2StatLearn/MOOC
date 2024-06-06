@@ -295,7 +295,7 @@ What if there is no $y$?
 How do we learn $\hat{f}$?
 
 ::: {.incremental}
-- Let $T = \{(x_1, y_1 ) \dots (x_n, y_n)\}$ be a training sample of size $n$
+- Let $T = \{(x_1, y_1) \dots (x_n, y_n)\}$ be a training sample of size $n$
   - Note that $x_i = \begin{pmatrix}x_{i1} \\ \vdots \\ x_{ip}\end{pmatrix}$ is a vector of $p$ features (by notation a column vector)
 - We assume that there exists a joint distribution $X \times Y$, and that $(x_i, y_i)$ is sampled from it
   - Usually we assume that the samples are iid
@@ -493,7 +493,15 @@ The rough spline seems to be [overfitting]{style="color:red;"} the data.
 - What is the expected loss?
 
 ::: {.fragment}
-$E_y[(y - \hat{f}(x))^2] = E[(f(x) + \varepsilon - \hat{f}(x))^2] = [f(x) - \hat{f}(x)]^2 + Var(\varepsilon)$
+$E_y[(y - \hat{f}(x))^2] = E_\varepsilon[(f(x) + \varepsilon - \hat{f}(x))^2] = ?$
+:::
+
+::: {.fragment}
+$\left(=\int_\varepsilon (f(x) + \varepsilon - \hat{f}(x))^2 h(\varepsilon)d\varepsilon \stackrel{\text{e.g.}}{=}\int_{-\infty}^{+\infty} (f(x) + \varepsilon - \hat{f}(x))^2 \frac{1}{\sigma\sqrt{2\pi}} \exp\left( -\frac{\varepsilon^2}{2\sigma^2}\right) d\varepsilon\right)$
+:::
+
+::: {.fragment}
+$= [f(x) - \hat{f}(x)]^2 + Var(\varepsilon)$
 :::
 
 ::: {.fragment}
@@ -510,7 +518,11 @@ $E_y[(y - \hat{f}(x))^2] = E[(f(x) + \varepsilon - \hat{f}(x))^2] = [f(x) - \hat
 
 (להדגים)
 
-התוחלת כאן היא על המשתנה המקרי היחידי, שהוא Y, אבל בעצם כשאני מחליף את Y במודל אני מקבל שאפסילון הוא המשתנה המקרי. אם אני פותח את הריבוע, אני מקבל תוחלת של f פחות f האט בריבוע, תוחלת של אפסילון בריבוע ועוד פעמיים התוחלת של אפסילון כפול f פחות f האט. אבל כאמור f האט כרגע הוא לא משתנה מקרי הוא נתון, לכן יש כאן תוחלת רק על אפסילון מוכפלת פי איזשהו קבוע, והתוחלת של אפסילון היא אפס לכן כל הביטוי מתאפס. נשארנו עם תוחלת של f פחות f האט בריבוע ועוד התוחלת של אפסילון בריבוע, אבל זה בדיוק שווה לשונות של אפסילון.
+התוחלת כאן היא על המשתנה המקרי היחידי, שהוא Y, אבל בעצם כשאני מחליף את Y במודל אני מקבל שאפסילון הוא המשתנה המקרי.
+
+בשלב הזה, כדאי להזכיר שהביטוי שלפנינו מוגדר היטב. במקרה של משתנה רציף מדובר באינטגרל של פונקציה של אפסילון, כפול הצפיפות של אפסילון, מסומנת כאן בh. לדוגמא אם נניח שאפסילון מתלפג נורמלית עם תוחלת אפס ושונות סיגמה בריבוע הצפיפות היא הצפיפות הנורמלית המוכרת, ומכאן אפשר להמשיך לפתח את האינטגרל וכולי. אבל בשביל השורה התחתונה שלנו לא צריך את האינטגרל, אפשר להישאר ברישום הסימבולי של תוחלת.
+
+ אם אני פותח את הריבוע, אני מקבל תוחלת של f פחות f האט בריבוע, תוחלת של אפסילון בריבוע ועוד פעמיים התוחלת של אפסילון כפול f פחות f האט. אבל כאמור f האט כרגע הוא לא משתנה מקרי הוא נתון, לכן יש כאן תוחלת רק על אפסילון מוכפלת פי איזשהו קבוע, והתוחלת של אפסילון היא אפס לכן כל הביטוי מתאפס. נשארנו עם תוחלת של f פחות f האט בריבוע ועוד התוחלת של אפסילון בריבוע, אבל זה בדיוק שווה לשונות של אפסילון.
 
 אנחנו רואים שניתן לפרק את שגיאת החיזוי הריבועית לשני ביטויים. לביטוי הראשון הראשון נהוג לקרוא הרידוסיבל ארור, ולשני שהוא השונות של אפסילון האירדוסיבל ארור.
 
