@@ -545,7 +545,7 @@
 <section class="slide level2">
 
 <h3 id="supervised-learning-wage-prediction">Supervised Learning: wage prediction</h3>
-<div id="1edb9982" class="cell" data-execution_count="1">
+<div id="e91db57c" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -793,7 +793,7 @@
 <section class="slide level2">
 
 <h3 id="from-linear-regression-to-splines">From Linear Regression to Splines</h3>
-<div id="88bac13c" class="cell" data-execution_count="2">
+<div id="14490e5f" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -871,9 +871,11 @@
 <div class="fragment">
 <p><span class="math inline">\(E_y[(y - \hat{f}(x))^2] = E_\varepsilon[(f(x) + \varepsilon - \hat{f}(x))^2] = ?\)</span></p>
 </div>
+<p><br><br></p>
 <div class="fragment">
 <p><span class="math inline">\(\left(=\int_\varepsilon (f(x) + \varepsilon - \hat{f}(x))^2 h(\varepsilon)d\varepsilon \stackrel{\text{e.g.}}{=}\int_{-\infty}^{+\infty} (f(x) + \varepsilon - \hat{f}(x))^2 \frac{1}{\sigma\sqrt{2\pi}} \exp\left( -\frac{\varepsilon^2}{2\sigma^2}\right) d\varepsilon\right)\)</span></p>
 </div>
+<p><br><br></p>
 <div class="fragment">
 <p><span class="math inline">\(= [f(x) - \hat{f}(x)]^2 + Var(\varepsilon)\)</span></p>
 </div>
@@ -883,20 +885,45 @@
 <li>Second term: <span style="color:red;">irreducible error</span></li>
 </ul>
 </div>
-<div class="fragment">
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+<p>נניח שקיבלנו חיזוי, כלומר החיזוי הוא לא משתנה מקרי הוא קבוע, אנחנו מתנים עליו. איך אפשר לפרק לוס ריבועי?</p>
+<p>התוחלת כאן היא על המשתנה המקרי היחידי, שהוא Y, אבל בעצם כשאני מחליף את Y במודל אני מקבל שאפסילון הוא המשתנה המקרי.</p>
+<p>בשלב הזה, כדאי להזכיר שהביטוי שלפנינו מוגדר היטב. במקרה של משתנה רציף מדובר באינטגרל של פונקציה של אפסילון, כפול הצפיפות של אפסילון, מסומנת כאן בh. לדוגמא אם נניח שאפסילון מתלפג נורמלית עם תוחלת אפס ושונות סיגמה בריבוע הצפיפות היא הצפיפות הנורמלית המוכרת, ומכאן אפשר להמשיך לפתח את האינטגרל וכולי. אבל בשביל השורה התחתונה שלנו לא צריך את האינטגרל, אפשר להישאר ברישום הסימבולי של תוחלת.</p>
+<p>(להדגים)</p>
+<p>אם אני פותח את הריבוע, אני מקבל תוחלת של f פחות f האט בריבוע, תוחלת של אפסילון בריבוע ועוד פעמיים התוחלת של אפסילון כפול f פחות f האט. אבל כאמור f האט כרגע הוא לא משתנה מקרי הוא נתון, לכן יש כאן תוחלת רק על אפסילון מוכפלת פי איזשהו קבוע, והתוחלת של אפסילון היא אפס לכן כל הביטוי מתאפס. נשארנו עם תוחלת של f פחות f האט בריבוע ועוד התוחלת של אפסילון בריבוע, אבל זה בדיוק שווה לשונות של אפסילון.</p>
+<p>אנחנו רואים שניתן לפרק את שגיאת החיזוי הריבועית לשני ביטויים. לביטוי הראשון הראשון נהוג לקרוא הרידוסיבל ארור, ולשני שהוא השונות של אפסילון האירדוסיבל ארור.</p>
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="prediction-error-first-decomposition-1">Prediction Error: first decomposition</h3>
+<p><br><br> <span class="math inline">\(E_y[(y - \hat{f}(x))^2] = [f(x) - \hat{f}(x)]^2 + Var(\varepsilon)\)</span> = <span style="color:red;">reducible</span> error + <span style="color:red;">irreducible</span> error</p>
+<p><br><br></p>
+<p>Two comments:</p>
+<div>
 <ul>
-<li>Which part should we minimize?</li>
+<li class="fragment">Which part should we minimize?</li>
+<li class="fragment">For squared error: “best” estimator for <span class="math inline">\(\hat{f}\)</span> is <span class="math inline">\(f(x) = E(y|x)\)</span>!</li>
 </ul>
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-<p>נניח שקיבלנו חיזוי, כלומר החיזוי הוא לא משתנה מקרי הוא קבוע, אנחנו מתנים עליו. איך אפשר לפרק לוס ריבועי?</p>
-<p>(להדגים)</p>
-<p>התוחלת כאן היא על המשתנה המקרי היחידי, שהוא Y, אבל בעצם כשאני מחליף את Y במודל אני מקבל שאפסילון הוא המשתנה המקרי.</p>
-<p>בשלב הזה, כדאי להזכיר שהביטוי שלפנינו מוגדר היטב. במקרה של משתנה רציף מדובר באינטגרל של פונקציה של אפסילון, כפול הצפיפות של אפסילון, מסומנת כאן בh. לדוגמא אם נניח שאפסילון מתלפג נורמלית עם תוחלת אפס ושונות סיגמה בריבוע הצפיפות היא הצפיפות הנורמלית המוכרת, ומכאן אפשר להמשיך לפתח את האינטגרל וכולי. אבל בשביל השורה התחתונה שלנו לא צריך את האינטגרל, אפשר להישאר ברישום הסימבולי של תוחלת.</p>
-<p>אם אני פותח את הריבוע, אני מקבל תוחלת של f פחות f האט בריבוע, תוחלת של אפסילון בריבוע ועוד פעמיים התוחלת של אפסילון כפול f פחות f האט. אבל כאמור f האט כרגע הוא לא משתנה מקרי הוא נתון, לכן יש כאן תוחלת רק על אפסילון מוכפלת פי איזשהו קבוע, והתוחלת של אפסילון היא אפס לכן כל הביטוי מתאפס. נשארנו עם תוחלת של f פחות f האט בריבוע ועוד התוחלת של אפסילון בריבוע, אבל זה בדיוק שווה לשונות של אפסילון.</p>
-<p>אנחנו רואים שניתן לפרק את שגיאת החיזוי הריבועית לשני ביטויים. לביטוי הראשון הראשון נהוג לקרוא הרידוסיבל ארור, ולשני שהוא השונות של אפסילון האירדוסיבל ארור.</p>
-<p>איזו טעות נרצה שתהיה קטנה? שתיהן, אבל את האירדוסיבל ארור אנחנו לא יכולים באמת להפחית, היא נובעת מהרעש הטבעי שבנתונים, והמיקוד שלנו יהיה להפחית את הטעות הרידוסיבל, לדאוג שהחיזוי שלנו יהיה כמה שקרוב לפונקציה f.&nbsp;אבל מה עלול לקרות בפועל?</p>
+<p>שתי הערות לגבי התוצאה שקיבלנו.</p>
+<p>הערה ראשונה: איזו טעות נרצה שתהיה קטנה? שתיהן, אבל את האירדוסיבל ארור אנחנו לא יכולים באמת להפחית, היא נובעת מהרעש הטבעי שבנתונים, והמיקוד שלנו יהיה להפחית את הטעות הרידוסיבל, לדאוג שהחיזוי שלנו יהיה כמה שקרוב לפונקציה f.</p>
+<p>הערה שניה - כשכותבים את הטעות הריבועית בצורה כזאת מבינים מתמטית גם למה f האמיתי הוא החיזוי הטוב ביותר עבור y. זה אינטואיטיבי, ברור, אבל כאן ממש אפשר לראות שf האמיתי הוא היחיד שיכול להביא את השגיאה הרידוסיבל, לאפס. ולא רק זה, מהו f האמיתי? הוא התוחלת המותנית של Y בהינתן X. שימו לב, בכל מודל עם Y רציף כשהטעות היא טעות ריבועית, לא חשוב אם זה רגרסיה או רשת נוירונים, התוחלת המותנית של Y בהינתן X הוא האומד שיביא לאפס את הטעות הרדוסיבל, כלומר ה”ממוצע” של Y עבור על X, המשטח הזה שנקווה שהוא חלק או שהוא משתנה לאט, שהוא ניתן לחיזוי.</p>
+<p>אז אמרנו שהרידוסיבל ארור היא הטעות שהמודל שלנו יכול להפחית. אבל מה עלול לקרות בפועל?</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1001,7 +1028,7 @@
 <section class="slide level2">
 
 <h3 id="why-do-we-prefer-simple-models-1">Why do we prefer simple models?</h3>
-<div id="dd535190" class="cell" data-execution_count="3">
+<div id="7198ad81" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
