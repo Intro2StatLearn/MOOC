@@ -150,10 +150,10 @@ Question: Can one use regression for classification and vice versa? We will get 
 ### Comments on noise
 
 ::: {.incremental}
-- If $y$ is the number of snacks in a bag: "noise" is intuitive, sometime 101 snacks, sometimes 99
+- If $y$ is the number of snacks in a bag: "noise" is intuitive, sometimes 101 snacks, sometimes 99
 - But what if $y$ is salary? Same job, same experience, same gender, same company -- same salary?
 - Noise is everything we're not taking into account
-- And it absolutely can be dependent on $x$ (e.g. $Var(\varepsilon|x) = \sigma^2(x)$)
+- And it absolutely can be dependent on $x$ e.g. $Var(\varepsilon|x) = \sigma^2(x)$
 :::
 
 ::: {.notes}
