@@ -512,7 +512,7 @@
 <li class="fragment">If <span class="math inline">\(y\)</span> is the number of snacks in a bag: “noise” is intuitive, sometime 101 snacks, sometimes 99</li>
 <li class="fragment">But what if <span class="math inline">\(y\)</span> is salary? Same job, same experience, same gender, same company – same salary?</li>
 <li class="fragment">Noise is everything we’re not taking into account</li>
-<li class="fragment">And it absolutely can be dependent on <span class="math inline">\(x\)</span> (e.g.&nbsp;<span class="math inline">\(Var(\varepsilon|x) = \sigma(x)^2\)</span>)</li>
+<li class="fragment">And it absolutely can be dependent on <span class="math inline">\(x\)</span> (e.g.&nbsp;<span class="math inline">\(Var(\varepsilon|x) = \sigma^2(x)\)</span>)</li>
 </ul>
 </div>
 <aside class="notes">
@@ -575,7 +575,7 @@
 <section class="slide level2">
 
 <h3 id="supervised-learning-wage-prediction">Supervised Learning: wage prediction</h3>
-<div id="a80e51d2" class="cell" data-execution_count="1">
+<div id="3db09cdf" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -823,7 +823,7 @@
 <section class="slide level2">
 
 <h3 id="from-linear-regression-to-splines">From Linear Regression to Splines</h3>
-<div id="339e0a5d" class="cell" data-execution_count="2">
+<div id="ff565683" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1058,7 +1058,7 @@
 <section class="slide level2">
 
 <h3 id="why-do-we-prefer-simple-models-1">Why do we prefer simple models?</h3>
-<div id="ba6151e3" class="cell" data-execution_count="3">
+<div id="72d295cf" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1070,6 +1070,47 @@
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 <p>נסיים במבט על על מספר מודלים שאנחנו לומדים בקורס מבחינת הגמישות והקלות שבה הם ניתנים לפירוש. בגדול יש איזשהו מתאם שלילי בין הגמישות שמאפשר המודל לבין היכולת לפרש אותו. בקצה באחד יש לנו סוגים שונים של רגרסיה כמו המודל הליניארי או רגרסיית לאסו שמבצעת פיצ’ר סלקשן בילט אין, כלומר המודל הסופי ייטה להיות מודל ליניארי עם אפילו פחות משתנים. ובקצה השני יש את למידה עמוקה, שאמורה להיות מסוגלת באמצעות רשת נוירונים עמוקה מספיק, להיות מסוגלת למדל f גמישה ככל שנרצה, עם סכנה חמורה של אוברפיטינג, ומודל סופי שהוא קופסה שחורה עד כדי כך שיש תחום מחקר שלם שנועד לנסות להסביר מודל מורכב כל כך.</p>
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="what-if-noise-is-dependent-on-x">What if noise is dependent on <span class="math inline">\(x\)</span>?</h3>
+<p><span class="math inline">\(E_{y,x}[(y - \hat{f}(x))^2] = E_{\varepsilon,x}[(f(x) + \varepsilon(x) - \hat{f}(x))^2] = ?\)</span> <br><br></p>
+<div class="fragment">
+<p><span class="math inline">\(= \int_{x,\varepsilon} [f(x) + \varepsilon(x) - \hat{f}(x)]^2 g(x, \varepsilon) d(x, \varepsilon)\)</span></p>
+</div>
+<div class="fragment">
+<p><span class="math inline">\(= \int_x \int_{\varepsilon|x} [f(x) + \varepsilon(x) - \hat{f}(x)]^2 h(\varepsilon|x) d(\varepsilon|x) k(x) dx\)</span></p>
+</div>
+<div class="fragment">
+<p><span class="math inline">\(= \int_x \left[[f(x) - \hat{f}(x)]^2 + 2\int_{\varepsilon|x} \varepsilon(x)[f(x) - \hat{f}(x)]h(\varepsilon|x)d(\varepsilon|x) + \int_{\varepsilon|x} \varepsilon(x)^2 g(\varepsilon|x)d(\varepsilon|x)\right]k(x)dx\)</span></p>
+</div>
+<div class="fragment">
+<p><span class="math inline">\(=\int_x [f(x) - \hat{f}(x)]^2k(x)dx + \int_x \sigma^2(x)k(x)dx\)</span></p>
+</div>
+<div class="fragment">
+<p><span class="math inline">\(=\mathcal{C}&gt;0 + \sigma^2\)</span></p>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+<p>הערה אחרונה, שוב לגבי הרעש והאפשרות שהוא תלוי בנתונים. האם הפירוק שלנו נכון גם במקרה כזה? מסתבר שכן.</p>
+<p>עכשיו אנחנו צריכים לעשות תוחלת גם לפי איקס.</p>
+<p>נכתוב את האינטגרל המתאים עם איזושהי צפיפות משותפת g. וכעת נפרק את g למכפלת שתי צפיפויות: הצפיפות השולית של איקס שנסמן בk, כפול הצפיפות המותנית של אפסילון בהינתן איקס, שנסמן בh.</p>
+<p>כעת יש לנו אינטגרל פנימי על המשתנה אפסילון בהינתן איקס. ואינטגרל חיצוני על איקס.</p>
+<p>כשאנחנו פותחים את הריבוע יש גורמים שלא תלויים באפסילון ויכולים לצאת מחוץ לאינטגרל הפנימי. ההפרש f פחות f_hat לא תלוי באפסילון. כאן הוא יוצא בריבוע, וכאן ללא ריבוע. אבל כשהוא יוצא החוצה מה נותר? הביטוי הזה הוא התוחלת של אפסילון בהינתן איקס ואנחנו מניחים שהיא הרי אפס.</p>
+<p>אנחנו נשארים עם שני ביטויים. הראשון חיובי, והשני הוא אינטגרל על השונות המותנית של אפסילון בהינתן איקס. כלומר פרמטר שלא תלוי באיקס, השונות השולית של אפסילון, שאותה אנחנו עדיין מסמנים בסיגמה בריבוע.</p>
+<p>אז אם אנחנו מסכמים אנחנו עדיין מקבלים ביטוי חיובי שלא תלוי באיקס, ועוד רעש טבעי. אלה בדיוק הטעויות הרידוסיבל, והאירדוסיבל.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
