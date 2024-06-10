@@ -1,0 +1,310 @@
+---
+format:
+  revealjs:
+    slide-number: true
+    chalkboard: true
+    fig-width: 6
+    fig-asp: 0.618
+    template-partials:
+      - "../title-slide.html"
+css: "../slides_quarto.css"
+standalone: false
+include-in-header: "../header_quarto.html"
+logo: "../Intro2SL_logo_white.jpg"
+pagetitle: "Intro. to Statistical Learning"
+callout-appearance: simple
+smaller: true
+execute:
+  eval: true
+  echo: true
+code-line-numbers: false
+code-block-border-left: true
+highlight-style: github
+footer: "[Intro to Statistical Learning](https://intro2statlearn.github.io/mooc/){target='_blank'}"
+---
+
+## {.logo-slide}
+
+## Introduction to Statistical Learning {.title-slide}
+
+### Linear Regression - Class 2
+
+### Giora Simchoni
+
+#### `gsimchoni@gmail.com` and add `#intro2sl` in subject
+
+### Stat. and OR Department, TAU
+
+---
+
+## Simple linear regression {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Why learn linear regression?
+
+- Linear regression is still a highly useful modeling tool
+- It can be used in many non-linear cases by using transformed variables / transformed goals
+- Its probabilistic aspect is fully understood, so inference questions can be answered exactly (under the regression assumptions)
+- Many newer methods can be seen as a generalization for linear regression
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Simple linear regression
+
+- Assume: $y \approx \beta_0 + \beta_1x$
+- This is the *unobserved* [population regression]{style="color:red;"} line
+- We look for the values of $\beta_0, \beta_1$ through a sample $\{(x_1, y_1), \dots, (x_n, y_n)\}$
+- In order to estimate the parameters we need to define a measure of error
+- By far the most common measure is:
+
+$RSS = \sum_{i = 1}^n (y_i - \hat{\beta}_0 - \hat{\beta}_1x_i)^2$ or its scaled version: $MSE = \frac{RSS}{n}$
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### From line to RSS surface
+
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+from mpl_toolkits.mplot3d import Axes3D
+
+# Set the random seed for reproducibility
+np.random.seed(42)
+
+# Number of samples
+n = 100
+
+# Generate X values
+X = np.random.rand(n, 1)
+
+# Generate noise
+e = np.random.randn(n, 1)
+
+# True population line parameters
+beta_0_true = 2
+beta_1_true = 3
+
+# Generate Y values
+Y = beta_0_true + beta_1_true * X + e
+
+# Fit the least squares regression line
+model = LinearRegression().fit(X, Y)
+Y_pred = model.predict(X)
+
+# Create a meshgrid for beta_0 and beta_1
+beta_0_range = np.linspace(beta_0_true - 2, beta_0_true + 2, 100)
+beta_1_range = np.linspace(beta_1_true - 2, beta_1_true + 2, 100)
+beta_0, beta_1 = np.meshgrid(beta_0_range, beta_1_range)
+
+# Calculate the RSS for each combination of beta_0 and beta_1
+RSS = np.zeros(beta_0.shape)
+for i in range(beta_0.shape[0]):
+    for j in range(beta_0.shape[1]):
+        Y_pred_mesh = beta_0[i, j] + beta_1[i, j] * X
+        RSS[i, j] = np.sum((Y - Y_pred_mesh) ** 2)
+
+# Prepare for plotting
+fig = plt.figure(figsize=(5 * 3, 3.5))
+
+ax1 = fig.add_subplot(131)
+# Plot the sample points
+ax1.scatter(X, Y, color='blue', label='Sample points')
+ax1.set_xlabel(r'$x$')
+ax1.set_ylabel(r'$y$')
+# Plot the least squares regression line
+ax1.plot(X, Y_pred, color='red', linestyle='--', label='Least squares line', linewidth=2)
+# Plot vertical lines from each sample point to the fitted line
+for i in range(n):
+    ax1.plot([X[i], X[i]], [Y[i], Y_pred[i]], color='gray', linestyle=':', linewidth=1)
+ax1.set_title(r'Residuals for specific $\hat{\beta}_0, \hat{\beta}_1$')
+
+# Contour plot on the left
+ax2 = fig.add_subplot(132)
+contour = ax2.contour(beta_0, beta_1, RSS, levels=50, cmap='viridis')
+ax2.set_xlabel(r'$\beta_0$')
+ax2.set_ylabel(r'$\beta_1$')
+ax2.set_title('Contour plot of RSS')
+fig.colorbar(contour, ax=ax2, label='RSS')
+
+# Add a red cross at the true beta values
+ax2.plot(beta_0_true, beta_1_true, 'rx', markersize=12, markeredgewidth=3)
+# Add dashed lines from the cross to the true beta_0 and beta_1 axes
+ax2.plot([beta_0_true, beta_0_true], [beta_1_range.min(), beta_1_true], 'r--')
+ax2.plot([beta_0_range.min(), beta_0_true], [beta_1_true, beta_1_true], 'r--')
+
+# 3D plot on the right
+ax3 = fig.add_subplot(133, projection='3d')
+ax3.plot_surface(beta_0, beta_1, RSS, cmap='viridis', edgecolor='none')
+ax3.set_xlabel(r'$\beta_0$')
+ax3.set_ylabel(r'$\beta_1$')
+ax3.set_zlabel('RSS')
+ax3.set_title('3D plot of RSS surface')
+
+# Add a red cross at the true beta values
+ax3.plot([beta_0_true], [beta_1_true], [np.min(RSS)], 'rx', markersize=12, markeredgewidth=3, zorder=10)
+
+# Add dashed lines from the cross to the true beta_0 and beta_1 axes
+ax3.plot([beta_0_true, beta_0_true], [0, beta_1_true], [np.min(RSS), np.min(RSS)], 'r--', zorder=10)
+ax3.plot([4, beta_0_true], [beta_1_true, beta_1_true], [np.min(RSS), np.min(RSS)], 'r--', zorder=10)
+
+# plt.tight_layout()
+plt.show()
+```
+
+$$RSS = \sum_{i = 1}^n (y_i - \hat{\beta}_0 - \hat{\beta}_1x_i)^2$$
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Simple linear regression
+
+- A simple derivation gives:
+
+$\hat{\beta}_1 = \frac{\sum_i (x_i - \bar{x})(y_i - \bar{y})}{\sum_i (x_i - \bar{x})^2} = \frac{\widehat{Cov(X,Y)}}{\widehat{Var(X)}},\;\;\;\;\hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x}$
+
+- This is the [least squares]{style="color:red;"} line (OLS), the *best* linear predictor for the population regression line
+- Replacing the sample averages by the population means (or having a huge sample) should get us to the true line
+- Using $\hat{\beta}_0, \hat{\beta}_1$ we can easily perform prediction
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Average of many OLS lines
+
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+
+# Set the random seed for reproducibility
+np.random.seed(42)
+
+# Number of samples
+n = 100
+
+# Generate X values
+X = np.random.rand(n, 1)
+
+# Generate noise
+e = np.random.randn(n, 1)
+
+# True population line parameters
+beta_0 = 2
+beta_1 = 3
+
+# Generate Y values
+Y = beta_0 + beta_1 * X + e
+
+# Fit the least squares regression line
+model = LinearRegression().fit(X, Y)
+Y_pred = model.predict(X)
+
+# Prepare for plotting
+fig, axs = plt.subplots(1, 2, figsize=(10, 5))
+
+# Plot on the left
+axs[0].scatter(X, Y, color='blue', label='Sample points')
+axs[0].plot(X, beta_0 + beta_1 * X, color='green', label='True population line', linewidth=2)
+axs[0].plot(X, Y_pred, color='red', label='Least squares line', linewidth=2)
+axs[0].set_title('Single Sample Regression')
+axs[0].legend()
+
+# Plot on the right
+# axs[1].scatter(X, Y, color='blue', label='Sample points')
+axs[1].plot(X, beta_0 + beta_1 * X, color='green', label='True population line', linewidth=2)
+
+# Plot 10 additional estimated regression lines
+for _ in range(10):
+    X_sample = np.random.rand(n, 1)
+    e_sample = np.random.randn(n, 1)
+    Y_sample = beta_0 + beta_1 * X_sample + e_sample
+    model_sample = LinearRegression().fit(X_sample, Y_sample)
+    Y_sample_pred = model_sample.predict(X)
+    axs[1].plot(X, Y_sample_pred, color='orange', linestyle='--', alpha=0.6)
+
+# Also plot the estimated line from the original sample
+axs[1].plot(X, Y_pred, color='red', label='Original sample estimated line', linewidth=2)
+axs[1].set_title('Multiple Sample Regressions')
+axs[1].legend()
+
+plt.tight_layout()
+plt.show()
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Probabilistic justification for OLS
+
+- Assume the data's true model is:
+  - $y_i = \beta_0 + \beta_1x_i + \varepsilon_i$
+  - $\varepsilon_i$ are i.i.d, specifically: $\varepsilon_i \sim \mathcal{N}(0, \sigma^2)$
+  - $(x_i, \varepsilon_i)$ are independent
+- *Now* we can write the log likelihood and maximize it
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Simple linear regression maximum likelihood
+
+Since the errors are normal and the model is linear we get:
+
+$y_i = \beta_0 + \beta_1x_i + \varepsilon_i  \to y_i \sim \mathcal{N}(\beta_0 + \beta_1x_i, \sigma^2) \to$
+
+$$L(\beta, \sigma^2 | x, y) = \prod_{i = 1}^n f(y_i) = \prod_{i = 1}^n \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left[-\frac{(y_i - \beta_0 - \beta_1x_i)^2}{2\sigma^2}\right]$$
+$$= (2\pi\sigma^2)^{-\frac{n}{2}}\exp\left[-\sum_{i = 1}^n \frac{(y_i - \beta_0 - \beta_1x_i)^2}{2\sigma^2}\right]$$
+
+Calculating the log-likelihood we get:
+
+$$l(\beta, \sigma^2 | x, y) = -\frac{n}{2}\ln(2\pi)-\frac{n}{2}\ln(\sigma^2)-\frac{1}{2\sigma^2}\sum_{i = 1}^n (y_i - \beta_0 - \beta_1x_i)^2$$
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### From simple to multiple regression
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
