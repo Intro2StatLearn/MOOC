@@ -10,7 +10,7 @@
 <link href="../libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.4.554">
 
-  <title>Intro. to Statistical Learning</title>
+  <title>Linear Regression</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -420,7 +420,7 @@
 <section class="slide level2">
 
 <h3 id="from-line-to-rss-surface">From line to RSS surface</h3>
-<div id="10b1389a" class="cell" data-execution_count="1">
+<div id="6b4706ca" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -477,7 +477,7 @@
 <section class="slide level2">
 
 <h3 id="average-of-many-ols-lines">Average of many OLS lines</h3>
-<div id="cf31b216" class="cell" data-execution_count="2">
+<div id="db4f7564" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -486,6 +486,24 @@
 </div>
 </div>
 </div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="probabilistic-view-of-linear-regression" class="slide level2 title-slide center">
+<h2>Probabilistic View of Linear Regression</h2>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 
@@ -535,9 +553,169 @@
 <h3 id="simple-linear-regression-maximum-likelihood">Simple linear regression maximum likelihood</h3>
 <p>Since the errors are normal and the model is linear we get:</p>
 <p><span class="math inline">\(y_i = \beta_0 + \beta_1x_i + \varepsilon_i  \to y_i \sim \mathcal{N}(\beta_0 + \beta_1x_i, \sigma^2) \to\)</span></p>
-<p><span class="math display">\[L(\beta, \sigma^2 | x, y) = \prod_{i = 1}^n f(y_i) = \prod_{i = 1}^n \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left[-\frac{(y_i - \beta_0 - \beta_1x_i)^2}{2\sigma^2}\right]\]</span> <span class="math display">\[= (2\pi\sigma^2)^{-\frac{n}{2}}\exp\left[-\sum_{i = 1}^n \frac{(y_i - \beta_0 - \beta_1x_i)^2}{2\sigma^2}\right]\]</span></p>
+<p><span class="math display">\[L(\beta, \sigma^2 | x, y) = \prod_{i = 1}^n f(y_i) = \prod_{i = 1}^n \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left[-\frac{(y_i - \beta_0 - \beta_1x_i)^2}{2\sigma^2}\right]\]</span> <span class="math display">\[= (2\pi\sigma^2)^{-\frac{n}{2}}\exp\left[-\frac{1}{2\sigma^2}\sum_{i = 1}^n(y_i - \beta_0 - \beta_1x_i)^2\right]\]</span></p>
 <p>Calculating the log-likelihood we get:</p>
-<p><span class="math display">\[l(\beta, \sigma^2 | x, y) = -\frac{n}{2}\ln(2\pi)-\frac{n}{2}\ln(\sigma^2)-\frac{1}{2\sigma^2}\sum_{i = 1}^n (y_i - \beta_0 - \beta_1x_i)^2\]</span></p>
+<p><span class="math inline">\(\ell(\beta, \sigma^2 | x, y) = -\frac{n}{2}\ln(2\pi)-\frac{n}{2}\ln(\sigma^2)-\frac{1}{2\sigma^2}\)</span><span style="color:red;"><span class="math inline">\(\sum_{i = 1}^n(y_i - \beta_0 - \beta_1x_i)^2\)</span></span></p>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="multiple-linear-regression" class="slide level2 title-slide center">
+<h2>Multiple linear regression</h2>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="from-simple-to-multiple-regression">From simple to multiple regression</h3>
+<p><br><br></p>
+<p><span class="math inline">\(y_i = \beta_0 + \beta_1x_{i1} + \dots + \beta_px_{ip} + \varepsilon_i \to y_i = x_i'\beta + \varepsilon_i\)</span>, <span class="math inline">\(\varepsilon_i \sim \mathcal{N}(0, \sigma^2)\)</span></p>
+<p>Or even more concisely:</p>
+<p><span class="math inline">\(y = \begin{pmatrix}y_{1} \\ \vdots \\ y_{n}\end{pmatrix}\)</span>, <span class="math inline">\(X = \begin{pmatrix}
+1 &amp; x_{11} &amp; x_{12} &amp; \cdots &amp; x_{1p} \\
+1 &amp; x_{21} &amp; x_{22} &amp; \cdots &amp; x_{2p} \\
+1 &amp; x_{31} &amp; x_{32} &amp; \cdots &amp; x_{3p} \\
+\vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+1 &amp; x_{n1} &amp; x_{n2} &amp; \cdots &amp; x_{np}
+\end{pmatrix}\)</span>, <span class="math inline">\(\beta = \begin{pmatrix}\beta_0 \\ \beta_{1} \\ \vdots \\ \beta_{p}\end{pmatrix}\)</span>, <span class="math inline">\(\varepsilon = \begin{pmatrix}\varepsilon_{1} \\ \vdots \\ \varepsilon_{n}\end{pmatrix}\)</span></p>
+<div class="fragment">
+<p><span class="math display">\[\to y = X\beta + \varepsilon, \quad \varepsilon \sim \mathcal{N}(\textbf{0}, \sigma^2I_n)\]</span></p>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="from-line-to-hyperplane">From line to (hyper)plane</h3>
+<div id="8d6bac91" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-4-output-1.png" width="570" height="537"></p>
+</figure>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="multiple-linear-regression-ml">Multiple linear regression ML</h3>
+<p><span class="math inline">\(y_i = x_i'\beta + \varepsilon_i  \to y \sim \mathcal{N}(x_i'\beta, \sigma^2) \to\)</span></p>
+<p><span class="math display">\[L(\beta, \sigma^2 | X, y) = \prod_{i = 1}^n f(y_i) = \prod_{i = 1}^n \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left[-\frac{(y_i - x_i'\beta)^2}{2\sigma^2}\right]\]</span> <span class="math display">\[= (2\pi\sigma^2)^{-\frac{n}{2}}\exp\left[-\frac{1}{2\sigma^2}\sum_{i = 1}^n (y_i - x_i'\beta)^2\right]\]</span> <span class="math display">\[= (2\pi\sigma^2)^{-\frac{n}{2}}\exp\left[-\frac{1}{2\sigma^2}(y - X\beta)'(y - X\beta)\right]\]</span></p>
+<p>Calculating the log-likelihood we get:</p>
+<p><span class="math inline">\(\ell(\beta, \sigma^2 | X, y) = -\frac{n}{2}\ln(2\pi)-\frac{n}{2}\ln(\sigma^2)-\frac{1}{2\sigma^2}\)</span><span style="color:red;"><span class="math inline">\((y - X\beta)'(y - X\beta)\)</span></span></p>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="linear-regression-mle">Linear regression MLE</h3>
+<p><span class="math inline">\(\ell(\beta, \sigma^2 | X, y) = -\frac{n}{2}\ln(2\pi)-\frac{n}{2}\ln(\sigma^2)-\frac{1}{2\sigma^2}(y - X\beta)'(y - X\beta)\)</span></p>
+<div class="fragment">
+<p><span class="math inline">\(= \mathcal{C} - \frac{n}{2}\ln(\sigma^2) - \frac{1}{2\sigma^2}(y'y -2\beta'X'y + \beta'X'X\beta)\)</span></p>
+</div>
+<p><br><br></p>
+<div class="fragment">
+<p><span class="math inline">\(\frac{\partial l}{\partial \beta} = -\frac{1}{2\sigma^2}(2X'y - 2X'X\beta)\)</span></p>
+</div>
+<div class="fragment">
+<p><span class="math inline">\(\frac{1}{\sigma^2}(X'y - X'X\beta) = 0\)</span></p>
+</div>
+<div class="fragment">
+<p><span class="math inline">\(X'X\beta = X'y\)</span></p>
+</div>
+<div class="fragment">
+<p><span style="color:red;"><span class="math inline">\(\hat{\beta} = (X'X)^{-1}X'y\)</span></span></p>
+</div>
+<p><br><br></p>
+<div class="fragment">
+<p>Similarly:</p>
+<p><span class="math inline">\(\frac{\partial l}{\partial \sigma^2} = -\frac{n}{2\sigma^2} + \frac{1}{2\sigma^4}(y - X\beta)'(y - X\beta)\)</span> <span class="math inline">\(\to\)</span> <span style="color:red;"><span class="math inline">\(\hat{\sigma}^2 = \frac{1}{n}(y - X\beta)'(y - X\beta)\)</span></span></p>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="properties-of-linear-regression" class="slide level2 title-slide center">
+<h2>Properties of Linear Regression</h2>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 

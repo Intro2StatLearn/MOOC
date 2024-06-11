@@ -11,7 +11,7 @@ css: "../slides_quarto.css"
 standalone: false
 include-in-header: "../header_quarto.html"
 logo: "../Intro2SL_logo_white.jpg"
-pagetitle: "Intro. to Statistical Learning"
+pagetitle: "Linear Regression"
 callout-appearance: simple
 smaller: true
 execute:
@@ -267,6 +267,15 @@ plt.show()
 
 ---
 
+## Probabilistic View of Linear Regression {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
 ### Probabilistic justification for OLS
 
 - Assume the data's true model is:
@@ -289,11 +298,20 @@ Since the errors are normal and the model is linear we get:
 $y_i = \beta_0 + \beta_1x_i + \varepsilon_i  \to y_i \sim \mathcal{N}(\beta_0 + \beta_1x_i, \sigma^2) \to$
 
 $$L(\beta, \sigma^2 | x, y) = \prod_{i = 1}^n f(y_i) = \prod_{i = 1}^n \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left[-\frac{(y_i - \beta_0 - \beta_1x_i)^2}{2\sigma^2}\right]$$
-$$= (2\pi\sigma^2)^{-\frac{n}{2}}\exp\left[-\sum_{i = 1}^n \frac{(y_i - \beta_0 - \beta_1x_i)^2}{2\sigma^2}\right]$$
+$$= (2\pi\sigma^2)^{-\frac{n}{2}}\exp\left[-\frac{1}{2\sigma^2}\sum_{i = 1}^n(y_i - \beta_0 - \beta_1x_i)^2\right]$$
 
 Calculating the log-likelihood we get:
 
-$$l(\beta, \sigma^2 | x, y) = -\frac{n}{2}\ln(2\pi)-\frac{n}{2}\ln(\sigma^2)-\frac{1}{2\sigma^2}\sum_{i = 1}^n (y_i - \beta_0 - \beta_1x_i)^2$$
+$\ell(\beta, \sigma^2 | x, y) = -\frac{n}{2}\ln(2\pi)-\frac{n}{2}\ln(\sigma^2)-\frac{1}{2\sigma^2}$[$\sum_{i = 1}^n(y_i - \beta_0 - \beta_1x_i)^2$]{style="color:red;"}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+## Multiple linear regression {.title-slide}
 
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
@@ -304,7 +322,157 @@ $$l(\beta, \sigma^2 | x, y) = -\frac{n}{2}\ln(2\pi)-\frac{n}{2}\ln(\sigma^2)-\fr
 
 ### From simple to multiple regression
 
+<br></br>
+
+$y_i = \beta_0 + \beta_1x_{i1} + \dots + \beta_px_{ip} + \varepsilon_i \to y_i = x_i'\beta + \varepsilon_i$, $\varepsilon_i \sim \mathcal{N}(0, \sigma^2)$
+
+Or even more concisely:
+
+$y = \begin{pmatrix}y_{1} \\ \vdots \\ y_{n}\end{pmatrix}$, $X = \begin{pmatrix}
+1 & x_{11} & x_{12} & \cdots & x_{1p} \\
+1 & x_{21} & x_{22} & \cdots & x_{2p} \\
+1 & x_{31} & x_{32} & \cdots & x_{3p} \\
+\vdots & \vdots & \vdots & \ddots & \vdots \\
+1 & x_{n1} & x_{n2} & \cdots & x_{np}
+\end{pmatrix}$, $\beta = \begin{pmatrix}\beta_0 \\ \beta_{1} \\ \vdots \\ \beta_{p}\end{pmatrix}$, $\varepsilon = \begin{pmatrix}\varepsilon_{1} \\ \vdots \\ \varepsilon_{n}\end{pmatrix}$
+
+::: {.fragment}
+$$\to y = X\beta + \varepsilon, \quad \varepsilon \sim \mathcal{N}(\textbf{0}, \sigma^2I_n)$$
+:::
+
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
 :::
 :::
+
+---
+
+### From line to (hyper)plane
+```{python}
+#| echo: false
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+from sklearn.linear_model import LinearRegression
+from matplotlib.patches import Patch
+from matplotlib.lines import Line2D
+
+df = pd.read_csv('../datasets/ISLP_income_data.csv')
+X1 = df['Education']
+X2 = df['Seniority']
+X = np.column_stack((X1, X2))
+Y = df['Income']
+
+# Plotting
+fig, ax = plt.subplots(1, 1, figsize=(14, 7), subplot_kw={'projection': '3d'})
+
+# Create a grid of values for X1 and X2
+X1_grid, X2_grid = np.meshgrid(np.linspace(min(X1), max(X1), 200),
+                               np.linspace(min(X2), max(X2), 200))
+
+# Flatten the grid to pass into the model
+X_grid = np.column_stack((X1_grid.ravel(), X2_grid.ravel()))
+
+model = LinearRegression()
+
+model.fit(X, Y)
+
+# Predict Y values
+Y_pred = model.predict(X_grid).reshape(X1_grid.shape)
+
+# Plot the fitted plane
+ax.scatter(X1, X2, Y, color='red', label='Data')
+ax.plot_surface(X1_grid, X2_grid, Y_pred, color='blue', alpha=0.5)
+
+# Add vertical lines from data points to the surface
+Y_surface = model.predict(X).reshape(Y.shape)  # Predicted Y values for the actual data points
+for x1, x2, y, y_surface in zip(X1, X2, Y, Y_surface):
+    ax.plot([x1, x1], [x2, x2], [y, y_surface], color='black')
+
+# Labels
+ax.set_xlabel('Education')
+ax.set_ylabel('Seniority')
+ax.set_zlabel('Income')
+# ax.set_title(title)
+
+# Adjust the viewing angle
+ax.view_init(elev=30, azim=-60)
+
+plt.show()
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Multiple linear regression ML
+
+$y_i = x_i'\beta + \varepsilon_i  \to y \sim \mathcal{N}(x_i'\beta, \sigma^2) \to$
+
+$$L(\beta, \sigma^2 | X, y) = \prod_{i = 1}^n f(y_i) = \prod_{i = 1}^n \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left[-\frac{(y_i - x_i'\beta)^2}{2\sigma^2}\right]$$
+$$= (2\pi\sigma^2)^{-\frac{n}{2}}\exp\left[-\frac{1}{2\sigma^2}\sum_{i = 1}^n (y_i - x_i'\beta)^2\right]$$
+$$= (2\pi\sigma^2)^{-\frac{n}{2}}\exp\left[-\frac{1}{2\sigma^2}(y - X\beta)'(y - X\beta)\right]$$
+
+Calculating the log-likelihood we get:
+
+$\ell(\beta, \sigma^2 | X, y) = -\frac{n}{2}\ln(2\pi)-\frac{n}{2}\ln(\sigma^2)-\frac{1}{2\sigma^2}$[$(y - X\beta)'(y - X\beta)$]{style="color:red;"}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Linear regression MLE
+
+$\ell(\beta, \sigma^2 | X, y) = -\frac{n}{2}\ln(2\pi)-\frac{n}{2}\ln(\sigma^2)-\frac{1}{2\sigma^2}(y - X\beta)'(y - X\beta)$
+
+::: {.fragment}
+$= \mathcal{C} - \frac{n}{2}\ln(\sigma^2) - \frac{1}{2\sigma^2}(y'y -2\beta'X'y + \beta'X'X\beta)$
+:::
+
+<br></br>
+
+::: {.fragment}
+$\frac{\partial l}{\partial \beta} = -\frac{1}{2\sigma^2}(2X'y - 2X'X\beta)$
+:::
+
+::: {.fragment}
+$\frac{1}{\sigma^2}(X'y - X'X\beta) = 0$
+:::
+::: {.fragment}
+$X'X\beta = X'y$
+:::
+::: {.fragment}
+[$\hat{\beta} = (X'X)^{-1}X'y$]{style="color:red;"}
+:::
+
+<br></br>
+
+::: {.fragment}
+Similarly:
+
+$\frac{\partial l}{\partial \sigma^2} = -\frac{n}{2\sigma^2} + \frac{1}{2\sigma^4}(y - X\beta)'(y - X\beta)$ $\to$ [$\hat{\sigma}^2 = \frac{1}{n}(y - X\beta)'(y - X\beta)$]{style="color:red;"}
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+## Properties of Linear Regression {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---

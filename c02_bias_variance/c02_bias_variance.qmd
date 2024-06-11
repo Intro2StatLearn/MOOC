@@ -11,7 +11,7 @@ css: "../slides_quarto.css"
 standalone: false
 include-in-header: "../header_quarto.html"
 logo: "../Intro2SL_logo_white.jpg"
-pagetitle: "Intro. to Statistical Learning"
+pagetitle: "The Bias-Variance Tradeoff"
 callout-appearance: simple
 smaller: true
 execute:

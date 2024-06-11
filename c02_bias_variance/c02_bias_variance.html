@@ -10,7 +10,7 @@
 <link href="../libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.4.554">
 
-  <title>Intro. to Statistical Learning</title>
+  <title>The Bias-Variance Tradeoff</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -582,7 +582,7 @@
 </section>
 <section class="slide level2">
 
-<div id="81db94f5" class="cell" data-execution_count="2">
+<div id="98f5b8b4" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1" data-code-line-numbers="|1-7|9|10-12|13|14|15-16|18-20|"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a>ntr <span class="op">=</span> <span class="dv">50</span></span>
 <span id="cb1-2"><a href=""></a>p <span class="op">=</span> <span class="dv">20</span></span>
 <span id="cb1-3"><a href=""></a>sigma_sq <span class="op">=</span> <span class="dv">1000</span></span>
@@ -628,7 +628,7 @@
 </section>
 <section class="slide level2">
 
-<div id="9934f2c5" class="cell" data-execution_count="3">
+<div id="6d9a80b3" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a>plt.plot(<span class="bu">range</span>(<span class="dv">1</span>, p <span class="op">+</span> <span class="dv">1</span>), pred_err, color<span class="op">=</span><span class="st">'green'</span>, lw<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">'prediction error'</span> )</span>
 <span id="cb2-2"><a href="" aria-hidden="true" tabindex="-1"></a>plt.plot([<span class="dv">1</span>, p <span class="op">+</span> <span class="dv">1</span>], [sigma_sq, sigma_sq], color<span class="op">=</span><span class="st">'black'</span>, lw<span class="op">=</span><span class="dv">1</span>, label<span class="op">=</span><span class="st">'$E(A^2)$:irreducible error'</span>)</span>
 <span id="cb2-3"><a href="" aria-hidden="true" tabindex="-1"></a>plt.plot(<span class="bu">range</span>(<span class="dv">1</span>, p <span class="op">+</span> <span class="dv">1</span>), pred_bias, color<span class="op">=</span><span class="st">'red'</span>, lw<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">'$E(B^2)$:prediction bias squared'</span>)</span>
@@ -722,7 +722,7 @@
 
 <h3 id="bayes-decision-boundary">Bayes decision boundary</h3>
 <p>Assume the conditional probability <span class="math inline">\(P(Y = 1 | X)\)</span> is a nice, slowly changing function of <span class="math inline">\(X\)</span>:</p>
-<div id="fc121517" class="cell" data-execution_count="4">
+<div id="e95451a5" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -811,7 +811,7 @@
 <section class="slide level2">
 
 <h3 id="the-bayes-classifier-is-purely-theoretical">The Bayes classifier is purely theoretical!</h3>
-<div id="5cdbd3b0" class="cell" data-execution_count="5">
+<div id="b1a44ce2" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -924,7 +924,7 @@
 <section class="slide level2">
 
 <h3 id="knn-vs.-bayes-classifier">KNN vs.&nbsp;Bayes classifier</h3>
-<div id="50b655a9" class="cell" data-execution_count="6">
+<div id="6733d183" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -955,7 +955,7 @@
 <section class="slide level2">
 
 <h3 id="knn-and-bias-variance-tradeoff">KNN and bias-variance tradeoff</h3>
-<div id="27e24919" class="cell" data-execution_count="7">
+<div id="5fb463b3" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -999,7 +999,7 @@
 <section class="slide level2">
 
 <h3 id="how-to-choose-k">How to choose <span class="math inline">\(K\)</span>?</h3>
-<div id="9776a210" class="cell" data-execution_count="8">
+<div id="b1fa293e" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
