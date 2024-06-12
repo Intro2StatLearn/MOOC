@@ -468,7 +468,261 @@ $\frac{\partial l}{\partial \sigma^2} = -\frac{n}{2\sigma^2} + \frac{1}{2\sigma^
 
 ---
 
-## Properties of Linear Regression {.title-slide}
+## Variance of OLS estimators {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Variance of OLS estimators
+
+- In general:
+
+$Var(\hat{\beta}) = Var((X'X)^{-1}X'y) = (X'X)^{-1}X'Var(y)X(X'X)^{-1} = \sigma^2(X'X)^{-1}$
+
+- For simple regression and scalar $\hat{\beta}_0, \hat{\beta}_1$, this amounts to the (squared) [Standard Errors]{style="color:red;"}:
+
+$SE(\beta_0)^2 = \sigma^2\left[\frac{1}{n} + \frac{\bar{x}^2}{\sum_{i = 1}^n(x_i - \bar{x})^2}\right]; \quad SE(\beta_1)^2 = \frac{\sigma^2}{\sum_{i = 1}^n(x_i - \bar{x})^2}$
+
+- where, $\sigma^2$ would be replaced be its MLE or unbiased estimator the (squared) [Residual Standard Error]{style="color:red;"} (RSE): $RSE^2 = \frac{RSS}{n - p - 1}$
+
+::: {.fragment}
+::: {.callout-note}
+Question: what happens to the SE when $x$ is more "spread out"?
+:::
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### SE vs. $x$ spread
+
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+
+# Function to create sample data and perform linear regression
+def generate_data(n, spread_x=False, seed=1):
+    np.random.seed(seed)
+    bound = 1
+    if spread_x:
+      bound = bound * 5
+    X = np.random.uniform(-bound, bound, n)
+    noise = np.random.normal(0, 1, n)
+    Y = 2 * X + 3 + noise  # Y = 2X + 3 + noise
+    return X, Y
+
+def plot_regression(ax, X, Y, x_min, x_max, label, spread_x=False):
+    ax.scatter(X, Y, label='Sample Data')
+    
+    # Perform linear regression
+    model = LinearRegression()
+    X_reshaped = X.reshape(-1, 1)
+    model.fit(X_reshaped, Y)
+    X_full_range = np.linspace(x_min, x_max, 100).reshape(-1, 1)
+    Y_pred = model.predict(X_full_range)
+    ax.plot(X_full_range, Y_pred, color='red', label='Least Squares Line')
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+    
+    # Calculate standard error of the slope
+    X_mean = np.mean(X)
+    se = np.sqrt(np.sum((Y - model.predict(X_reshaped)) ** 2) / (len(Y) - 2)) / np.sqrt(np.sum((X - X_mean) ** 2))
+    ax.annotate(f'SE(slope): {se:.2f}', xy=(0.05, 0.7), xycoords='axes fraction', fontsize=12, 
+                bbox=dict(facecolor='white', alpha=0.6))
+    
+    # Plot a few other least squares lines from different samples
+    for _ in range(5):
+        new_X, new_Y = generate_data(len(X), spread_x, seed=np.random.randint(1000))
+        new_X_reshaped = new_X.reshape(-1, 1)
+        model.fit(new_X_reshaped, new_Y)
+        new_Y_pred = model.predict(X_full_range)
+        ax.plot(X_full_range, new_Y_pred, color='gray', linestyle='--', alpha=0.5)
+    
+    ax.set_title(label)
+
+# Create figure and axes
+fig, axs = plt.subplots(1, 2, figsize=(10, 5))
+
+# Generate data for both cases
+X1, Y1 = generate_data(50)
+X2, Y2 = generate_data(50, spread_x=True)
+
+# Define the same X/Y axis limits for both plots
+x_min, x_max = min(np.min(X1), np.min(X2)), max(np.max(X1), np.max(X2))
+y_min, y_max = min(np.min(Y1), np.min(Y2)), max(np.max(Y1), np.max(Y2))
+
+# Plot for the first case (normal spread)
+plot_regression(axs[0], X1, Y1, x_min, x_max, 'Small spread of X')
+axs[0].set_xlim(x_min, x_max)
+axs[0].set_ylim(y_min, y_max)
+
+# Plot for the second case (more spread out X)
+plot_regression(axs[1], X2, Y2, x_min, x_max, 'Large spread of X', True)
+axs[1].set_xlim(x_min, x_max)
+axs[1].set_ylim(y_min, y_max)
+
+plt.tight_layout()
+plt.show()
+```
+
+::: {.fragment}
+Closely related to a $x$ points' [leverage]{style="color:red;"}.
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Gauss-Markov Theorem
+
+Under the assumptions of the previous slides: the linear regression $\hat{\beta}$ is the [best linear unbiased estimator]{style="color:red;"} (BLUE), i.e.: the unbiased linear estimator with the smallest variance.
+
+<br></br>
+
+::: {.fragment}
+In other words, for any linear **unbiased** $\tilde{\beta} = Cy$:
+$$Var(\tilde{\beta}) \succeq Var(\hat{\beta})$$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+## Hypothesis testing and Feature Selection {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Hypothesis testing: simple
+
+$$H0\text{: feature }x\text{ does not affect } y$$
+$$H1\text{: feature }x\text{ does affect } y$$
+
+::: {.fragment}
+Translates to:
+$$H0: \beta_1 = 0$$
+$$H1: \beta_1 \neq 0$$
+:::
+
+::: {.fragment}
+$t_{obs} = \frac{\hat{\beta}_1 - 0}{\hat{SE}(\hat{\beta}_1)} \sim T_{n - 2}$
+:::
+
+::: {.fragment}
+$\to \text{P-value} = P(T_{n - 2} > |t_{obs}|)$
+
+$\to CI_{0.95}(\beta_1) = \hat{\beta}_1 \pm T_{n - 2, 0.975} \cdot \hat{SE}(\hat{\beta}_1) \approx \hat{\beta}_1 \pm 2 \cdot \hat{SE}(\hat{\beta}_1)$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Hypothesis testing: multiple
+
+$$H0\text{: features }X\text{ do not affect } y$$
+$$H1\text{: features }X\text{ do affect } y$$
+
+::: {.fragment}
+Translates to:
+$$H0: \beta_1 = \dots = \beta_p = 0$$
+$$H1: \beta_j \neq 0 \text{ for at least one }j$$
+:::
+
+::: {.fragment}
+$f_{obs} = \frac{(TSS - RSS)/p}{RSS / (n - p - 1)} \sim F_{p, n - p - 1}$
+:::
+
+::: {.fragment}
+$\to \text{P-value} = P(F_{p, n - p - 1} > f_{obs})$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Example with `statsmodels`
+
+```{python}
+#| echo: false
+
+import numpy as np
+import pandas as pd
+import statsmodels.api as sm
+
+df = pd.read_csv('../datasets/ISLP_income_data.csv')
+X_df = df[['Education', 'Seniority']]
+Y = df['Income']
+
+X_df1 = sm.add_constant(X_df)
+
+model = sm.OLS(Y, X_df1)
+res = model.fit()
+print(res.summary())
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Choosing between nested Models
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### The R Squared
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Intro. to Feature Selection
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+## Other considerations {.title-slide}
 
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}

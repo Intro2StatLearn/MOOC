@@ -420,7 +420,7 @@
 <section class="slide level2">
 
 <h3 id="from-line-to-rss-surface">From line to RSS surface</h3>
-<div id="6b4706ca" class="cell" data-execution_count="1">
+<div id="0b7fc828" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -477,7 +477,7 @@
 <section class="slide level2">
 
 <h3 id="average-of-many-ols-lines">Average of many OLS lines</h3>
-<div id="db4f7564" class="cell" data-execution_count="2">
+<div id="703c6ca4" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -625,7 +625,7 @@
 <section class="slide level2">
 
 <h3 id="from-line-to-hyperplane">From line to (hyper)plane</h3>
-<div id="8d6bac91" class="cell" data-execution_count="3">
+<div id="df17cc8e" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -714,8 +714,306 @@
           display:block!important;
       }</style></aside>
 </section>
-<section id="properties-of-linear-regression" class="slide level2 title-slide center">
-<h2>Properties of Linear Regression</h2>
+<section id="variance-of-ols-estimators" class="slide level2 title-slide center">
+<h2>Variance of OLS estimators</h2>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="variance-of-ols-estimators-1">Variance of OLS estimators</h3>
+<ul>
+<li>In general:</li>
+</ul>
+<p><span class="math inline">\(Var(\hat{\beta}) = Var((X'X)^{-1}X'y) = (X'X)^{-1}X'Var(y)X(X'X)^{-1} = \sigma^2(X'X)^{-1}\)</span></p>
+<ul>
+<li>For simple regression and scalar <span class="math inline">\(\hat{\beta}_0, \hat{\beta}_1\)</span>, this amounts to the (squared) <span style="color:red;">Standard Errors</span>:</li>
+</ul>
+<p><span class="math inline">\(SE(\beta_0)^2 = \sigma^2\left[\frac{1}{n} + \frac{\bar{x}^2}{\sum_{i = 1}^n(x_i - \bar{x})^2}\right]; \quad SE(\beta_1)^2 = \frac{\sigma^2}{\sum_{i = 1}^n(x_i - \bar{x})^2}\)</span></p>
+<ul>
+<li>where, <span class="math inline">\(\sigma^2\)</span> would be replaced be its MLE or unbiased estimator the (squared) <span style="color:red;">Residual Standard Error</span> (RSE): <span class="math inline">\(RSE^2 = \frac{RSS}{n - p - 1}\)</span></li>
+</ul>
+<div class="fragment">
+<div class="callout callout-note callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<p>Question: what happens to the SE when <span class="math inline">\(x\)</span> is more “spread out”?</p>
+</div>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="se-vs.-x-spread">SE vs.&nbsp;<span class="math inline">\(x\)</span> spread</h3>
+<div id="6d69e075" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-5-output-1.png" width="950" height="470"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>Closely related to a <span class="math inline">\(x\)</span> points’ <span style="color:red;">leverage</span>.</p>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="gauss-markov-theorem">Gauss-Markov Theorem</h3>
+<p>Under the assumptions of the previous slides: the linear regression <span class="math inline">\(\hat{\beta}\)</span> is the <span style="color:red;">best linear unbiased estimator</span> (BLUE), i.e.: the unbiased linear estimator with the smallest variance.</p>
+<p><br><br></p>
+<div class="fragment">
+<p>In other words, for any linear <strong>unbiased</strong> <span class="math inline">\(\tilde{\beta} = Cy\)</span>: <span class="math display">\[Var(\tilde{\beta}) \succeq Var(\hat{\beta})\]</span></p>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="hypothesis-testing-and-feature-selection" class="slide level2 title-slide center">
+<h2>Hypothesis testing and Feature Selection</h2>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="hypothesis-testing-simple">Hypothesis testing: simple</h3>
+<p><span class="math display">\[H0\text{: feature }x\text{ does not affect } y\]</span> <span class="math display">\[H1\text{: feature }x\text{ does affect } y\]</span></p>
+<div class="fragment">
+<p>Translates to: <span class="math display">\[H0: \beta_1 = 0\]</span> <span class="math display">\[H1: \beta_1 \neq 0\]</span></p>
+</div>
+<div class="fragment">
+<p><span class="math inline">\(t_{obs} = \frac{\hat{\beta}_1 - 0}{\hat{SE}(\hat{\beta}_1)} \sim T_{n - 2}\)</span></p>
+</div>
+<div class="fragment">
+<p><span class="math inline">\(\to \text{P-value} = P(T_{n - 2} &gt; |t_{obs}|)\)</span></p>
+<p><span class="math inline">\(\to CI_{0.95}(\beta_1) = \hat{\beta}_1 \pm T_{n - 2, 0.975} \cdot \hat{SE}(\hat{\beta}_1) \approx \hat{\beta}_1 \pm 2 \cdot \hat{SE}(\hat{\beta}_1)\)</span></p>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="hypothesis-testing-multiple">Hypothesis testing: multiple</h3>
+<p><span class="math display">\[H0\text{: features }X\text{ do not affect } y\]</span> <span class="math display">\[H1\text{: features }X\text{ do affect } y\]</span></p>
+<div class="fragment">
+<p>Translates to: <span class="math display">\[H0: \beta_1 = \dots = \beta_p = 0\]</span> <span class="math display">\[H1: \beta_j \neq 0 \text{ for at least one }j\]</span></p>
+</div>
+<div class="fragment">
+<p><span class="math inline">\(f_{obs} = \frac{(TSS - RSS)/p}{RSS / (n - p - 1)} \sim F_{p, n - p - 1}\)</span></p>
+</div>
+<div class="fragment">
+<p><span class="math inline">\(\to \text{P-value} = P(F_{p, n - p - 1} &gt; f_{obs})\)</span></p>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="example-with-statsmodels">Example with <code>statsmodels</code></h3>
+<div id="ab7cf2bf" class="cell" data-execution_count="5">
+<div class="cell-output cell-output-stdout">
+<pre><code>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                 Income   R-squared:                       0.934
+Model:                            OLS   Adj. R-squared:                  0.929
+Method:                 Least Squares   F-statistic:                     191.4
+Date:                Wed, 12 Jun 2024   Prob (F-statistic):           1.13e-16
+Time:                        13:07:21   Log-Likelihood:                -100.15
+No. Observations:                  30   AIC:                             206.3
+Df Residuals:                      27   BIC:                             210.5
+Df Model:                           2                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+const        -50.0856      5.999     -8.349      0.000     -62.394     -37.777
+Education      5.8956      0.357     16.513      0.000       5.163       6.628
+Seniority      0.1729      0.024      7.079      0.000       0.123       0.223
+==============================================================================
+Omnibus:                        3.352   Durbin-Watson:                   2.102
+Prob(Omnibus):                  0.187   Jarque-Bera (JB):                2.672
+Skew:                           0.729   Prob(JB):                        0.263
+Kurtosis:                       2.892   Cond. No.                         502.
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</code></pre>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="choosing-between-nested-models">Choosing between nested Models</h3>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="the-r-squared">The R Squared</h3>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="intro.-to-feature-selection">Intro. to Feature Selection</h3>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="other-considerations" class="slide level2 title-slide center">
+<h2>Other considerations</h2>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 
