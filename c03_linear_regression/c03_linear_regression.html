@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="../libs/clipboard/clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../libs/clipboard/clipboard.min.js"></script>
 <script src="../libs/quarto-html/tabby.min.js"></script>
 <script src="../libs/quarto-html/popper.min.js"></script>
 <script src="../libs/quarto-html/tippy.umd.min.js"></script>
@@ -330,7 +330,10 @@
 
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet" type="text/css">
 
-  </head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script><script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script></head>
+  
+  
+  
 
 <body class="quarto-light">
   <div class="reveal">
@@ -420,7 +423,7 @@
 <section class="slide level2">
 
 <h3 id="from-line-to-rss-surface">From line to RSS surface</h3>
-<div id="c91659f4" class="cell" data-execution_count="1">
+<div id="161511c7" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -477,11 +480,11 @@
 <section class="slide level2">
 
 <h3 id="average-of-many-ols-lines">Average of many OLS lines</h3>
-<div id="53f2295d" class="cell" data-execution_count="2">
+<div id="e840bfe1" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-3-output-1.png" width="950" height="470"></p>
+<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-3-output-1.png" width="1142" height="470"></p>
 </figure>
 </div>
 </div>
@@ -625,7 +628,7 @@
 <section class="slide level2">
 
 <h3 id="from-line-to-hyperplane">From line to (hyper)plane</h3>
-<div id="c42eb921" class="cell" data-execution_count="3">
+<div id="2b3bfa4d" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -714,8 +717,8 @@
           display:block!important;
       }</style></aside>
 </section>
-<section id="variance-of-ols-estimators" class="slide level2 title-slide center">
-<h2>Variance of OLS estimators</h2>
+<section id="distribution-of-ols-estimators" class="slide level2 title-slide center">
+<h2>Distribution of OLS estimators</h2>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 
@@ -734,15 +737,42 @@
 </section>
 <section class="slide level2">
 
-<h3 id="variance-of-ols-estimators-1">Variance of OLS estimators</h3>
+<h3 id="distribution-of-the-ols-solution">Distribution of the OLS solution</h3>
+<div>
 <ul>
-<li>In general:</li>
+<li class="fragment"><p>What we know: <span class="math display">\[(a)\; E(Y) = X\beta,\;\;\;\; (b)\; Cov(Y) = \sigma^2 I_n ,\;\;\;\;(c)\; \hat{\beta} = (X'X)^{-1} X' Y\]</span></p></li>
+<li class="fragment"><p>Mean: <span class="math display">\[E(\hat{\beta}) \stackrel{(c)}{=} (X'X)^{-1} X' E(Y) \stackrel{(a)}{=} (X'X)^{-1} X' X\beta = \beta.\]</span></p></li>
+<li class="fragment"><p>Covariance matrix: <span class="math display">\[Cov(\hat{\beta}) \stackrel{(c)}{=} (X'X)^{-1} X' Cov(Y) X (X'X)^{-1} \stackrel{(b)}{=} \sigma^2 (X'X)^{-1} (X' X) (X'X)^{-1} = \sigma^2 (X'X)^{-1}.\]</span></p></li>
 </ul>
-<p><span class="math inline">\(Var(\hat{\beta}) = Var((X'X)^{-1}X'y) = (X'X)^{-1}X'Var(y)X(X'X)^{-1} = \sigma^2(X'X)^{-1}\)</span></p>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+<p>אנחנו רוצים למצוא את ההתפלגות של האומד בטא האט. בטא-האט הוא צירוף לינארי של משתנים נורמליים ולכן גם הוא, מתפלג נורמלית, עם איזשהו וקטור תוחלות ומטריצת שונויות (להדגים). השאלה היחידה היא מהו וקטור התוחלות ומטריצת השונויות האלה.</p>
+<p>מה ידוע לנו עד כה? התוחלת המותנית של Y היא X בטא. הYים בלתי תלויים, מטריצת השונויות שלהם היא אלכסונית עם סיגמא בריבוע על האלכסון, ניתן לסמן זאת כך. והאומד לבטא-האט נראה כך, הוא לא משתנה כאמור בעקבות ההנחה הסטטיסטית.</p>
+<p>נחשב את התוחלת של בטא-האט: האיקסים הם קבועים, ומליניאריות התוחלת הם יוצאים החוצה ונשארת רק התוחלת של Y, שהיא כידוע X בטא, וכך אנחנו מגיעים לעבודה שהתוחלת של בטא-האט היא בטא עצמו, בטא-האט נקרא אומד חסר הטיה לבטא.</p>
+<p>ומטריצת השונות או הקווריאנס של וקטור בטא-האט: כשמחשבים שונות של סקלאר כפול משתנה הסקלאר יוצא בריבוע. כשמחשבים מטריצת שונות של מטריצת קבועים כפול הוקטור שלנו, היא יוצאת בהכפלה משמאל ומימין. אבל מטריצת השונות של Y היא כאמור אלכסונית, וכל מה שנשאר זה הכפלה של הביטוי הזה בסיגמא בריבוע. דברים מצטמצמים ומגיעים לביטוי סופי, סיגמא בריבוע כפול המטריצה ההופכית של X’X.</p>
+<p>נסכם: בטא-האט מתפלג נורמלית עם תוחלת בטא האמיתית, ושונות סיגמא בריבוע כפול מטריצת X’X.</p>
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="variance-of-ols-estimators">Variance of OLS estimators</h3>
 <ul>
-<li>For simple regression and scalar <span class="math inline">\(\hat{\beta}_0, \hat{\beta}_1\)</span>, this amounts to the (squared) <span style="color:red;">Standard Errors</span>:</li>
+<li><p>Again: <span class="math inline">\(Cov(\hat{\beta}) = \sigma^2(X'X)^{-1}\)</span></p></li>
+<li><p>For simple regression and scalar <span class="math inline">\(\hat{\beta}_0, \hat{\beta}_1\)</span>, this amounts to the (squared) <span style="color:red;">Standard Errors</span>:</p></li>
 </ul>
-<p><span class="math inline">\(SE(\beta_0)^2 = \sigma^2\left[\frac{1}{n} + \frac{\bar{x}^2}{\sum_{i = 1}^n(x_i - \bar{x})^2}\right]; \quad SE(\beta_1)^2 = \frac{\sigma^2}{\sum_{i = 1}^n(x_i - \bar{x})^2}\)</span></p>
+<p><span class="math display">\[SE(\beta_0)^2 = \sigma^2\left[\frac{1}{n} + \frac{\bar{x}^2}{\sum_{i = 1}^n(x_i - \bar{x})^2}\right]; \quad SE(\beta_1)^2 = \frac{\sigma^2}{\sum_{i = 1}^n(x_i - \bar{x})^2}\]</span></p>
 <ul>
 <li>where, <span class="math inline">\(\sigma^2\)</span> would be replaced be its MLE or unbiased estimator the (squared) <span style="color:red;">Residual Standard Error</span> (RSE): <span class="math inline">\(RSE^2 = \frac{RSS}{n - p - 1}\)</span></li>
 </ul>
@@ -777,11 +807,11 @@
 <section class="slide level2">
 
 <h3 id="se-vs.-x-spread">SE vs.&nbsp;<span class="math inline">\(x\)</span> spread</h3>
-<div id="fd3e3559" class="cell" data-execution_count="4">
+<div id="908a67e5" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-5-output-1.png" width="950" height="470"></p>
+<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-5-output-1.png" width="1142" height="470"></p>
 </figure>
 </div>
 </div>
@@ -909,7 +939,7 @@
 <section class="slide level2">
 
 <h3 id="example-with-statsmodels">Example with <code>statsmodels</code></h3>
-<div id="7e158f66" class="cell" data-execution_count="5">
+<div id="62ae090f" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-stdout">
 <pre><code>                            OLS Regression Results                            
 ==============================================================================
@@ -917,7 +947,7 @@ Dep. Variable:                 Income   R-squared:                       0.934
 Model:                            OLS   Adj. R-squared:                  0.929
 Method:                 Least Squares   F-statistic:                     191.4
 Date:                Thu, 13 Jun 2024   Prob (F-statistic):           1.13e-16
-Time:                        09:06:19   Log-Likelihood:                -100.15
+Time:                        20:14:32   Log-Likelihood:                -100.15
 No. Observations:                  30   AIC:                             206.3
 Df Residuals:                      27   BIC:                             210.5
 Df Model:                           2                                         
@@ -970,7 +1000,7 @@ Notes:
 </div>
 <div class="fragment">
 <ul>
-<li>Which reduces to <span class="math inline">\(t^2_{obs} \sim T_{n - p - 1}\)</span> when <span class="math inline">\(q = 1\)</span> (testing a single feature given others)</li>
+<li>When <span class="math inline">\(q = 1\)</span>, <span class="math inline">\(f_{obs} = t^2_{obs}\)</span>, where <span class="math inline">\(t_{obs} \sim T_{n - p - 1}\)</span> (testing a single feature given others)</li>
 </ul>
 </div>
 <div class="fragment">
@@ -1005,11 +1035,39 @@ Notes:
 
 <h3 id="model-fit-plotting">Model Fit: plotting</h3>
 <p>When <span class="math inline">\(p\)</span> is low - draw!</p>
-<div id="ee3c814f" class="cell" data-execution_count="6">
+<div id="abd2795a" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-7-output-1.png" width="763" height="370"></p>
+<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-7-output-1.png" width="876" height="398"></p>
+</figure>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="model-fit-residuals-plots">Model fit: residuals plots</h3>
+<div id="b0aae0d5" class="cell" data-execution_count="7">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-8-output-1.png" width="972" height="429"></p>
 </figure>
 </div>
 </div>
@@ -1035,11 +1093,11 @@ Notes:
 <h3 id="model-fit-r-squared">Model Fit: <span class="math inline">\(R\)</span> squared</h3>
 <p>Measure of “explained variance”:</p>
 <p><span class="math inline">\(R^2 = 1 - \frac{\sum_{i = 1}^n (y_i - X\hat{\beta})^2}{\sum_{i = 1}^n (y_i - \bar{y})^2} = 1 - \frac{RSS}{TSS} = 1 - \frac{(y - X\hat{\beta})'(y - X\hat{\beta})}{(y - X\hat{\beta^*_0})'(y - X\hat{\beta^*_0})}\)</span></p>
-<div id="6df02304" class="cell" data-execution_count="7">
+<div id="9b749b7f" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-8-output-1.png" width="597" height="360"></p>
+<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-9-output-1.png" width="597" height="360"></p>
 </figure>
 </div>
 </div>
@@ -1051,7 +1109,7 @@ Notes:
 <i class="callout-icon"></i>
 </div>
 <div class="callout-content">
-<p>Question: why <span class="math inline">\(R\)</span> <strong>squared</strong>?</p>
+<p>Careful: <span class="math inline">\(R^2\)</span> is monotone increasing in <span class="math inline">\(p\)</span> for the training data!</p>
 </div>
 </div>
 </div>
@@ -1074,15 +1132,17 @@ Notes:
 </section>
 <section class="slide level2">
 
-<h3 id="intro.-to-feature-selection">Intro. to Feature Selection</h3>
+<h3 id="intro.-to-feature-selection">Intro. to feature selection</h3>
 <p>How can we choose a subset of the variables?</p>
+<div>
 <ul>
-<li>All subsets: what’s wrong with that?</li>
-<li>Forward: what’s wrong with that?</li>
-<li>Backward</li>
-<li>Hybrid</li>
-<li>Other more advanced methods: learn later in the course</li>
+<li class="fragment">All subsets: what’s wrong with that?</li>
+<li class="fragment">Forward: what’s wrong with that?</li>
+<li class="fragment">Backward</li>
+<li class="fragment">Hybrid</li>
+<li class="fragment">Other more advanced methods</li>
 </ul>
+</div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 
@@ -1099,8 +1159,8 @@ Notes:
           display:block!important;
       }</style></aside>
 </section>
-<section id="other-considerations" class="slide level2 title-slide center">
-<h2>Other considerations</h2>
+<section id="extending-the-linear-model" class="slide level2 title-slide center">
+<h2>Extending the linear model</h2>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 
@@ -1119,6 +1179,571 @@ Notes:
 </section>
 <section class="slide level2">
 
+<h3 id="categorical-features-with-k-levels">Categorical features with <span class="math inline">\(k\)</span> levels</h3>
+<p>When <span class="math inline">\(k = 2\)</span>:</p>
+<div>
+<ul>
+<li class="fragment">If <span class="math inline">\(x\)</span> indicates whether person “has tattoos” or “no tattoos”</li>
+<li class="fragment">Define: <span class="math inline">\(x_i =
+\begin{cases}
+1 &amp; \text{if person } i \text{ has tattoos,} \\
+0 &amp; \text{otherwise.}
+\end{cases}\)</span></li>
+<li class="fragment">Model: <span class="math inline">\(y_i = \beta_0 + \beta_1x_i + \varepsilon_i\)</span></li>
+<li class="fragment">Meaning: <span class="math inline">\(\beta_1 = E(y|\text{has tattoos}) - E(y|\text{no tattoos})\)</span></li>
+</ul>
+</div>
+<div class="fragment">
+<div class="callout callout-note callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<p>Question: what if <span class="math inline">\(x_i =
+\begin{cases}
+1 &amp; \text{if person } i \text{ has tattoos} \\
+-1 &amp; \text{otherwise.}
+\end{cases}\)</span></p>
+</div>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h4 id="categorical-features-with-k-levels-k-2">Categorical features with <span class="math inline">\(k\)</span> levels: <span class="math inline">\(k &gt; 2\)</span></h4>
+<div>
+<ul>
+<li class="fragment">If <span class="math inline">\(x\)</span> is a person’s profession (carpenter, gardener, or teacher)</li>
+</ul>
+<div class="fragment">
+<div class="callout callout-note callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<p>Question: what if we just had <span class="math inline">\(x_{i} =
+\begin{cases}
+0 &amp; \text{if person } i \text{ is a teacher} \\
+1 &amp; \text{if person } i \text{ is a carpenter} \\
+2 &amp; \text{if person } i \text{ is a gardener}
+\end{cases}\)</span></p>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li class="fragment">Define <span class="math inline">\(k - 1\)</span> indicators:</li>
+</ul>
+<div class="fragment">
+<p><span class="math inline">\(x_{i1} =
+\begin{cases}
+1 &amp; \text{if person } i \text{ is a carpenter,} \\
+0 &amp; \text{otherwise.}
+\end{cases}\)</span>, <span class="math inline">\(x_{i2} =
+\begin{cases}
+1 &amp; \text{if person } i \text{ is a gardener,} \\
+0 &amp; \text{otherwise.}
+\end{cases}\)</span></p>
+</div>
+<ul>
+<li class="fragment">Why <span class="math inline">\(k - 1\)</span> indicators?</li>
+<li class="fragment">Model: <span class="math inline">\(y_i = \beta_0 + \beta_1x_{i1} + \beta_2x_{i2} + \varepsilon_i\)</span></li>
+<li class="fragment">Meaning: <span class="math inline">\(\beta_1 = E(y|\text{carpenter}) - E(y|\text{teacher}); \quad \beta_2 = E(y|\text{gardener}) - E(y|\text{teacher})\)</span></li>
+</ul>
+</div>
+<div class="fragment">
+<div class="callout callout-note callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<p>Question: how would you test if “profession” has effect on <span class="math inline">\(y\)</span>?</p>
+</div>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="interactions">Interactions</h3>
+<div id="7ee7bd81" class="cell" data-execution_count="9">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-10-output-1.png" width="566" height="537"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>A <span style="color:red;">multiplicative</span> effect?</p>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="interactions-residuals-plots">Interactions: residuals plots</h3>
+<div id="5210e0ef" class="cell" data-execution_count="10">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-11-output-1.png" width="959" height="433"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>Consider adding an interaction term to the model: <span class="math inline">\(x_1 \cdot x_2\)</span></p>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="interactions-adding-an-interaction-term">Interactions: adding an interaction term</h3>
+<div id="0f8eefbb" class="cell" data-execution_count="11">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-12-output-1.png" width="426" height="398"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><span class="math inline">\(y_i = \beta_0 + \beta_1x_{i1} + \beta_2 x_{i1} + \beta_3 x_{i1} \cdot x_{i2}+ \varepsilon_i\)</span></p>
+<div class="fragment">
+<div class="callout callout-note callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<p>Note: in multiplicative models we usually add the features without interactions to the model (“main effects”), even if their P-value is not small.</p>
+</div>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="non-linear-relations">Non-linear relations</h3>
+<div id="f517e82d" class="cell" data-execution_count="12">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-13-output-1.png" width="957" height="432"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>Consider adding polynomial terms <span class="math inline">\(x^2_1, x^3_1\)</span>, …</p>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="plynomial-regression-beware-1">Plynomial regression: Beware 1</h3>
+<div id="b387e3bb" class="cell" data-execution_count="13">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-14-output-1.png" width="510" height="432"></p>
+</figure>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="plynomial-regression-beware-1-1">Plynomial regression: Beware 1</h3>
+<p>Quadratic:</p>
+<div id="9fc15fba" class="cell" data-execution_count="14">
+<div class="cell-output cell-output-display" data-execution_count="14">
+<div>
+<table class="simpletable" data-quarto-postprocess="true">
+<tbody>
+<tr class="odd">
+<td></td>
+<td data-quarto-table-cell-role="th">coef</td>
+<td data-quarto-table-cell-role="th">std err</td>
+<td data-quarto-table-cell-role="th">t</td>
+<td data-quarto-table-cell-role="th">P&gt;|t|</td>
+<td data-quarto-table-cell-role="th">[0.025</td>
+<td data-quarto-table-cell-role="th">0.975]</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">const</td>
+<td>40.4091</td>
+<td>2.741</td>
+<td>14.744</td>
+<td>0.000</td>
+<td>34.804</td>
+<td>46.015</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">x1</td>
+<td>-0.2133</td>
+<td>0.035</td>
+<td>-6.115</td>
+<td>0.000</td>
+<td>-0.285</td>
+<td>-0.142</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">x2</td>
+<td>0.0004</td>
+<td>9.84e-05</td>
+<td>4.275</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0.001</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>Cubic:</p>
+<div id="1d214d80" class="cell" data-execution_count="15">
+<div class="cell-output cell-output-display" data-execution_count="15">
+<div>
+<table class="simpletable" data-quarto-postprocess="true">
+<tbody>
+<tr class="odd">
+<td></td>
+<td data-quarto-table-cell-role="th">coef</td>
+<td data-quarto-table-cell-role="th">std err</td>
+<td data-quarto-table-cell-role="th">t</td>
+<td data-quarto-table-cell-role="th">P&gt;|t|</td>
+<td data-quarto-table-cell-role="th">[0.025</td>
+<td data-quarto-table-cell-role="th">0.975]</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">const</td>
+<td>44.2249</td>
+<td>5.961</td>
+<td>7.419</td>
+<td>0.000</td>
+<td>32.015</td>
+<td>56.435</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">x1</td>
+<td>-0.2945</td>
+<td>0.118</td>
+<td>-2.500</td>
+<td>0.019</td>
+<td>-0.536</td>
+<td>-0.053</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">x2</td>
+<td>0.0009</td>
+<td>0.001</td>
+<td>1.328</td>
+<td>0.195</td>
+<td>-0.000</td>
+<td>0.002</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">x3</td>
+<td>-8.701e-07</td>
+<td>1.2e-06</td>
+<td>-0.722</td>
+<td>0.476</td>
+<td>-3.34e-06</td>
+<td>1.6e-06</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="plynomial-regression-beware-2">Plynomial regression: Beware 2</h3>
+<div id="ad859360" class="cell" data-execution_count="16">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-17-output-1.png" width="521" height="429"></p>
+</figure>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="other-issues-with-linear-regression" class="slide level2 title-slide center">
+<h2>Other issues with linear regression</h2>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="collinearity">Collinearity</h3>
+<div>
+<ul>
+<li class="fragment"><span style="color:red;">Collinearity</span> is when a feature is in the span of other features</li>
+<li class="fragment">Usually it is not exactly in the span but near the span</li>
+<li class="fragment">In the case of exact collinearity: the matrix <span class="math inline">\(X'X\)</span> is singular, no unique solution</li>
+<li class="fragment">In the case of approximate collinearity:
+<ul>
+<li class="fragment">the solution is not numerically stable</li>
+<li class="fragment"><span class="math inline">\(SE(\hat{\beta})\)</span> grows, <span class="math inline">\(t_{obs}\)</span> value decreases, feature is “masked” in inference</li>
+</ul></li>
+<li class="fragment">Explore your data with a correlation matrix, many other metrics</li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="high-leverage-and-outlier-observations">High-leverage and Outlier observations</h3>
+<div>
+<ul>
+<li class="fragment"><p>An observation with high <span style="color:red;">leverage</span> has an extreme <span class="math inline">\(x\)</span> value</p></li>
+<li class="fragment"><p>For simple linear regression: <span class="math inline">\(h_i = \frac{1}{n} + \frac{(x_i - \bar{x})^2}{\sum (x_{i'} - \bar{x})^2}\)</span></p></li>
+<li class="fragment"><p>Observations with large <span class="math inline">\(h_i\)</span> <span class="math inline">\(\to\)</span> large effect on <span class="math inline">\(SE(\hat{\beta})\)</span></p></li>
+<li class="fragment"><p>If such an observation is also an <span style="color:red;">outlier</span> <span class="math inline">\(\to\)</span> the model changes a lot if removed</p></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="high-leverage-and-outlier-observations-1">High-leverage and Outlier observations</h3>
+<div id="b057d465" class="cell" data-execution_count="17">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-18-output-1.png" width="957" height="432"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>Consider removing (careful!).</p>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h4 id="excluding-high-leverage-outlier">Excluding high-leverage + outlier</h4>
+<div id="95d21eef" class="cell" data-execution_count="18">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-19-output-1.png" width="957" height="433"></p>
+</figure>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 <div class="quarto-auto-generated-content">
 <p><img src="../Intro2SL_logo_white.jpg" class="slide-logo"></p>
 <div class="footer footer-default">

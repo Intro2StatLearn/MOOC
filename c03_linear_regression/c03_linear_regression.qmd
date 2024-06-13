@@ -229,7 +229,7 @@ model = LinearRegression().fit(X, Y)
 Y_pred = model.predict(X)
 
 # Prepare for plotting
-fig, axs = plt.subplots(1, 2, figsize=(10, 5))
+fig, axs = plt.subplots(1, 2, figsize=(12, 5))
 
 # Plot on the left
 axs[0].scatter(X, Y, color='blue', label='Sample points')
@@ -468,7 +468,7 @@ $\frac{\partial l}{\partial \sigma^2} = -\frac{n}{2\sigma^2} + \frac{1}{2\sigma^
 
 ---
 
-## Variance of OLS estimators {.title-slide}
+## Distribution of OLS estimators {.title-slide}
 
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
@@ -477,15 +477,42 @@ $\frac{\partial l}{\partial \sigma^2} = -\frac{n}{2\sigma^2} + \frac{1}{2\sigma^
 
 ---
 
+### Distribution of the OLS solution
+
+::: {.incremental}
+- What we know: 
+$$(a)\; E(Y) = X\beta,\;\;\;\; (b)\; Cov(Y) = \sigma^2 I_n ,\;\;\;\;(c)\; \hat{\beta} = (X'X)^{-1} X' Y$$
+
+- Mean: 
+$$E(\hat{\beta}) \stackrel{(c)}{=} (X'X)^{-1} X' E(Y) \stackrel{(a)}{=} (X'X)^{-1} X' X\beta = \beta.$$
+
+- Covariance matrix: 
+$$Cov(\hat{\beta}) \stackrel{(c)}{=} (X'X)^{-1} X' Cov(Y) X (X'X)^{-1} \stackrel{(b)}{=} \sigma^2 (X'X)^{-1} (X' X) (X'X)^{-1} = \sigma^2 (X'X)^{-1}.$$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+אנחנו רוצים למצוא את ההתפלגות של האומד בטא האט. בטא-האט הוא צירוף לינארי של משתנים נורמליים ולכן גם הוא, מתפלג נורמלית, עם איזשהו וקטור תוחלות ומטריצת שונויות (להדגים). השאלה היחידה היא מהו וקטור התוחלות ומטריצת השונויות האלה. 
+
+מה ידוע לנו עד כה? התוחלת המותנית של Y היא X בטא. הYים בלתי תלויים, מטריצת השונויות שלהם היא אלכסונית עם סיגמא בריבוע על האלכסון, ניתן לסמן זאת כך. והאומד לבטא-האט נראה כך, הוא לא משתנה כאמור בעקבות ההנחה הסטטיסטית.
+
+נחשב את התוחלת של בטא-האט: האיקסים הם קבועים, ומליניאריות התוחלת הם יוצאים החוצה ונשארת רק התוחלת של Y, שהיא כידוע X בטא, וכך אנחנו מגיעים לעבודה שהתוחלת של בטא-האט היא בטא עצמו, בטא-האט נקרא אומד חסר הטיה לבטא.
+
+ומטריצת השונות או הקווריאנס של וקטור בטא-האט: כשמחשבים שונות של סקלאר כפול משתנה הסקלאר יוצא בריבוע. כשמחשבים מטריצת שונות של מטריצת קבועים כפול הוקטור שלנו, היא יוצאת בהכפלה משמאל ומימין. אבל מטריצת השונות של Y היא כאמור אלכסונית, וכל מה שנשאר זה הכפלה של הביטוי הזה בסיגמא בריבוע. דברים מצטמצמים ומגיעים לביטוי סופי, סיגמא בריבוע כפול המטריצה ההופכית של X'X.
+
+נסכם: בטא-האט מתפלג נורמלית עם תוחלת בטא האמיתית, ושונות סיגמא בריבוע כפול מטריצת X'X.
+:::
+:::
+
+---
+
 ### Variance of OLS estimators
 
-- In general:
-
-$Var(\hat{\beta}) = Var((X'X)^{-1}X'y) = (X'X)^{-1}X'Var(y)X(X'X)^{-1} = \sigma^2(X'X)^{-1}$
+- Again: $Cov(\hat{\beta}) = \sigma^2(X'X)^{-1}$
 
 - For simple regression and scalar $\hat{\beta}_0, \hat{\beta}_1$, this amounts to the (squared) [Standard Errors]{style="color:red;"}:
 
-$SE(\beta_0)^2 = \sigma^2\left[\frac{1}{n} + \frac{\bar{x}^2}{\sum_{i = 1}^n(x_i - \bar{x})^2}\right]; \quad SE(\beta_1)^2 = \frac{\sigma^2}{\sum_{i = 1}^n(x_i - \bar{x})^2}$
+$$SE(\beta_0)^2 = \sigma^2\left[\frac{1}{n} + \frac{\bar{x}^2}{\sum_{i = 1}^n(x_i - \bar{x})^2}\right]; \quad SE(\beta_1)^2 = \frac{\sigma^2}{\sum_{i = 1}^n(x_i - \bar{x})^2}$$
 
 - where, $\sigma^2$ would be replaced be its MLE or unbiased estimator the (squared) [Residual Standard Error]{style="color:red;"} (RSE): $RSE^2 = \frac{RSS}{n - p - 1}$
 
@@ -552,7 +579,7 @@ def plot_regression(ax, X, Y, x_min, x_max, label, spread_x=False):
     ax.set_title(label)
 
 # Create figure and axes
-fig, axs = plt.subplots(1, 2, figsize=(10, 5))
+fig, axs = plt.subplots(1, 2, figsize=(12, 5))
 
 # Generate data for both cases
 X1, Y1 = generate_data(50)
@@ -709,7 +736,7 @@ $f_{obs} = \frac{(RSS_0 - RSS)/q}{RSS / (n - p - 1)} \sim F_{q, n - p - 1}$
 :::
 
 ::: {.fragment}
-- Which reduces to $t^2_{obs} \sim T_{n - p - 1}$ when $q = 1$ (testing a single feature given others)
+- When $q = 1$, $f_{obs} = t^2_{obs}$, where $t_{obs} \sim T_{n - p - 1}$ (testing a single feature given others)
 :::
 
 ::: {.fragment}
@@ -754,7 +781,7 @@ reg.fit(X, y)
 y_pred = reg.predict(X)
 
 # Plot the data and the fitted plane
-fig, axes = plt.subplots(1, 2, figsize=(10, 5), subplot_kw={'projection': '3d'})
+fig, axes = plt.subplots(1, 2, figsize=(12, 5), subplot_kw={'projection': '3d'})
 
 # Scatter plot of the original data
 axes[0].scatter(X[:, 0], X[:, 1], y, color='r', label='Original data')
@@ -791,6 +818,29 @@ axes[1].set_zlabel('y')
 plt.show()
 ```
 
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Model fit: residuals plots
+
+```{python}
+#| echo: false
+
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+axes[0].scatter(X[:, 0], y_pred - y)
+axes[0].axhline(y=0, color='r', linestyle='--')
+axes[0].set_xlabel('X1')
+axes[0].set_ylabel('Residuals')
+axes[1].scatter(X[:, 1], y_pred - y)
+axes[1].axhline(y=0, color='r', linestyle='--')
+axes[1].set_xlabel('X2')
+plt.show()
+```
 
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
@@ -858,7 +908,7 @@ plt.show()
 
 ::: {.fragment}
 ::: {.callout-note}
-Question: why $R$ **squared**?
+Careful: $R^2$ is monotone increasing in $p$ for the training data!
 :::
 :::
 
@@ -869,15 +919,17 @@ Question: why $R$ **squared**?
 
 ---
 
-### Intro. to Feature Selection
+### Intro. to feature selection
 
 How can we choose a subset of the variables?
 
+::: {.incremental}
 - All subsets: what's wrong with that?
 - Forward: what's wrong with that?
 - Backward
 - Hybrid
-- Other more advanced methods: learn later in the course
+- Other more advanced methods
+:::
 
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
@@ -886,7 +938,7 @@ How can we choose a subset of the variables?
 
 ---
 
-## Other considerations {.title-slide}
+## Extending the linear model {.title-slide}
 
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
@@ -894,3 +946,514 @@ How can we choose a subset of the variables?
 :::
 
 ---
+
+### Categorical features with $k$ levels
+
+When $k = 2$:
+
+::: {.incremental}
+- If $x$ indicates whether person "has tattoos" or "no tattoos"
+- Define: $x_i =
+\begin{cases} 
+1 & \text{if person } i \text{ has tattoos,} \\
+0 & \text{otherwise.}
+\end{cases}$
+- Model: $y_i = \beta_0 + \beta_1x_i + \varepsilon_i$
+- Meaning: $\beta_1 = E(y|\text{has tattoos}) - E(y|\text{no tattoos})$
+:::
+
+::: {.fragment}
+::: {.callout-note}
+Question: what if $x_i =
+\begin{cases} 
+1 & \text{if person } i \text{ has tattoos} \\
+-1 & \text{otherwise.}
+\end{cases}$
+:::
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+#### Categorical features with $k$ levels: $k > 2$
+
+::: {.incremental}
+- If $x$ is a person's profession (carpenter, gardener, or teacher)
+
+::: {.fragment}
+::: {.callout-note}
+Question: what if we just had $x_{i} =
+\begin{cases} 
+0 & \text{if person } i \text{ is a teacher} \\
+1 & \text{if person } i \text{ is a carpenter} \\
+2 & \text{if person } i \text{ is a gardener}
+\end{cases}$
+:::
+:::
+
+- Define $k - 1$ indicators:
+
+::: {.fragment}
+$x_{i1} =
+\begin{cases} 
+1 & \text{if person } i \text{ is a carpenter,} \\
+0 & \text{otherwise.}
+\end{cases}$, $x_{i2} =
+\begin{cases} 
+1 & \text{if person } i \text{ is a gardener,} \\
+0 & \text{otherwise.}
+\end{cases}$
+:::
+
+- Why $k - 1$ indicators?
+- Model: $y_i = \beta_0 + \beta_1x_{i1} + \beta_2x_{i2} + \varepsilon_i$
+- Meaning: $\beta_1 = E(y|\text{carpenter}) - E(y|\text{teacher}); \quad \beta_2 = E(y|\text{gardener}) - E(y|\text{teacher})$
+:::
+
+::: {.fragment}
+::: {.callout-note}
+Question: how would you test if "profession" has effect on $y$?
+:::
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Interactions
+
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+from sklearn.linear_model import LinearRegression
+
+# Generate the dataset
+np.random.seed(42)
+n_samples = 100
+X = np.random.normal(size=(n_samples, 2))  # Random values in 2D
+X[:, 0] *= 3  # Scale the first feature
+X[:, 1] *= 3  # Scale the second feature
+noise = np.random.normal(size=(n_samples,)) * 0.1 # Noise to add to the output
+
+# Non-linear function with an upward trend
+y = 0.5*X[:, 0] + 0.2*X[:, 1] + 0.3*X[:, 0] * X[:, 1] + noise
+
+# Fit a linear regression model
+reg = LinearRegression()
+reg.fit(X, y)
+y_pred = reg.predict(X)
+
+# Plot the data and the fitted plane
+fig = plt.figure(figsize=(14, 7))
+ax = fig.add_subplot(111, projection='3d')
+
+# Scatter plot of the original data
+ax.scatter(X[:, 0], X[:, 1], y, color='r', label='Original data')
+
+# Create a grid for plotting the plane
+x1_range = np.linspace(X[:, 0].min(), X[:, 0].max(), 10)
+x2_range = np.linspace(X[:, 1].min(), X[:, 1].max(), 10)
+x1_grid, x2_grid = np.meshgrid(x1_range, x2_range)
+y_grid = reg.intercept_ + reg.coef_[0] * x1_grid + reg.coef_[1] * x2_grid
+
+# Plot the linear regression plane
+ax.plot_surface(x1_grid, x2_grid, y_grid, color='b', alpha=0.5, label='Fitted plane')
+
+# Draw vertical lines from the plane to the data points
+for i in range(n_samples):
+    ax.plot([X[i, 0], X[i, 0]], [X[i, 1], X[i, 1]], [y[i], y_pred[i]], color='k')
+
+# Adjust the viewing angle
+ax.view_init(elev=30, azim=-60)
+
+# Set labels and title
+ax.set_xlabel('X1')
+ax.set_ylabel('X2')
+ax.set_zlabel('y')
+
+plt.show()
+```
+
+::: {.fragment}
+A [multiplicative]{style="color:red;"} effect?
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Interactions: residuals plots
+
+```{python}
+#| echo: false
+
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+axes[0].scatter(X[:, 0], y_pred - y)
+axes[0].axhline(y=0, color='r', linestyle='--')
+axes[0].set_xlabel('X1')
+axes[0].set_ylabel('Residuals')
+axes[1].scatter(X[:, 1], y_pred - y)
+axes[1].axhline(y=0, color='r', linestyle='--')
+axes[1].set_xlabel('X2')
+plt.show()
+```
+
+::: {.fragment}
+Consider adding an interaction term to the model: $x_1 \cdot x_2$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Interactions: adding an interaction term
+
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+from sklearn.linear_model import LinearRegression
+
+# Generate the dataset
+np.random.seed(42)
+n_samples = 100
+X = np.random.normal(size=(n_samples, 2))  # Random values in 2D
+X[:, 0] *= 3  # Scale the first feature
+X[:, 1] *= 3  # Scale the second feature
+X = np.hstack((X, (X[:, 0] * X[:, 1]).reshape(-1, 1)))  # Add a new interaction feature
+noise = np.random.normal(size=(n_samples,)) * 0.1 # Noise to add to the output
+
+# Non-linear function with an upward trend
+y = 0.5*X[:, 0] + 0.2*X[:, 1] + 0.3*X[:, 0] * X[:, 1] + noise
+
+# Fit a linear regression model
+reg = LinearRegression()
+reg.fit(X, y)
+y_pred = reg.predict(X)
+
+# Plot the data and the fitted plane
+fig = plt.figure(figsize=(12, 5))
+ax = fig.add_subplot(111, projection='3d')
+
+# Scatter plot of the original data
+ax.scatter(X[:, 0], X[:, 1], y, color='r', label='Original data')
+
+# Create a grid for plotting the plane
+x1_range = np.linspace(X[:, 0].min(), X[:, 0].max(), 10)
+x2_range = np.linspace(X[:, 1].min(), X[:, 1].max(), 10)
+x1_grid, x2_grid = np.meshgrid(x1_range, x2_range)
+y_grid = reg.intercept_ + reg.coef_[0] * x1_grid + reg.coef_[1] * x2_grid + reg.coef_[2] * x1_grid * x2_grid
+
+# Plot the linear regression plane
+ax.plot_surface(x1_grid, x2_grid, y_grid, color='b', alpha=0.5, label='Fitted plane')
+
+# Draw vertical lines from the plane to the data points
+for i in range(n_samples):
+    ax.plot([X[i, 0], X[i, 0]], [X[i, 1], X[i, 1]], [y[i], y_pred[i]], color='k')
+
+# Adjust the viewing angle
+ax.view_init(elev=30, azim=-60)
+
+# Set labels and title
+ax.set_xlabel('X1')
+ax.set_ylabel('X2')
+ax.set_zlabel('y')
+
+plt.show()
+```
+
+$y_i = \beta_0 + \beta_1x_{i1} + \beta_2 x_{i1} + \beta_3 x_{i1} \cdot x_{i2}+ \varepsilon_i$
+
+::: {.fragment}
+::: {.callout-note}
+Note: in multiplicative models we usually add the features without interactions to the model ("main effects"), even if their P-value is not small.
+:::
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Non-linear relations
+
+```{python}
+#| echo: false
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.linear_model import LinearRegression
+
+df = pd.read_csv('../datasets/mtcars.csv')
+
+model = LinearRegression().fit(df[['hp']], df['mpg'])
+y_pred = model.predict(df[['hp']])
+
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+sns.scatterplot(data=df, x='hp', y='mpg', ax=axes[0])
+axes[0].plot(df['hp'], y_pred, color='red')
+axes[0].set_xlabel('Horsepower')
+axes[0].set_ylabel('Miles per Gallon')
+
+sns.scatterplot(x=df['hp'], y=y_pred - df['mpg'], ax=axes[1])
+axes[1].axhline(y=0, color='r', linestyle='--')
+axes[1].set_xlabel('Horsepower')
+axes[1].set_ylabel('Residuals')
+
+plt.show()
+```
+
+::: {.fragment}
+Consider adding polynomial terms $x^2_1, x^3_1$, ...
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Plynomial regression: Beware 1
+
+```{python}
+#| echo: false
+
+x_hp = df[['hp']].values
+X2 = np.hstack((x_hp, x_hp**2))
+X5 = np.hstack((x_hp, x_hp**2, x_hp**3, x_hp**4, x_hp**5))
+model1 = LinearRegression().fit(x_hp, df['mpg'])
+model2 = LinearRegression().fit(X2, df['mpg'])
+model5 = LinearRegression().fit(X5, df['mpg'])
+
+X1_range = np.linspace(df['hp'].min(), df['hp'].max(), 100).reshape(-1, 1)
+X2_range = np.hstack((X1_range, X1_range**2))
+X5_range = np.hstack((X1_range, X1_range**2, X1_range**3, X1_range**4, X1_range**5))
+y_pred1 = model1.predict(X1_range)
+y_pred2 = model2.predict(X2_range)
+y_pred5 = model5.predict(X5_range)
+
+fig = plt.figure(figsize=(6, 5))
+sns.scatterplot(data=df, x='hp', y='mpg')
+plt.plot(X1_range, y_pred1, color='red', label = 'Linear')
+plt.plot(X1_range, y_pred2, color='orange', label = 'Degree 2')
+plt.plot(X1_range, y_pred5, color='green', label = 'Degree 5')
+plt.xlabel('Horsepower')
+plt.ylabel('Miles per Gallon')
+
+plt.legend()
+plt.show()
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Plynomial regression: Beware 1
+
+Quadratic:
+
+```{python}
+#| echo: false
+
+import statsmodels.api as sm
+
+X2 = sm.add_constant(X2)
+model = sm.OLS(df['mpg'], X2).fit()
+model.summary().tables[1]
+```
+
+Cubic:
+
+```{python}
+#| echo: false
+
+X3 = np.hstack((x_hp, x_hp**2, x_hp**3))
+X3 = sm.add_constant(X3)
+model = sm.OLS(df['mpg'], X3).fit()
+model.summary().tables[1]
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Plynomial regression: Beware 2
+
+```{python}
+#| echo: false
+
+X1_range = np.linspace(df['hp'].min() - 100, df['hp'].max() + 100, 1000).reshape(-1, 1)
+X2_range = np.hstack((X1_range, X1_range**2))
+X5_range = np.hstack((X1_range, X1_range**2, X1_range**3, X1_range**4, X1_range**5))
+y_pred1 = model1.predict(X1_range)
+y_pred2 = model2.predict(X2_range)
+y_pred5 = model5.predict(X5_range)
+
+fig = plt.figure(figsize=(6, 5))
+sns.scatterplot(data=df, x='hp', y='mpg')
+plt.plot(X1_range, y_pred1, color='red', label = 'Linear')
+plt.plot(X1_range, y_pred2, color='orange', label = 'Degree 2')
+plt.plot(X1_range, y_pred5, color='green', label = 'Degree 5')
+plt.xlabel('Horsepower')
+plt.ylabel('Miles per Gallon')
+
+plt.legend()
+plt.show()
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+## Other issues with linear regression {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Collinearity
+
+::: {.incremental}
+- [Collinearity]{style="color:red;"} is when a feature is in the span of other features
+- Usually it is not exactly in the span but near the span
+- In the case of exact collinearity: the matrix $X'X$ is singular, no unique solution
+- In the case of approximate collinearity:
+  - the solution is not numerically stable
+  - $SE(\hat{\beta})$ grows, $t_{obs}$ value decreases, feature is "masked" in inference
+- Explore your data with a correlation matrix, many other metrics
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### High-leverage and Outlier observations
+
+::: {.incremental}
+- An observation with high [leverage]{style="color:red;"} has an extreme $x$ value
+
+- For simple linear regression: $h_i = \frac{1}{n} + \frac{(x_i - \bar{x})^2}{\sum (x_{i'} - \bar{x})^2}$
+
+- Observations with large $h_i$ $\to$ large effect on $SE(\hat{\beta})$
+
+- If such an observation is also an [outlier]{style="color:red;"} $\to$ the model changes a lot if removed
+
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### High-leverage and Outlier observations
+
+```{python}
+#| echo: false
+
+model = LinearRegression().fit(df[['hp']], df['mpg'])
+y_pred = model.predict(df[['hp']])
+
+SSx = np.sum((x_hp - np.mean(x_hp))**2)
+h = 1 / x_hp.shape[0] + (x_hp - np.mean(x_hp))**2 / SSx
+
+highlight_point1 = {'X1': df['hp'].values[-2], 'Y': df['mpg'].values[-2]}
+highlight_point2 = {'X1': h[-2], 'Y': (y_pred - df['mpg'].values)[-2]}
+
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+sns.scatterplot(data=df, x='hp', y='mpg', ax=axes[0])
+axes[0].scatter(highlight_point1['X1'], highlight_point1['Y'], color='red', s=100)
+axes[0].plot(df['hp'], y_pred, color='red')
+axes[0].set_xlabel('Horsepower')
+axes[0].set_ylabel('Miles per Gallon')
+
+sns.scatterplot(x=h.flatten(), y=y_pred - df['mpg'], ax=axes[1])
+axes[1].scatter(highlight_point2['X1'], highlight_point2['Y'], color='red', s=100)
+axes[1].axhline(y=0, color='r', linestyle='--')
+axes[1].set_xlabel('Leverage')
+axes[1].set_ylabel('Residuals')
+
+plt.show()
+```
+
+::: {.fragment}
+Consider removing (careful!).
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+#### Excluding high-leverage + outlier
+
+```{python}
+#| echo: false
+
+df2 = df.drop(x_hp.shape[0] - 2, axis=0)
+model = LinearRegression().fit(df2[['hp']], df2['mpg'])
+y_pred = model.predict(df2[['hp']])
+
+x_hp2 = np.delete(x_hp, -2)
+SSx = np.sum((x_hp2 - np.mean(x_hp2))**2)
+h = 1 / x_hp2.shape[0] + (x_hp2 - np.mean(x_hp2))**2 / SSx
+
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+sns.scatterplot(data=df2, x='hp', y='mpg', ax=axes[0])
+axes[0].plot(df2['hp'], y_pred, color='red')
+axes[0].set_xlabel('Horsepower')
+axes[0].set_ylabel('Miles per Gallon')
+
+sns.scatterplot(x=h.flatten(), y=y_pred - df2['mpg'], ax=axes[1])
+axes[1].axhline(y=0, color='r', linestyle='--')
+axes[1].set_xlabel('Leverage')
+axes[1].set_ylabel('Residuals')
+
+plt.show()
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
