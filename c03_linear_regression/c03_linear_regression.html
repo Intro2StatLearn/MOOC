@@ -437,7 +437,7 @@
 <section class="slide level2">
 
 <h3 id="from-line-to-rss-surface">From line to RSS surface</h3>
-<div id="59b0d2cd" class="cell" data-execution_count="1">
+<div id="6427675c" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -501,7 +501,7 @@
 <section class="slide level2">
 
 <h3 id="average-of-many-ols-lines">Average of many OLS lines</h3>
-<div id="9b77a91b" class="cell" data-execution_count="2">
+<div id="7fa4080a" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -666,7 +666,7 @@
 <section class="slide level2">
 
 <h3 id="from-line-to-hyperplane">From line to (hyper)plane</h3>
-<div id="9ad0abeb" class="cell" data-execution_count="3">
+<div id="14f915a7" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -864,7 +864,7 @@
 <section class="slide level2">
 
 <h3 id="se-vs.-x-spread">SE vs.&nbsp;<span class="math inline">\(x\)</span> spread</h3>
-<div id="24cfdb16" class="cell" data-execution_count="4">
+<div id="33a11d6c" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1007,7 +1007,7 @@
 <section class="slide level2">
 
 <h3 id="example-with-statsmodels">Example with <code>statsmodels</code></h3>
-<div id="5531e484" class="cell" data-execution_count="5">
+<div id="9359e07c" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-stdout">
 <pre><code>                            OLS Regression Results                            
 ==============================================================================
@@ -1015,7 +1015,7 @@ Dep. Variable:                 Income   R-squared:                       0.934
 Model:                            OLS   Adj. R-squared:                  0.929
 Method:                 Least Squares   F-statistic:                     191.4
 Date:                Sat, 15 Jun 2024   Prob (F-statistic):           1.13e-16
-Time:                        19:26:14   Log-Likelihood:                -100.15
+Time:                        19:29:22   Log-Likelihood:                -100.15
 No. Observations:                  30   AIC:                             206.3
 Df Residuals:                      27   BIC:                             210.5
 Df Model:                           2                                         
@@ -1126,7 +1126,7 @@ Notes:
 
 <h3 id="model-fit-plotting">Model Fit: plotting</h3>
 <p>When <span class="math inline">\(p\)</span> is low - draw!</p>
-<div id="d8957fb1" class="cell" data-execution_count="6">
+<div id="e229833b" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1154,7 +1154,7 @@ Notes:
 <section class="slide level2">
 
 <h3 id="model-fit-residuals-plots">Model fit: residuals plots</h3>
-<div id="34419d39" class="cell" data-execution_count="7">
+<div id="e0560278" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1185,7 +1185,7 @@ Notes:
 <h3 id="model-fit-r-squared">Model Fit: <span class="math inline">\(R\)</span> squared</h3>
 <p>Measure of “explained variance”:</p>
 <p><span class="math inline">\(R^2 = 1 - \frac{\sum_{i = 1}^n (y_i - X\hat{\beta})^2}{\sum_{i = 1}^n (y_i - \bar{y})^2} = 1 - \frac{RSS}{TSS} = 1 - \frac{(y - X\hat{\beta})'(y - X\hat{\beta})}{(y - X\hat{\beta^*_0})'(y - X\hat{\beta^*_0})}\)</span></p>
-<div id="5289c45e" class="cell" data-execution_count="8">
+<div id="e3450a34" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1427,7 +1427,7 @@ Notes:
 <section class="slide level2">
 
 <h3 id="interactions">Interactions</h3>
-<div id="4582be7a" class="cell" data-execution_count="9">
+<div id="31b583fb" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1459,7 +1459,7 @@ Notes:
 <section class="slide level2">
 
 <h3 id="interactions-residuals-plots">Interactions: residuals plots</h3>
-<div id="40d08935" class="cell" data-execution_count="10">
+<div id="4b31aeb3" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1491,7 +1491,7 @@ Notes:
 <section class="slide level2">
 
 <h3 id="interactions-adding-an-interaction-term">Interactions: adding an interaction term</h3>
-<div id="152f5ca6" class="cell" data-execution_count="11">
+<div id="6d7a6a03" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1501,18 +1501,6 @@ Notes:
 </div>
 </div>
 <p><span class="math inline">\(y_i = \beta_0 + \beta_1x_{i1} + \beta_2 x_{i1} + \beta_3 x_{i1} \cdot x_{i2}+ \varepsilon_i\)</span></p>
-<div class="fragment">
-<div class="callout callout-note callout-style-simple">
-<div class="callout-body">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-content">
-<p>So, consider adding all possible interaction terms?</p>
-</div>
-</div>
-</div>
-</div>
 <div class="fragment">
 <div class="callout callout-note callout-style-simple">
 <div class="callout-body">
@@ -1547,7 +1535,7 @@ Notes:
 <section class="slide level2">
 
 <h3 id="non-linear-relations">Non-linear relations</h3>
-<div id="4fdaff18" class="cell" data-execution_count="12">
+<div id="0c52626d" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1579,7 +1567,7 @@ Notes:
 <section class="slide level2">
 
 <h3 id="plynomial-regression-beware-1">Plynomial regression: Beware 1</h3>
-<div id="c8d9a7b6" class="cell" data-execution_count="13">
+<div id="08237c62" class="cell" data-execution_count="13">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1608,7 +1596,7 @@ Notes:
 
 <h3 id="plynomial-regression-beware-1-1">Plynomial regression: Beware 1</h3>
 <p>Quadratic:</p>
-<div id="d21f80b1" class="cell" data-execution_count="14">
+<div id="9ab7aa37" class="cell" data-execution_count="14">
 <div class="cell-output cell-output-display" data-execution_count="14">
 <div>
 <table class="simpletable" data-quarto-postprocess="true">
@@ -1655,7 +1643,7 @@ Notes:
 </div>
 </div>
 <p>Cubic:</p>
-<div id="cf5f48c7" class="cell" data-execution_count="15">
+<div id="ec2f9641" class="cell" data-execution_count="15">
 <div class="cell-output cell-output-display" data-execution_count="15">
 <div>
 <table class="simpletable" data-quarto-postprocess="true">
@@ -1729,7 +1717,7 @@ Notes:
 <section class="slide level2">
 
 <h3 id="plynomial-regression-beware-2">Plynomial regression: Beware 2</h3>
-<div id="d07c7ffb" class="cell" data-execution_count="16">
+<div id="c6a90032" class="cell" data-execution_count="16">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1777,7 +1765,7 @@ Notes:
 <section class="slide level2">
 
 <h3 id="why-not-significant">Why “not significant”?</h3>
-<div id="29dcd15d" class="cell" data-execution_count="17">
+<div id="88dc0153" class="cell" data-execution_count="17">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1786,7 +1774,7 @@ Notes:
 </div>
 </div>
 </div>
-<div id="0342dfbb" class="cell" data-execution_count="18">
+<div id="e4432d1e" class="cell" data-execution_count="18">
 <div class="cell-output cell-output-stdout">
 <pre><code>==============================================================================
                  coef    std err          t      P&gt;|t|      [0.025      0.975]
@@ -1883,7 +1871,7 @@ X2             0.8772      1.144      0.767      0.445      -1.393       3.147
 <section class="slide level2">
 
 <h3 id="high-leverage-and-outlier-observations-1">High-leverage and Outlier observations</h3>
-<div id="36c2d950" class="cell" data-execution_count="19">
+<div id="e23acf7b" class="cell" data-execution_count="19">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1914,7 +1902,7 @@ X2             0.8772      1.144      0.767      0.445      -1.393       3.147
 <section class="slide level2">
 
 <h4 id="excluding-high-leverage-outlier">Excluding high-leverage + outlier</h4>
-<div id="1378cfa6" class="cell" data-execution_count="20">
+<div id="9db34811" class="cell" data-execution_count="20">
 <div class="cell-output cell-output-display">
 <div>
 <figure>

@@ -1399,11 +1399,6 @@ $y_i = \beta_0 + \beta_1x_{i1} + \beta_2 x_{i1} + \beta_3 x_{i1} \cdot x_{i2}+ \
 
 ::: {.fragment}
 ::: {.callout-note}
-So, consider adding all possible interaction terms?
-:::
-:::
-::: {.fragment}
-::: {.callout-note}
 Note: in multiplicative models we usually add the features without interactions to the model ("main effects"), even if their P-value is not small.
 :::
 :::
