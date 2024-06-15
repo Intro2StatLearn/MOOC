@@ -1578,6 +1578,89 @@ plt.show()
 
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
+כבר הזהרנו שרגרסיה ליניארית הוא אחד המודלים הנחקרים ביותר בספרות, זה אומר שעל כל ניואנס בו נכתבו תלי תלים של מאמרים. לסיכום הנושא נזכיר שתי בעיות שצריך להיות מודעים אליהן ולקרוא עוד קצת על הטיפול בהן: קוליניאריות ותצפיות חריגות.
+:::
+:::
+
+---
+
+### Why "not significant"?
+
+```{python}
+#| echo: false
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+from sklearn.linear_model import LinearRegression
+from matplotlib.patches import Patch
+from matplotlib.lines import Line2D
+
+# Seed for reproducibility
+np.random.seed(42)
+
+# Generate synthetic data
+n_samples = 100
+X1 = np.random.normal(0, 1, n_samples)
+X2 = 0.5 * X1 + np.random.normal(0, 0.1, n_samples)  # X2 is correlated with X1
+Y = 2 * X1 + 1 * X2 + np.random.normal(0, 1, n_samples)
+
+# Create a DataFrame
+data = pd.DataFrame({'X1': X1, 'X2': X2, 'Y': Y})
+X = data[['X1', 'X2']].values
+
+# Plotting
+fig, ax = plt.subplots(1, 1, figsize=(12, 5), subplot_kw={'projection': '3d'})
+
+# Create a grid of values for X1 and X2
+X1_grid, X2_grid = np.meshgrid(np.linspace(min(X1), max(X1), 200),
+                               np.linspace(min(X2), max(X2), 200))
+
+# Flatten the grid to pass into the model
+X_grid = np.column_stack((X1_grid.ravel(), X2_grid.ravel()))
+
+model = LinearRegression()
+
+model.fit(X, Y)
+
+# Predict Y values
+Y_pred = model.predict(X_grid).reshape(X1_grid.shape)
+
+# Plot the fitted plane
+ax.scatter(X1, X2, Y, color='red', label='Data')
+ax.plot_surface(X1_grid, X2_grid, Y_pred, color='blue', alpha=0.5)
+
+# Add vertical lines from data points to the surface
+Y_surface = model.predict(X).reshape(Y.shape)  # Predicted Y values for the actual data points
+for x1, x2, y, y_surface in zip(X1, X2, Y, Y_surface):
+    ax.plot([x1, x1], [x2, x2], [y, y_surface], color='black')
+
+# Labels
+ax.set_xlabel('X1')
+ax.set_ylabel('X2')
+ax.set_zlabel('y')
+
+# Adjust the viewing angle
+ax.view_init(elev=30, azim=-60)
+
+plt.show()
+```
+
+```{python}
+#| echo: false
+
+import statsmodels.api as sm
+
+# Perform linear regression with both features
+X_both = sm.add_constant(data[['X1', 'X2']])
+model_both = sm.OLS(data['Y'], X_both).fit()
+print(model_both.summary().tables[1])
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+כדי להציג את הבעיה הראשונה בואו נסתכל על הנתונים האלה. Y משתנה בבירור כפונקציה של X1 ושל X2. המישור שאנחנו מתאימים ברגרסיה ליניארית אפילו נראה סביר. אבל אם נבצע הסקה סטטיסטית על מקדמי הרגרסיה שקיבלנו, אף אחד לא מובהק סטטיסטית, נראה כאילו היה מתאים פה המישור השוכב של הממוצע של Y. למה זה קורה? אם נביט היטב נראה שבכל זאת יש משהו חריג בנתונים האלה. אם נשרטט את X2 כנגד X1 נראה בעיה: יש ביניהם קורלציה גבוהה מאוד.
 :::
 :::
 
@@ -1597,6 +1680,15 @@ plt.show()
 
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
+קוליניאריות היא מצב שבו פיצ'ר מסוים, או יותר, הם בספאן של פיצ'רים אחרים, כלומר צירוף ליניארי של משתנים אחרים. ראינו פוטנציאל לזה כשדיברנו על ייצוג של משתני אינדיקטור למשתנים קטגוריאליים עם OHE. דוגמאות שכיחות יותר זה כשמישהו החליט למשל לתת את הטמפרטורה בצלזיוס וגם בפרנהייט. בשני המקרים מדובר במשתנה מיותר שכדאי היה פשוט להוריד.
+
+אבל זאת דוגמא קיצונית, נגיד שקוליניאריות מתרחשת גם כשפיצ'ר אחד הוא בקירוב צירוף ליניארי של פיצ'רים אחרים, כמו למשל שערכתם מחקר על ילדים והחלטתם להכניס למודל גם את הגיל של הילדים וגם את מידת הנעליים שלהם. ובין שני אלה הרי יש מתאם לא מבוטל. או אולי יש לכם פשוט הרבה פיצ'רים, ומה לעשות במקרה יש שם פיצ'רים עם מתאם גדול ביניהם.
+
+מה יכול להיות בעייתי בזה? שימו-לב, לא הנחנו שהעמודות של X הן בלתי תלויות, אבל אם עמודה אחת היא צירוף ליניארי של האחרות אז הדרגה של X תהיה לא מלאה, והמטריצה X'X הזאת שמופיעה באומדן הריבועים הפחותים תהיה סינגולרית, אין לה הופכית ולכן אין גם פתרון.
+
+במצב הפחות קיצוני אבל המדאיג יותר, שבו יש קוליניאריות בקירוב, הופכי של X'X יהיה לא יציב נומרית, הוא יכול להיות פתאום נורא גדול. אם ניקח את ערך הטי לפיצ'ר ספציפי, נראה שאם האיבר על אלכסון הX'X נעשה גדול יותר ויותר, זה אומר שטעות התקן או המכנה של הסטטיסטי נעשה גדול יותר ויותר, ובהתאמה ערך הטי קטן יותר, והאיבר הזה לא ייראה כמובהק סטטיסטי. הוא עבר מיסוך בהסקה סטטיסטית.
+
+אז לא ניכנס לכל פתרון אפשרי לטיפול בקוליניאריות, אבל זו בעיה שצריכים להיות מודעים אליה. לכל הפחות הביטו במטריצת הקורלציה בין המשתנים שלכם, וקראו עוד על מטריקות שאמורות להציף את הבעיה.
 :::
 :::
 
@@ -1612,11 +1704,19 @@ plt.show()
 - Observations with large $h_i$ $\to$ large effect on $SE(\hat{\beta})$
 
 - If such an observation is also an [outlier]{style="color:red;"} $\to$ the model changes a lot if removed
-
 :::
 
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
+הנושא השני שנצביע עליו הוא תצפיות חריגות.
+
+באופו ספציפי מעניינות אותנו תצפיות עם מנוף או לברג' גבוה, והכוונה באופן כללי לתצפיות עם ערך X חריג.
+
+ברגרסיה עם משתנה אחד יש אינדקס H שנהוג לחשב לכל תצפית כדי להגדיר את הלברג' שלה. אפשר לראות כאן בעצם יחס בין המרחק הריבועי של התצפית מממוצע הX לעומת סך המרחקים הריבועיים של התצפיות X מהממוצע שלהן. ברגרסיה מרובה אגב יש לנו הכללה לזה אבל לא נרשום אותה כאן.
+
+חשבו מה יכולה להיות הבעיה עם תצפיות עם לברג' גבוה. קודם כל מתמטית כפי שראינו ברגרסיה ליניארית פשוטה, יש להן אפקט גדול נורא על טעות התקן של האומד. אם המכנה הזה של הסטטיסטי טי מתנפח בגלל תצפית אחת, האומד לא יכול להימצא מובהק סטטיסטית כי השונות שלו נורא גבוהה. נקודה שכזאת יכולה להשפיע כל כך על קו הרגרסיה, לכן היא נקראת מנוף, לברג'.
+
+אם ערך הY של נקודה כזאת גם כן חריג, זה אומר שיש לנו תצפית חריגה עם מנוף גבוה - היא יכולה להטות את המודל לגמרי. בואו נראה דוגמא.
 :::
 :::
 
@@ -1658,6 +1758,7 @@ Consider removing (careful!).
 
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
+האמת היא שכבר יש לנו דוגמא מוכנה, ברגרסיה של צריכת דלק של מכוניות כפונקציה של כוח סוס. אם תחשבו את אינדקס הH, תראו שהלברג' של התצפית האחרונה מצד ימין עם הכי הרבה כוח סוס, הוא ממש חריג. רואים את זה בדרך כלל בגרף של שאריות מול לברג'. אנחנו רואים תצפית עם לברג' גבוה שיש לה גם ערך Y קטן מאוד, כדאי לחשוד בה, ומעניין לראות איך היה נראה המודל בלעדיה.
 :::
 :::
 
@@ -1670,7 +1771,7 @@ Consider removing (careful!).
 
 df2 = df.drop(x_hp.shape[0] - 2, axis=0)
 model = LinearRegression().fit(df2[['hp']], df2['mpg'])
-y_pred = model.predict(df2[['hp']])
+y_pred2 = model.predict(df[['hp']])
 
 x_hp2 = np.delete(x_hp, -2)
 SSx = np.sum((x_hp2 - np.mean(x_hp2))**2)
@@ -1678,11 +1779,13 @@ h = 1 / x_hp2.shape[0] + (x_hp2 - np.mean(x_hp2))**2 / SSx
 
 fig, axes = plt.subplots(1, 2, figsize=(12, 5))
 sns.scatterplot(data=df2, x='hp', y='mpg', ax=axes[0])
-axes[0].plot(df2['hp'], y_pred, color='red')
+axes[0].plot(df['hp'], y_pred, color='red', label = 'All obs')
+axes[0].plot(df['hp'], y_pred2, color='green', label = 'Excluding outlier')
 axes[0].set_xlabel('Horsepower')
 axes[0].set_ylabel('Miles per Gallon')
+axes[0].legend()
 
-sns.scatterplot(x=h.flatten(), y=y_pred - df2['mpg'], ax=axes[1])
+sns.scatterplot(x=h.flatten(), y=y_pred2[:-1] - df2['mpg'], ax=axes[1])
 axes[1].axhline(y=0, color='r', linestyle='--')
 axes[1].set_xlabel('Leverage')
 axes[1].set_ylabel('Residuals')
@@ -1692,5 +1795,8 @@ plt.show()
 
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
+אם אנחנו מסירים את התצפית המודל אכן משתנה בצורה ניכרת לעין למרות שמדובר בתצפית אחת מתוך יותר מ30, וגרף השאריות מול לברג' נראה הרבה יותר טוב. מטריקה חשובה לקרוא בהקשר זה היא הקוקס דיסטנס.
+
+נסיים כאן את הדיון ברגרסיה ליניארית. נזכיר שאפשר לפתח כל נושא כאן לשיעור שלם, ומי שרוצים להעמיק במודל הכל כך מפורסם הזה, יש להם אינספור ספרים בכל מיני רמות לקרוא עליו.
 :::
 :::

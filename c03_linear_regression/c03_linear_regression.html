@@ -437,7 +437,7 @@
 <section class="slide level2">
 
 <h3 id="from-line-to-rss-surface">From line to RSS surface</h3>
-<div id="84603f75" class="cell" data-execution_count="1">
+<div id="22f0522f" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -501,7 +501,7 @@
 <section class="slide level2">
 
 <h3 id="average-of-many-ols-lines">Average of many OLS lines</h3>
-<div id="5301426a" class="cell" data-execution_count="2">
+<div id="e174d124" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -666,7 +666,7 @@
 <section class="slide level2">
 
 <h3 id="from-line-to-hyperplane">From line to (hyper)plane</h3>
-<div id="34f50eaf" class="cell" data-execution_count="3">
+<div id="1449c59a" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -864,7 +864,7 @@
 <section class="slide level2">
 
 <h3 id="se-vs.-x-spread">SE vs.&nbsp;<span class="math inline">\(x\)</span> spread</h3>
-<div id="e9675f03" class="cell" data-execution_count="4">
+<div id="1a5a03e7" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1007,7 +1007,7 @@
 <section class="slide level2">
 
 <h3 id="example-with-statsmodels">Example with <code>statsmodels</code></h3>
-<div id="cafc7a61" class="cell" data-execution_count="5">
+<div id="08dbf369" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-stdout">
 <pre><code>                            OLS Regression Results                            
 ==============================================================================
@@ -1015,7 +1015,7 @@ Dep. Variable:                 Income   R-squared:                       0.934
 Model:                            OLS   Adj. R-squared:                  0.929
 Method:                 Least Squares   F-statistic:                     191.4
 Date:                Sat, 15 Jun 2024   Prob (F-statistic):           1.13e-16
-Time:                        08:17:40   Log-Likelihood:                -100.15
+Time:                        17:10:33   Log-Likelihood:                -100.15
 No. Observations:                  30   AIC:                             206.3
 Df Residuals:                      27   BIC:                             210.5
 Df Model:                           2                                         
@@ -1126,7 +1126,7 @@ Notes:
 
 <h3 id="model-fit-plotting">Model Fit: plotting</h3>
 <p>When <span class="math inline">\(p\)</span> is low - draw!</p>
-<div id="cb1dd454" class="cell" data-execution_count="6">
+<div id="ff92b8a1" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1154,7 +1154,7 @@ Notes:
 <section class="slide level2">
 
 <h3 id="model-fit-residuals-plots">Model fit: residuals plots</h3>
-<div id="31b8fe2a" class="cell" data-execution_count="7">
+<div id="cdb6982c" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1185,7 +1185,7 @@ Notes:
 <h3 id="model-fit-r-squared">Model Fit: <span class="math inline">\(R\)</span> squared</h3>
 <p>Measure of “explained variance”:</p>
 <p><span class="math inline">\(R^2 = 1 - \frac{\sum_{i = 1}^n (y_i - X\hat{\beta})^2}{\sum_{i = 1}^n (y_i - \bar{y})^2} = 1 - \frac{RSS}{TSS} = 1 - \frac{(y - X\hat{\beta})'(y - X\hat{\beta})}{(y - X\hat{\beta^*_0})'(y - X\hat{\beta^*_0})}\)</span></p>
-<div id="7935cd37" class="cell" data-execution_count="8">
+<div id="a6a2b070" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1330,7 +1330,7 @@ Notes:
 <p>עכשיו אפשר להכניס את X למודל הליניארי בלי בעיה. ומה המשמעות של בטא-אפס ובטא-אחת?</p>
 <p>כש-X הוא 1 Y יהיה בטא אפס ועוד בטא אחת ועוד רעש. כשX הוא 0 Y יהיה רק בטא-אפס. כלומר בטא-אפס הוא החיזוי לברירת המחדל, אנשים בלי קעקוע. בטא-אחת יבטא את ההפרש בין זמן המעצר של אנשים עם ובלי קעקוע. באופן מדויק יותר הוא הפרש התוחלת המותנית של Y בהינתן קעקוע לעומת בלי קעקוע.</p>
 <p>אז אם אני רוצה לבדוק האם יש השפעה למשתנה קעקוע על זמן המעצר איך אני בוחן הזה? באמצעות בדיקת השערות על בטא-אחת, אם הוא לא שונה במובהק מאפס לא צריך פרמטר נוסף בשביל קעקוע.</p>
-<p>אבל זו לא הדרך היחידה לקודד משתנה כזה, למעשה יש הרבה. אחת האפשרויות היא לקודד אותו כ1 לבעלי קעקוע ומינוס 1 לאלה שאין להם קעקוע. במקרה כזה עצרו וחשבו מה המשמעות של בטא-אפס ובטא-אחת. בטא-אפס יהיה החותך כרגיל, זמן המעצר הממוצע על פני כל העצורים, ובטא-אחת יבטא עד כמה נבדלים עצורים קעקוע ובלי קעקוע, מעל ומתחת לממוצע הזה. זה לא בדיוק ממוצע, ברור, כי הקבוצות לא חייבות להיות שוות בגודלן, זה מדגיש כמה הקידוד יכול לשנות את פירוש המקדמים.</p>
+<p>אבל זו לא הדרך היחידה לקודד משתנה כזה, למעשה יש הרבה. אחת האפשרויות היא לקודד אותו כ1 לבעלי קעקוע ומינוס 1 לאלה שאין להם קעקוע. במקרה כזה עצרו וחשבו מה המשמעות של בטא-אפס ובטא-אחת. בטא-אפס יהיה החותך כרגיל, זמן המעצר הממוצע על פני כל העצורים, ובטא-אחת יבטא עד כמה נבדלים עצורים עם קעקוע ובלי קעקוע, מעל ומתחת לממוצע הזה. זה לא בדיוק ממוצע, ברור, כי הקבוצות לא חייבות להיות שוות בגודלן, זה מדגיש כמה הקידוד יכול לשנות את פירוש המקדמים.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1402,13 +1402,13 @@ Notes:
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-<p>מה קורה כשאר יש יותר מ2 קטגוריות?</p>
+<p>מה קורה כאשר יש יותר מ2 קטגוריות?</p>
 <p>לדוגמא משתנה ברגרסיה עם מקצוע של נבדק, ויש לנו 3 רמות: נגר, גנן ומורה.</p>
-<p>אז קודם כל נשאלת השאלה למה שלא נמשיך בקו הקודם ונקודד מורה למשל להיות קוד 0, נגר להיות 1 וגנן להיות 2? זה לא לא-נכון, אם אנחנו מאמינים שיש קודם כל איזשהו סדר כזה, שלהיות מורה זה “פחות” מלהיות נגר, ונגר זה “פחות” מלהיות גנן. כאן זה נשמע שרירותי לחלוטין, ולא רק כזה מסתתרת כאן הנחה שמשתנה כזה יכול להימדד בסולם מנה או סולם רווח, שהאינטרוולים בין מורה לנגר, ובין נגר לגנן הם זהים, קבועים, בעלי איזושהי משמעות. וזה כבר ממש לא סביר, אבל ישנם מקרים שאפשר היה לחשוב על קידוד כזה, כשהמשתנה קטגוריאלי אבל עדיין בעל סדר ברור, לדוגמא: חומרת מחלה, או קבוצת גיל.</p>
+<p>אז קודם כל נשאלת השאלה למה שלא נמשיך בקו הקודם ונקודד מורה למשל להיות קוד 0, נגר להיות 1 וגנן להיות 2? זה לא לא-נכון, אם אנחנו מאמינים שיש קודם כל איזשהו סדר כזה, שלהיות מורה זה “פחות” מלהיות נגר, ונגר זה “פחות” מלהיות גנן. כאן זה נשמע שרירותי לחלוטין, ולא רק זה, מסתתרת כאן הנחה שמשתנה כזה יכול להימדד בסולם מנה או סולם רווח, שהאינטרוולים בין מורה לנגר, ובין נגר לגנן הם זהים, קבועים, בעלי איזושהי משמעות. וזה כבר ממש לא סביר, אבל ישנם מקרים שאפשר היה לחשוב על קידוד כזה, כשהמשתנה קטגוריאלי אבל עדיין בעל סדר ברור, לדוגמא: חומרת מחלה, או קבוצת גיל.</p>
 <p>מכל מקום מה שמקובל לעשות עבור משתנים שאין היררכיה באמת בין הרמות שלהם, נקרא one hot encoding. נגדיר לK הקטגוריות K מינוס 1 משתני אינדיקטור. רמה אחת נשאיר כבייסליין, כאן זה מורה. וכל רמה אחרת תוגדר כמשתנה אינדיקטור שמקבל 1 אם X הוא ברמה הזאת או 0 אחרת.</p>
 <p>למה K פחות 1? למה לא להוסיף אינדיקטור כאן ל”מורה”? כי אז תהיה לנו תלות ליניארית מושלמת בין המשתנים שלנו. המשתנה של מורה יהיה בדיוק 1 פחות סכום המשתנים של גנן ונגר. מה שיהווה בעיה מתמטית לפתרון הריבועים הפחותים ועוד נדבר על זה. אנחנו לא באמת צריכים 3 משתנים לתיאור 3 קטגוריות כי הרי איך נדע שנבדק הוא מורה? אם יש לו אפס גם במשתנה נגר וגם במשתנה גנן.</p>
 <p>כעת אנחנו מכניסים את הK מינוס 1 משתנים למודל, ושוב נחשוב מה משמעות הבטאות הנאמדות?</p>
-<p>עבור מורים נחזה בטא-אפס. עבור נגרים נחזה בטא-אפס ועוד בטא-אחת. עבור גננים נחזה בטא-אפס ועוד בטא-שתיים. כלומר בטא-אפס הוא התוחלת המותנית של מורים, הבייסליין. ובטא-אחת ובטא-שתיים מודדים את ההפרש, התוספת של נגר מממורה וגנן ממורה בהתאמה.</p>
+<p>עבור מורים נחזה בטא-אפס. עבור נגרים נחזה בטא-אפס ועוד בטא-אחת. עבור גננים נחזה בטא-אפס ועוד בטא-שתיים. כלומר בטא-אפס הוא התוחלת המותנית של מורים, הבייסליין. ובטא-אחת ובטא-שתיים מודדים את ההפרש, התוספת של נגר ממורה וגנן ממורה בהתאמה.</p>
 <p>ושוב נשאל, בסיטואציה כזאת: איך נבדוק את ההשערה האם למשתנה מקצוע יש אפקט על המשתנה התלוי Y? כאן נהיה חייבים להשתמש בהשערה בו-זמנית של שני הפרמטרים בטא-אחת ובטא-שתיים, ולבדוק האם הם שווים אפס או שלפחות אחד לא, כלומר כאן נצטרך לערוך 2 רגרסיות ולהשתמש במבחן F להשוואה בין שני מודלים מקוננים.</p>
 <p>ובכל זאת עוד שאלה: מה עם K הוא ממש גדול? הנבדקים שלנו יש להם אלף מקצועות? אפשר לעבוד באותה צורה בדיוק, אבל כאן אני מקווה שאתם חשים בסכנה, שאפשר לכנות פשוט כאוברפיטינג. לעשות OHE על משתנה קטגוריאלי עם כל כך הרבה רמות, סביר להניח שגודל הקבוצה של חלק מהרמות הוא קטן מאוד, והמקדם שנקבל הוא רועש מאוד, הוא אוברפיטד לקבוצה קטנה ולא מייצגת. אכן בעיה, אבל היא לא בסקופ של הקורס שלנו.</p>
 </div>
@@ -1427,7 +1427,7 @@ Notes:
 <section class="slide level2">
 
 <h3 id="interactions">Interactions</h3>
-<div id="713a5881" class="cell" data-execution_count="9">
+<div id="a14831e1" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1459,7 +1459,7 @@ Notes:
 <section class="slide level2">
 
 <h3 id="interactions-residuals-plots">Interactions: residuals plots</h3>
-<div id="f52108ff" class="cell" data-execution_count="10">
+<div id="8938ee61" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1491,7 +1491,7 @@ Notes:
 <section class="slide level2">
 
 <h3 id="interactions-adding-an-interaction-term">Interactions: adding an interaction term</h3>
-<div id="4dd70548" class="cell" data-execution_count="11">
+<div id="ece299ca" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1501,6 +1501,18 @@ Notes:
 </div>
 </div>
 <p><span class="math inline">\(y_i = \beta_0 + \beta_1x_{i1} + \beta_2 x_{i1} + \beta_3 x_{i1} \cdot x_{i2}+ \varepsilon_i\)</span></p>
+<div class="fragment">
+<div class="callout callout-note callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<p>So, consider adding all possible interaction terms?</p>
+</div>
+</div>
+</div>
+</div>
 <div class="fragment">
 <div class="callout callout-note callout-style-simple">
 <div class="callout-body">
@@ -1535,7 +1547,7 @@ Notes:
 <section class="slide level2">
 
 <h3 id="non-linear-relations">Non-linear relations</h3>
-<div id="0898ad9f" class="cell" data-execution_count="12">
+<div id="a0811957" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1549,7 +1561,7 @@ Notes:
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-<p>אינטראקציה היא לא הגורם היחיד שניתן להוסיף על מנת להגשים את המודל הליניארי. כאן אנחנו רואים נתונים של כ30 מכוניות, ואנחנו מנסים למדל את צריכת הדלק שלהן, מיילים לגלון, כנגד כוח הסוס של המנוע שלהן. מייד ברור שיש יחס יורד, אבל האם הוא ליניארי? הוא נראה יותר עקום. ובאמת תרשים שאריות מראה את זה מייד, נוצרת איזושהי פרסה, שמעידה שהנחות המודל לא מתקיימות.</p>
+<p>אינטראקציה היא לא הגורם היחיד שניתן להוסיף על מנת להגמיש את המודל הליניארי. כאן אנחנו רואים נתונים של כ30 מכוניות, ואנחנו מנסים למדל את צריכת הדלק שלהן, מיילים לגלון, כנגד כוח הסוס של המנוע שלהן. מייד ברור שיש יחס יורד, אבל האם הוא ליניארי? הוא נראה יותר עקום. ובאמת תרשים שאריות מראה את זה מייד, נוצרת איזושהי פרסה, שמעידה שהנחות המודל לא מתקיימות.</p>
 <p>יש הרבה גורמים שאפשר לנסות להוסיף ועדיין להישאר במודל הליניארי, סינוס, קוסינוס. אבל בואו נתחיל מהוספת גורמים פולינומיים, כמו X בחזקת 2, 3…</p>
 </div>
 <style type="text/css">
@@ -1567,7 +1579,7 @@ Notes:
 <section class="slide level2">
 
 <h3 id="plynomial-regression-beware-1">Plynomial regression: Beware 1</h3>
-<div id="79b3c688" class="cell" data-execution_count="13">
+<div id="57ad0181" class="cell" data-execution_count="13">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1596,7 +1608,7 @@ Notes:
 
 <h3 id="plynomial-regression-beware-1-1">Plynomial regression: Beware 1</h3>
 <p>Quadratic:</p>
-<div id="2586bd3e" class="cell" data-execution_count="14">
+<div id="eefbc71a" class="cell" data-execution_count="14">
 <div class="cell-output cell-output-display" data-execution_count="14">
 <div>
 <table class="simpletable" data-quarto-postprocess="true">
@@ -1643,7 +1655,7 @@ Notes:
 </div>
 </div>
 <p>Cubic:</p>
-<div id="bf0bb8f2" class="cell" data-execution_count="15">
+<div id="a6659fc5" class="cell" data-execution_count="15">
 <div class="cell-output cell-output-display" data-execution_count="15">
 <div>
 <table class="simpletable" data-quarto-postprocess="true">
@@ -1700,7 +1712,7 @@ Notes:
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-<p>הדרך כמובן להגביל את עצמנו ברגרסיה פולינומיאלית היא להוסיף גורמים בצורה הדרגתית ולעצור אם הם לא מובהקים ונראה שאין בהם צורך, בהסתכלות על מבחנים סטטיסטיים ותרשימי שאריות. כאן ניתן לראות שפולינום ריבועי מתאים היטב לנתונים של המכוניות, שני הגורמים X וX בריבוע מובהקים. כשאנחנו מוסיפים X בשלישית הוא כבר גורם לא חשוב ברגרסיה והוא ממסך גם את ההשפעה של הגורם הריבוע, אז כאן כדאי לעצור ולהישאר עם המודל הריבועי.</p>
+<p>הדרך כמובן להגביל את עצמנו ברגרסיה פולינומיאלית היא להוסיף גורמים בצורה הדרגתית ולעצור אם הם לא מובהקים ונראה שאין בהם צורך, בהסתכלות על מבחנים סטטיסטיים ותרשימי שאריות. כאן ניתן לראות שפולינום ריבועי מתאים היטב לנתונים של המכוניות, שני הגורמים X וX בריבוע מובהקים. כשאנחנו מוסיפים X בשלישית הוא כבר גורם לא חשוב ברגרסיה והוא ממסך גם את ההשפעה של הגורם הריבועי, אז כאן כדאי לעצור ולהישאר עם המודל הריבועי.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1717,7 +1729,7 @@ Notes:
 <section class="slide level2">
 
 <h3 id="plynomial-regression-beware-2">Plynomial regression: Beware 2</h3>
-<div id="54bdd21e" class="cell" data-execution_count="16">
+<div id="202cce55" class="cell" data-execution_count="16">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1748,7 +1760,46 @@ Notes:
 <h2>Other issues with linear regression</h2>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
+<p>כבר הזהרנו שרגרסיה ליניארית הוא אחד המודלים הנחקרים ביותר בספרות, זה אומר שעל כל ניואנס בו נכתבו תלי תלים של מאמרים. לסיכום הנושא נזכיר שתי בעיות שצריך להיות מודעים אליהן ולקרוא עוד קצת על הטיפול בהן: קוליניאריות ותצפיות חריגות.</p>
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
 
+<h3 id="why-not-significant">Why “not significant”?</h3>
+<div id="d7744ea4" class="cell" data-execution_count="17">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-18-output-1.png" width="426" height="398"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="9c3ae4fb" class="cell" data-execution_count="18">
+<div class="cell-output cell-output-stdout">
+<pre><code>==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+const          0.0886      0.108      0.819      0.415      -0.126       0.303
+X1             2.2875      0.568      4.026      0.000       1.160       3.415
+X2             0.8772      1.144      0.767      0.445      -1.393       3.147
+==============================================================================</code></pre>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+<p>כדי להציג את הבעיה הראשונה בואו נסתכל על הנתונים האלה. Y משתנה בבירור כפונקציה של X1 ושל X2. המישור שאנחנו מתאימים ברגרסיה ליניארית אפילו נראה סביר. אבל אם נבצע הסקה סטטיסטית על מקדמי הרגרסיה שקיבלנו, אף אחד לא מובהק סטטיסטית, נראה כאילו היה מתאים פה המישור השוכב של הממוצע של Y. למה זה קורה? אם נביט היטב נראה שבכל זאת יש משהו חריג בנתונים האלה. אם נשרטט את X2 כנגד X1 נראה בעיה: יש ביניהם קורלציה גבוהה מאוד.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1780,7 +1831,11 @@ Notes:
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>קוליניאריות היא מצב שבו פיצ’ר מסוים, או יותר, הם בספאן של פיצ’רים אחרים, כלומר צירוף ליניארי של משתנים אחרים. ראינו פוטנציאל לזה כשדיברנו על ייצוג של משתני אינדיקטור למשתנים קטגוריאליים עם OHE. דוגמאות שכיחות יותר זה כשמישהו החליט למשל לתת את הטמפרטורה בצלזיוס וגם בפרנהייט. בשני המקרים מדובר במשתנה מיותר שכדאי היה פשוט להוריד.</p>
+<p>אבל זאת דוגמא קיצונית, נגיד שקוליניאריות מתרחשת גם כשפיצ’ר אחד הוא בקירוב צירוף ליניארי של פיצ’רים אחרים, כמו למשל שערכתם מחקר על ילדים והחלטתם להכניס למודל גם את הגיל של הילדים וגם את מידת הנעליים שלהם. ובין שני אלה הרי יש מתאם לא מבוטל. או אולי יש לכם פשוט הרבה פיצ’רים, ומה לעשות במקרה יש שם פיצ’רים עם מתאם גדול ביניהם.</p>
+<p>מה יכול להיות בעייתי בזה? שימו-לב, לא הנחנו שהעמודות של X הן בלתי תלויות, אבל אם עמודה אחת היא צירוף ליניארי של האחרות אז הדרגה של X תהיה לא מלאה, והמטריצה X’X הזאת שמופיעה באומדן הריבועים הפחותים תהיה סינגולרית, אין לה הופכית ולכן אין גם פתרון.</p>
+<p>במצב הפחות קיצוני אבל המדאיג יותר, שבו יש קוליניאריות בקירוב, הופכי של X’X יהיה לא יציב נומרית, הוא יכול להיות פתאום נורא גדול. אם ניקח את ערך הטי לפיצ’ר ספציפי, נראה שאם האיבר על אלכסון הX’X נעשה גדול יותר ויותר, זה אומר שטעות התקן או המכנה של הסטטיסטי נעשה גדול יותר ויותר, ובהתאמה ערך הטי קטן יותר, והאיבר הזה לא ייראה כמובהק סטטיסטי. הוא עבר מיסוך בהסקה סטטיסטית.</p>
+<p>אז לא ניכנס לכל פתרון אפשרי לטיפול בקוליניאריות, אבל זו בעיה שצריכים להיות מודעים אליה. לכל הפחות הביטו במטריצת הקורלציה בין המשתנים שלכם, וקראו עוד על מטריקות שאמורות להציף את הבעיה.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1807,7 +1862,11 @@ Notes:
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>הנושא השני שנצביע עליו הוא תצפיות חריגות.</p>
+<p>באופו ספציפי מעניינות אותנו תצפיות עם מנוף או לברג’ גבוה, והכוונה באופן כללי לתצפיות עם ערך X חריג.</p>
+<p>ברגרסיה עם משתנה אחד יש אינדקס H שנהוג לחשב לכל תצפית כדי להגדיר את הלברג’ שלה. אפשר לראות כאן בעצם יחס בין המרחק הריבועי של התצפית מממוצע הX לעומת סך המרחקים הריבועיים של התצפיות X מהממוצע שלהן. ברגרסיה מרובה אגב יש לנו הכללה לזה אבל לא נרשום אותה כאן.</p>
+<p>חשבו מה יכולה להיות הבעיה עם תצפיות עם לברג’ גבוה. קודם כל מתמטית כפי שראינו ברגרסיה ליניארית פשוטה, יש להן אפקט גדול נורא על טעות התקן של האומד. אם המכנה הזה של הסטטיסטי טי מתנפח בגלל תצפית אחת, האומד לא יכול להימצא מובהק סטטיסטית כי השונות שלו נורא גבוהה. נקודה שכזאת יכולה להשפיע כל כך על קו הרגרסיה, לכן היא נקראת מנוף, לברג’.</p>
+<p>אם ערך הY של נקודה כזאת גם כן חריג, זה אומר שיש לנו תצפית חריגה עם מנוף גבוה - היא יכולה להטות את המודל לגמרי. בואו נראה דוגמא.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1824,11 +1883,11 @@ Notes:
 <section class="slide level2">
 
 <h3 id="high-leverage-and-outlier-observations-1">High-leverage and Outlier observations</h3>
-<div id="1fd56801" class="cell" data-execution_count="17">
+<div id="3adb131c" class="cell" data-execution_count="19">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-18-output-1.png" width="957" height="432"></p>
+<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-20-output-1.png" width="957" height="432"></p>
 </figure>
 </div>
 </div>
@@ -1838,7 +1897,7 @@ Notes:
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>האמת היא שכבר יש לנו דוגמא מוכנה, ברגרסיה של צריכת דלק של מכוניות כפונקציה של כוח סוס. אם תחשבו את אינדקס הH, תראו שהלברג’ של התצפית האחרונה מצד ימין עם הכי הרבה כוח סוס, הוא ממש חריג. רואים את זה בדרך כלל בגרף של שאריות מול לברג’. אנחנו רואים תצפית עם לברג’ גבוה שיש לה גם ערך Y קטן מאוד, כדאי לחשוד בה, ומעניין לראות איך היה נראה המודל בלעדיה.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1855,18 +1914,19 @@ Notes:
 <section class="slide level2">
 
 <h4 id="excluding-high-leverage-outlier">Excluding high-leverage + outlier</h4>
-<div id="e7dcb57f" class="cell" data-execution_count="18">
+<div id="9ab05876" class="cell" data-execution_count="20">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-19-output-1.png" width="957" height="433"></p>
+<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-21-output-1.png" width="957" height="430"></p>
 </figure>
 </div>
 </div>
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>אם אנחנו מסירים את התצפית המודל אכן משתנה בצורה ניכרת לעין למרות שמדובר בתצפית אחת מתוך יותר מ30, וגרף השאריות מול לברג’ נראה הרבה יותר טוב. מטריקה חשובה לקרוא בהקשר זה היא הקוקס דיסטנס.</p>
+<p>נסיים כאן את הדיון ברגרסיה ליניארית. נזכיר שאפשר לפתח כל נושא כאן לשיעור שלם, ומי שרוצים להעמיק במודל הכל כך מפורסם הזה, יש להם אינספור ספרים בכל מיני רמות לקרוא עליו.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
