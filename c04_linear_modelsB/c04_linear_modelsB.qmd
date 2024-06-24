@@ -723,3 +723,655 @@ plt.show()
 נסיים כאן את הדיון ברגרסיה ליניארית. נזכיר שאפשר לפתח כל נושא כאן לשיעור שלם, ומי שרוצים להעמיק במודל הכל כך מפורסם הזה, יש להם אינספור ספרים בכל מיני רמות לקרוא עליו.
 :::
 :::
+
+---
+
+## Logistic Regression {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+התחלנו ברגרסיה, כשY הוא ממשי, ונעבור עכשיו לקלאסיפיקציה, כשY קטגוריאלי.
+:::
+:::
+
+---
+
+### What about classification?
+
+- Let's start with the simplest (and most important) case of two-class classification: 
+    - Sick vs. healthy
+    - Buy vs. won't buy
+    - Dog vs. cat
+
+- As before, we have $T = (X,y)$ a sample of size $n$
+
+- For now, keep assuming $x \in \mathbb{R}^p$ is numeric
+
+::: {.fragment}
+- Can we use the OLS mechanism we have built to build a classification model? 
+:::
+
+::: {.fragment}
+- For sure we can, if we encode $y=\text{sick} \Rightarrow y=1,\;\;y=\text{healthy} \Rightarrow y=0$, we have numeric $y$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+נתמקד בבעיה הפשוטה שY הוא אחת משתי קטגוריות אפשריות, כלומר הוא בינארי, ובתרגול תדברו קצת יותר על Y שיש לו יותר משתי קטגוריות.
+
+דוגמאות לY בינארי יכולות להיות למדל האם האדם נשא של נגיף או לא, האם צרכנית תקנה או לא תקנה מוצר כלשהו, האם התמונה שלפנינו היא של כלב או של חתול.
+
+אנחנו עדיין ממדלים באמצעות הטריין סט, מדגם הלמידה בגודל n שמורכב מזוגות תצפיות של X ושל Y. ונניח גם שהאיקסים שלנו ממשיים.
+
+ואז נשאלת השאלה: האם ניתן להשתמש בכל התוצאות שלנו מרגרסיה ליניארית עבור Y שהוא קטגוריאלי עם שתי קטגוריות?
+
+התשובה היא שברור שכן, פשוט צריך להפוך אותו לנומרי, נגדיר שחולה זה 1, ובריא זה 0, והנה יש לנו Y ממשי וכל הפונקציות הרלוונטיות יעבדו. לא נקבל שגיאה.
+:::
+:::
+
+---
+
+### What is wrong with using OLS for classification? 
+
+- If we encode $y$ as above what is $E(y|x)$? It is $P(y=\text{sick}|\;\text{data})$ --- a clearly interesting quantity
+
+::: {.fragment}
+- Problem: as a probability, $0\leq P(y=\text{sick}|\;\text{data}) \leq 1.$ But model predictions $x^T\hat{\beta}$ can fall outside the legal range!
+
+- Another problem: can we make the model assumptions of normal $\epsilon$? No --- because $y$ can only be $0$ or $1$
+:::
+
+::: {.fragment}
+- The idea: try to create an approach that is similar to OLS, but more fitting for classification, taking into account the limited range of values and the need for a sensible statistical model
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+אז איפה פה בכל זאת השגיאה, למה זה לא פתרון טבעי לבעיה?
+
+נזכור שמה אנחנו ממדלים בעצם ברגרסיה ליניארית? את התוחלת המותנית של Y בהינתן X, את מה שלמדנו על Y בממוצע בעקבות המידע על המשתנים האחרים. ומה זו התוחלת של משתנה שיש לו שתי תוצאות, אפס או 1? כמו משתנה ברנולי, זו ההסתברות שהוא יקבל 1 או ההסתברות שהאדם חולה. בדוגמא שלנו בהינתן שראינו את נאמר את נתוני הבדיקה עליו, כמו לחץ דם, נתונים ביופסיה, נתונים גנטיים וכולי.
+
+זה מצוין. אבל הסתברות היא כמות בין אפס לאחת! ואין שום אילוץ ברגרסיה ליניארית לקבל תחזיות בין אפס לאחת. נוכל לקבל חיזויים קטנים מאפס, גדולים מאחת, ונוכל לקבל אפילו סט של תחזיות שכולן מתחת לאפס או כולן מעל 1. ואז מה נעשה?
+
+ניתקל בעוד בעיה כשנרצה לבצע הסקה סטטיסטית: האם סביר להניח שY הוא צירוף ליניארי של משתנים ועוד רעש נורמלי, אפסילון, בלתי תלוי? לא, כי וואי מקבל ערכים אפס או אחת.
+
+אז אנחנו צריכים גישה אחרת. גישה שכן תתחשב בערכים האפשריים שY יכול לקבל ושתתאים מודל סטטיסטי הולם לבעיה.
+
+:::
+:::
+
+---
+
+### Logistic regression
+
+- Deals with the two problems above
+
+- We start from assuming a model: 
+$$\log\frac{P(y=1|x)}{P(y=0|x)} = \log\frac{P(y=1|x)}{1 - P(y=1|x)} = \text{logit}(P(y=1|x)) = x^T\beta$$
+
+- Notice that now all values are legal: 
+$$ 0\leq P(y=1|x) \leq 1 \;\; \Leftrightarrow\;\; -\infty \leq \log\frac{P(y=1|x)}{P(y=0|x)} \leq \infty.$$
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+גישה כזאת היא רגרסיה לוגיסטית.
+
+אנחנו לא ממדלים את Y עצמו כמודל ליניארי. אלא את הכמות הבאה: לוג, של ההסתברות שY שווה 1, חלקי ההסתברות שY שווה אפס. הכמות הזאת היא תהיה צירוף ליניארי של המשתנים באיקס. ניתן גם לרשום את זה כלוג של ההסתברות p חלקי 1 פחות p, כך שאנחנו רואים שבמקום למדל את התוחלת של Y בהינתן X אנחנו ממדלים איזושהי פונקציה G שלה. הפונקציה הזאת די מפורסמת וקוראים לה גם לוג'יט.
+
+מכל מקום כעת הכמות שאנחנו ממדלים היא בין מינוס אינסוף לאינסוף ולכן כל חיזוי שלנו יהיה כמות לגיטימית.
+
+:::
+:::
+
+---
+
+### The Sigmoid function
+
+::: {.fragment}
+Another way of writing this:
+
+$$P(y=1|x) = \text{sigmoid}(x^T\beta) = \frac{\exp(x^T\beta)}{1+\exp(x^T\beta)} \quad\quad P(y=0|x) = 1- P(y=1|x) = \frac{1}{1+\exp(x^T\beta)}$$
+:::
+
+::: {.fragment}
+```{python}
+#| echo: false
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(-10, 10, 101)
+plt.plot(x, 1/(1 + np.exp(-x)))
+plt.xlabel('z')
+plt.ylabel('sigmoid(z)')
+plt.show()
+```
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+אם יש לנו את המקדמים ואנחנו רוצים לקבל בחזרה את ההסתברות החזויה, את הכמות בין אפס לאחת, אפשר לראות שהפונקציה ההופכית נראית כך: e בחזקת הצירוף הליניארי, חלקי 1 ועוד e בחזקת הצירוף הליניארי. או ההסתברות המשלימה עם נוסחה קצת יותר נעימה שמופיעה כאן.
+
+הפונקציה הזאת נקראת פונקצית הזיגמויד, וחשוב להכיר אותה כי היא מקיימת תכונות שטובות לנו, ואחר-כך אנחנו רואים אותה כשאנחנו לומדים על רשתות נירונים. עבור ערכים שליליים מאוד היא שואפת לאפס, עבור ערכים חיוביים מאוד היא שואפת לאחת. ובאמצע - היא מונוטונית עולה. מה שמתאים לנו, כי יחס ליניארי הוא בהכרח גם מונוטוני. אם אנחנו ממדלים למשל את הסיכוי שלקוח יחזיר הלוואה, ואחד המשתנים המסבירים הוא הכנסה. ונאמר שהתקבל המקדם "פלוס 10". זה אומר שנצפה שככל שההכנסה של לקוח עולה, כך עולה הסיכוי שיחזיר הלוואה. ופונקצית הזיגמויד היא לא האפשרות היחידה שלנו להשיג את האפקט הזה אבל היא בהחלט שימושית.
+:::
+:::
+
+---
+
+### Fitting a logistic regression
+
+- Given training data $T$, we want to find the best coefficients $\hat{\beta}$
+
+- This is done by maximum likelihood, finding $\beta$ to maximize:
+$$L(\beta|X, y) = \prod_{i = 1}^n{P(y_i|x_i;\beta)} = \prod_{i = 1}^n{P(y_i = 1|x_i;\beta)^{y_i}P(y_i = 0|x_i;\beta)^{1-y_i}}$$
+
+::: {.fragment}
+$$\max_\beta \prod_{i=1}^n  \left(\frac{\exp(x_i^T\beta)}{1+\exp(x_i^T\beta)}\right)^{y_i} \left(\frac{1}{1+\exp(x_i^T\beta)}\right)^{1-y_i}$$
+:::
+::: {.fragment}
+- The solution is $\hat{\beta}$, the logistic regression coefficients estimates
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+אז איך אנחנו מוצאים את המקדמים במקרה של רגרסיה לוגיסטית?
+
+כאן אנחנו חייבים לעבור דרך פונקצית הנראות, הlikelihood ולבצע אמידת נראות מקסימלית. פונקצית הנראות שלנו היא פונקציה של בטא בהינתן הדאטא בטריינינג ומסומנת בדרך כלל בL. במקרה הבדיד כמו לפנינו שY הוא בעצם משתנה ברנולי, מדובר במכפלת ההסתברויות במדגם תחת המודל.
+
+מאחר שY מקבל ערכים אפס או אחת, ניתן לרשום את הביטוי בצורה כזאת. נציב את הביטויים של מודל הרגרסיה הלוגיסטית עבור ההסתברות שוואי שווה אחת ועבור ההסתברות שוואי שווה אפס. ונגיע לביטוי לא סימפטי אבל מפורש, שצריך למקסם כדי לקבל את בטא-האט.
+
+שימו לב: זה לא סתם שאנחנו לא רושמים כאן ביטוי מפורש לבטא-האט, הסיבה שאין כזה. פונקצית הנראות אמנם מפורשת וקמורה אבל אין לה פתרון סגור, לכן משתמשים בשיטות אופטימיזציה כמו ניוטון רפסון למי שמכיר, כדי למצוא את המקדמים בצורה איטרטיבית.
+:::
+:::
+
+---
+
+### Logistic Regression Likelihood
+
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+from scipy.special import expit  # Sigmoid function
+
+# Generate synthetic data
+np.random.seed(0)
+n_samples = 1000
+X = np.random.randn(n_samples)
+true_beta0 = 0.5
+true_beta1 = 2.0
+y = np.random.binomial(1, expit(true_beta0 + true_beta1 * X))
+
+# Define the likelihood function
+def likelihood(beta0, beta1, X, y):
+    linear_combination = beta0 + beta1 * X
+    likelihood_vals = y * np.log(expit(linear_combination)) + (1 - y) * np.log(1 - expit(linear_combination))
+    return np.sum(likelihood_vals)
+
+# Create a grid of beta0 and beta1 values
+beta0_vals = np.linspace(-1, 2, 100)
+beta1_vals = np.linspace(0, 4, 100)
+beta0_grid, beta1_grid = np.meshgrid(beta0_vals, beta1_vals)
+likelihood_grid = np.array([[likelihood(b0, b1, X, y) for b0, b1 in zip(beta0_row, beta1_row)]
+                            for beta0_row, beta1_row in zip(beta0_grid, beta1_grid)])
+
+# Plotting
+fig = plt.figure(figsize=(12, 5))
+
+# 3D Surface Plot
+ax1 = fig.add_subplot(121, projection='3d')
+ax1.plot_surface(beta0_grid, beta1_grid, likelihood_grid, cmap='viridis', alpha=0.8, zorder=-1)
+ax1.set_xlabel(r'$\beta_0$')
+ax1.set_ylabel(r'$\beta_1$')
+ax1.set_zlabel('Log-Likelihood')
+ax1.set_title('3D Likelihood Function')
+# ax1.scatter(true_beta0, true_beta1, likelihood(true_beta0, true_beta1, X, y), color='r', s=100, zorder=10)  # True parameters
+
+# Contour Plot
+ax2 = fig.add_subplot(122)
+contour = ax2.contour(beta0_grid, beta1_grid, likelihood_grid, levels=50, cmap='viridis')
+ax2.set_xlabel(r'$\beta_0$')
+ax2.set_ylabel(r'$\beta_1$')
+ax2.set_title('Contour Plot of Likelihood Function')
+ax2.scatter(true_beta0, true_beta1, color='r', s=100)  # True parameters
+ax2.axhline(true_beta1, color='r', linestyle='--')
+ax2.axvline(true_beta0, color='r', linestyle='--')
+plt.colorbar(contour, ax=ax2)
+
+plt.tight_layout()
+plt.show()
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+כאן אנחנו רואים הדגמה של הפונקציה הזאת עם נתונים עבור חותך בטא-אפס ושיפוע של משתנה נוסף, בטא-אחת. ממש ניתן לראות כיצד הפונקציה קעורה או קמורה כלפי מעלה, מה שאומר שמובטח לנו שבכמה צעדי גרדיאנט נגיע לנקודת המינימום של הבטאות ושהיא מינימום גלובלי.
+:::
+:::
+
+---
+
+### Prediction and interpretation of coefficients
+
+::: {.incremental}
+- Predicting on $x \in Te$:
+$$\widehat{P(y=1|x)} = \frac{\exp(x^T\hat{\beta})}{1+\exp(x^T\hat{\beta})}\;\; \Rightarrow\;\; \hat{y} = \begin{cases} 1 & \mbox{if } \widehat{P(y=1|x)}> 0.5 \\
+0 & \mbox{otherwise}\end{cases}$$
+
+- We can write our model as: 
+$$\log\frac{P(y=1|x)}{P(y=0|x)} = x^T\beta$$
+
+- The expression on the left is called the *log odds*: log of the ratio of positive vs negative probability
+
+- Interpretation: ${\beta}_j$ is the change in the log odds from a change of 1 unit in $x_j$. 
+
+- For example, if ${\beta}_j=1$ then when $x_j=1$ vs $x_j=0$ the log odds increase by $1$, so the odds increase times $e=2.72$, which is roughly the increase in ${P(y=1|x)}$ when it is close to $0$. 
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+כשנקבל את בטא-האט, ותגיע תצפית חדשה ממדגם הטסט, נוכל לחזות את ההסתברות שהיא אחת באמצעות הצבה בנוסחה של הפונקציה ההופכית. ואם אנחנו רוצים חיזוי סופי, האם Y הוא 1 או 0, אפשר להשוות את ההסתברות הנחזית לאיזשהו קאטאוף, לדוגמא חצי. אם היא גדולה מחצי נחזה 1, ואם לא נחזה 0.
+
+ועוד מילה על המודל שלנו. יחס הסיכויים שאנחנו ממדלים הוא בעצם הodds. בשפה יומיומיות, אם מאורע יכול לקרות בסיכוי שליש, או לא לקרות בסיכוי שני שליש, אנחנו אומרים "הוא יקרה ביחס של 1 ל-2". כלומר מה שאנחנו ממדלים כצירוף ליניארי הוא הלוג-אודז, לוג יחס הסיכויים.
+
+הפרשנות של מקדמי הבטא ברגרסיה לוגיסטית הרבה פחות פשוטה לעומת רגרסיה ליניארית, ועלולה לבלבל, אז נשים לב:
+
+אז מה המשמעות של מקדם בטא-ג'יי? עלייה של יחידה אחת בXj, פירושה עלייה של בטא-ג'יי בלוג אודז.
+
+ואם זה לא אומר הרבה, קחו את האקספוננט של בטא-ג'יי ותראו מה הוא עושה לאודז עצמו. עלייה של בטא-ג'יי בגודל 1 היא עלייה פי e של האודז עצמו.
+:::
+:::
+
+---
+
+## Example: SAHeart {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+נראה כעת דוגמא של רגרסיה לוגיסטית על דאטא קטן שמתאים לבעיה.
+:::
+:::
+
+---
+
+### Example: South African Hearth Disease Data
+
+```{python}
+#| echo: false
+
+saheart = pd.read_table("../datasets/SAheart.data", header = 0, sep=',', index_col=0)
+
+print(saheart.head())
+
+saheart_X=pd.get_dummies(saheart.iloc[:, :9]).iloc[:, :9]
+saheart_y=saheart.iloc[:, 9]
+
+from sklearn.model_selection import train_test_split
+
+Xtr, Xte, Ytr, Yte = train_test_split(saheart_X, saheart_y, test_size=0.2, random_state=42)
+
+print('')
+print('')
+print(f'No. of train rows: {Xtr.shape[0]}, no. train of cols: {Xtr.shape[1]}')
+print(f'No. of test rows: {Xte.shape[0]}, no. test of cols: {Xte.shape[1]}')
+print(f'no. of obs in train y: {Ytr.shape[0]}')
+print(f'no. of obs in test y: {Yte.shape[0]}')
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+בנתונים שלפנינו יש 462 גברים מדרום אפריקה. יש לנו מידע רפואי עליהם כמו לחץ דם, מידת העישון, צריכת אלכוהול וגיל, והמשתנה שיעניין אותנו הוא הchd, coronary heart disease, האם הם לקו במחלת לב או לא.
+:::
+:::
+
+---
+
+### SAHeart: LR with `statsomdels`
+
+```{python}
+#| echo: false
+
+import statsmodels.api as sm
+
+model = sm.Logit(Ytr, sm.add_constant(Xtr))
+model = model.fit()
+
+print(model.summary())
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+ברגע שיודעים לבצע רגרסיה ליניארית בstatsmodels או בsklearn, רגרסיה לוגיסטית זה קל. נקבל פלט סטטיסטי עשיר ומסודר של המקדמים ומבחנים סטטיסטיים עליהם.
+
+נשים לב שהמבחנים כאן הם מבחני Z אבל לא ניכנס בקורס הזה לסיבה לכך. מכל מקום לכל מקדם יש טעות תקן שונה, אז כדי להשוות ביניהם נסתכל על הציוני תקן, על ערכי הZ. משתנים עם ערכים גבוהים הם age למשל, הגיל. לכל שנת חיים נוספת, המודל מוסיף איזושהי כמות ללוג-אודז שהפציינט יחלה במחלת לב. מקדם שלילי גדול הוא הfamhist_Absent, שמשמעותו האם אין לך היסטוריה משפחתית של מחלת לב. אם אין, יורדת לך כמות של 0.8 מהלוג-אודז.
+:::
+:::
+
+
+---
+
+### SAHeart: LR Test Performance
+
+```{python}
+#| echo: false
+
+from sklearn.linear_model import LogisticRegression
+
+model = LogisticRegression(solver='lbfgs', max_iter=10000)
+model.fit(Xtr, Ytr)
+
+from sklearn.metrics import confusion_matrix
+
+p_hat_te = model.predict_proba(Xte)[:, 1]
+y_hat_te = p_hat_te > 0.5
+conf = confusion_matrix(Yte, y_hat_te)
+
+pd.DataFrame(
+  confusion_matrix(Yte, y_hat_te),
+  index=['true:no', 'true:yes'], 
+  columns=['pred:no', 'pred:yes']
+)
+```
+::: {.fragment}
+```{python}
+#| echo: false
+
+acc = np.mean(Yte == y_hat_te)
+err = np.mean(Yte != y_hat_te)
+print(f'Accuracy: {acc: .2f}, Misclassification loss: {err: .2f}')
+```
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+אבל איך אנחנו מכמתים את הביצועים של המודל על מדגם טסט שלא ראינו, על זה לא דיברנו. אפשר לדווח את הנראות שאותה מיקסמנו, אבל זה לא יגיד הרבה.
+
+מקובל יותר למשל לחזות את ההסתברויות p_hat על מדגם הטסט, באמצעות הנוסחה שראינו.
+
+ואז להשוות את ההסתברויות החזויות לאיזשהו קאטאוף דיפולטיבי של חצי. ואם אתם מודאגים מזה אתם צודקים, ותיכף נדבר על זה. זה יביא אותנו לחיזוי סופי של Y, האם הוא 0 או 1.
+
+את החיזוי הזה אפשר להכניס לתוך קונפיוז'ן מטריקס או "מטריצת בלבול", מטריצה 2 על 2 שתראה לנו, מתוך הפציינטים שהם לא חולים, כמה המודל חזה שהם כן חולים, וכמה לא. ומתוך הפציינטים שהם כן חולים, כמה המודל חזה שהם חולים וכמה לא.
+
+אפשר גם לחשב מדדים אינטואיטיביים של אחוז דיוק, accuracy, ואחוז שגיאה, error. מדובר באופן כללי באחוז התצפיות מהטסט סט שהמודל צדק לגביהן, והאחוז שהוא טעה. כאן על נתונים שהמודל לא ראה הוא צודק ב76 אחוז וטועה ב24 אחוז.
+
+בחלק האחרון של השיעור נרחיב על אווליואציה של מודלים לקלסיפיקציה, מסתבר שהמדדים שהסתכלנו עליהם כרגע יכולים להיות בעייתיים.
+
+לדוגמא (להדגים), נניח ש99 אחוז מהפציינטים היו בריאים ורק אחוז אחד היו חולים. מה אם אתן לכם מודל שחוזה שכל הפציינטים הם בריאים? זה מודל נהדר, הוא יקבל אקיורסי של 99 אחוז! חייב להיות אם כן מדד טוב יותר שיעיד על כך שזה לא מודל נהדר ואפילו די גרוע.
+:::
+:::
+
+---
+
+## Classification Model Evaluation {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+אז אני טוען שאחוז הaccuracy לא תמיד משקף נכון את הביצועים של המודל, וראינו שהתופעה חמורה במיוחד כשהנתונים הם מה שקרוי imbalanced, אין באוכלוסיה מספר שווה של דוגמאות חיוביות ושליליות. ואנחנו זקוקים למדדים טובים יותר.
+:::
+:::
+
+---
+
+### Measuring Classification Performance
+
+- Different errors have different costs/value. 
+
+- Summarize performance in different ways that capture different types of errors:
+
+::: {.fragment}
+|        |   Pred   |          |     |
+|--------|----------|----------|-----|
+|**Real**| Pos      | Neg      |Total|
+|Pos     | $TP$     | $FN$     | $P$ |
+|Neg     | $FP$     | $TN$     | $N$ |
+|Total   | $\hat{P}$| $\hat{N}$|     |
+:::
+
+::: {.fragment}
+$P = \sum_{i=n+1}^{n+m} y_i$ number of positive examples, similarly $N$.
+
+$\hat{P} = \sum_{i=n+1}^{n+m} \hat{y}_i$ number of positive predictions, similarly $\hat{N}$.
+
+$TP = \sum_{i=n+1}^{n+m} y_i \hat{y}_i$ number of true positives, $FP = \hat{P}-TP$
+
+$TN = \sum_{i=n+1}^{n+m} (1-y_i) (1-\hat{y}_i)$ number of true negatives, $FN = \hat{N}-TN$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+רמזנו בתחילת היחידה, שלטעויות שונות יכול להיות משקל שונה. לפספס חולה ולהגיד לו שהוא בריא, יכולה להיות לזה משמעות אחרת לגמרי מלהגיד לאדם בריא שהוא חולה.
+
+נסמן את הכמויות בטבלת הקונפיוז'ן מטריקס בצורה כזו:
+
+מספר הדוגמאות החיוביות, או חולים, באופן שולי נסמן כP. מספר הדוגמאות השליליות נסמן כN. באופן דומה, מספר החיזויים החיוביים נסמן כP_hat, ומספר החיזויים השליליים נסמן כN_hat.
+
+אם המציאות היא חולה והמודל חזה חולה, זה true positive או TP. אם המציאות היא חולה והמודל חזה לא-חולה, כלומר בריא, זה false negative או FN.
+
+באופן דומה מגדירים false positive וtrue negative.
+
+ומי שצריך להגדיר את זה עם נוסחאות יותר פורמליות, אפשר להגדיר את כל הכמויות האלה עם y וy_hat בצורה כזאת.
+
+:::
+:::
+
+---
+
+|        |   Pred   |          |     |
+|--------|----------|----------|-----|
+|**Real**| Pos      | Neg      |Total|
+|Pos     | $TP$     | $FN$     | $P$ |
+|Neg     | $FP$     | $TN$     | $N$ |
+|Total   | $\hat{P}$| $\hat{N}$| $m$ |
+
+<hr>
+
+::: {.fragment}
+Accuracy: $P(Correct) = \;(TN+TP)/m$
+
+Prediction error: $P(Error) = \;(FN+FP)/m$
+
+Precision+ (positive predictive value): $P(True + | Pred +) = \;TP/\hat{P}$
+
+Recall+ (sensitivity, true positive rate):  $P(Pred + | True +) = \;TP/P$
+
+False positive rate: $P(Pred + | True -) = \;FP/N$
+
+Harmonic mean of precision and recall: $\;F_1 = 2 \times \frac{Precision \times Recall}{Precision + Recall}$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+הטבלה הזאת מאפשרת לנו להסתכל על מדדים הרבה יותר ספציפיים למה שמעניין אותנו בבעיה הנתונה. נפרט אותם כעת:
+
+האקיורסי כעת היא סכום התאים על האלכסון של הקונפיוז'ן מטריקס, הTP והTN, חלקי m גודל מדגם הטסט.
+
+טעות הניבוי היא בדיוק סכום התאים האחרים לא על האלכסון חלקי m.
+
+הפרסיז'ן הוא הסיכוי להיות חולה בהינתן שחזיתי חולה. נקרא גם positive predictive value או PPV. באופן דומה אפשר להגדיר את הפרסיז'ן לקלאס האחר, הסיכוי להיות לא-חולה אם חזיתי לא-חולה, או הnegative predictive value. בכל מקרה נרצה שהפרסיז'ן יהיה כמה שיותר גדול.
+
+מדד אחר הוא הריקול, או sensitivity או true positive rate, TPR. זה הסיכוי שבהינתן חולה המודל אכן חוזה חולה, או שיעור החולים שהמודל אכן מחלץ. גם כאן ניתן לחשוב על הריקול של הקלאס האחר, אחוז הבריאים שהמודל מחלץ נכון. וגם כאן ברור שנרצה שהמדד הזה יהיה גדול ככל שניתן.
+
+מדד שנרצה שיהיה קטן ככל האפשר הוא הfalse positive rate, הFPR, בהינתן לא-חולה הסיכוי לחזות חולה.
+
+ומאחר שהמדדים פרסיז'ן וריקול מודדים דברים שונים והיינו רוצים ששניהם יהיו גבוהים מסתכלים לפעמים על הממוצע ההרמוני שלהם, 2 כפול המכפלה שלהם חלקי הסכום שלהם.
+
+למה צריך את כל זה? בדיוק בגלל מה שאמרנו, יכול להיות לקוח של המודל שלנו, שפשוט לא מסוגל לפספס אף חולה, לקוח כזה ירצה ריקול כמה שיותר גבוה. ויכולה להיות לקוחה שאין לה בעיה לפספס חולים, אבל כשהמודל מסמן לה חולים הוא חייב להיות צודק, היא לא יכולה להעניק טיפול קשה כזה לבריאים -- בשביל לקוחה כזאת נרצה אולי למקסם את הפרסיז'ן. וברור שיהיה כאן טריידאוף בין השניים במודל לא מושלם.
+:::
+:::
+
+---
+
+```{python}
+#| echo: false
+
+pd.DataFrame(
+  confusion_matrix(Yte, y_hat_te),
+  index=['true:no', 'true:yes'], 
+  columns=['pred:no', 'pred:yes']
+)
+```
+
+::: {.fragment}
+```{python}
+#| echo: false
+
+from sklearn.metrics import classification_report
+
+print(classification_report(Yte, y_hat_te))
+```
+:::
+
+::: {.fragment}
+All is still based on that cutoff, 0.5!
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+בנתונים שלנו כך נראית הקונפיוז'ן מטריקס:
+
+כדי לקבל את כל המדדים שדיברנו עליהם אפשר לבקש classification_report מsklearn. נדגים לראות שהבנו.
+
+למשל, הפרסיז'ן של החולים: אם חזיתי חולה או 1, מה הסיכוי שהפציינט באמת חולה: מתוך 26 חזויים כחולים, 19 אכן חולים, דיוק של 73 אחוז.
+
+או, הריקול של החולים, אם אתה חולה מה הסיכוי שהמודל יחזה נכון. מתוך 34 חולים המודל צדק רק לגבי 19, שזה 56 אחוז, לא גבוה מאוד.
+
+נשים לב אגב שהכל מבוסס על ערך הסף הזה שהשווינו אליו את ההסתברויות החזויות כדי לקבל את y_hat_te, הקאטאוף של חצי -- יכול להיות שעם קאטאוף אחר היינו מקבלים מדדים טובים יותר?
+:::
+:::
+
+---
+
+### Classification evaluation: different goals
+
+We can think of several different prediction goals, all potentially important: 
+
+1. Classify correctly --- make few (weighted) errors on test set or new prediction points
+2. Predict probabilities well: $\widehat{P(y=1|x)} \approx P(y=1|x)$ for new points
+3. Rank well: given multiple prediction points, predict which one is *more likely* to have $y = 1$.
+
+::: {.fragment}
+These different tasks can reflect in the loss function / model evaluation task:
+
+1. Correct classification: misclassification loss as above, also precision, recall etc.
+2. Good probability prediction: using Bernoulli loss / cross entropy: 
+$$L(y,\hat{p}) = \hat{p}^y (1-\hat{p})^{(1-y)}$$
+3. How do we measure ranking perofrmance of a model on a test set?
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+באופן כללי יכולות להיות לדאטא סיינטיסט מטרות שונות במודל קלסיפיקציה:
+
+האם אני רוצה פשוט לחזות נכון.
+
+האם מעניינות אותי דווקא ההסתברויות הנחזות ולדאוג שהן יהיו מכוילות כמו שיותר עם ההסתברויות המקוריות.
+
+ואולי, כל מה שמעניין אותי זה הדירוג של תצפיות, מבחינת הסיכוי שהן 1 או שהפציינט חולה. לא חשוב לי אפילו אם הכמויות שאני חוזה הן הסתברויות, אלא אני מתייחס אליהן כאיזשהו סקור כללי שאני רוצה שידרג נכון את התצפיות שלי.
+
+המטרה שלי משפיעה על המדד שלי לטיב המודל:
+
+אם המטרה שלי היא פשוט לחזות נכון אני מסתכל על מדדים כמו אלה שראינו: אחוז דיוק, פרסיז'ן, ריקול.
+
+אם המטרה שלי היא הסתברויות מכוילות כמה שיותר, אני באמת אדווח אולי על הלוס שהשתמשנו בו, הנראות.
+
+אבל אם, כמו שקורה פעמים רבות, המדד שמעניין אותי זה הראנקינג, רק הדירוג של התצפיות, איך כדאי להסתכל על הביצועים של המודל?
+:::
+:::
+
+---
+
+### The ROC Curve
+
+The idea: to evaluate ranking performance, do not set the threshold $0.5$ but check what happens at all possible thresholds: 
+
+1. True positive rate: what % of the positive observations pass the threshold?
+2. False positive rate: what % of the negative observations pass the threshold?
+
+::: {.fragment}
+- The ROC curve plots TPR vs FPR for all possible threholds: if the model ranks well, for high thresholds we will have $FPR\approx 0$, while for low thresholds we will have $TPR \approx 1$
+:::
+
+::: {.fragment}
+- Note that even if $\widehat{P(y=1|x)}$ predicts probabilities badly, or even if the predictions are not in the range $[0,1]$, the ranking can still be good
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+אם מה שמעניין אותנו הוא ראנקינג, נהוג להסתכל בעקומה שנקראת receiver operating characteristic או ROC בקיצור.
+
+הרעיון הוא לא להסתפק בקאטאוף דיפולטיבי של חצי כפי שעשינו, כי יכול להיות שהסקור שהוצאנו איננו בדיוק הסתברות. נשנה את הקאטאוף בצעדים קבועים, ובכל צעד נמדוד את ה: טרו פוזיטיב רייט, זה בעצם הריקול, ואת הפולס פוזיטיב רייט, אחוז הדוגמאות השליליות שעוברות את הקאטאוף הנוכחי ונחזות כחיוביות.
+
+עקומת הROC תצייר את הTPR לעומת הFPR לכל קאטאוף אפשרי. מודל מושלם ימצא קאטאוף שעבורו הFPR קרוב ל0 והTPR קרוב ל1.
+
+ושוב נדגיש שגם אם ההסתברות הנחזית מגיעה ממודל שבכלל לא אמור להוציא הסתברויות והיא לא מכוילת או אפילו היא לא הסתברות, היא איזשהו סקור, הדירוג עצמו עדיין יכול להיות מצוין. וזה היתרון הגדול של גישה כזאת. התחשבות בקאטאופים שונים והעובדה שהיא פרקטית לכל סקור.
+:::
+:::
+
+---
+
+
+```{python}
+#| echo: false
+
+from sklearn.metrics import roc_curve, auc
+
+fpr, tpr, thresholds = roc_curve(Yte, p_hat_te)
+auc1 = auc(fpr, tpr)
+
+plt.plot(fpr, tpr, color='darkorange',
+         lw=2, label='ROC curve (area = %0.2f)' % auc1)
+plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--')
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('ROC curve for our logistic model')
+plt.legend(loc="lower right")
+plt.show()
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+כך נראית עקומת הROC על מדגם הטסט שלנו, עבור מודל הרגרסיה הלוגיסטית שמנסה לחזות אם פציינט יחלה במחלת לב או לא.
+
+הקוד בפייתון לבצע את זה נמצא כאן למי שרוצה.
+
+אנחנו לא רואים את הספים עצמם שהקוד משנה, אבל כן נוצרת עקומה יפה של TPR מול FPR, ואנחנו רואים שעבור ספים נמוכים מתקבל TPR גבוה, ועבור ספים גבוהים מתקבל FPR נמוך. אפשר גם לראות את הטריידאוף בין שני המדדים בצורה יפה.
+
+ואם רוצים לחזור לניבוי סופי, אפשר לבחור את הקאטאוף שיביא אותנו לנקודה האופטימלית מבחינתנו. אם אין לנו העדפה מסוימת, כמו שהדגמנו קודם, הנקודה האופטימלית שומרת על TPR כמו שיותר גבוה וFPR כמה שיותר נמוך אז זו תהיה הנקודה הכי קרובה לקצה השמאלי העליון של הגרף, נאמר זאת.
+
+וברור שבמודל מושלם יימצא סף שבאמת מגיע עד הנקודה בקצה השמאלי עליון של הגרף.
+
+עכשיו, היינו רוצים לתמצת את העקומה הזאת לאיזשהו מדד יחיד, שיבטא את טיב המודל שלנו. עקומה זה מרשים אבל צריך לסכם אותה איכשהו. נראה שבמודל מושלם השטח תחת העקומה יהיה השטח של כל הריבוע, 1 כפול 1, זאת אומרת 1, וכאן כפי שמודפס השטח הוא רק 0.8, או 80 אחוז.
+:::
+:::
+
+---
+
+### The Area Under the Curve (AUC)
+
+- *For a random ranking:* $FPR \approx TPR$ at every threshold, so we are around the diagonal $x=y$: $$AUC\approx 0.5$$
+
+- *For a perfect ranking model:* at high thresholds, $FPR=0$, at low thresholds $TPR=1$, hence: $$AUC=1.$$
+
+::: {.fragment}
+- Very nice interpretation of AUC: Assume the test set has $m_1$ ones ($y=1$) and $m_0$ zeros, then AUC is the % of correctly ranked pairs with different response: 
+$$AUC = \frac{ \#\left\{(i,j): y_i = 0, y_j=1 \mbox{ and } \hat{p}_i < \hat{p}_j\right\}}{m_1\times m_0}$$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+השטח תחת עקומת הROC , הarea under curve או AUC, הוא מדד מקובל מאוד, והוא מצוין כי הוא לא תלוי בקאטאוף ספציפי, הוא מתחשב בכולם, מעין ממוצע או אינטגרציה של טיב המודל על פני ספים שונים.
+
+מודל אקראי לחלוטין, שככל שאנחנו מעלים את הסף כך יורד הTPR ועולה הFPR באופן שווה, העקומה תהיה בעצם הקו האלכסוני בתוך הריבוע, והשטח תחתיה, הAUC יהיה חצי.
+
+מודל מושלם כאמור, יגיע לAUC של 1, כל שטח הריבוע.
+
+פרשנות יפה של AUC היא, מתוך כל זוגות התצפיות האפשריות כך שאחת חיובית ואחת שלילית, כמה מדורגות "נכון". ומה זה נכון? אם הסקור הנאמד לתצפית החיובית בזוג, גדול מהסקור לתצפית השלילית. אז אחוז הזוגות שמדורגים נכון, במודל אקראי יהיה -- חמישים אחוז, חצי. כמו שאמרנו שAUC למודל אקראי יהיה. ואחוז הזוגות שמדורגים נכון במודל מושלם יהיה -- מאה אחוז.
+
+בצורה פורמלית אפשר לסמן זאת כך, אם יש לנו m0 תצפיות שליליות וm1 תצפיות חיוביות, אז הAUC שווה לאחוז הזוגות שעבורם p_hat לתצפית החיובית גבוה מp_hat לתצפית השלילית. ונשים לב שהמדד הזה גם לא סובל במרכאות אם יש לנו הרבה יותר תצפיות חיוביות משליליות במדגם, או להיפך, כמו שראינו עבור מדד הaccuracy. זו פרופורציה שבכל מקרה נרצה שתהיה כמה שיותר קרובה לאחת.
+
+עד כאן לגבי מודלים ליניאריים. כאמור מדובר במודלים המפורסמים והנחקרים ביותר, הם עדיין בשימוש נרחב בתעשייה ולו בתור בייסליין שניתן לסמוך עליו, בייסליין שבאופן מפתיע הרבה פעמים קשה לנצח.
+:::
+:::
