@@ -1,0 +1,725 @@
+---
+format:
+  revealjs:
+    slide-number: true
+    chalkboard: true
+    fig-width: 6
+    fig-asp: 0.618
+    template-partials:
+      - "../title-slide.html"
+css: "../slides_quarto.css"
+standalone: false
+include-in-header: "../header_quarto.html"
+logo: "../Intro2SL_logo_white.jpg"
+pagetitle: "Linear Models - Part B"
+callout-appearance: simple
+smaller: true
+execute:
+  eval: true
+  echo: true
+code-line-numbers: false
+code-block-border-left: true
+highlight-style: github
+footer: "[Intro to Statistical Learning](https://intro2statlearn.github.io/mooc/){target='_blank'}"
+---
+
+## {.logo-slide}
+
+## Introduction to Statistical Learning {.title-slide}
+
+### Linear Models - Part B - Class 4
+
+### Giora Simchoni
+
+#### `gsimchoni@gmail.com` and add `#intro2sl` in subject
+
+### Stat. and OR Department, TAU
+
+---
+
+## Extending the linear model {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+בשיעור הקודם הצגנו את מודל הרגרסיה הליניארית, אחד המודלים הותיקים והנחקרים במאה השנים האחרונות. בשיעור הזה, ננסה לראות כיצד ניתן להתאים את המודל הלינארי כאשר Y הוא משתנה קטגוריאלי, ונלמד על מודל הרגרסיה הלוגיסטית. לפני זה, נדון בכמה דרכים להגמיש את המודל הליניארי. יש הרבה נושאים כאן, אז נתמקד בהוספת משתנים קטגוריאליים, באינטראקציות וברגרסיה פולינומיאלית.
+:::
+:::
+
+---
+
+### Categorical features with $k$ levels
+
+::: {.fragment}
+When $k = 2$:
+:::
+
+::: {.incremental}
+- If $x$ indicates whether person "has tattoos" or "no tattoos"
+- Define: $x_i =
+\begin{cases} 
+1 & \text{if person } i \text{ has tattoos,} \\
+0 & \text{otherwise.}
+\end{cases}$
+- Model: $y_i = \beta_0 + \beta_1x_i + \varepsilon_i$
+- Meaning: $\beta_0 = E(y|\text{no tattoos}) \quad \beta_1 = E(y|\text{has tattoos}) - E(y|\text{no tattoos})$
+:::
+
+::: {.fragment}
+::: {.callout-note}
+Question: how would you test if "tattoo" has effect on $y$?
+:::
+:::
+
+::: {.fragment}
+::: {.callout-note}
+Question: what if $x_i =
+\begin{cases} 
+1 & \text{if person } i \text{ has tattoos} \\
+-1 & \text{otherwise.}
+\end{cases}$
+:::
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+נתחיל במשתנים קטגוריאליים בעלי K קטגוריות, כאשר הנפוצים ביותר הם משתנים בינאריים, או משתני אינדיקטור. לדוגמא אנחנו ממדלים זמן שהות של עצורים במעצר ואחת העמודות שלנו כוללת חיווי האם לעצור יש קעקוע או לא.
+
+הדרך להתמודד עם משתנה כזה היא בדרך כלל להגדיר משתנה אינדיקטור, X יקבל את הערך 1 אם לעצור יש קעקוע, ו0 אחרת.
+
+עכשיו אפשר להכניס את X למודל הליניארי בלי בעיה. ומה המשמעות של בטא-אפס ובטא-אחת?
+
+כש-X הוא 1 Y יהיה בטא אפס ועוד בטא אחת ועוד רעש. כשX הוא 0 Y יהיה רק בטא-אפס. כלומר בטא-אפס הוא החיזוי לברירת המחדל, אנשים בלי קעקוע. בטא-אחת יבטא את ההפרש בין זמן המעצר של אנשים עם ובלי קעקוע. באופן מדויק יותר הוא הפרש התוחלת המותנית של Y בהינתן קעקוע לעומת בלי קעקוע.
+
+אז אם אני רוצה לבדוק האם יש השפעה למשתנה קעקוע על זמן המעצר איך אני בוחן הזה? באמצעות בדיקת השערות על בטא-אחת, אם הוא לא שונה במובהק מאפס לא צריך פרמטר נוסף בשביל קעקוע.
+
+אבל זו לא הדרך היחידה לקודד משתנה כזה, למעשה יש הרבה. אחת האפשרויות היא לקודד אותו כ1 לבעלי קעקוע ומינוס 1 לאלה שאין להם קעקוע. במקרה כזה עצרו וחשבו מה המשמעות של בטא-אפס ובטא-אחת. בטא-אפס יהיה החותך כרגיל, זמן המעצר הממוצע על פני כל העצורים, ובטא-אחת יבטא עד כמה נבדלים עצורים עם קעקוע ובלי קעקוע, מעל ומתחת לממוצע הזה. זה לא בדיוק ממוצע, ברור, כי הקבוצות לא חייבות להיות שוות בגודלן, זה מדגיש כמה הקידוד יכול לשנות את פירוש המקדמים.
+:::
+:::
+
+---
+
+#### Categorical features with $k$ levels: $k > 2$
+
+::: {.incremental}
+- If $x$ is a person's profession (carpenter, gardener, or teacher)
+
+::: {.fragment}
+::: {.callout-note}
+Question: what if we just had $x_{i} =
+\begin{cases} 
+0 & \text{if person } i \text{ is a teacher} \\
+1 & \text{if person } i \text{ is a carpenter} \\
+2 & \text{if person } i \text{ is a gardener}
+\end{cases}$
+:::
+:::
+
+- Define $k - 1$ indicators:
+
+::: {.fragment}
+$x_{i1} =
+\begin{cases} 
+1 & \text{if person } i \text{ is a carpenter,} \\
+0 & \text{otherwise.}
+\end{cases}$, $x_{i2} =
+\begin{cases} 
+1 & \text{if person } i \text{ is a gardener,} \\
+0 & \text{otherwise.}
+\end{cases}$
+:::
+
+- Why $k - 1$ indicators?
+- Model: $y_i = \beta_0 + \beta_1x_{i1} + \beta_2x_{i2} + \varepsilon_i$
+- Meaning: $\beta_1 = E(y|\text{carpenter}) - E(y|\text{teacher}); \quad \beta_2 = E(y|\text{gardener}) - E(y|\text{teacher})$
+:::
+
+::: {.fragment}
+::: {.callout-note}
+Question: how would you test if "profession" has effect on $y$?
+:::
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+מה קורה כאשר יש יותר מ2 קטגוריות?
+
+לדוגמא משתנה ברגרסיה עם מקצוע של נבדק, ויש לנו 3 רמות: נגר, גנן ומורה.
+
+אז קודם כל נשאלת השאלה למה שלא נמשיך בקו הקודם ונקודד מורה למשל להיות קוד 0, נגר להיות 1 וגנן להיות 2? זה לא לא-נכון, אם אנחנו מאמינים שיש קודם כל איזשהו סדר כזה, שלהיות מורה זה "פחות" מלהיות נגר, ונגר זה "פחות" מלהיות גנן. כאן זה נשמע שרירותי לחלוטין, ולא רק זה, מסתתרת כאן הנחה שמשתנה כזה יכול להימדד בסולם מנה או סולם רווח, שהאינטרוולים בין מורה לנגר, ובין נגר לגנן הם זהים, קבועים, בעלי איזושהי משמעות. וזה כבר ממש לא סביר, אבל ישנם מקרים שאפשר היה לחשוב על קידוד כזה, כשהמשתנה קטגוריאלי אבל עדיין בעל סדר ברור, לדוגמא: חומרת מחלה, או קבוצת גיל.
+
+מכל מקום מה שמקובל לעשות עבור משתנים שאין היררכיה באמת בין הרמות שלהם, נקרא one hot encoding. נגדיר לK הקטגוריות K מינוס 1 משתני אינדיקטור. רמה אחת נשאיר כבייסליין, כאן זה מורה. וכל רמה אחרת תוגדר כמשתנה אינדיקטור שמקבל 1 אם X הוא ברמה הזאת או 0 אחרת.
+
+למה K פחות 1? למה לא להוסיף אינדיקטור כאן ל"מורה"? כי אז תהיה לנו תלות ליניארית מושלמת בין המשתנים שלנו. המשתנה של מורה יהיה בדיוק 1 פחות סכום המשתנים של גנן ונגר. מה שיהווה בעיה מתמטית לפתרון הריבועים הפחותים ועוד נדבר על זה. אנחנו לא באמת צריכים 3 משתנים לתיאור 3 קטגוריות כי הרי איך נדע שנבדק הוא מורה? אם יש לו אפס גם במשתנה נגר וגם במשתנה גנן.
+
+כעת אנחנו מכניסים את הK מינוס 1 משתנים למודל, ושוב נחשוב מה משמעות הבטאות הנאמדות?
+
+עבור מורים נחזה בטא-אפס. עבור נגרים נחזה בטא-אפס ועוד בטא-אחת. עבור גננים נחזה בטא-אפס ועוד בטא-שתיים. כלומר בטא-אפס הוא התוחלת המותנית של מורים, הבייסליין. ובטא-אחת ובטא-שתיים מודדים את ההפרש, התוספת של נגר ממורה וגנן ממורה בהתאמה. 
+
+ושוב נשאל, בסיטואציה כזאת: איך נבדוק את ההשערה האם למשתנה מקצוע יש אפקט על המשתנה התלוי Y? כאן נהיה חייבים להשתמש בהשערה בו-זמנית של שני הפרמטרים בטא-אחת ובטא-שתיים, ולבדוק האם הם שווים אפס או שלפחות אחד לא, כלומר כאן נצטרך לערוך 2 רגרסיות ולהשתמש במבחן F להשוואה בין שני מודלים מקוננים.
+
+ובכל זאת עוד שאלה: מה עם K הוא ממש גדול? הנבדקים שלנו יש להם אלף מקצועות? אפשר לעבוד באותה צורה בדיוק, אבל כאן אני מקווה שאתם חשים בסכנה, שאפשר לכנות פשוט כאוברפיטינג. לעשות OHE על משתנה קטגוריאלי עם כל כך הרבה רמות, סביר להניח שגודל הקבוצה של חלק מהרמות הוא קטן מאוד, והמקדם שנקבל הוא רועש מאוד, הוא אוברפיטד לקבוצה קטנה ולא מייצגת. אכן בעיה, אבל היא לא בסקופ של הקורס שלנו.
+:::
+:::
+
+---
+
+### Interactions
+
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+from sklearn.linear_model import LinearRegression
+
+# Generate the dataset
+np.random.seed(42)
+n_samples = 100
+X = np.random.normal(size=(n_samples, 2))  # Random values in 2D
+X[:, 0] *= 3  # Scale the first feature
+X[:, 1] *= 3  # Scale the second feature
+noise = np.random.normal(size=(n_samples,)) * 0.1 # Noise to add to the output
+
+# Non-linear function with an upward trend
+y = 0.5*X[:, 0] + 0.2*X[:, 1] + 0.3*X[:, 0] * X[:, 1] + noise
+
+# Fit a linear regression model
+reg = LinearRegression()
+reg.fit(X, y)
+y_pred = reg.predict(X)
+
+# Plot the data and the fitted plane
+fig = plt.figure(figsize=(14, 7))
+ax = fig.add_subplot(111, projection='3d')
+
+# Scatter plot of the original data
+ax.scatter(X[:, 0], X[:, 1], y, color='r', label='Original data')
+
+# Create a grid for plotting the plane
+x1_range = np.linspace(X[:, 0].min(), X[:, 0].max(), 10)
+x2_range = np.linspace(X[:, 1].min(), X[:, 1].max(), 10)
+x1_grid, x2_grid = np.meshgrid(x1_range, x2_range)
+y_grid = reg.intercept_ + reg.coef_[0] * x1_grid + reg.coef_[1] * x2_grid
+
+# Plot the linear regression plane
+ax.plot_surface(x1_grid, x2_grid, y_grid, color='b', alpha=0.5, label='Fitted plane')
+
+# Draw vertical lines from the plane to the data points
+for i in range(n_samples):
+    ax.plot([X[i, 0], X[i, 0]], [X[i, 1], X[i, 1]], [y[i], y_pred[i]], color='k')
+
+# Adjust the viewing angle
+ax.view_init(elev=30, azim=-60)
+
+# Set labels and title
+ax.set_xlabel('X1')
+ax.set_ylabel('X2')
+ax.set_zlabel('y')
+
+plt.show()
+```
+
+::: {.fragment}
+A [multiplicative]{style="color:red;"} effect?
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+דרך נוספת להגמיש את המודל הליניארי, היא להתחשב בתופעה שנקראת אינטראקציה בין משתנים. אנחנו רואים כאן איזשהו מישור שהותאם לאיזשהו Y כנגד שני משתנים X1 וX2, וכבר נראה שיש בעיה. אף על פי שהמישור בסך הכל מזהה טרנד נכון, נראה כאילו יכולנו לקבל משטח הרבה יותר טוב. בפינה אחת הוא לא חוזה מספיק גבוה עבור התצפיות, אז היינו רוצים שהמשטח "יעלה" קצת כלפי מעלה, ובפינה אחרת הוא לא חוזה מספיק נמוך עבור התצפיות, אז היינו רוצים שהמשטח "ירד" קצת כלפי מטה.
+
+במילים אחרות נראה שY משתנה בX1 וגם בX2, אבל גם באיזשהו שילוב שלהם, ויש כאן אפקט כפלי, או אפקט מולטיפליקטיבי. שימו לב אני עדיין לא אומר שX1 וX2 תלויים זה בזה, אני פשוט אומר שאי אפשר לנתק את ההשפעה של X2 כשמסתכלים על ההשפעה של X1 על Y ולהיפך. X2 משנה את ההשפעה של X1 על Y, מגביר או מחליש אותה, ולהיפך.
+:::
+:::
+
+---
+
+### Interactions: residuals plots
+
+```{python}
+#| echo: false
+
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+axes[0].scatter(X[:, 0], y_pred - y)
+axes[0].axhline(y=0, color='r', linestyle='--')
+axes[0].set_xlabel('X1')
+axes[0].set_ylabel('Residuals')
+axes[1].scatter(X[:, 1], y_pred - y)
+axes[1].axhline(y=0, color='r', linestyle='--')
+axes[1].set_xlabel('X2')
+plt.show()
+```
+
+::: {.fragment}
+Consider adding an interaction term to the model: $x_1 \cdot x_2$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+אחת הדרכים לראות שהמודל האדיטיבי כפי שהוא לא מתאים היא באמצעות תרשימי שאריות. כאן גם עבור X1 וגם עבור X2 מתקבלת תמונה בעייתית מאוד, ככל שהמודל מתרחק ממרכז המשתנים, מאפס, הפיזור הולך וגדל.
+
+אז במקרה כזה, שווה להוסיף למודל אפקט כפלי, וזה נקרא אפקט של אינטראקציה. כשההשפעה של משתנה אחד, מושפעת מההשתנות של משתנה אחר.
+:::
+:::
+
+---
+
+### Interactions: adding an interaction term
+
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+from sklearn.linear_model import LinearRegression
+
+# Generate the dataset
+np.random.seed(42)
+n_samples = 100
+X = np.random.normal(size=(n_samples, 2))  # Random values in 2D
+X[:, 0] *= 3  # Scale the first feature
+X[:, 1] *= 3  # Scale the second feature
+X = np.hstack((X, (X[:, 0] * X[:, 1]).reshape(-1, 1)))  # Add a new interaction feature
+noise = np.random.normal(size=(n_samples,)) * 0.1 # Noise to add to the output
+
+# Non-linear function with an upward trend
+y = 0.5*X[:, 0] + 0.2*X[:, 1] + 0.3*X[:, 0] * X[:, 1] + noise
+
+# Fit a linear regression model
+reg = LinearRegression()
+reg.fit(X, y)
+y_pred = reg.predict(X)
+
+# Plot the data and the fitted plane
+fig = plt.figure(figsize=(12, 5))
+ax = fig.add_subplot(111, projection='3d')
+
+# Scatter plot of the original data
+ax.scatter(X[:, 0], X[:, 1], y, color='r', label='Original data')
+
+# Create a grid for plotting the plane
+x1_range = np.linspace(X[:, 0].min(), X[:, 0].max(), 10)
+x2_range = np.linspace(X[:, 1].min(), X[:, 1].max(), 10)
+x1_grid, x2_grid = np.meshgrid(x1_range, x2_range)
+y_grid = reg.intercept_ + reg.coef_[0] * x1_grid + reg.coef_[1] * x2_grid + reg.coef_[2] * x1_grid * x2_grid
+
+# Plot the linear regression plane
+ax.plot_surface(x1_grid, x2_grid, y_grid, color='b', alpha=0.5, label='Fitted plane')
+
+# Draw vertical lines from the plane to the data points
+for i in range(n_samples):
+    ax.plot([X[i, 0], X[i, 0]], [X[i, 1], X[i, 1]], [y[i], y_pred[i]], color='k')
+
+# Adjust the viewing angle
+ax.view_init(elev=30, azim=-60)
+
+# Set labels and title
+ax.set_xlabel('X1')
+ax.set_ylabel('X2')
+ax.set_zlabel('y')
+
+plt.show()
+```
+
+$y_i = \beta_0 + \beta_1x_{i1} + \beta_2 x_{i1} + \beta_3 x_{i1} \cdot x_{i2}+ \varepsilon_i$
+
+::: {.fragment}
+::: {.callout-note}
+Note: in multiplicative models we usually add the features without interactions to the model ("main effects"), even if their P-value is not small.
+:::
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+כשאנחנו מוסיפים את גורם האינטראקציה המשטח שלנו נראה הרבה יותר מתאים לנתונים, וניתן לראות איך למרות שאנחנו עדיין נשארים בפריימוורק של המודל הליניארי, אנחנו כבר לא מתאימים רק מישור, אנחנו כבר משיגים משטח מעניין.
+
+יש כל מיני אתגרים עם אינטראקציות, לא בטוח שכדאי למהר אם ככה להכניס את כל האינטראקציות הזוגיות כמועמדות לרגרסיה. אם יש לכם P משתנים זה אומר עוד P מעל 2 משתנים שנוספו, סדר גודל של P בריבוע.
+
+בעיה אחרת היא מה לעשות אם מקדם האינטראקציה עצמו יוצר מובהק סטטיסטית, אבל המקדמים של האפקטים ה"ראשיים" עצמם לא יוצאים מובהקים. במקרה כזה נהוג בכל זאת להשאיר אותם במודל.
+
+ועוד לא דיברנו על אינטראקציות מסדר גבוה יותר, סדר שלישי ומעלה. נסו לחשוב מה המשמעות של אינטראקציה מסדר שלישי.
+:::
+:::
+
+---
+
+### Non-linear relations
+
+```{python}
+#| echo: false
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.linear_model import LinearRegression
+
+df = pd.read_csv('../datasets/mtcars.csv')
+
+model = LinearRegression().fit(df[['hp']], df['mpg'])
+y_pred = model.predict(df[['hp']])
+
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+sns.scatterplot(data=df, x='hp', y='mpg', ax=axes[0])
+axes[0].plot(df['hp'], y_pred, color='red')
+axes[0].set_xlabel('Horsepower')
+axes[0].set_ylabel('Miles per Gallon')
+
+sns.scatterplot(x=df['hp'], y=y_pred - df['mpg'], ax=axes[1])
+axes[1].axhline(y=0, color='r', linestyle='--')
+axes[1].set_xlabel('Horsepower')
+axes[1].set_ylabel('Residuals')
+
+plt.show()
+```
+
+::: {.fragment}
+Consider adding polynomial terms $x^2_1, x^3_1$, ...
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+אינטראקציה היא לא הגורם היחיד שניתן להוסיף על מנת להגמיש את המודל הליניארי. כאן אנחנו רואים נתונים של כ30 מכוניות, ואנחנו מנסים למדל את צריכת הדלק שלהן, מיילים לגלון, כנגד כוח הסוס של המנוע שלהן. מייד ברור שיש יחס יורד, אבל האם הוא ליניארי? הוא נראה יותר עקום. ובאמת תרשים שאריות מראה את זה מייד, נוצרת איזושהי פרסה, שמעידה שהנחות המודל לא מתקיימות.
+
+יש הרבה גורמים שאפשר לנסות להוסיף ועדיין להישאר במודל הליניארי, סינוס, קוסינוס. אבל בואו נתחיל מהוספת גורמים פולינומיים, כמו X בחזקת 2, 3...
+:::
+:::
+
+---
+
+### Plynomial regression: Beware 1
+
+```{python}
+#| echo: false
+
+x_hp = df[['hp']].values
+X2 = np.hstack((x_hp, x_hp**2))
+X5 = np.hstack((x_hp, x_hp**2, x_hp**3, x_hp**4, x_hp**5))
+model1 = LinearRegression().fit(x_hp, df['mpg'])
+model2 = LinearRegression().fit(X2, df['mpg'])
+model5 = LinearRegression().fit(X5, df['mpg'])
+
+X1_range = np.linspace(df['hp'].min(), df['hp'].max(), 100).reshape(-1, 1)
+X2_range = np.hstack((X1_range, X1_range**2))
+X5_range = np.hstack((X1_range, X1_range**2, X1_range**3, X1_range**4, X1_range**5))
+y_pred1 = model1.predict(X1_range)
+y_pred2 = model2.predict(X2_range)
+y_pred5 = model5.predict(X5_range)
+
+fig = plt.figure(figsize=(6, 5))
+sns.scatterplot(data=df, x='hp', y='mpg')
+plt.plot(X1_range, y_pred1, color='red', label = 'Linear')
+plt.plot(X1_range, y_pred2, color='orange', label = 'Degree 2')
+plt.plot(X1_range, y_pred5, color='green', label = 'Degree 5')
+plt.xlabel('Horsepower')
+plt.ylabel('Miles per Gallon')
+
+plt.legend()
+plt.show()
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+כשאנחנו מוסיפים גורמים פולינומיאליים יש שמכנים זאת רגרסיה פולינומיאלית. אבל כאן צריך לנקוט משנה זהירות. כמו שניתן לראות בתרשים, כשאנחנו עוברים מקו ליניארי שהוא מוגבל לפולינום, אנחנו לאט לאט עושים אוברפיטינג חריג לנתונים. פולינום מדרגה חמישית למשל כבר ממש מנסה לגעת בכל הנקודות האפשריות של הנתונים.
+:::
+:::
+
+---
+
+### Plynomial regression: Beware 1
+
+Quadratic:
+
+```{python}
+#| echo: false
+
+import statsmodels.api as sm
+
+X2 = sm.add_constant(X2)
+model = sm.OLS(df['mpg'], X2).fit()
+model.summary().tables[1]
+```
+
+Cubic:
+
+```{python}
+#| echo: false
+
+X3 = np.hstack((x_hp, x_hp**2, x_hp**3))
+X3 = sm.add_constant(X3)
+model = sm.OLS(df['mpg'], X3).fit()
+model.summary().tables[1]
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+הדרך כמובן להגביל את עצמנו ברגרסיה פולינומיאלית היא להוסיף גורמים בצורה הדרגתית ולעצור אם הם לא מובהקים ונראה שאין בהם צורך, בהסתכלות על מבחנים סטטיסטיים ותרשימי שאריות. כאן ניתן לראות שפולינום ריבועי מתאים היטב לנתונים של המכוניות, שני הגורמים X וX בריבוע מובהקים. כשאנחנו מוסיפים X בשלישית הוא כבר גורם לא חשוב ברגרסיה והוא ממסך גם את ההשפעה של הגורם הריבועי, אז כאן כדאי לעצור ולהישאר עם המודל הריבועי.
+:::
+:::
+
+---
+
+### Plynomial regression: Beware 2
+
+```{python}
+#| echo: false
+
+X1_range = np.linspace(df['hp'].min() - 100, df['hp'].max() + 100, 1000).reshape(-1, 1)
+X2_range = np.hstack((X1_range, X1_range**2))
+X5_range = np.hstack((X1_range, X1_range**2, X1_range**3, X1_range**4, X1_range**5))
+y_pred1 = model1.predict(X1_range)
+y_pred2 = model2.predict(X2_range)
+y_pred5 = model5.predict(X5_range)
+
+fig = plt.figure(figsize=(6, 5))
+sns.scatterplot(data=df, x='hp', y='mpg')
+plt.plot(X1_range, y_pred1, color='red', label = 'Linear')
+plt.plot(X1_range, y_pred2, color='orange', label = 'Degree 2')
+plt.plot(X1_range, y_pred5, color='green', label = 'Degree 5')
+plt.xlabel('Horsepower')
+plt.ylabel('Miles per Gallon')
+
+plt.legend()
+plt.show()
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+סכנה נוספת במעבר מקו ליניארי לפולינום: מה קורה כשמתרחקים, או שחוזים על נקודה חדשה מעבר לסקאלה שראינו?
+
+הבעיה הזאת חמורה גם לקו ליניארי, אבל קו ליניארי הוא צפוי ואינטואיטיבי. כאן אם נקודה חדשה תהיה מאוד רחוקה מנקודות שראינו עדיין נחזה עבורה ערך צפוי. בפולינום הרבה פעמים מקבלים ערך לא הגיוני בכלל. כאן כבר בפולינום ריבועי המשמעות היא שעבור ערכים גבוהים של כוח סוס החיזוי יעלה. ועבור פולינום ממעלה 5 החיזוי של צריכת דלק ירד בצורה חדה מתחת לאפס!
+
+אז ראינו כמה דרכים להגמיש את המודל הליניארי. בכל אחת מהדרכים שדיברנו עליהן אבל יש מחיר לשלם, והמחיר הוא פוטנציאל גבוה יותר לאוברפיטינג, ולמודל מורכב מדי שלא יהיו לו ביצועים טובים על נתונים שהמודל לא ראה.
+:::
+:::
+
+---
+
+## Other issues with linear regression {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+כבר הזהרנו שרגרסיה ליניארית הוא אחד המודלים הנחקרים ביותר בספרות, זה אומר שעל כל ניואנס בו נכתבו תלי תלים של מאמרים. לסיכום הנושא נזכיר שתי בעיות שצריך להיות מודעים אליהן ולקרוא עוד קצת על הטיפול בהן: קוליניאריות ותצפיות חריגות.
+:::
+:::
+
+---
+
+### Why "not significant"?
+
+```{python}
+#| echo: false
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+from sklearn.linear_model import LinearRegression
+from matplotlib.patches import Patch
+from matplotlib.lines import Line2D
+
+# Seed for reproducibility
+np.random.seed(42)
+
+# Generate synthetic data
+n_samples = 100
+X1 = np.random.normal(0, 1, n_samples)
+X2 = 0.5 * X1 + np.random.normal(0, 0.1, n_samples)  # X2 is correlated with X1
+Y = 0.5 * X1 + 1 * X2 + np.random.normal(0, 1, n_samples)
+
+# Create a DataFrame
+data = pd.DataFrame({'X1': X1, 'X2': X2, 'Y': Y})
+X = data[['X1', 'X2']].values
+
+# Plotting
+fig, ax = plt.subplots(1, 1, figsize=(12, 5), subplot_kw={'projection': '3d'})
+
+# Create a grid of values for X1 and X2
+X1_grid, X2_grid = np.meshgrid(np.linspace(min(X1), max(X1), 200),
+                               np.linspace(min(X2), max(X2), 200))
+
+# Flatten the grid to pass into the model
+X_grid = np.column_stack((X1_grid.ravel(), X2_grid.ravel()))
+
+model = LinearRegression()
+
+model.fit(X, Y)
+
+# Predict Y values
+Y_pred = model.predict(X_grid).reshape(X1_grid.shape)
+
+# Plot the fitted plane
+ax.scatter(X1, X2, Y, color='red', label='Data')
+ax.plot_surface(X1_grid, X2_grid, Y_pred, color='blue', alpha=0.5)
+
+# Add vertical lines from data points to the surface
+Y_surface = model.predict(X).reshape(Y.shape)  # Predicted Y values for the actual data points
+for x1, x2, y, y_surface in zip(X1, X2, Y, Y_surface):
+    ax.plot([x1, x1], [x2, x2], [y, y_surface], color='black')
+
+# Labels
+ax.set_xlabel('X1')
+ax.set_ylabel('X2')
+ax.set_zlabel('y')
+
+# Adjust the viewing angle
+ax.view_init(elev=30, azim=-60)
+
+plt.show()
+```
+
+```{python}
+#| echo: false
+
+import statsmodels.api as sm
+
+# Perform linear regression with both features
+X_both = sm.add_constant(data[['X1', 'X2']])
+model_both = sm.OLS(data['Y'], X_both).fit()
+print(model_both.summary().tables[1])
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+כדי להציג את הבעיה הראשונה בואו נסתכל על הנתונים האלה. Y משתנה בבירור כפונקציה של X1 ושל X2. המישור שאנחנו מתאימים ברגרסיה ליניארית אפילו נראה סביר. אבל אם נבצע הסקה סטטיסטית על מקדמי הרגרסיה שקיבלנו, אף אחד לא מובהק סטטיסטית, נראה כאילו היה מתאים פה המישור השוכב של הממוצע של Y. למה זה קורה? אם נביט היטב נראה שבכל זאת יש משהו חריג בנתונים האלה. אם נשרטט את X2 כנגד X1 נראה בעיה: יש ביניהם קורלציה גבוהה מאוד.
+:::
+:::
+
+---
+
+### Collinearity
+
+::: {.incremental}
+- [Collinearity]{style="color:red;"} is when a feature is in the span of other features
+- Usually it is not exactly in the span but near the span
+- In the case of exact collinearity: the matrix $X'X$ is singular, no unique solution
+- In the case of approximate collinearity:
+  - If $X_1 \approx X_2$, then: $y = X_1; \quad y = X_2; \quad y = \frac{1}{2}X_1 + \frac{1}{2}X_2;\quad y = 1000X_1 - 999X_2$ are the same models!
+  - the solution is not numerically stable
+  - $SE(\hat{\beta})$ grows, $t_{obs}$ value decreases, feature is "masked" in inference
+- Explore your data with a correlation matrix, many other metrics
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+קוליניאריות היא מצב שבו פיצ'ר מסוים, או יותר, הם בספאן של פיצ'רים אחרים, כלומר צירוף ליניארי של משתנים אחרים. ראינו פוטנציאל לזה כשדיברנו על ייצוג של משתני אינדיקטור למשתנים קטגוריאליים עם OHE. דוגמאות שכיחות יותר זה כשמישהו החליט למשל לתת את הטמפרטורה בצלזיוס וגם בפרנהייט. בשני המקרים מדובר במשתנה מיותר שכדאי היה פשוט להוריד.
+
+אבל זאת דוגמא קיצונית, נגיד שקוליניאריות מתרחשת גם כשפיצ'ר אחד הוא בקירוב צירוף ליניארי של פיצ'רים אחרים, כמו למשל שערכתם מחקר על ילדים והחלטתם להכניס למודל גם את הגיל של הילדים וגם את מידת הנעליים שלהם. ובין שני אלה הרי יש מתאם לא מבוטל. או אולי יש לכם פשוט הרבה פיצ'רים, ומה לעשות במקרה יש שם פיצ'רים עם מתאם גדול ביניהם.
+
+מה יכול להיות בעייתי בזה? שימו-לב, לא הנחנו שהעמודות של X הן בלתי תלויות, אבל אם עמודה אחת היא צירוף ליניארי של האחרות אז הדרגה של X תהיה לא מלאה, והמטריצה X'X הזאת שמופיעה באומדן הריבועים הפחותים תהיה סינגולרית, אין לה הופכית ולכן אין גם פתרון.
+
+במצב הפחות קיצוני אבל המדאיג יותר, שבו יש קוליניאריות בקירוב, לדוגמא כשמשתנה X1 דומה מאוד למשתנה X2 כמו בדוגמא שלנו. המודל Y שווה X1 או המודל Y שווה X2. או המודל Y שווה אלף X1 פחות 999 X2 - הם נורא דומים. בפועל, הופכי של X'X יהיה לא יציב נומרית, הוא יכול להיות פתאום נורא גדול. אם ניקח את ערך הטי לפיצ'ר ספציפי, נראה שאם האיבר על אלכסון הX'X נעשה גדול יותר ויותר, זה אומר שטעות התקן או המכנה של הסטטיסטי נעשה גדול יותר ויותר, ובהתאמה ערך הטי קטן יותר, והאיבר הזה לא ייראה כמובהק סטטיסטי. הוא עבר מיסוך בהסקה סטטיסטית.
+
+אז לא ניכנס לכל פתרון אפשרי לטיפול בקוליניאריות, אבל זו בעיה שצריכים להיות מודעים אליה. לכל הפחות הביטו במטריצת הקורלציה בין המשתנים שלכם, וקראו עוד על מטריקות שאמורות להציף את הבעיה.
+:::
+:::
+
+---
+
+### High-leverage and Outlier observations
+
+::: {.incremental}
+- An observation with high [leverage]{style="color:red;"} has an extreme $x$ value
+
+- For simple linear regression: $h_i = \frac{1}{n} + \frac{(x_i - \bar{x})^2}{\sum (x_{i'} - \bar{x})^2}$
+
+- Observations with large $h_i$ $\to$ large effect on $SE(\hat{\beta})$
+
+- If such an observation is also an [outlier]{style="color:red;"} $\to$ the model changes a lot if removed
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+הנושא השני שנצביע עליו הוא תצפיות חריגות.
+
+באופו ספציפי מעניינות אותנו תצפיות עם מנוף או לברג' גבוה, והכוונה באופן כללי לתצפיות עם ערך X חריג.
+
+ברגרסיה עם משתנה אחד יש אינדקס H שנהוג לחשב לכל תצפית כדי להגדיר את הלברג' שלה. אפשר לראות כאן בעצם יחס בין המרחק הריבועי של התצפית מממוצע הX לעומת סך המרחקים הריבועיים של התצפיות X מהממוצע שלהן. ברגרסיה מרובה אגב יש לנו הכללה לזה אבל לא נרשום אותה כאן.
+
+חשבו מה יכולה להיות הבעיה עם תצפיות עם לברג' גבוה. קודם כל מתמטית כפי שראינו ברגרסיה ליניארית פשוטה, יש להן אפקט גדול נורא על טעות התקן של האומד. אם המכנה הזה של הסטטיסטי טי מתנפח בגלל תצפית אחת, האומד לא יכול להימצא מובהק סטטיסטית כי השונות שלו נורא גבוהה. נקודה שכזאת יכולה להשפיע כל כך על קו הרגרסיה, לכן היא נקראת מנוף, לברג'.
+
+אם ערך הY של נקודה כזאת גם כן חריג, זה אומר שיש לנו תצפית חריגה עם מנוף גבוה - היא יכולה להטות את המודל לגמרי. בואו נראה דוגמא.
+:::
+:::
+
+---
+
+### High-leverage and Outlier observations
+
+```{python}
+#| echo: false
+
+model = LinearRegression().fit(df[['hp']], df['mpg'])
+y_pred = model.predict(df[['hp']])
+
+SSx = np.sum((x_hp - np.mean(x_hp))**2)
+h = 1 / x_hp.shape[0] + (x_hp - np.mean(x_hp))**2 / SSx
+
+highlight_point1 = {'X1': df['hp'].values[-2], 'Y': df['mpg'].values[-2]}
+highlight_point2 = {'X1': h[-2], 'Y': (y_pred - df['mpg'].values)[-2]}
+
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+sns.scatterplot(data=df, x='hp', y='mpg', ax=axes[0])
+axes[0].scatter(highlight_point1['X1'], highlight_point1['Y'], color='red', s=100)
+axes[0].plot(df['hp'], y_pred, color='red')
+axes[0].set_xlabel('Horsepower')
+axes[0].set_ylabel('Miles per Gallon')
+
+sns.scatterplot(x=h.flatten(), y=y_pred - df['mpg'], ax=axes[1])
+axes[1].scatter(highlight_point2['X1'], highlight_point2['Y'], color='red', s=100)
+axes[1].axhline(y=0, color='r', linestyle='--')
+axes[1].set_xlabel('Leverage')
+axes[1].set_ylabel('Residuals')
+
+plt.show()
+```
+
+::: {.fragment}
+Consider removing (careful!).
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+האמת היא שכבר יש לנו דוגמא מוכנה, ברגרסיה של צריכת דלק של מכוניות כפונקציה של כוח סוס. אם תחשבו את אינדקס הH, תראו שהלברג' של התצפית האחרונה מצד ימין עם הכי הרבה כוח סוס, הוא ממש חריג. רואים את זה בדרך כלל בגרף של שאריות מול לברג'. אנחנו רואים תצפית עם לברג' גבוה שיש לה גם ערך Y קטן מאוד, כדאי לחשוד בה, ומעניין לראות איך היה נראה המודל בלעדיה.
+:::
+:::
+
+---
+
+#### Excluding high-leverage + outlier
+
+```{python}
+#| echo: false
+
+df2 = df.drop(x_hp.shape[0] - 2, axis=0)
+model = LinearRegression().fit(df2[['hp']], df2['mpg'])
+y_pred2 = model.predict(df[['hp']])
+
+x_hp2 = np.delete(x_hp, -2)
+SSx = np.sum((x_hp2 - np.mean(x_hp2))**2)
+h = 1 / x_hp2.shape[0] + (x_hp2 - np.mean(x_hp2))**2 / SSx
+
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+sns.scatterplot(data=df2, x='hp', y='mpg', ax=axes[0])
+axes[0].plot(df['hp'], y_pred, color='red', label = 'All obs')
+axes[0].plot(df['hp'], y_pred2, color='green', label = 'Excluding outlier')
+axes[0].set_xlabel('Horsepower')
+axes[0].set_ylabel('Miles per Gallon')
+axes[0].legend()
+
+sns.scatterplot(x=h.flatten(), y=y_pred2[:-1] - df2['mpg'], ax=axes[1])
+axes[1].axhline(y=0, color='r', linestyle='--')
+axes[1].set_xlabel('Leverage')
+axes[1].set_ylabel('Residuals')
+
+plt.show()
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+אם אנחנו מסירים את התצפית המודל אכן משתנה בצורה ניכרת לעין למרות שמדובר בתצפית אחת מתוך יותר מ30, וגרף השאריות מול לברג' נראה הרבה יותר טוב. מטריקה חשובה לקרוא בהקשר זה היא הקוקס דיסטנס.
+
+נסיים כאן את הדיון ברגרסיה ליניארית. נזכיר שאפשר לפתח כל נושא כאן לשיעור שלם, ומי שרוצים להעמיק במודל הכל כך מפורסם הזה, יש להם אינספור ספרים בכל מיני רמות לקרוא עליו.
+:::
+:::
