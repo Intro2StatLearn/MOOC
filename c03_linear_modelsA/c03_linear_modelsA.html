@@ -10,7 +10,7 @@
 <link href="../libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.4.554">
 
-  <title>Linear Regression</title>
+  <title>Linear Models - Part A</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -345,7 +345,7 @@
 </section>
 <section id="introduction-to-statistical-learning" class="slide level2 title-slide center">
 <h2>Introduction to Statistical Learning</h2>
-<h3 id="linear-regression---class-2">Linear Regression - Class 2</h3>
+<h3 id="linear-models---part-a---class-3">Linear Models - Part A - Class 3</h3>
 <h3 id="giora-simchoni">Giora Simchoni</h3>
 <h4 id="gsimchonigmail.com-and-add-intro2sl-in-subject"><code>gsimchoni@gmail.com</code> and add <code>#intro2sl</code> in subject</h4>
 <h3 id="stat.-and-or-department-tau">Stat. and OR Department, TAU</h3>
@@ -437,11 +437,11 @@
 <section class="slide level2">
 
 <h3 id="from-line-to-rss-surface">From line to RSS surface</h3>
-<div id="6427675c" class="cell" data-execution_count="1">
+<div id="10e85eee" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-2-output-1.png" width="1189" height="348"></p>
+<p><img data-src="c03_linear_modelsA_files/figure-revealjs/cell-2-output-1.png" width="1189" height="348"></p>
 </figure>
 </div>
 </div>
@@ -501,11 +501,11 @@
 <section class="slide level2">
 
 <h3 id="average-of-many-ols-lines">Average of many OLS lines</h3>
-<div id="7fa4080a" class="cell" data-execution_count="2">
+<div id="8f86ce3d" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-3-output-1.png" width="1142" height="470"></p>
+<p><img data-src="c03_linear_modelsA_files/figure-revealjs/cell-3-output-1.png" width="1142" height="470"></p>
 </figure>
 </div>
 </div>
@@ -666,11 +666,11 @@
 <section class="slide level2">
 
 <h3 id="from-line-to-hyperplane">From line to (hyper)plane</h3>
-<div id="14f915a7" class="cell" data-execution_count="3">
+<div id="a10e493f" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-4-output-1.png" width="570" height="537"></p>
+<p><img data-src="c03_linear_modelsA_files/figure-revealjs/cell-4-output-1.png" width="570" height="537"></p>
 </figure>
 </div>
 </div>
@@ -864,11 +864,11 @@
 <section class="slide level2">
 
 <h3 id="se-vs.-x-spread">SE vs.&nbsp;<span class="math inline">\(x\)</span> spread</h3>
-<div id="33a11d6c" class="cell" data-execution_count="4">
+<div id="d15bd763" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-5-output-1.png" width="1142" height="470"></p>
+<p><img data-src="c03_linear_modelsA_files/figure-revealjs/cell-5-output-1.png" width="1142" height="470"></p>
 </figure>
 </div>
 </div>
@@ -1007,15 +1007,15 @@
 <section class="slide level2">
 
 <h3 id="example-with-statsmodels">Example with <code>statsmodels</code></h3>
-<div id="9359e07c" class="cell" data-execution_count="5">
+<div id="095cf2ca" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-stdout">
 <pre><code>                            OLS Regression Results                            
 ==============================================================================
 Dep. Variable:                 Income   R-squared:                       0.934
 Model:                            OLS   Adj. R-squared:                  0.929
 Method:                 Least Squares   F-statistic:                     191.4
-Date:                Sat, 15 Jun 2024   Prob (F-statistic):           1.13e-16
-Time:                        19:29:22   Log-Likelihood:                -100.15
+Date:                Mon, 24 Jun 2024   Prob (F-statistic):           1.13e-16
+Time:                        12:32:01   Log-Likelihood:                -100.15
 No. Observations:                  30   AIC:                             206.3
 Df Residuals:                      27   BIC:                             210.5
 Df Model:                           2                                         
@@ -1126,11 +1126,11 @@ Notes:
 
 <h3 id="model-fit-plotting">Model Fit: plotting</h3>
 <p>When <span class="math inline">\(p\)</span> is low - draw!</p>
-<div id="e229833b" class="cell" data-execution_count="6">
+<div id="2fa35ff7" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-7-output-1.png" width="876" height="398"></p>
+<p><img data-src="c03_linear_modelsA_files/figure-revealjs/cell-7-output-1.png" width="876" height="398"></p>
 </figure>
 </div>
 </div>
@@ -1154,11 +1154,11 @@ Notes:
 <section class="slide level2">
 
 <h3 id="model-fit-residuals-plots">Model fit: residuals plots</h3>
-<div id="e0560278" class="cell" data-execution_count="7">
+<div id="29243311" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-8-output-1.png" width="972" height="429"></p>
+<p><img data-src="c03_linear_modelsA_files/figure-revealjs/cell-8-output-1.png" width="972" height="429"></p>
 </figure>
 </div>
 </div>
@@ -1185,11 +1185,11 @@ Notes:
 <h3 id="model-fit-r-squared">Model Fit: <span class="math inline">\(R\)</span> squared</h3>
 <p>Measure of “explained variance”:</p>
 <p><span class="math inline">\(R^2 = 1 - \frac{\sum_{i = 1}^n (y_i - X\hat{\beta})^2}{\sum_{i = 1}^n (y_i - \bar{y})^2} = 1 - \frac{RSS}{TSS} = 1 - \frac{(y - X\hat{\beta})'(y - X\hat{\beta})}{(y - X\hat{\beta^*_0})'(y - X\hat{\beta^*_0})}\)</span></p>
-<div id="e3450a34" class="cell" data-execution_count="8">
+<div id="73715a35" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-9-output-1.png" width="597" height="360"></p>
+<p><img data-src="c03_linear_modelsA_files/figure-revealjs/cell-9-output-1.png" width="597" height="360"></p>
 </figure>
 </div>
 </div>
@@ -1427,11 +1427,11 @@ Notes:
 <section class="slide level2">
 
 <h3 id="interactions">Interactions</h3>
-<div id="31b583fb" class="cell" data-execution_count="9">
+<div id="304b2bd3" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-10-output-1.png" width="566" height="537"></p>
+<p><img data-src="c03_linear_modelsA_files/figure-revealjs/cell-10-output-1.png" width="566" height="537"></p>
 </figure>
 </div>
 </div>
@@ -1459,11 +1459,11 @@ Notes:
 <section class="slide level2">
 
 <h3 id="interactions-residuals-plots">Interactions: residuals plots</h3>
-<div id="4b31aeb3" class="cell" data-execution_count="10">
+<div id="ee4348f1" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-11-output-1.png" width="959" height="433"></p>
+<p><img data-src="c03_linear_modelsA_files/figure-revealjs/cell-11-output-1.png" width="959" height="433"></p>
 </figure>
 </div>
 </div>
@@ -1491,11 +1491,11 @@ Notes:
 <section class="slide level2">
 
 <h3 id="interactions-adding-an-interaction-term">Interactions: adding an interaction term</h3>
-<div id="6d7a6a03" class="cell" data-execution_count="11">
+<div id="531bb5d7" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-12-output-1.png" width="426" height="398"></p>
+<p><img data-src="c03_linear_modelsA_files/figure-revealjs/cell-12-output-1.png" width="426" height="398"></p>
 </figure>
 </div>
 </div>
@@ -1535,11 +1535,11 @@ Notes:
 <section class="slide level2">
 
 <h3 id="non-linear-relations">Non-linear relations</h3>
-<div id="0c52626d" class="cell" data-execution_count="12">
+<div id="449ea6c4" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-13-output-1.png" width="957" height="432"></p>
+<p><img data-src="c03_linear_modelsA_files/figure-revealjs/cell-13-output-1.png" width="957" height="432"></p>
 </figure>
 </div>
 </div>
@@ -1567,11 +1567,11 @@ Notes:
 <section class="slide level2">
 
 <h3 id="plynomial-regression-beware-1">Plynomial regression: Beware 1</h3>
-<div id="08237c62" class="cell" data-execution_count="13">
+<div id="cd7c2f7b" class="cell" data-execution_count="13">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-14-output-1.png" width="510" height="432"></p>
+<p><img data-src="c03_linear_modelsA_files/figure-revealjs/cell-14-output-1.png" width="510" height="432"></p>
 </figure>
 </div>
 </div>
@@ -1596,7 +1596,7 @@ Notes:
 
 <h3 id="plynomial-regression-beware-1-1">Plynomial regression: Beware 1</h3>
 <p>Quadratic:</p>
-<div id="9ab7aa37" class="cell" data-execution_count="14">
+<div id="452c4e7c" class="cell" data-execution_count="14">
 <div class="cell-output cell-output-display" data-execution_count="14">
 <div>
 <table class="simpletable" data-quarto-postprocess="true">
@@ -1643,7 +1643,7 @@ Notes:
 </div>
 </div>
 <p>Cubic:</p>
-<div id="ec2f9641" class="cell" data-execution_count="15">
+<div id="dbccabfc" class="cell" data-execution_count="15">
 <div class="cell-output cell-output-display" data-execution_count="15">
 <div>
 <table class="simpletable" data-quarto-postprocess="true">
@@ -1717,11 +1717,11 @@ Notes:
 <section class="slide level2">
 
 <h3 id="plynomial-regression-beware-2">Plynomial regression: Beware 2</h3>
-<div id="c6a90032" class="cell" data-execution_count="16">
+<div id="5f51e161" class="cell" data-execution_count="16">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-17-output-1.png" width="521" height="429"></p>
+<p><img data-src="c03_linear_modelsA_files/figure-revealjs/cell-17-output-1.png" width="521" height="429"></p>
 </figure>
 </div>
 </div>
@@ -1765,16 +1765,16 @@ Notes:
 <section class="slide level2">
 
 <h3 id="why-not-significant">Why “not significant”?</h3>
-<div id="88dc0153" class="cell" data-execution_count="17">
+<div id="f676be81" class="cell" data-execution_count="17">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-18-output-1.png" width="426" height="398"></p>
+<p><img data-src="c03_linear_modelsA_files/figure-revealjs/cell-18-output-1.png" width="426" height="398"></p>
 </figure>
 </div>
 </div>
 </div>
-<div id="e4432d1e" class="cell" data-execution_count="18">
+<div id="23812807" class="cell" data-execution_count="18">
 <div class="cell-output cell-output-stdout">
 <pre><code>==============================================================================
                  coef    std err          t      P&gt;|t|      [0.025      0.975]
@@ -1811,6 +1811,7 @@ X2             0.8772      1.144      0.767      0.445      -1.393       3.147
 <li class="fragment">In the case of exact collinearity: the matrix <span class="math inline">\(X'X\)</span> is singular, no unique solution</li>
 <li class="fragment">In the case of approximate collinearity:
 <ul>
+<li class="fragment">If <span class="math inline">\(X_1 \approx X_2\)</span>, then: <span class="math inline">\(y = X_1; \quad y = X_2; \quad y = \frac{1}{2}X_1 + \frac{1}{2}X_2;\quad y = 1000X_1 - 999X_2\)</span> are the same models!</li>
 <li class="fragment">the solution is not numerically stable</li>
 <li class="fragment"><span class="math inline">\(SE(\hat{\beta})\)</span> grows, <span class="math inline">\(t_{obs}\)</span> value decreases, feature is “masked” in inference</li>
 </ul></li>
@@ -1822,7 +1823,7 @@ X2             0.8772      1.144      0.767      0.445      -1.393       3.147
 <p>קוליניאריות היא מצב שבו פיצ’ר מסוים, או יותר, הם בספאן של פיצ’רים אחרים, כלומר צירוף ליניארי של משתנים אחרים. ראינו פוטנציאל לזה כשדיברנו על ייצוג של משתני אינדיקטור למשתנים קטגוריאליים עם OHE. דוגמאות שכיחות יותר זה כשמישהו החליט למשל לתת את הטמפרטורה בצלזיוס וגם בפרנהייט. בשני המקרים מדובר במשתנה מיותר שכדאי היה פשוט להוריד.</p>
 <p>אבל זאת דוגמא קיצונית, נגיד שקוליניאריות מתרחשת גם כשפיצ’ר אחד הוא בקירוב צירוף ליניארי של פיצ’רים אחרים, כמו למשל שערכתם מחקר על ילדים והחלטתם להכניס למודל גם את הגיל של הילדים וגם את מידת הנעליים שלהם. ובין שני אלה הרי יש מתאם לא מבוטל. או אולי יש לכם פשוט הרבה פיצ’רים, ומה לעשות במקרה יש שם פיצ’רים עם מתאם גדול ביניהם.</p>
 <p>מה יכול להיות בעייתי בזה? שימו-לב, לא הנחנו שהעמודות של X הן בלתי תלויות, אבל אם עמודה אחת היא צירוף ליניארי של האחרות אז הדרגה של X תהיה לא מלאה, והמטריצה X’X הזאת שמופיעה באומדן הריבועים הפחותים תהיה סינגולרית, אין לה הופכית ולכן אין גם פתרון.</p>
-<p>במצב הפחות קיצוני אבל המדאיג יותר, שבו יש קוליניאריות בקירוב, הופכי של X’X יהיה לא יציב נומרית, הוא יכול להיות פתאום נורא גדול. אם ניקח את ערך הטי לפיצ’ר ספציפי, נראה שאם האיבר על אלכסון הX’X נעשה גדול יותר ויותר, זה אומר שטעות התקן או המכנה של הסטטיסטי נעשה גדול יותר ויותר, ובהתאמה ערך הטי קטן יותר, והאיבר הזה לא ייראה כמובהק סטטיסטי. הוא עבר מיסוך בהסקה סטטיסטית.</p>
+<p>במצב הפחות קיצוני אבל המדאיג יותר, שבו יש קוליניאריות בקירוב, לדוגמא כשמשתנה X1 דומה מאוד למשתנה X2 כמו בדוגמא שלנו. המודל Y שווה X1 או המודל Y שווה X2. או המודל Y שווה אלף X1 פחות 999 X2 - הם נורא דומים. בפועל, הופכי של X’X יהיה לא יציב נומרית, הוא יכול להיות פתאום נורא גדול. אם ניקח את ערך הטי לפיצ’ר ספציפי, נראה שאם האיבר על אלכסון הX’X נעשה גדול יותר ויותר, זה אומר שטעות התקן או המכנה של הסטטיסטי נעשה גדול יותר ויותר, ובהתאמה ערך הטי קטן יותר, והאיבר הזה לא ייראה כמובהק סטטיסטי. הוא עבר מיסוך בהסקה סטטיסטית.</p>
 <p>אז לא ניכנס לכל פתרון אפשרי לטיפול בקוליניאריות, אבל זו בעיה שצריכים להיות מודעים אליה. לכל הפחות הביטו במטריצת הקורלציה בין המשתנים שלכם, וקראו עוד על מטריקות שאמורות להציף את הבעיה.</p>
 </div>
 <style type="text/css">
@@ -1871,11 +1872,11 @@ X2             0.8772      1.144      0.767      0.445      -1.393       3.147
 <section class="slide level2">
 
 <h3 id="high-leverage-and-outlier-observations-1">High-leverage and Outlier observations</h3>
-<div id="e23acf7b" class="cell" data-execution_count="19">
+<div id="52b93b70" class="cell" data-execution_count="19">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-20-output-1.png" width="957" height="432"></p>
+<p><img data-src="c03_linear_modelsA_files/figure-revealjs/cell-20-output-1.png" width="957" height="432"></p>
 </figure>
 </div>
 </div>
@@ -1902,11 +1903,11 @@ X2             0.8772      1.144      0.767      0.445      -1.393       3.147
 <section class="slide level2">
 
 <h4 id="excluding-high-leverage-outlier">Excluding high-leverage + outlier</h4>
-<div id="9db34811" class="cell" data-execution_count="20">
+<div id="c85f7841" class="cell" data-execution_count="20">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c03_linear_regression_files/figure-revealjs/cell-21-output-1.png" width="957" height="430"></p>
+<p><img data-src="c03_linear_modelsA_files/figure-revealjs/cell-21-output-1.png" width="957" height="430"></p>
 </figure>
 </div>
 </div>

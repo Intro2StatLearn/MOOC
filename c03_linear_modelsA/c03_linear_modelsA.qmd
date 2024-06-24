@@ -11,7 +11,7 @@ css: "../slides_quarto.css"
 standalone: false
 include-in-header: "../header_quarto.html"
 logo: "../Intro2SL_logo_white.jpg"
-pagetitle: "Linear Regression"
+pagetitle: "Linear Models - Part A"
 callout-appearance: simple
 smaller: true
 execute:
@@ -27,7 +27,7 @@ footer: "[Intro to Statistical Learning](https://intro2statlearn.github.io/mooc/
 
 ## Introduction to Statistical Learning {.title-slide}
 
-### Linear Regression - Class 2
+### Linear Models - Part A - Class 3
 
 ### Giora Simchoni
 
@@ -1668,6 +1668,7 @@ print(model_both.summary().tables[1])
 - Usually it is not exactly in the span but near the span
 - In the case of exact collinearity: the matrix $X'X$ is singular, no unique solution
 - In the case of approximate collinearity:
+  - If $X_1 \approx X_2$, then: $y = X_1; \quad y = X_2; \quad y = \frac{1}{2}X_1 + \frac{1}{2}X_2;\quad y = 1000X_1 - 999X_2$ are the same models!
   - the solution is not numerically stable
   - $SE(\hat{\beta})$ grows, $t_{obs}$ value decreases, feature is "masked" in inference
 - Explore your data with a correlation matrix, many other metrics
@@ -1681,7 +1682,7 @@ print(model_both.summary().tables[1])
 
 מה יכול להיות בעייתי בזה? שימו-לב, לא הנחנו שהעמודות של X הן בלתי תלויות, אבל אם עמודה אחת היא צירוף ליניארי של האחרות אז הדרגה של X תהיה לא מלאה, והמטריצה X'X הזאת שמופיעה באומדן הריבועים הפחותים תהיה סינגולרית, אין לה הופכית ולכן אין גם פתרון.
 
-במצב הפחות קיצוני אבל המדאיג יותר, שבו יש קוליניאריות בקירוב, הופכי של X'X יהיה לא יציב נומרית, הוא יכול להיות פתאום נורא גדול. אם ניקח את ערך הטי לפיצ'ר ספציפי, נראה שאם האיבר על אלכסון הX'X נעשה גדול יותר ויותר, זה אומר שטעות התקן או המכנה של הסטטיסטי נעשה גדול יותר ויותר, ובהתאמה ערך הטי קטן יותר, והאיבר הזה לא ייראה כמובהק סטטיסטי. הוא עבר מיסוך בהסקה סטטיסטית.
+במצב הפחות קיצוני אבל המדאיג יותר, שבו יש קוליניאריות בקירוב, לדוגמא כשמשתנה X1 דומה מאוד למשתנה X2 כמו בדוגמא שלנו. המודל Y שווה X1 או המודל Y שווה X2. או המודל Y שווה אלף X1 פחות 999 X2 - הם נורא דומים. בפועל, הופכי של X'X יהיה לא יציב נומרית, הוא יכול להיות פתאום נורא גדול. אם ניקח את ערך הטי לפיצ'ר ספציפי, נראה שאם האיבר על אלכסון הX'X נעשה גדול יותר ויותר, זה אומר שטעות התקן או המכנה של הסטטיסטי נעשה גדול יותר ויותר, ובהתאמה ערך הטי קטן יותר, והאיבר הזה לא ייראה כמובהק סטטיסטי. הוא עבר מיסוך בהסקה סטטיסטית.
 
 אז לא ניכנס לכל פתרון אפשרי לטיפול בקוליניאריות, אבל זו בעיה שצריכים להיות מודעים אליה. לכל הפחות הביטו במטריצת הקורלציה בין המשתנים שלכם, וקראו עוד על מטריקות שאמורות להציף את הבעיה.
 :::
