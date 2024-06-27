@@ -1,0 +1,125 @@
+---
+format:
+  revealjs:
+    slide-number: true
+    chalkboard: true
+    fig-width: 6
+    fig-asp: 0.618
+    template-partials:
+      - "../title-slide.html"
+css: "../slides_quarto.css"
+standalone: false
+include-in-header: "../header_quarto.html"
+logo: "../Intro2SL_logo_white.jpg"
+pagetitle: "Model Selection and Assessment"
+callout-appearance: simple
+smaller: true
+execute:
+  eval: true
+  echo: true
+code-line-numbers: false
+code-block-border-left: true
+highlight-style: github
+footer: "[Intro to Statistical Learning](https://intro2statlearn.github.io/mooc/){target='_blank'}"
+---
+
+## {.logo-slide}
+
+## Introduction to Statistical Learning {.title-slide}
+
+### Model Selection and Assessment - Class 5
+
+### Giora Simchoni
+
+#### `gsimchoni@gmail.com` and add `#intro2sl` in subject
+
+### Stat. and OR Department, TAU
+
+---
+
+## Expected Prediction Error {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Previously with the Bias-Variance Tradeoff
+
+- For regression, take the standard model: $y = f(x) + \epsilon\;,\;\epsilon \sim (0,\sigma^2)$
+
+- Modeling approach (e.g. OLS), given training data $T$, gives model $\hat{f}(x)$
+
+::: {.fragment}
+- Assume we want to predict at new point $x_0$, and understand our expected (squared) prediction error: 
+$$\mathbb{E}_{y_0, T}(y_0 - \hat{f}(x_0))^2 = \text{irreducible error} + \text{squared bias} + \text{variance}$$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Expected Prediction Error
+
+$$\mathbb{E}_{y_0, T}(y_0 - \hat{f}(x_0))^2 = \text{irreducible error} + \text{squared bias} + \text{variance}$$
+
+::: {.incremental}
+- Note we treat both the training data $T$ (and hence $\hat{f}$) and the response $y_0$ as random variables in our expectations
+- So, more generally we decomposed: $\mathbb{E}_{y_0, T}(L(y_0, \hat{f}(x_0))|X = x_0)$
+- [Expected prediction error]{style="color:red;"} is when we average over all $x_0$:
+$$Err = \mathbb{E}_{x_0, y_0, T}(L(y_0, \hat{f}(x_0))) = \mathbb{E}_{X}\left[\mathbb{E}_{y_0, T}(L(y_0, \hat{f}(x_0))|X = x_0)\right]$$
+- This could also be written as:
+$$Err = \mathbb{E}_{x_0, y_0, T}(L(y_0, \hat{f}(x_0))) = \mathbb{E}_{T}\left[\mathbb{E}_{x_0, y_0}(L(y_0, \hat{f}(x_0))|T)\right] = \mathbb{E}\left[Err_T\right]$$
+- Some would say $Err_T$ is even more interesting!
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### What EPE is for?
+
+::: {.fragment}
+1. [Model Selection]{style="color:red;"}: select between a set of models (e.g. one with 5 parameters and the other with 6 parameters) the one with lowest error
+2. [Model Assessment]{style="color:red;"}: know how accurate the model would be, estimate the error itself
+:::
+
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### How to estimate EPE?
+
+::: {.fragment}
+::: {.callout-note}
+What do you mean how, why not training error:
+$$\overline{err} = \frac{1}{n}\sum_{i=1}^{n} L(y_i, \hat{f}(x_i))$$
+:::
+:::
+
+::: {.incremental}
+1. Data splitting: Train-Validation-Test
+2. Cross Validation
+3. Bootstrap
+4. Training error + Optimism
+:::
+
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
