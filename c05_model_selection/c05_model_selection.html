@@ -403,7 +403,7 @@
 <li class="fragment">So, more generally we decomposed: <span class="math inline">\(\mathbb{E}_{y_0, T}(L(y_0, \hat{f}(x_0))|X = x_0)\)</span></li>
 <li class="fragment"><span style="color:red;">Expected prediction error</span> is when we average over all <span class="math inline">\(x_0\)</span>: <span class="math display">\[Err = \mathbb{E}_{x_0, y_0, T}(L(y_0, \hat{f}(x_0))) = \mathbb{E}_{X}\left[\mathbb{E}_{y_0, T}(L(y_0, \hat{f}(x_0))|X = x_0)\right]\]</span></li>
 <li class="fragment">This could also be written as: <span class="math display">\[Err = \mathbb{E}_{x_0, y_0, T}(L(y_0, \hat{f}(x_0))) = \mathbb{E}_{T}\left[\mathbb{E}_{x_0, y_0}(L(y_0, \hat{f}(x_0))|T)\right] = \mathbb{E}\left[Err_T\right]\]</span></li>
-<li class="fragment">Some would say <span class="math inline">\(Err_T\)</span> is even more interesting!</li>
+<li class="fragment">Some would say the <em>conditional</em> <span class="math inline">\(Err_T\)</span> is even more interesting!</li>
 </ul>
 </div>
 <aside class="notes">
@@ -507,7 +507,7 @@
 <section class="slide level2">
 
 <h3 id="data-splitting-train-validation-test">Data splitting: Train-Validation-Test</h3>
-<div id="66fe2f49" class="cell" data-execution_count="1">
+<div id="34c64b01" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -575,7 +575,7 @@
 <section class="slide level2">
 
 <h3 id="single-split-need-2nd-opinion">Single split: need 2nd opinion</h3>
-<div id="648856fd" class="cell" data-execution_count="2">
+<div id="ce5d1eba" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -600,8 +600,132 @@
           display:block!important;
       }</style></aside>
 </section>
+<section id="cross-validation" class="slide level2 title-slide center">
+<h2>Cross Validation</h2>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
 <section class="slide level2">
 
+<h3 id="k-fold-cross-validation"><span class="math inline">\(K\)</span>-fold Cross Validation</h3>
+<div id="5890fb7b" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c05_model_selection_files/figure-revealjs/cell-4-output-1.png" width="950" height="470"></p>
+</figure>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="k-fold-cross-validation-1"><span class="math inline">\(K\)</span>-fold Cross Validation</h3>
+<p>More formally:</p>
+<ul>
+<li>Define a random partition of the <span class="math inline">\(n\)</span> data points into <span class="math inline">\(K\)</span> sets, each of size <span class="math inline">\(n / K\)</span>: <span class="math display">\[\kappa: \{1,\dots,n\} \to \{1,\dots,K\}\]</span></li>
+<li>For <span class="math inline">\(k = 1, \dots, K\)</span> do:
+<ul>
+<li>Build a model <span class="math inline">\(\hat{f}(-k)\)</span> using all folds except the <span class="math inline">\(k\)</span>-th fold (total <span class="math inline">\(n \cdot (K - 1)/ K\)</span> data points)</li>
+<li>Predict on remaining <span class="math inline">\(k\)</span>-th fold: <span class="math inline">\(L_k = \sum_{i \in k\text{th fold}}L(y_i, \hat{f}^{(-k)}(x_i))\)</span></li>
+</ul></li>
+<li>CV estimate for prediction error: <span class="math inline">\(CV = \frac{1}{n}\sum_{k = 1}^{K} L_k\)</span></li>
+</ul>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="model-selection-with-cv">Model selection with CV</h3>
+<ul>
+<li>To perform model selection on tuning parameter <span class="math inline">\(\lambda\)</span>: <span class="math display">\[L_k(\lambda) = \sum_{i \in k\text{th fold}}L(y_i, \hat{f}_{\lambda}^{(-k)}(x_i)), \quad CV(\lambda) = \frac{1}{n}\sum_{k = 1}^{K} L_k, \quad \hat{\lambda} = \arg\min_\lambda CV(\lambda)\]</span></li>
+<li>Alternatively use the 1-SE rule (see next slide)</li>
+<li>Train final model using <span class="math inline">\(\hat{\lambda}\)</span> and optionally assess it on a fresh test set</li>
+</ul>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="what-does-cv-error-estimate">What does CV error estimate?</h3>
+<div id="e7154630" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c05_model_selection_files/figure-revealjs/cell-5-output-1.png" width="833" height="429"></p>
+</figure>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 <div class="quarto-auto-generated-content">
 <p><img src="../Intro2SL_logo_white.jpg" class="slide-logo"></p>
 <div class="footer footer-default">
