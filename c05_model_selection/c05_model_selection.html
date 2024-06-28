@@ -486,6 +486,120 @@
           display:block!important;
       }</style></aside>
 </section>
+<section id="data-splitting" class="slide level2 title-slide center">
+<h2>Data splitting</h2>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="data-splitting-train-validation-test">Data splitting: Train-Validation-Test</h3>
+<div id="66fe2f49" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c05_model_selection_files/figure-revealjs/cell-2-output-1.png" width="763" height="167"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Divide the given sample to 3:</p>
+<ul>
+<li><span style="color:red;">Training set</span>: learn different models</li>
+<li><span style="color:red;">Validation set</span>: decide on final model (model selection, tuning)</li>
+<li><span style="color:red;">Test set</span>: estimate final model’s performance (model assessment)</li>
+</ul>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="data-splitting-comments">Data splitting: comments</h3>
+<div>
+<ul>
+<li class="fragment">Test set is used only once!</li>
+<li class="fragment">Since larger <span class="math inline">\(n\)</span> should improve model’s performance, after model selection:
+<ul>
+<li class="fragment">unite {training + validation}, train final model and then assess it on the test set</li>
+</ul></li>
+<li class="fragment">No clear guidelines: 60-20-20%, 50-25-25%, … (depends on <span class="math inline">\(n\)</span> and nature of <span class="math inline">\(f\)</span>)</li>
+<li class="fragment">Disadvantages:
+<ul>
+<li class="fragment">Lose half the data? Only if we are rich in data</li>
+<li class="fragment">Model assessment highly variable</li>
+</ul></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="single-split-need-2nd-opinion">Single split: need 2nd opinion</h3>
+<div id="648856fd" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c05_model_selection_files/figure-revealjs/cell-3-output-1.png" width="1142" height="470"></p>
+</figure>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
 <section class="slide level2">
 
 <div class="quarto-auto-generated-content">

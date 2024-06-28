@@ -123,3 +123,185 @@ $$\overline{err} = \frac{1}{n}\sum_{i=1}^{n} L(y_i, \hat{f}(x_i))$$
 :::
 
 ---
+
+## Data splitting {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Data splitting: Train-Validation-Test
+
+```{python}
+#| echo: false
+
+import matplotlib.pyplot as plt
+
+# Data splitting proportions
+training_proportion = 0.6
+validation_proportion = 0.2
+test_proportion = 0.2
+
+# Plotting the data splitting strategy
+fig, ax = plt.subplots(figsize=(10, 2))
+
+# Plot the full dataset rectangle
+rect_full = plt.Rectangle((0, 0), 1, 1, edgecolor='black', facecolor='none')
+ax.add_patch(rect_full)
+
+# Plot the training set rectangle
+rect_train = plt.Rectangle((0, 0), training_proportion, 1, edgecolor='black', facecolor='lightblue')
+ax.add_patch(rect_train)
+ax.text(training_proportion / 2, 0.5, 'Training Set\n60%', ha='center', va='center', fontsize=12)
+
+# Plot the validation set rectangle
+rect_val = plt.Rectangle((training_proportion, 0), validation_proportion, 1, edgecolor='black', facecolor='lightgreen')
+ax.add_patch(rect_val)
+ax.text(training_proportion + validation_proportion / 2, 0.5, 'Validation Set\n20%', ha='center', va='center', fontsize=12)
+
+# Plot the test set rectangle
+rect_test = plt.Rectangle((training_proportion + validation_proportion, 0), test_proportion, 1, edgecolor='black', facecolor='lightcoral')
+ax.add_patch(rect_test)
+ax.text(training_proportion + validation_proportion + test_proportion / 2, 0.5, 'Test Set\n20%', ha='center', va='center', fontsize=12)
+
+# Setting plot limits and removing axes
+ax.set_xlim(0, 1)
+ax.set_ylim(0, 1)
+ax.axis('off')
+
+# plt.title('Data Splitting Strategy in Machine Learning')
+plt.show()
+```
+
+Divide the given sample to 3:
+
+- [Training set]{style="color:red;"}: learn different models
+- [Validation set]{style="color:red;"}: decide on final model (model selection, tuning)
+- [Test set]{style="color:red;"}: estimate final model's performance (model assessment)
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Data splitting: comments
+
+::: {.incremental}
+- Test set is used only once!
+- Since larger $n$ should improve model's performance, after model selection:
+  - unite {training + validation}, train final model and then assess it on the test set
+- No clear guidelines: 60-20-20%, 50-25-25%, ... (depends on $n$ and nature of $f$)
+- Disadvantages:
+  - Lose half the data? Only if we are rich in data
+  - Model assessment highly variable
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Single split: need 2nd opinion
+
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+from sklearn.model_selection import train_test_split
+
+# Step 1: Generate synthetic data with a clear cubic relationship
+np.random.seed(0)
+n = 1000
+X = np.random.rand(n, 1) * 10  # Features
+beta_0, beta_1, beta_2, beta_3 = 1, 2, 3, 4
+noise = np.random.randn(n, 1) * 100
+y = beta_0 + beta_1 * X + beta_2 * X**2 + beta_3 * X**3 + noise  # Cubic function with noise
+
+# Define polynomial degrees to test
+degrees = range(2, 8)
+
+# Function to train and evaluate polynomial regression models
+def polynomial_regression(X_train, y_train, X_val, y_val, degrees):
+    validation_mse = []
+    for d in degrees:
+        poly = PolynomialFeatures(degree=d)
+        X_train_poly = poly.fit_transform(X_train)
+        X_val_poly = poly.transform(X_val)
+        
+        model = LinearRegression().fit(X_train_poly, y_train)
+        y_val_pred = model.predict(X_val_poly)
+        
+        mse = mean_squared_error(y_val, y_val_pred)
+        validation_mse.append(mse)
+    return validation_mse
+
+# Single split
+X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.4, random_state=0)
+X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, random_state=0)
+
+# Validation MSE for single split
+single_split_mse = polynomial_regression(X_train, y_train, X_val, y_val, degrees)
+
+# Multiple random splits
+num_splits = 10
+all_splits_mse = []
+
+for i in range(num_splits):
+    X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.4, random_state=i)
+    X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, random_state=i)
+    mse = polynomial_regression(X_train, y_train, X_val, y_val, degrees)
+    all_splits_mse.append(mse)
+
+# Determine common y-axis limits
+all_mse_values = [mse for sublist in all_splits_mse for mse in sublist] + single_split_mse
+y_min = min(all_mse_values)
+y_max = max(all_mse_values)
+
+# Define common y-axis ticks
+y_ticks = np.linspace(10000, 18000, num=5)
+
+# Plotting
+fig, axs = plt.subplots(1, 2, figsize=(12, 5))
+
+# Left plot: Single split
+axs[0].plot(degrees, single_split_mse, marker='o', label='Single Split')
+axs[0].set_title('Validation MSE (Single Split)')
+axs[0].set_xlabel('Polynomial Degree')
+axs[0].set_ylabel('MSE')
+axs[0].set_xticks(degrees)
+axs[0].set_ylim(y_min, y_max)
+axs[0].set_yticks(y_ticks)
+# axs[0].legend()
+
+# Right plot: Multiple splits
+for i, mse in enumerate(all_splits_mse):
+    axs[1].plot(degrees, mse, marker='o', label=f'Split {i+1}')
+axs[1].set_title('Validation MSE (10 Random Splits)')
+axs[1].set_xlabel('Polynomial Degree')
+# axs[1].set_ylabel('MSE')
+axs[1].set_xticks(degrees)
+axs[1].set_ylim(y_min, y_max)
+axs[1].set_yticks(y_ticks)
+# axs[1].legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+
+plt.tight_layout()
+plt.show()
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
