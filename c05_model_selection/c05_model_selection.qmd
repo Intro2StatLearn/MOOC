@@ -372,7 +372,7 @@ More formally:
 - Define a random partition of the $n$ data points into $K$ sets, each of size $n / K$:
 $$\kappa: \{1,\dots,n\} \to \{1,\dots,K\}$$
 - For $k = 1, \dots, K$ do:
-  - Build a model $\hat{f}(-k)$ using all folds except the $k$-th fold (total $n \cdot (K - 1)/ K$ data points)
+  - Build a model $\hat{f}^{(-k)}$ using all folds except the $k$-th fold (total $n \cdot (K - 1)/ K$ data points)
   - Predict on remaining $k$-th fold: $L_k = \sum_{i \in k\text{th fold}}L(y_i, \hat{f}^{(-k)}(x_i))$
 - CV estimate for prediction error: $CV = \frac{1}{n}\sum_{k = 1}^{K} L_k$
 
@@ -476,3 +476,176 @@ plt.show()
 ::: {style="direction:rtl; font-size:16px"}
 :::
 :::
+
+---
+
+### Can $K$-fold CV be biased?
+
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+S  = np.concatenate(([0.001, 0.01, 0.05], np.linspace(0.1, 0.9, 9), [0.95, 0.99, 0.999]))
+c = - np.log(1 - S) / S
+plt.rcParams["figure.figsize"] = (4, 4)
+plt.plot(c - 0.05, S - 0.2)
+plt.xlabel('Size of Training Set')
+plt.ylabel('1 - Err')
+plt.ylim(0, 1)
+plt.xticks([1, 3, 5, 7], labels=[0, 50, 100, 150])
+plt.title('Hypothetical Learning Curve')
+plt.show()
+```
+
+- Assume our model requires at least 50 data points to reach its potential
+- What will happen if we do 5-fold CV on a training set that contains exactly 50 observations?
+- $CV$ error would be biased, over-estimated
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Leave-one-out CV (LOOCV)
+
+- So why not $K = n$?
+- Train on $n - 1$ observations excluding observation $i$, test on observation $i$
+
+::: {.incremental}
+  - Might be computationally intensive (though see Generalized CV (GCV))
+  - Test on 1 observations, training sets extremely dependent $\to$ low bias but high variance!
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### CV - Interim Summary
+
+:::: {.columns}
+
+::: {.column width="33%"}
+Single-split:
+
+- $`K = 1`$
+- Not efficient use of data
+- Highly variable, "need 2nd opinion"
+- For large $n$
+:::
+
+::: {.column width="33%"}
+$K$-fold CV:
+
+- $K = 5, 10$
+- More efficient use of data but "Learning Curve"
+- Can combine with an additional final test set
+- Can become computationally intensive (2+ tuning params, finer grid)
+- Probably best compromise
+:::
+
+::: {.column width="33%"}
+LOOCV:
+
+- $K = n$
+- Most efficient use of data, unbiased
+- But computational intensive for modern ML techniques, even for 1 param
+- High variance
+:::
+
+::::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### CV - Common Pitfalls (I)
+
+- Suppose we have many days of sequential inter-daily data ([time series]{style="color:red;"})
+- We do CV and randomly divide the data into parts
+- Can we rely on the variance reduction of the parts?
+- Did we leak information between the training part and the test part?
+
+::: {.incremental}
+- No and Yes!
+- we cannot assume the parts are independent, and we probably have an information leak $\to$ we under-estimate the error
+- How can we correct this?
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### CV - Common Pitfalls (II)
+
+- Suppose we have a data with many variables, can we do the following process to estimate the prediction error:
+  - On all the data find a small subset of the strongest variables
+  - Perform CV using only this set of variables
+
+::: {.incremental}
+- Extremely problematic and overly optimistic!
+- Where is the information leakage?
+- Similar principle: standardizing the data based on all $n$ observations
+- How can we correct this?
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Use `Pipeline`s
+
+```{python}
+#| eval: false
+
+from sklearn.model_selection import KFold, GridSearchCV
+from sklearn.pipeline import Pipeline
+
+kf = KFold(n_splits=5, shuffle=True, random_state=0)
+
+pipeline = Pipeline([
+    ('scaler', StandardScaler()),
+    ('feature_selection', SelectKBest(score_func=f_regression)),
+    ('knn', KNeighborsRegressor())
+])
+
+param_grid = {
+    'feature_selection__k': range(1, n_features + 1),
+    'knn__n_neighbors': [3, 5, 7, 9],
+    'knn__metric': ['euclidean', 'manhattan']
+}
+
+grid_search = GridSearchCV(pipeline, param_grid, cv=kf, scoring='neg_mean_squared_error')
+grid_search.fit(X, y)
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+## Bootstrap {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
