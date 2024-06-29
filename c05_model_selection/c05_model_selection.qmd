@@ -649,3 +649,125 @@ grid_search.fit(X, y)
 :::
 
 ---
+
+### The Boostrap
+
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.colors import LinearSegmentedColormap
+
+# Create a custom colormap
+cmap = LinearSegmentedColormap.from_list('custom_cmap', ['lightblue', 'green'])
+
+# Parameters
+n_samples = 5
+n_observations = 8
+margin = 1  # Margin between samples
+
+# Generate bootstrap samples
+bootstrap_samples = [np.random.choice(range(n_observations), size=n_observations, replace=True) for _ in range(n_samples)]
+
+# Count occurrences of each observation in each bootstrap sample
+counts = np.zeros((n_samples, n_observations), dtype=int)
+for i, sample in enumerate(bootstrap_samples):
+    for obs in sample:
+        counts[i, obs] += 1
+
+# Plotting
+fig, ax = plt.subplots(figsize=(12, 6))
+
+# Create a grid of rectangles with margins
+for i in range(n_samples):
+    y_position = (n_samples - i - 1) * (1 + margin)
+    ax.text(n_observations / 2, y_position + margin + 0.5, f'Sample {i + 1}', ha='center', va='center', fontsize=12)
+    for j in range(n_observations):
+        count = counts[i, j]
+        color = cmap(count / max(1, counts.max()))
+        rect = plt.Rectangle((j, y_position), 1, 1, facecolor=color, edgecolor='black')
+        ax.add_patch(rect)
+        if count == 0:
+            ax.text(j + 0.5, y_position + 0.5, 'out of\nsample', ha='center', va='center', fontsize=8)
+        else:
+            ax.text(j + 0.5, y_position + 0.5, str(count), ha='center', va='center', fontsize=12)
+
+# Formatting
+ax.set_xlim(0, n_observations)
+ax.set_ylim(0, n_samples * (1 + margin) + margin)
+ax.set_xticks(range(n_observations))
+ax.set_xticklabels([f'Obs {i + 1}' for i in range(n_observations)])
+ax.set_yticks([])
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+ax.spines['left'].set_visible(False)
+ax.spines['bottom'].set_visible(False)
+plt.grid(False)
+plt.show()
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### The Bootstrap
+
+- Ideally, how would we estimate $Err = \mathbb{E}_{x_0, y_0, T}(L(y_0, \hat{f}(x_0)))$?
+
+::: {.incremental}
+- Draw $B$ samples of size $n + m$ from $F_{X, Y}$, fit our models on $n$, test on $m$... $\to$ impractical.
+- Instead, the Bootstrap emulates this process (not just for estimating $Err$):
+
+  - Randomly select **with replacement** $B$ samples, each of size $n$
+  - Fit model(s) on $n$ observations in sample $b$, get $\hat{f}^{*b}$
+  - Test on out-of-sample observations
+  - An option (LOO Bootstrap):
+  $$\hat{Err}^{(1)} = \frac{1}{n}\sum_{i = 1}^{n} \frac{1}{|C^{-i}|}\sum_{b \in C^{-i}} L(y_i, \hat{f}^{*b}(x_i))$$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Correction for overestimation of $Err$
+
+How many observations out of $n$ would we see in sample $b$?
+
+::: {.fragment}
+$\begin{aligned}
+P(\text{observation } i \in \text{boostrap sample } b) &= 1 - P(\text{observation } i \not\in \text{boostrap sample } b) \\
+&= 1 - \left(1 - \frac{1}{n}\right)^n \\
+&\approx 1 - e^{-1} \\
+&= 0.632
+\end{aligned}$
+:::
+
+::: {.incremental}
+- The Bootstrap takes us back to "low $K$" issues in CV
+- Possible correction:
+$$\hat{Err}^{(.632)} = 0.368 \cdot \overline{err} + 0.632 \cdot \hat{Err}^{(1)}$$
+:::
+
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+## Training Error + Optimism {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
