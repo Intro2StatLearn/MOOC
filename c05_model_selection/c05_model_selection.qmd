@@ -763,6 +763,91 @@ $$\hat{Err}^{(.632)} = 0.368 \cdot \overline{err} + 0.632 \cdot \hat{Err}^{(1)}$
 
 ---
 
+### What does Bootstrap error estimate?
+
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.metrics import mean_squared_error
+
+np.random.seed(0)
+n = 1000
+out_factor = 100
+X_out = np.random.rand(n * out_factor, 1) * 10  # Features
+beta_0, beta_1, beta_2, beta_3 = 1, 2, 3, 4
+noise_out = np.random.randn(n * out_factor, 1) * 100
+y_out = beta_0 + beta_1 * X_out + beta_2 * X_out**2 + beta_3 * X_out**3 + noise_out  # Cubic function with noise
+
+# Define polynomial degrees to test
+degrees = range(2, 8)
+
+# Parameters
+n_bootstrap_samples = 5
+
+# Store validation MSEs
+validation_mses = {degree: [] for degree in degrees}
+# expected_mse = []
+in_sample_err = []
+# Perform bootstrap sampling and modeling
+for d in degrees:
+    np.random.seed(d + 100)
+    X = np.random.rand(n, 1) * 10  # Features
+    noise = np.random.randn(n, 1) * 100
+    y = beta_0 + beta_1 * X + beta_2 * X**2 + beta_3 * X**3 + noise  # Cubic function with noise
+    poly = PolynomialFeatures(degree=d)
+    X_poly = poly.fit_transform(X)
+    X_poly_out = poly.fit_transform(X_out)
+    model = LinearRegression(fit_intercept=False)
+    model.fit(X_poly, y)
+    in_sample_err.append(mean_squared_error(y, model.predict(X_poly)))
+    
+    for _ in range(n_bootstrap_samples):
+        # Generate bootstrap sample
+        bootstrap_indices = np.random.choice(n, n, replace=True)
+        out_of_sample_indices = np.setdiff1d(np.arange(n), bootstrap_indices)
+
+        X_train_poly, y_train = X_poly[bootstrap_indices], y[bootstrap_indices]
+        X_val_poly, y_val = X_poly[out_of_sample_indices], y[out_of_sample_indices]
+
+        # Train linear regression
+        model = LinearRegression(fit_intercept=False)
+        model.fit(X_train_poly, y_train)
+
+        # Predict and compute validation MSE
+        y_val_pred = model.predict(X_val_poly)
+        val_mse = mean_squared_error(y_val, y_val_pred)
+        # val_mse = 0.368 * in_sample_err[d - 2] + 0.632 * val_mse
+        validation_mses[d].append(val_mse)
+    
+    # expected_mse.append(mean_squared_error(y_out, model.predict(X_poly_out)))
+
+# Compute means and standard errors
+mean_validation_mses = [np.mean(validation_mses[degree]) for degree in degrees]
+stderr_validation_mses = [np.std(validation_mses[degree]) / np.sqrt(n_bootstrap_samples) for degree in degrees]
+
+# Plotting
+plt.figure(figsize=(10, 5))
+plt.errorbar(degrees, mean_validation_mses, yerr=stderr_validation_mses, fmt='-o', label='Bootstrap MSE Means with SE', capsize=5)
+plt.plot(degrees, expected_mse, '-o', label='Expected Prediction Error')
+plt.xlabel('Polynomial Degree')
+plt.ylabel('Mean Squared Error')
+plt.legend()
+plt.xticks(degrees)
+plt.show()
+
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
 ## Training Error + Optimism {.title-slide}
 
 ::: {.notes}

@@ -572,7 +572,7 @@
 <section class="slide level2">
 
 <h3 id="data-splitting-train-validation-test">Data splitting: Train-Validation-Test</h3>
-<div id="20a0f928" class="cell" data-execution_count="1">
+<div id="87b0266a" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -640,7 +640,7 @@
 <section class="slide level2">
 
 <h3 id="single-split-need-2nd-opinion">Single split: need 2nd opinion</h3>
-<div id="7072ccfc" class="cell" data-execution_count="2">
+<div id="e0530b2d" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -686,7 +686,7 @@
 <section class="slide level2">
 
 <h3 id="k-fold-cross-validation"><span class="math inline">\(K\)</span>-fold Cross Validation</h3>
-<div id="23e92f01" class="cell" data-execution_count="3">
+<div id="66bfcb25" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -767,7 +767,7 @@
 <section class="slide level2">
 
 <h3 id="what-does-cv-error-estimate">What does CV error estimate?</h3>
-<div id="9d2e40b8" class="cell" data-execution_count="4">
+<div id="115f3f76" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -795,7 +795,7 @@
 <section class="slide level2">
 
 <h3 id="can-k-fold-cv-be-biased">Can <span class="math inline">\(K\)</span>-fold CV be biased?</h3>
-<div id="bfac7be0" class="cell" data-execution_count="5">
+<div id="a7396694" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -970,7 +970,7 @@
 <section class="slide level2">
 
 <h3 id="use-pipelines">Use <code>Pipeline</code>s</h3>
-<div id="f7ad99ed" class="cell" data-execution_count="6">
+<div id="1c5905b3" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> KFold, GridSearchCV</span>
 <span id="cb1-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
 <span id="cb1-3"><a href="" aria-hidden="true" tabindex="-1"></a></span>
@@ -1028,7 +1028,7 @@
 <section class="slide level2">
 
 <h3 id="the-boostrap">The Boostrap</h3>
-<div id="a706502e" class="cell" data-execution_count="7">
+<div id="f2c58dd7" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1104,6 +1104,34 @@ P(\text{observation } i \in \text{boostrap sample } b) &amp;= 1 - P(\text{observ
 <li class="fragment">The Bootstrap takes us back to “low <span class="math inline">\(K\)</span>” issues in CV</li>
 <li class="fragment">Possible correction: <span class="math display">\[\hat{Err}^{(.632)} = 0.368 \cdot \overline{err} + 0.632 \cdot \hat{Err}^{(1)}\]</span></li>
 </ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="what-does-bootstrap-error-estimate">What does Bootstrap error estimate?</h3>
+<div id="6ade0b3c" class="cell" data-execution_count="8">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c05_model_selection_files/figure-revealjs/cell-9-output-1.png" width="833" height="429"></p>
+</figure>
+</div>
+</div>
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
