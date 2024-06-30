@@ -1,0 +1,693 @@
+---
+format:
+  revealjs:
+    slide-number: true
+    chalkboard: true
+    fig-width: 6
+    fig-asp: 0.618
+    template-partials:
+      - "../title-slide.html"
+css: "../slides_quarto.css"
+standalone: false
+include-in-header: "../header_quarto.html"
+logo: "../Intro2SL_logo_white.jpg"
+pagetitle: "Model Selection - Part B"
+callout-appearance: simple
+smaller: true
+execute:
+  eval: true
+  echo: true
+code-line-numbers: false
+code-block-border-left: true
+highlight-style: github
+footer: "[Intro to Statistical Learning](https://intro2statlearn.github.io/mooc/){target='_blank'}"
+---
+
+## {.logo-slide}
+
+## Introduction to Statistical Learning {.title-slide}
+
+### Model Selection - Part B - Class 6
+
+### Giora Simchoni
+
+#### `gsimchoni@gmail.com` and add `#intro2sl` in subject
+
+### Stat. and OR Department, TAU
+
+---
+
+## The Bootstrap {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Previously on Model Selection
+
+::: {.fragment}
+1. [Model Selection]{style="color:red;"}: select between a set of models (e.g. one with 5 parameters and the other with 6 parameters) the one with lowest error
+2. [Model Assessment]{style="color:red;"}: know how accurate the model would be, estimate the error itself
+:::
+
+::: {.fragment}
+How to estimate prediction error?
+:::
+
+::: {.incremental}
+1. Data splitting: Train-Validation-Test
+2. Cross Validation
+3. The Bootstrap
+4. Training error + Optimism
+:::
+
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### The Bootstrap
+
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.colors import LinearSegmentedColormap
+
+# Create a custom colormap
+cmap = LinearSegmentedColormap.from_list('custom_cmap', ['lightblue', 'green'])
+
+# Parameters
+n_samples = 5
+n_observations = 8
+margin = 1  # Margin between samples
+
+# Generate bootstrap samples
+bootstrap_samples = [np.random.choice(range(n_observations), size=n_observations, replace=True) for _ in range(n_samples)]
+
+# Count occurrences of each observation in each bootstrap sample
+counts = np.zeros((n_samples, n_observations), dtype=int)
+for i, sample in enumerate(bootstrap_samples):
+    for obs in sample:
+        counts[i, obs] += 1
+
+# Plotting
+fig, ax = plt.subplots(figsize=(12, 6))
+
+# Create a grid of rectangles with margins
+for i in range(n_samples):
+    y_position = (n_samples - i - 1) * (1 + margin)
+    ax.text(n_observations / 2, y_position + margin + 0.5, f'Sample {i + 1}', ha='center', va='center', fontsize=12)
+    for j in range(n_observations):
+        count = counts[i, j]
+        color = cmap(count / max(1, counts.max()))
+        rect = plt.Rectangle((j, y_position), 1, 1, facecolor=color, edgecolor='black')
+        ax.add_patch(rect)
+        if count == 0:
+            ax.text(j + 0.5, y_position + 0.5, 'out of\nsample', ha='center', va='center', fontsize=8)
+        else:
+            ax.text(j + 0.5, y_position + 0.5, str(count), ha='center', va='center', fontsize=12)
+
+# Formatting
+ax.set_xlim(0, n_observations)
+ax.set_ylim(0, n_samples * (1 + margin) + margin)
+ax.set_xticks(range(n_observations))
+ax.set_xticklabels([f'Obs {i + 1}' for i in range(n_observations)])
+ax.set_yticks([])
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+ax.spines['left'].set_visible(False)
+ax.spines['bottom'].set_visible(False)
+plt.grid(False)
+plt.show()
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### The Bootstrap
+
+- Ideally, how would we estimate $Err = \mathbb{E}_{x_0, y_0, T}(L(y_0, \hat{f}(x_0)))$?
+
+::: {.incremental}
+- Draw $B$ samples of size $n + m$ from $F_{X, Y}$, fit our models on $n$, test on $m$... $\to$ impractical.
+- Instead, the Bootstrap emulates this process (not just for estimating $Err$):
+
+  - Randomly select **with replacement** $B$ samples, each of size $n$
+  - Fit model(s) on $n$ observations in sample $b$, get $\hat{f}^{*b}$
+  - Test on out-of-sample observations
+  - An option (LOO Bootstrap):
+  $$\widehat{Err}^{(1)} = \frac{1}{n}\sum_{i = 1}^{n} \frac{1}{|C^{-i}|}\sum_{b \in C^{-i}} L(y_i, \hat{f}^{*b}(x_i))$$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Correction for overestimation of $Err$
+
+How many observations out of $n$ would we see in sample $b$?
+
+::: {.fragment}
+$\begin{aligned}
+P(\text{observation } i \in \text{bootstrap sample } b) &= 1 - P(\text{observation } i \not\in \text{bootstrap sample } b) \\
+&= 1 - \left(1 - \frac{1}{n}\right)^n \\
+&\approx 1 - e^{-1} \\
+&= 0.632
+\end{aligned}$
+:::
+
+::: {.incremental}
+- The Bootstrap takes us back to "low $K$" issues in CV
+- Possible correction:
+$$\widehat{Err}^{(.632)} = 0.368 \cdot \overline{err} + 0.632 \cdot \widehat{Err}^{(1)}$$
+:::
+
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### What does Bootstrap error estimate?
+
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+from sklearn.model_selection import KFold
+
+# Step 1: Generate synthetic data with a clear cubic relationship
+np.random.seed(0)
+n = 1000
+out_factor = 100
+# X = np.random.rand(n, 1) * 10  # Features
+X_out = np.random.rand(n * out_factor, 1) * 10  # Features
+beta_0, beta_1, beta_2, beta_3 = 1, 2, 3, 4
+# noise = np.random.randn(n, 1) * 100
+noise_out = np.random.randn(n * out_factor, 1) * 100
+# y = beta_0 + beta_1 * X + beta_2 * X**2 + beta_3 * X**3 + noise  # Cubic function with noise
+y_out = beta_0 + beta_1 * X_out + beta_2 * X_out**2 + beta_3 * X_out**3 + noise_out  # Cubic function with noise
+
+# Define polynomial degrees to test
+degrees = range(2, 8)
+
+# Function to perform k-fold cross-validation and compute MSE
+def cross_val_mse(degrees, k=5):
+    kf = KFold(n_splits=k, shuffle=True, random_state=0)
+    mse_means = []
+    mse_stds = []
+    expected_mse = []
+    
+    for d in degrees:
+        mse_folds = []
+        poly = PolynomialFeatures(degree=d)
+        np.random.seed(d + 100)
+        X = np.random.rand(n, 1) * 10  # Features
+        noise = np.random.randn(n, 1) * 100
+        y = beta_0 + beta_1 * X + beta_2 * X**2 + beta_3 * X**3 + noise  # Cubic function with noise
+        X_poly = poly.fit_transform(X)
+        X_poly_out = poly.fit_transform(X_out)
+        
+        for train_index, val_index in kf.split(X):
+            X_train, X_val = X_poly[train_index], X_poly[val_index]
+            y_train, y_val = y[train_index], y[val_index]
+            
+            model = LinearRegression(fit_intercept=False).fit(X_train, y_train)
+            y_val_pred = model.predict(X_val)
+            
+            mse_folds.append(mean_squared_error(y_val, y_val_pred))
+        
+        mse_means.append(np.mean(mse_folds))
+        mse_stds.append(np.std(mse_folds) / np.sqrt(k))
+        expected_mse.append(mean_squared_error(y_out, model.predict(X_poly_out)))
+    
+    return mse_means, mse_stds, expected_mse
+
+# Compute MSE for polynomial regression models of varying degrees
+mse_means, mse_stds, expected_mse = cross_val_mse(degrees)
+```
+
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.metrics import mean_squared_error
+
+np.random.seed(0)
+n = 1000
+out_factor = 100
+X_out = np.random.rand(n * out_factor, 1) * 10  # Features
+beta_0, beta_1, beta_2, beta_3 = 1, 2, 3, 4
+noise_out = np.random.randn(n * out_factor, 1) * 100
+y_out = beta_0 + beta_1 * X_out + beta_2 * X_out**2 + beta_3 * X_out**3 + noise_out  # Cubic function with noise
+
+# Define polynomial degrees to test
+degrees = range(2, 8)
+
+# Parameters
+n_bootstrap_samples = 5
+
+# Store validation MSEs
+validation_mses = {degree: [] for degree in degrees}
+# expected_mse = []
+in_sample_err = []
+# Perform bootstrap sampling and modeling
+for d in degrees:
+    np.random.seed(d + 100)
+    X = np.random.rand(n, 1) * 10  # Features
+    noise = np.random.randn(n, 1) * 100
+    y = beta_0 + beta_1 * X + beta_2 * X**2 + beta_3 * X**3 + noise  # Cubic function with noise
+    poly = PolynomialFeatures(degree=d)
+    X_poly = poly.fit_transform(X)
+    X_poly_out = poly.fit_transform(X_out)
+    model = LinearRegression(fit_intercept=False)
+    model.fit(X_poly, y)
+    in_sample_err.append(mean_squared_error(y, model.predict(X_poly)))
+    
+    for _ in range(n_bootstrap_samples):
+        # Generate bootstrap sample
+        bootstrap_indices = np.random.choice(n, n, replace=True)
+        out_of_sample_indices = np.setdiff1d(np.arange(n), bootstrap_indices)
+
+        X_train_poly, y_train = X_poly[bootstrap_indices], y[bootstrap_indices]
+        X_val_poly, y_val = X_poly[out_of_sample_indices], y[out_of_sample_indices]
+
+        # Train linear regression
+        model = LinearRegression(fit_intercept=False)
+        model.fit(X_train_poly, y_train)
+
+        # Predict and compute validation MSE
+        y_val_pred = model.predict(X_val_poly)
+        val_mse = mean_squared_error(y_val, y_val_pred)
+        # val_mse = 0.368 * in_sample_err[d - 2] + 0.632 * val_mse
+        validation_mses[d].append(val_mse)
+    
+    # expected_mse.append(mean_squared_error(y_out, model.predict(X_poly_out)))
+
+# Compute means and standard errors
+mean_validation_mses = [np.mean(validation_mses[degree]) for degree in degrees]
+stderr_validation_mses = [np.std(validation_mses[degree]) / np.sqrt(n_bootstrap_samples) for degree in degrees]
+
+# Plotting
+plt.figure(figsize=(10, 5))
+plt.errorbar(degrees, mean_validation_mses, yerr=stderr_validation_mses, fmt='-o', label='Bootstrap MSE Means with SE', capsize=5)
+plt.plot(degrees, expected_mse, '-o', label='Expected Prediction Error')
+plt.xlabel('Polynomial Degree')
+plt.ylabel('Mean Squared Error')
+plt.legend()
+plt.xticks(degrees)
+plt.show()
+
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+## Training Error + Optimism {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Why optimism?
+
+- Traditionally, $n$ is not large
+- Natural to ask: by how much is $\overline{err} = \frac{1}{n}\sum_{i=1}^{n} L(y_i, \hat{f}(x_i))$ [optimistic]{style="color:red;"}?
+
+::: {.fragment}
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+
+np.random.seed(1)
+n = 100
+out_factor = 1000
+X = np.random.rand(n, 1) * 10  # Features
+X_out = np.random.rand(n * out_factor, 1) * 10  # Features
+beta_0, beta_1, beta_2, beta_3 = 1, 2, 3, 4
+noise = np.random.randn(n, 1) * 100
+noise_out = np.random.randn(n * out_factor, 1) * 100
+y = beta_0 + beta_1 * X + beta_2 * X**2 + beta_3 * X**3 + noise  # Cubic function with noise
+y_out = beta_0 + beta_1 * X_out + beta_2 * X_out**2 + beta_3 * X_out**3 + noise_out  # Cubic function with noise
+degrees = range(2, 8)
+
+def get_mses(X, y, degrees):
+    train_mse = []
+    expected_mse = []
+    
+    for d in degrees:
+        poly = PolynomialFeatures(degree=d)
+        X_poly = poly.fit_transform(X)
+        X_poly_out = poly.fit_transform(X_out)
+        model = LinearRegression(fit_intercept=False).fit(X_poly, y)
+        y_pred = model.predict(X_poly)
+        train_mse.append(mean_squared_error(y, y_pred))
+        expected_mse.append(mean_squared_error(y_out, model.predict(X_poly_out)))
+    
+    return train_mse, expected_mse
+
+train_mse, expected_mse = get_mses(X, y, degrees)
+
+plt.figure(figsize=(10, 5))
+plt.plot(degrees, train_mse, '-o', label='Training Error')
+plt.plot(degrees, expected_mse, '-o', label='Expected Prediction Error')
+plt.xlabel('Polynomial Degree')
+plt.ylabel('Mean Squared Error')
+plt.legend()
+plt.xticks(degrees)
+plt.show()
+```
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Optimism
+
+- We said ideally we would like to estimate:
+    - $Err_T = \mathbb{E}_{x_0, y_0}\left[L(y_0, \hat{f}(x_0))|T\right]$
+    - $Err = \mathbb{E}_T\left[Err_T\right] = \mathbb{E}_{x_0, y_0, T}\left[L(y_0, \hat{f}(x_0))\right]$
+
+::: {.incremental}
+- Optimism is defined for a [Fixed $X$]{style="color:red;"} scenario, for "in-sample prediction error":
+    - $Err_{in} = \frac{1}{n}\sum_{i=1}^n\mathbb{E}_{y_0}\left[L(y_0, \hat{f}(x_i))|T\right]$
+    - That is, on the **same** $X$ points of the training set
+    - $op = \mathbb{E}_{y}\left[Err_{in} - \overline{err}|X\right]$
+    - With squared error: $op = \mathbb{E}_{y, y_0}\left[\frac{1}{n}\|y_0 - \hat{y}\|^2 - \frac{1}{n}\|y - \hat{y}\|^2|X\right]$
+- Final estimation for in-sample prediction error: $\overline{err} + \widehat{op}$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Optimism: End Goal
+
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+
+np.random.seed(1)
+n = 100
+out_factor = 1000
+X = np.random.rand(n, 1) * 10  # Features
+X_out = np.random.rand(n * out_factor, 1) * 10  # Features
+beta_0, beta_1, beta_2, beta_3 = 1, 2, 3, 4
+noise = np.random.randn(n, 1) * 100
+noise_out = np.random.randn(n * out_factor, 1) * 100
+y = beta_0 + beta_1 * X + beta_2 * X**2 + beta_3 * X**3 + noise  # Cubic function with noise
+y_out = beta_0 + beta_1 * X_out + beta_2 * X_out**2 + beta_3 * X_out**3 + noise_out  # Cubic function with noise
+degrees = range(2, 8)
+
+def get_mses(X, y, degrees):
+    train_mse = []
+    expected_mse = []
+    
+    for d in degrees:
+        poly = PolynomialFeatures(degree=d)
+        X_poly = poly.fit_transform(X)
+        X_poly_out = poly.fit_transform(X_out)
+        model = LinearRegression(fit_intercept=False).fit(X_poly, y)
+        y_pred = model.predict(X_poly)
+        train_mse.append(mean_squared_error(y, y_pred))
+        expected_mse.append(mean_squared_error(y_out, model.predict(X_poly_out)))
+    
+    return train_mse, expected_mse
+
+train_mse, expected_mse = get_mses(X, y, degrees)
+
+plt.figure(figsize=(10, 5))
+plt.plot(degrees, train_mse, '-o', label='Training Error')
+plt.plot(degrees, expected_mse, '-o', label='Expected Prediction Error')
+plt.plot(degrees, train_mse + 2 * (np.array(degrees) + 1) * (100**2) / n, '-o', label='Training Error + Optimism')
+plt.xlabel('Polynomial Degree')
+plt.ylabel('Mean Squared Error')
+plt.legend()
+plt.xticks(degrees)
+plt.show()
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+#### Decomposing in-sample prediction error
+
+$\mathbb{E}_{y, y_0}\|y_0 - \hat{y}\|^2 = \mathbb{E} \left|\left| \underbrace{y_0 - \mathbb{E}(y)}_{A} + \underbrace{\mathbb{E}(y) - \mathbb{E} (\hat{y})}_{B} + \underbrace{\mathbb{E} (\hat{y}) - \hat{y}}_{C}\right|\right|^2$
+
+::: {.fragment}
+$= \mathbb{E}\|y_0 - \mathbb{E}(y)\|^2 + \mathbb{E}\|\mathbb{E}(y) - \mathbb{E} (\hat{y})\|^2 + \mathbb{E}\|\mathbb{E} (\hat{y}) - \hat{y}\|^2 +2\mathbb{E}(A'B) + 2\mathbb{E}(A'C) + 2\mathbb{E}(B'C)$
+:::
+
+::: {.fragment}
+$= \text{irreducible error} + \text{bias}^2 + \text{variance}$
+:::
+
+<br></br>
+
+::: {.fragment}
+Important: $\mathbb{E}(y_0) = \mathbb{E}(y) = f(x)$
+:::
+
+<br></br>
+
+::: {.fragment}
+$2\mathbb{E}(A'B) = 2\mathbb{E}(B'A) = 2B'\mathbb{E}A = 2B'\mathbb{E}\left[y_0 - \mathbb{E}(y)\right] = 2B'\mathbf{0} = 0$
+
+$2\mathbb{E}(B'C) = 2B'\mathbb{E}C = 2B'\mathbb{E}\left[\mathbb{E} (\hat{y}) - \hat{y}\right] = 2B'\mathbf{0} = 0$
+
+$2\mathbb{E}(A'C) = 2\mathbb{E}\left[\left[y_0 - \mathbb{E}(y)\right]'\left[\mathbb{E} (\hat{y}) - \hat{y}\right]\right] = 2\mathbb{E}(A)'\mathbb{E}(C) = 0$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+#### Decomposing training error
+
+$\mathbb{E}_{y, y_0}\|y - \hat{y}\|^2 = \mathbb{E} \left|\left| \underbrace{y - \mathbb{E}(y)}_{A} + \underbrace{\mathbb{E}(y) - \mathbb{E} (\hat{y})}_{B} + \underbrace{\mathbb{E} (\hat{y}) - \hat{y}}_{C}\right|\right|^2$
+
+::: {.fragment}
+$= \mathbb{E}\|y - \mathbb{E}(y)\|^2 + \mathbb{E}\|\mathbb{E}(y) - \mathbb{E} (\hat{y})\|^2 + \mathbb{E}\|\mathbb{E} (\hat{y}) - \hat{y}\|^2 +2\mathbb{E}(A'B) + 2\mathbb{E}(A'C) + 2\mathbb{E}(B'C)$
+:::
+
+::: {.fragment}
+$= \text{irreducible error} + \text{bias}^2 + \text{variance} - 2\sum_{i=1}^{n}Cov(y_i, \hat{y}_i)$
+:::
+
+<br></br>
+
+::: {.fragment}
+$2\mathbb{E}(A'B) = 2\mathbb{E}(B'A) = 2B'\mathbb{E}A = 2B'\mathbb{E}\left[y - \mathbb{E}(y)\right] = 2B'\mathbf{0} = 0$
+
+$2\mathbb{E}(B'C) = 2B'\mathbb{E}C = 2B'\mathbb{E}\left[\mathbb{E} (\hat{y}) - \hat{y}\right] = 2B'\mathbf{0} = 0$
+
+$2\mathbb{E}(A'C) = 2\mathbb{E}\left[\left[y - \mathbb{E}(y)\right]'\left[\mathbb{E} (\hat{y}) - \hat{y}\right]\right] = -2\mathbb{E}\left[\left[y - \mathbb{E}(y)\right]'\left[\hat{y} - \mathbb{E} (\hat{y})\right]\right] = -2\sum_{i=1}^{n}Cov(y_i, \hat{y}_i)$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Back to optimism
+
+$$op = \frac{1}{n}\left(\mathbb{E}_{y, y_0}\|y_0 - \hat{y}\|^2 - \mathbb{E}_{y, y_0}\|y - \hat{y}\|^2\right) = \frac{2}{n}\sum_{i=1}^{n}Cov(y_i, \hat{y}_i)$$
+
+::: {.incremental}
+- This in itself is already interesting! When is $op$ high/low?
+- $\mathbb{E}_{y}\left[Err_{in}\right] =  \mathbb{E}_{y}\left[\overline{err}\right] + \frac{2}{n}\sum_{i=1}^{n}Cov(y_i, \hat{y}_i)$
+- An obvious estimate for in-sample prediction error:
+$$\widehat{Err}_{in} = \overline{err} + \frac{2}{n}\sum_{i=1}^{n}\widehat{Cov}(y_i, \hat{y}_i)$$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+## In-sample Prediction Error Criteria {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Mallow's $C_p$
+
+::: {.incremental}
+- We wish to estimate $op = \frac{2}{n}\sum_{i=1}^{n}Cov(y_i, \hat{y}_i)$
+- This means we want the trace of:
+$$Cov(y, \hat{y}) = \begin{pmatrix}
+    Cov(y_1, y_1) & Cov(y_1, y_2) & \dots & Cov(y_1, y_n) \\
+    Cov(y_2, y_1) & Cov(y_2, y_2) & \dots & Cov(y_2, y_n) \\
+    \vdots & \vdots & \ddots & \vdots \\
+    Cov(y_n, y_1) & Cov(y_n, y_2) & \dots & Cov(y_n, y_n) \\
+\end{pmatrix}$$
+- Mark $\hat{y} = X(X'X)^{-1}X'y = Hy$
+- More compactly:
+$$op = \frac{2}{n}tr\left[Cov(y, \hat{y})\right] = \frac{2}{n}tr\left[Cov(y, Hy)\right] = \frac{2}{n}tr\left[H Cov(y, y)\right] = \frac{2\sigma^2}{n}tr\left[H \cdot I_n\right]$$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### $\widehat{op}$ in linear regression
+
+::: {.incremental}
+- From the fact that $tr(AB) = tr(BA)$:
+$$tr(H) = tr(X(X'X)^{-1}X') = tr(X'X(X'X)^{-1}) = tr(I_{p + 1}) = p + 1$$
+- To generalize, if $d$ is the number of features in $X$: $tr(H) = d$
+- $op = \frac{2d\sigma^2}{n}$ in linear regression
+- Mallow's $C_p$:
+$$C_p = \overline{err} + \frac{2d\hat{\sigma}^2}{n}$$
+where $\hat{\sigma}^2$ obtained from the mean squared error of a low-bias model
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### $C_p$ demo
+
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+
+np.random.seed(1)
+n = 100
+out_factor = 1000
+X = np.random.rand(n, 1) * 10  # Features
+X_out = np.random.rand(n * out_factor, 1) * 10  # Features
+beta_0, beta_1, beta_2, beta_3 = 1, 2, 3, 4
+noise = np.random.randn(n, 1) * 100
+noise_out = np.random.randn(n * out_factor, 1) * 100
+y = beta_0 + beta_1 * X + beta_2 * X**2 + beta_3 * X**3 + noise  # Cubic function with noise
+y_out = beta_0 + beta_1 * X_out + beta_2 * X_out**2 + beta_3 * X_out**3 + noise_out  # Cubic function with noise
+degrees = range(2, 8)
+
+def get_mses(X, y, degrees):
+    train_mse = []
+    expected_mse = []
+    
+    for d in degrees:
+        poly = PolynomialFeatures(degree=d)
+        X_poly = poly.fit_transform(X)
+        X_poly_out = poly.fit_transform(X_out)
+        model = LinearRegression(fit_intercept=False).fit(X_poly, y)
+        y_pred = model.predict(X_poly)
+        train_mse.append(mean_squared_error(y, y_pred))
+        expected_mse.append(mean_squared_error(y_out, model.predict(X_poly_out)))
+    
+    return train_mse, expected_mse
+
+train_mse, expected_mse = get_mses(X, y, degrees)
+
+plt.figure(figsize=(10, 5))
+plt.plot(degrees, train_mse, '-o', label='Training Error')
+plt.plot(degrees, expected_mse, '-o', label='Expected Prediction Error')
+plt.plot(degrees, train_mse + 2 * (np.array(degrees) + 1) * (100**2) / n, '-o', label='Training Error + Optimism')
+plt.xlabel('Polynomial Degree')
+plt.ylabel('Mean Squared Error')
+plt.legend()
+plt.xticks(degrees)
+plt.show()
+```
+
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### AIC
+
+- For *squared error* loss: $\mathbb{E}_{y}\left[Err_{in}\right] =  \mathbb{E}_{y}\left[\overline{err}\right] + \frac{2d\sigma^2}{n}$
+
+::: {.incremental}
+- For *(negative) log-likelihood* loss: $-2 \cdot\mathbb{E}_{y}\left[\log\text{Pr}(y)\right] \approx -\frac{2}{n}\cdot E_{y}\left[\ell(\hat{\theta})\right] + \frac{2d}{n}$
+- Akaike information criterion (AIC):
+$$AIC = -\frac{2}{n}\cdot \ell(\hat{\theta}) + \frac{2d}{n}$$
+- Advantage: for any likelihood model (e.g. logistic regression)
+- For linear regression (Gaussian likelihood):
+$$AIC = -\frac{2}{n}\left[-\frac{n}{2}\ln(2\pi\sigma^2)-\frac{1}{2\sigma^2}RSS\right] + \frac{2d}{n} = C(\sigma^2) + \frac{\overline{err}}{\sigma^2} + \frac{2d}{n} = C(\sigma^2) + \frac{C_p}{\sigma^2}$$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::

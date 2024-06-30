@@ -10,7 +10,7 @@
 <link href="../libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.4.554">
 
-  <title>Model Selection and Assessment</title>
+  <title>Model Selection - Part A</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -407,7 +407,7 @@
 </section>
 <section id="introduction-to-statistical-learning" class="slide level2 title-slide center">
 <h2>Introduction to Statistical Learning</h2>
-<h3 id="model-selection-and-assessment---class-5">Model Selection and Assessment - Class 5</h3>
+<h3 id="model-selection---part-a---class-5">Model Selection - Part A - Class 5</h3>
 <h3 id="giora-simchoni">Giora Simchoni</h3>
 <h4 id="gsimchonigmail.com-and-add-intro2sl-in-subject"><code>gsimchoni@gmail.com</code> and add <code>#intro2sl</code> in subject</h4>
 <h3 id="stat.-and-or-department-tau">Stat. and OR Department, TAU</h3>
@@ -531,7 +531,7 @@
 <ol type="1">
 <li class="fragment">Data splitting: Train-Validation-Test</li>
 <li class="fragment">Cross Validation</li>
-<li class="fragment">Bootstrap</li>
+<li class="fragment">The Bootstrap</li>
 <li class="fragment">Training error + Optimism</li>
 </ol>
 </div>
@@ -572,11 +572,11 @@
 <section class="slide level2">
 
 <h3 id="data-splitting-train-validation-test">Data splitting: Train-Validation-Test</h3>
-<div id="87b0266a" class="cell" data-execution_count="1">
+<div id="0dbb1684" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c05_model_selection_files/figure-revealjs/cell-2-output-1.png" width="763" height="167"></p>
+<p><img data-src="c05_model_selectionA_files/figure-revealjs/cell-2-output-1.png" width="763" height="167"></p>
 </figure>
 </div>
 </div>
@@ -640,11 +640,11 @@
 <section class="slide level2">
 
 <h3 id="single-split-need-2nd-opinion">Single split: need 2nd opinion</h3>
-<div id="e0530b2d" class="cell" data-execution_count="2">
+<div id="108bdee7" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c05_model_selection_files/figure-revealjs/cell-3-output-1.png" width="1142" height="470"></p>
+<p><img data-src="c05_model_selectionA_files/figure-revealjs/cell-3-output-1.png" width="1142" height="470"></p>
 </figure>
 </div>
 </div>
@@ -686,11 +686,11 @@
 <section class="slide level2">
 
 <h3 id="k-fold-cross-validation"><span class="math inline">\(K\)</span>-fold Cross Validation</h3>
-<div id="66bfcb25" class="cell" data-execution_count="3">
+<div id="0edbcceb" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c05_model_selection_files/figure-revealjs/cell-4-output-1.png" width="950" height="470"></p>
+<p><img data-src="c05_model_selectionA_files/figure-revealjs/cell-4-output-1.png" width="950" height="470"></p>
 </figure>
 </div>
 </div>
@@ -767,11 +767,11 @@
 <section class="slide level2">
 
 <h3 id="what-does-cv-error-estimate">What does CV error estimate?</h3>
-<div id="115f3f76" class="cell" data-execution_count="4">
+<div id="3b158d4c" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c05_model_selection_files/figure-revealjs/cell-5-output-1.png" width="833" height="429"></p>
+<p><img data-src="c05_model_selectionA_files/figure-revealjs/cell-5-output-1.png" width="833" height="429"></p>
 </figure>
 </div>
 </div>
@@ -795,11 +795,11 @@
 <section class="slide level2">
 
 <h3 id="can-k-fold-cv-be-biased">Can <span class="math inline">\(K\)</span>-fold CV be biased?</h3>
-<div id="a7396694" class="cell" data-execution_count="5">
+<div id="edba8fbd" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c05_model_selection_files/figure-revealjs/cell-6-output-1.png" width="371" height="376"></p>
+<p><img data-src="c05_model_selectionA_files/figure-revealjs/cell-6-output-1.png" width="371" height="376"></p>
 </figure>
 </div>
 </div>
@@ -970,7 +970,7 @@
 <section class="slide level2">
 
 <h3 id="use-pipelines">Use <code>Pipeline</code>s</h3>
-<div id="1c5905b3" class="cell" data-execution_count="6">
+<div id="6a895810" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> KFold, GridSearchCV</span>
 <span id="cb1-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
 <span id="cb1-3"><a href="" aria-hidden="true" tabindex="-1"></a></span>
@@ -1006,169 +1006,6 @@
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-</section>
-<section id="bootstrap" class="slide level2 title-slide center">
-<h2>Bootstrap</h2>
-<aside class="notes">
-<div style="direction:rtl; font-size:16px">
-
-</div>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section class="slide level2">
-
-<h3 id="the-boostrap">The Boostrap</h3>
-<div id="f2c58dd7" class="cell" data-execution_count="7">
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="c05_model_selection_files/figure-revealjs/cell-8-output-1.png" width="931" height="485"></p>
-</figure>
-</div>
-</div>
-</div>
-<aside class="notes">
-<div style="direction:rtl; font-size:16px">
-
-</div>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section class="slide level2">
-
-<h3 id="the-bootstrap">The Bootstrap</h3>
-<ul>
-<li>Ideally, how would we estimate <span class="math inline">\(Err = \mathbb{E}_{x_0, y_0, T}(L(y_0, \hat{f}(x_0)))\)</span>?</li>
-</ul>
-<div>
-<ul>
-<li class="fragment"><p>Draw <span class="math inline">\(B\)</span> samples of size <span class="math inline">\(n + m\)</span> from <span class="math inline">\(F_{X, Y}\)</span>, fit our models on <span class="math inline">\(n\)</span>, test on <span class="math inline">\(m\)</span>… <span class="math inline">\(\to\)</span> impractical.</p></li>
-<li class="fragment"><p>Instead, the Bootstrap emulates this process (not just for estimating <span class="math inline">\(Err\)</span>):</p>
-<ul>
-<li class="fragment">Randomly select <strong>with replacement</strong> <span class="math inline">\(B\)</span> samples, each of size <span class="math inline">\(n\)</span></li>
-<li class="fragment">Fit model(s) on <span class="math inline">\(n\)</span> observations in sample <span class="math inline">\(b\)</span>, get <span class="math inline">\(\hat{f}^{*b}\)</span></li>
-<li class="fragment">Test on out-of-sample observations</li>
-<li class="fragment">An option (LOO Bootstrap): <span class="math display">\[\hat{Err}^{(1)} = \frac{1}{n}\sum_{i = 1}^{n} \frac{1}{|C^{-i}|}\sum_{b \in C^{-i}} L(y_i, \hat{f}^{*b}(x_i))\]</span></li>
-</ul></li>
-</ul>
-</div>
-<aside class="notes">
-<div style="direction:rtl; font-size:16px">
-
-</div>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section class="slide level2">
-
-<h3 id="correction-for-overestimation-of-err">Correction for overestimation of <span class="math inline">\(Err\)</span></h3>
-<p>How many observations out of <span class="math inline">\(n\)</span> would we see in sample <span class="math inline">\(b\)</span>?</p>
-<div class="fragment">
-<p><span class="math inline">\(\begin{aligned}
-P(\text{observation } i \in \text{boostrap sample } b) &amp;= 1 - P(\text{observation } i \not\in \text{boostrap sample } b) \\
-&amp;= 1 - \left(1 - \frac{1}{n}\right)^n \\
-&amp;\approx 1 - e^{-1} \\
-&amp;= 0.632
-\end{aligned}\)</span></p>
-</div>
-<div>
-<ul>
-<li class="fragment">The Bootstrap takes us back to “low <span class="math inline">\(K\)</span>” issues in CV</li>
-<li class="fragment">Possible correction: <span class="math display">\[\hat{Err}^{(.632)} = 0.368 \cdot \overline{err} + 0.632 \cdot \hat{Err}^{(1)}\]</span></li>
-</ul>
-</div>
-<aside class="notes">
-<div style="direction:rtl; font-size:16px">
-
-</div>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section class="slide level2">
-
-<h3 id="what-does-bootstrap-error-estimate">What does Bootstrap error estimate?</h3>
-<div id="6ade0b3c" class="cell" data-execution_count="8">
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="c05_model_selection_files/figure-revealjs/cell-9-output-1.png" width="833" height="429"></p>
-</figure>
-</div>
-</div>
-</div>
-<aside class="notes">
-<div style="direction:rtl; font-size:16px">
-
-</div>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="training-error-optimism" class="slide level2 title-slide center">
-<h2>Training Error + Optimism</h2>
-<aside class="notes">
-<div style="direction:rtl; font-size:16px">
-
-</div>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section class="slide level2">
-
 <div class="quarto-auto-generated-content">
 <p><img src="../Intro2SL_logo_white.jpg" class="slide-logo"></p>
 <div class="footer footer-default">
