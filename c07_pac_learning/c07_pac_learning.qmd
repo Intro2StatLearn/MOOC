@@ -1,0 +1,269 @@
+---
+format:
+  revealjs:
+    slide-number: true
+    chalkboard: true
+    fig-width: 6
+    fig-asp: 0.618
+    template-partials:
+      - "../title-slide.html"
+css: "../slides_quarto.css"
+standalone: false
+include-in-header: "../header_quarto.html"
+logo: "../Intro2SL_logo_white.jpg"
+pagetitle: "PAC Learning"
+callout-appearance: simple
+smaller: true
+execute:
+  eval: true
+  echo: true
+code-line-numbers: false
+code-block-border-left: true
+highlight-style: github
+footer: "[Intro to Statistical Learning](https://intro2statlearn.github.io/mooc/){target='_blank'}"
+---
+
+## {.logo-slide}
+
+## Introduction to Statistical Learning {.title-slide}
+
+### PAC Learning - Class 7
+
+### Giora Simchoni
+
+#### `gsimchoni@gmail.com` and add `#intro2sl` in subject
+
+### Stat. and OR Department, TAU
+
+---
+
+## What is learnable? {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Previously on Model Selection
+
+::: {.incremental}
+- For linear regression, squared error loss, Fixed $X$:
+$$op = \mathbb{E}_{y}\left[Err_{in} - \overline{err}|X\right] = \mathbb{E}_{y}\left[\frac{1}{n}\sum_{i=1}^n\mathbb{E}_{y_0}\left[L(y_0, \hat{f}(x_i))|T\right] - \frac{1}{n}\sum_{i=1}^{n} L(y_i, \hat{f}(x_i))\right] = \frac{2d\sigma^2}{n}$$
+
+- For Fixed $X$, for any $\varepsilon > 0$, if $n \ge \frac{2d\sigma^2}{\varepsilon}$, $\mathbb{E}_{y}\left[\overline{err}\right]$ is up to $\varepsilon$ smaller than $\mathbb{E}_{y}\left[Err_{in}\right]$!
+
+- Can we learn *any* $f$ with *any* large-enough training sample, ensuring $\overline{err}$ is up to $\varepsilon$ smaller than $Err = \mathbb{E}_{x_0, y_0, T}\left[L(y_0, \hat{f}(x_0))\right]$ (no overfitting)?
+
+- Spoiler: no, but [learnability]{style="color:red;"} is key concept:
+    - under what conditions is $f$ learnable from a training sample?
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Learning theory ingredients
+
+- $x \sim P_X$ on $\mathcal{X}$
+- Label set: $y \in \mathcal{Y}$  (if $\mathcal{Y} \subset \mathbb{R}$ can discretize)
+- True relation: $f: \mathcal{X} \to \mathcal{Y}$
+- Classifier: $h: \mathcal{X} \to \mathcal{Y}$ (our $\hat{f}$)
+- Training data: $T = \{(x_1, y_1) \dots (x_n, y_n)\}$
+- Loss function: $L(f(x), h(x))$ (naturally 0-1 loss)
+- Error: $Err_{P_X, f}(h) = \mathbb{E}_{X \sim P_X}\left[L(f(x), h(x))\right] = Pr\left[f(x) \neq h(x)\right]$
+
+::: {.fragment}
+Added assumptions:
+
+- [i.i.d]{style="color:red;"}: $x_i$ independently and identically distributed sampled from $P_X$
+- [Realizability]{style="color:red;"}: $y_i = f(x_i)$, i.e. for $Err_{P_X, f}(f) = 0$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+המדגם קשור לעולם - אחרת...
+:::
+:::
+
+---
+
+## PAC Learning {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Empirical Risk Minimization (ERM)
+
+- $\overline{err}$ is termed the [empirical risk]{style="color:red;"}:
+
+$$Err_T(h) = \frac{1}{n}\sum_{i=1}^{n} L(y_i, h(x_i)) = \frac{1}{n}\sum_{i=1}^{n} \mathbb{1}\left[f(x_i) \neq h(x_i)\right]$$
+
+::: {.incremental}
+- A method which outputs $h_T$ by minimizing $Err_T(\hat{f})$ is called empirical risk minimization [ERM]{style="color:red;"}:
+
+- From [Realizability]{style="color:red;"}: $Err_T(h_T) = 0$
+
+- Can we *always* find $h$ for which $Err_{P_X, f}(h) = 0$ via ERM (= by minimizing $Err_T(h)$)?
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Probably Approximately Correct (PAC)
+
+::: {.incremental}
+We introduce two relaxations:
+
+1. [Accuracy]{style="color:red;"} $\varepsilon$: Find $h$ via ERM for which $Err_{P_X, f}(h) \leq \varepsilon$ ("approximately correct")
+2. [Confidence]{style="color:red;"} $\delta$: With probability $\geq 1 - \delta$ ("probably correct", on $P_X$)
+:::
+
+::: {.fragment}
+PAC learning, interim summary:
+:::
+
+::: {.incremental}
+- Assume $P_X, f$
+- Input: $\varepsilon, \delta$
+- Take i.i.d training sample $T$ of size $n \geq n(\varepsilon, \delta)$, where $n(\varepsilon, \delta): [0, 1]^2 \to \mathbb{N}$
+- Output prediction rule $h$ s.t. w.p. at least $1 - \delta$ it holds that $Err_{P_X, f}(h) \leq \varepsilon$:
+$$P_X\left[T: Err_{P_X, f}(h) \leq \varepsilon\right] \geq 1 - \delta$$
+:::
+
+::: {.fragment}
+::: {.callout-note}
+This is a definition! Importantly, no guarantee of existence, no way of finding algorithm $A$ to minimize ERM.
+:::
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### No Free Lunch Theorem (NFL)
+
+Is there an algorithm $A$, that for every i.i.d training sample of size $n$ from every distribution $P_X$, there is a high chance ("probably") it outputs a predictor $h$ that has low risk ("approximately")?
+
+A "universal learner"?
+
+::: {.fragment}
+::: {.callout-tip}
+Theorem (No Free Lunch, binary classification):
+
+For any $\delta \in (0,1), \varepsilon < 1/2$, for any learner $A$ and training sample $T$ of size $n$, there exist $P_X, f$ s.t. w.p. at least $\delta$: $Err_{P_X, f}(A(T)) \geq \varepsilon$
+:::
+:::
+
+::: {.incremental}
+- That is, no universal learner: no algorithm $A$ which is "best" for any classification task.
+- We can always *fail* a learner $A$, with some distribution $P_X$.
+- How can we prevent such failures?
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+## Learning in Finite Hypothesis Classes {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Use Prior Knowledge
+
+- Assume $f \subset \mathcal{H}$, where $\mathcal{H}$ is a [finite hypothesis class]{style="color:red;"}
+- Example: "logistic regression" (not really)
+    - intercept and slope $\beta_0, \beta_1$, each can take $1K$ possibilities $\to |\mathcal{H}| = 1M$
+- The learner knows $\mathcal{H}$
+- ERM restricted to this class only: $ERM_\mathcal{H}(T) \in \arg\min_{h \in \mathcal{H}}Err_{T}(h)$
+
+::: {.fragment}
+::: {.callout-tip}
+Theorem:
+
+For any $\delta, \varepsilon \in (0,1)$, if $n \geq \frac{\log(|\mathcal{H}| / \delta)}{\varepsilon}$, then for every $P_X, f$, w.p. at least $1 - \delta$ over the choice of training sample $T$ of size $n$, $Err_{P_X, f}(ERM_\mathcal{H}(T)) \leq \varepsilon$
+:::
+:::
+
+::: {.fragment}
+- Example: "logistic regression" (not really)
+    - For $\delta = \varepsilon = 0.01 \to n \geq 800$ guarantees PAC correct
+    - w.p. $0.99$ $Err_{P_X, f}(ERM_\mathcal{H}(T)) \leq 0.01$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Proof:
+
+::: {.incremental}
+- We want to prove:
+$$P_X\left[T: Err_{P_X, f}(ERM_\mathcal{H}(T)) > \varepsilon\right] \leq \delta$$
+
+- Let $\mathcal{H}_B$ be the set of "bad" hypotheses: $\mathcal{H}_B = \{h \in \mathcal{H}: Err_{P_X, f}(h_S) > \varepsilon\}$
+- Let $M$ be the set of "misleading" samples: $\{T: \text{ there is } h \in \mathcal{H}_B \text{ for which } Err_T(h) = 0\}$ (why?)
+:::
+
+::: {.fragment}
+- Note I:
+$$\{T: Err_{P_X, f}(ERM_\mathcal{H}(T)) > \varepsilon\} \subseteq M$$
+- Note II:
+$$M = \bigcup_{h \in \mathcal{H}_B} \{T:  Err_T(h) = 0\}$$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Proof:
+
+$\begin{aligned}
+P_X\left[T: Err_{P_X, f}(ERM_\mathcal{H}(T)) > \varepsilon\right] &\leq P_X\left[M\right] \\
+&= P_X\left[ \bigcup_{h \in \mathcal{H}_B} \{T:  Err_T(h) = 0\} \right] \\
+&\leq \sum_{h \in \mathcal{H}_B} P_X\left[ T:  Err_T(h) = 0 \right] \\
+&= \sum_{h \in \mathcal{H}_B}\prod_{i = 1}^n P_X\left[x_i: h(x_i) = f(x_i)\right] \\
+&= \sum_{h \in \mathcal{H}_B}\prod_{i = 1}^n \left[1 - Err_{P_X, f}(h)\right] \\
+&\leq |\mathcal{H}_B|(1 - \varepsilon)^n \\
+&\leq |\mathcal{H}|e^{-\varepsilon n} \to \leq \delta
+\end{aligned}$
+
+::: {.fragment}
+$\Rightarrow n \geq \frac{\log(|\mathcal{H}| / \delta)}{\varepsilon}$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
