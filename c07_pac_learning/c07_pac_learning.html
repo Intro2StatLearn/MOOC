@@ -782,19 +782,116 @@ P_X\left[T: Err_{P_X, f}(ERM_\mathcal{H}(T)) &gt; \varepsilon\right] &amp;\leq P
 </section>
 <section class="slide level2">
 
-<h3 id="formal-definition">Formal definition</h3>
-<div class="callout callout-tip callout-style-simple">
+<h3 id="more-formally">More formally</h3>
+<div class="callout callout-caution callout-style-simple">
 <div class="callout-body">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-content">
-<p>A hypothesis class <span class="math inline">\(\mathcal{H}\)</span> is agnostic PAC learnable with respect to a set <span class="math inline">\(T\)</span> from <span class="math inline">\(\mathcal{X}\times\mathcal{Y}\)</span> and a loss function <span class="math inline">\(L: \mathcal{H}\times\mathcal{X}\times\mathcal{Y} \to \mathbb{R}_+\)</span>, if there exists a function <span class="math inline">\(n_\mathcal{H}: (0, 1)^2 \to \mathbb{N}\)</span> and a learning algorithm <span class="math inline">\(A\)</span> with the following property:</p>
+<p>Definition:</p>
+<p>A hypothesis class <span class="math inline">\(\mathcal{H}\)</span> is agnostic <em>PAC learnable</em> with respect to a set <span class="math inline">\(T\)</span> from <span class="math inline">\(\mathcal{X}\times\mathcal{Y}\)</span> and a loss function <span class="math inline">\(L: \mathcal{H}\times\mathcal{X}\times\mathcal{Y} \to \mathbb{R}_+\)</span>, if there exists a function <span class="math inline">\(n_\mathcal{H}: (0, 1)^2 \to \mathbb{N}\)</span> and a learning algorithm <span class="math inline">\(A\)</span> with the following property:</p>
 <p>For every <span class="math inline">\(\varepsilon, \delta \in (0,1), n \geq n_\mathcal{H}(\varepsilon, \delta)\)</span>, and distribution <span class="math inline">\(P_{XY}\)</span> over <span class="math inline">\(\mathcal{X}\times\mathcal{Y}\)</span>,</p>
 <p><span class="math display">\[P_{XY}\left[T: Err_{P_{XY}}(A(T)) \leq \min_{h \in \mathcal{H}}Err_{P_{XY}}(h) + \varepsilon\right] \geq 1 - \delta\]</span></p>
 </div>
 </div>
 </div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="what-is-agnostic-pac-learnable">What is (agnostic) PAC learnable?</h3>
+<div class="fragment">
+<p>Not so fast, need two definitions:</p>
+</div>
+<div class="fragment">
+<div class="callout callout-caution callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<p>Definition:</p>
+<p>A training sample <span class="math inline">\(T\)</span> is called <span style="color:red;"><em><span class="math inline">\(\varepsilon\)</span>-representative</em></span> if: <span class="math display">\[\forall h \in \mathcal{H} \quad | \overline{err}_T(h) - Err_{P_{XY}}(h)| \leq \varepsilon\]</span></p>
+</div>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div class="callout callout-caution callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<p>Definition:</p>
+<p><span class="math inline">\(\mathcal{H}\)</span> has <span style="color:red;"><em>uniform convergence</em></span> if there exists a function <span class="math inline">\(n_\mathcal{H}^{UC}: (0, 1)^2 \to \mathbb{N}\)</span>, such that for every <span class="math inline">\(\varepsilon, \delta \in (0,1), n \geq n_\mathcal{H}^{UC}(\varepsilon, \delta)\)</span>, for every <span class="math inline">\(P_{XY}\)</span> over <span class="math inline">\(\mathcal{X}\times\mathcal{Y}\)</span>: <span class="math display">\[P_{XY}\left[T: T \text{ is } \varepsilon \text{-representative}\right] \geq 1 - \delta\]</span></p>
+</div>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="what-is-agnostic-pac-learnable-1">What is (agnostic) PAC learnable?</h3>
+<div class="fragment">
+<p>Still not done, need “an algorithm <span class="math inline">\(A\)</span>”:</p>
+</div>
+<div class="fragment">
+<p>Claim:</p>
+<p>If <span class="math inline">\(T\)</span> is <span class="math inline">\(\frac{\varepsilon}{2}\)</span>-representative, then for any solution <span class="math inline">\(h_T\)</span> of <span class="math inline">\(ERM_\mathcal{H}(T) \in \arg\min_{h \in \mathcal{H}}\overline{err}_T(h)\)</span>: <span class="math display">\[Err_{P_{XY}}(h_T) \leq \min_{h \in \mathcal{H}}Err_{P_{XY}}(h) + \varepsilon\]</span></p>
+</div>
+<div class="fragment">
+<p>Proof:</p>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="what-is-agnostic-pac-learnable-how">What is (agnostic) PAC learnable? How?</h3>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 

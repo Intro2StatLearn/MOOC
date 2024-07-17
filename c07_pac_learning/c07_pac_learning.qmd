@@ -296,15 +296,81 @@ $\Rightarrow n \geq \frac{\log(|\mathcal{H}| / \delta)}{\varepsilon}$
 
 ---
 
-### Formal definition
+### More formally
 
-::: {.callout-tip}
-A hypothesis class $\mathcal{H}$ is agnostic PAC learnable with respect to a set $T$ from $\mathcal{X}\times\mathcal{Y}$ and a loss function $L: \mathcal{H}\times\mathcal{X}\times\mathcal{Y} \to \mathbb{R}_+$, if there exists a function $n_\mathcal{H}: (0, 1)^2 \to \mathbb{N}$ and a learning algorithm $A$ with the following property:
+::: {.callout-caution}
+Definition:
+
+A hypothesis class $\mathcal{H}$ is agnostic *PAC learnable* with respect to a set $T$ from $\mathcal{X}\times\mathcal{Y}$ and a loss function $L: \mathcal{H}\times\mathcal{X}\times\mathcal{Y} \to \mathbb{R}_+$, if there exists a function $n_\mathcal{H}: (0, 1)^2 \to \mathbb{N}$ and a learning algorithm $A$ with the following property:
 
 For every $\varepsilon, \delta \in (0,1), n \geq n_\mathcal{H}(\varepsilon, \delta)$, and distribution $P_{XY}$ over $\mathcal{X}\times\mathcal{Y}$,
 
 $$P_{XY}\left[T: Err_{P_{XY}}(A(T)) \leq \min_{h \in \mathcal{H}}Err_{P_{XY}}(h) + \varepsilon\right] \geq 1 - \delta$$
 :::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### What is (agnostic) PAC learnable?
+
+::: {.fragment}
+Not so fast, need two definitions:
+:::
+
+::: {.fragment}
+::: {.callout-caution}
+Definition:
+
+A training sample $T$ is called [*$\varepsilon$-representative*]{style="color:red;"} if:
+$$\forall h \in \mathcal{H} \quad | \overline{err}_T(h) - Err_{P_{XY}}(h)| \leq \varepsilon$$
+:::
+:::
+
+::: {.fragment}
+::: {.callout-caution}
+Definition:
+
+$\mathcal{H}$ has [*uniform convergence*]{style="color:red;"} if there exists a function $n_\mathcal{H}^{UC}: (0, 1)^2 \to \mathbb{N}$, such that for every $\varepsilon, \delta \in (0,1), n \geq n_\mathcal{H}^{UC}(\varepsilon, \delta)$, for every $P_{XY}$ over $\mathcal{X}\times\mathcal{Y}$:
+$$P_{XY}\left[T: T \text{ is } \varepsilon \text{-representative}\right] \geq 1 - \delta$$
+:::
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### What is (agnostic) PAC learnable?
+
+::: {.fragment}
+Still not done, need "an algorithm $A$":
+:::
+
+::: {.fragment}
+Claim:
+
+If $T$ is $\frac{\varepsilon}{2}$-representative, then for any solution $h_T$ of $ERM_\mathcal{H}(T) \in \arg\min_{h \in \mathcal{H}}\overline{err}_T(h)$:
+$$Err_{P_{XY}}(h_T) \leq \min_{h \in \mathcal{H}}Err_{P_{XY}}(h) + \varepsilon$$
+:::
+
+::: {.fragment}
+Proof:
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### What is (agnostic) PAC learnable? How?
 
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
