@@ -73,14 +73,12 @@ $$op = \mathbb{E}_{y}\left[Err_{in} - \overline{err}|X\right] = \mathbb{E}_{y}\l
 - Label set: $y \in \mathcal{Y}$  (if $\mathcal{Y} \subset \mathbb{R}$ can discretize)
 - True relation: $f: \mathcal{X} \to \mathcal{Y}$
 - Classifier: $h: \mathcal{X} \to \mathcal{Y}$ (our $\hat{f}$)
-- Training data: $T = \{(x_1, y_1) \dots (x_n, y_n)\}$
-- Loss function: $L(f(x), h(x))$ (naturally 0-1 loss)
-- Error: $Err_{P_X, f}(h) = \mathbb{E}_{X \sim P_X}\left[L(f(x), h(x))\right] = Pr\left[f(x) \neq h(x)\right]$
+- Training data: $T = \{x_1, \dots, x_n\}$, $i.i.d$, where $y_i = f(x_i)$
+- Risk function: $L(f(x), h(x)) \text{= 0-1 loss}$
+- Error: $Err_{P_X, f}(h) = \mathbb{E}_{X \sim P_X}\left[L(f(x), h(x))\right] = P_X\left[f(x) \neq h(x)\right]$
 
 ::: {.fragment}
-Added assumptions:
-
-- [i.i.d]{style="color:red;"}: $x_i$ independently and identically distributed sampled from $P_X$
+Most startling assumption:
 - [Realizability]{style="color:red;"}: $y_i = f(x_i)$, i.e. for $Err_{P_X, f}(f) = 0$
 :::
 
@@ -105,14 +103,14 @@ Added assumptions:
 
 - $\overline{err}$ is termed the [empirical risk]{style="color:red;"}:
 
-$$Err_T(h) = \frac{1}{n}\sum_{i=1}^{n} L(y_i, h(x_i)) = \frac{1}{n}\sum_{i=1}^{n} \mathbb{1}\left[f(x_i) \neq h(x_i)\right]$$
+$$\overline{err}_T(h) = \frac{1}{n}\sum_{i=1}^{n} L(y_i, h(x_i)) = \frac{1}{n}\sum_{i=1}^{n} \mathbb{1}\left[f(x_i) \neq h(x_i)\right]$$
 
 ::: {.incremental}
-- A method which outputs $h_T$ by minimizing $Err_T(\hat{f})$ is called empirical risk minimization [ERM]{style="color:red;"}:
+- A method which outputs $h_T$ by minimizing $\overline{err}_T(\hat{f})$ is called empirical risk minimization [ERM]{style="color:red;"}:
 
-- From [Realizability]{style="color:red;"}: $Err_T(h_T) = 0$
+- From [Realizability]{style="color:red;"}: $\overline{err}_T(h_T) = 0$
 
-- Can we *always* find $h$ for which $Err_{P_X, f}(h) = 0$ via ERM (= by minimizing $Err_T(h)$)?
+- Can we *always* find $h$ for which $Err_{P_X, f}(h) = 0$ via ERM (= by minimizing $\overline{err}_T(h)$)?
 :::
 
 ::: {.notes}
@@ -198,7 +196,7 @@ For any $\delta \in (0,1), \varepsilon < 1/2$, for any learner $A$ and training 
 - Example: "logistic regression" (not really)
     - intercept and slope $\beta_0, \beta_1$, each can take $1K$ possibilities $\to |\mathcal{H}| = 1M$
 - The learner knows $\mathcal{H}$
-- ERM restricted to this class only: $ERM_\mathcal{H}(T) \in \arg\min_{h \in \mathcal{H}}Err_{T}(h)$
+- ERM restricted to this class only: $ERM_\mathcal{H}(T) \in \arg\min_{h \in \mathcal{H}}\overline{err}_T(h)$
 
 ::: {.fragment}
 ::: {.callout-tip}
@@ -228,14 +226,14 @@ For any $\delta, \varepsilon \in (0,1)$, if $n \geq \frac{\log(|\mathcal{H}| / \
 $$P_X\left[T: Err_{P_X, f}(ERM_\mathcal{H}(T)) > \varepsilon\right] \leq \delta$$
 
 - Let $\mathcal{H}_B$ be the set of "bad" hypotheses: $\mathcal{H}_B = \{h \in \mathcal{H}: Err_{P_X, f}(h_S) > \varepsilon\}$
-- Let $M$ be the set of "misleading" samples: $\{T: \text{ there is } h \in \mathcal{H}_B \text{ for which } Err_T(h) = 0\}$ (why?)
+- Let $M$ be the set of "misleading" samples: $\{T: \text{ there is } h \in \mathcal{H}_B \text{ for which } \overline{err}_T(h) = 0\}$ (why?)
 :::
 
 ::: {.fragment}
 - Note I:
 $$\{T: Err_{P_X, f}(ERM_\mathcal{H}(T)) > \varepsilon\} \subseteq M$$
 - Note II:
-$$M = \bigcup_{h \in \mathcal{H}_B} \{T:  Err_T(h) = 0\}$$
+$$M = \bigcup_{h \in \mathcal{H}_B} \{T:  \overline{err}_T(h) = 0\}$$
 :::
 
 ::: {.notes}
@@ -249,8 +247,8 @@ $$M = \bigcup_{h \in \mathcal{H}_B} \{T:  Err_T(h) = 0\}$$
 
 $\begin{aligned}
 P_X\left[T: Err_{P_X, f}(ERM_\mathcal{H}(T)) > \varepsilon\right] &\leq P_X\left[M\right] \\
-&= P_X\left[ \bigcup_{h \in \mathcal{H}_B} \{T:  Err_T(h) = 0\} \right] \\
-&\leq \sum_{h \in \mathcal{H}_B} P_X\left[ T:  Err_T(h) = 0 \right] \\
+&= P_X\left[ \bigcup_{h \in \mathcal{H}_B} \{T:  \overline{err}_T(h) = 0\} \right] \\
+&\leq \sum_{h \in \mathcal{H}_B} P_X\left[ T:  \overline{err}_T(h) = 0 \right] \\
 &= \sum_{h \in \mathcal{H}_B}\prod_{i = 1}^n P_X\left[x_i: h(x_i) = f(x_i)\right] \\
 &= \sum_{h \in \mathcal{H}_B}\prod_{i = 1}^n \left[1 - Err_{P_X, f}(h)\right] \\
 &\leq |\mathcal{H}_B|(1 - \varepsilon)^n \\
@@ -259,6 +257,53 @@ P_X\left[T: Err_{P_X, f}(ERM_\mathcal{H}(T)) > \varepsilon\right] &\leq P_X\left
 
 ::: {.fragment}
 $\Rightarrow n \geq \frac{\log(|\mathcal{H}| / \delta)}{\varepsilon}$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+## Agnostic PAC Learning {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Agnostic PAC Learning
+
+::: {.fragment}
+|               | PAC                                                       | [Agnostic]{style="color:red;"} PAC                               |
+|---------------|-----------------------------------------------------------|------------------------------------------------------------------|
+| Distribution  | $P_X$ over $\mathcal{X}$                                  | $P_{XY}$ over $\mathcal{X}\times\mathcal{Y}$                     |
+| Truth         | $f \in \mathcal{H}$                                       | not in class or doesn't exist                                    |
+| Training $T$  |$(x_1, \dots, x_n) \sim P_X \quad \forall i, y_i = f(x_i)$ | $((x_1, y_1), \dots, (x_n, y_n)) \sim P_{XY}$                    |
+| Risk          | $Err_{P_X, f}(h) = P_X\left[f(x) \neq h(x)\right]$        | $Err_{P_{XY}}(h) = \mathbb{E}_{P_{XY}}\left[L(h, (x, y))\right]$ |
+| Approximately | $Err_{P_X, f}(A(T)) \leq \varepsilon$                     | $Err_{P_{XY}}(A(T)) \leq \min_{h \in \mathcal{H}}Err_{P_{XY}}(h) + \varepsilon$ |
+| Probably      | $P_X\left[T: \text{Approximately}\right] \geq 1 - \delta$ | $P_{XY}\left[T: \text{Approximately}\right] \geq 1 - \delta$     |
+
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Formal definition
+
+::: {.callout-tip}
+A hypothesis class $\mathcal{H}$ is agnostic PAC learnable with respect to a set $T$ from $\mathcal{X}\times\mathcal{Y}$ and a loss function $L: \mathcal{H}\times\mathcal{X}\times\mathcal{Y} \to \mathbb{R}_+$, if there exists a function $n_\mathcal{H}: (0, 1)^2 \to \mathbb{N}$ and a learning algorithm $A$ with the following property:
+
+For every $\varepsilon, \delta \in (0,1), n \geq n_\mathcal{H}(\varepsilon, \delta)$, and distribution $P_{XY}$ over $\mathcal{X}\times\mathcal{Y}$,
+
+$$P_{XY}\left[T: Err_{P_{XY}}(A(T)) \leq \min_{h \in \mathcal{H}}Err_{P_{XY}}(h) + \varepsilon\right] \geq 1 - \delta$$
 :::
 
 ::: {.notes}
