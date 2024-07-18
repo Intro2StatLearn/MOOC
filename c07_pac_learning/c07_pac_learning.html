@@ -400,15 +400,18 @@
 <h3 id="learning-theory-ingredients">Learning theory ingredients</h3>
 <ul>
 <li><span class="math inline">\(x \sim P_X\)</span> on <span class="math inline">\(\mathcal{X}\)</span></li>
-<li>Label set: <span class="math inline">\(y \in \mathcal{Y}\)</span> (if <span class="math inline">\(\mathcal{Y} \subset \mathbb{R}\)</span> can discretize)</li>
+<li>Label set: <span class="math inline">\(y \in \mathcal{Y}\)</span> (start with <span class="math inline">\(\mathcal{Y}  = \{0, 1\}\)</span>)</li>
 <li>True relation: <span class="math inline">\(f: \mathcal{X} \to \mathcal{Y}\)</span></li>
 <li>Classifier: <span class="math inline">\(h: \mathcal{X} \to \mathcal{Y}\)</span> (our <span class="math inline">\(\hat{f}\)</span>)</li>
 <li>Training data: <span class="math inline">\(T = \{x_1, \dots, x_n\}\)</span>, <span class="math inline">\(i.i.d\)</span>, where <span class="math inline">\(y_i = f(x_i)\)</span></li>
-<li>Risk function: <span class="math inline">\(L(f(x), h(x)) \text{= 0-1 loss}\)</span></li>
+<li>Risk function: <span class="math inline">\(L(f(x), h(x))\)</span> (start with 0-1 loss)</li>
 <li>Error: <span class="math inline">\(Err_{P_X, f}(h) = \mathbb{E}_{X \sim P_X}\left[L(f(x), h(x))\right] = P_X\left[f(x) \neq h(x)\right]\)</span></li>
 </ul>
 <div class="fragment">
-<p>Most startling assumption: - <span style="color:red;">Realizability</span>: <span class="math inline">\(y_i = f(x_i)\)</span>, i.e.&nbsp;for <span class="math inline">\(Err_{P_X, f}(f) = 0\)</span></p>
+<p>Most startling assumption:</p>
+<ul>
+<li><span style="color:red;">Realizability</span>: <span class="math inline">\(y_i = f(x_i)\)</span>, i.e.&nbsp;for <span class="math inline">\(Err_{P_X, f}(f) = 0\)</span></li>
+</ul>
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
@@ -453,7 +456,7 @@
 <p><span class="math display">\[\overline{err}_T(h) = \frac{1}{n}\sum_{i=1}^{n} L(y_i, h(x_i)) = \frac{1}{n}\sum_{i=1}^{n} \mathbb{1}\left[f(x_i) \neq h(x_i)\right]\]</span></p>
 <div>
 <ul>
-<li class="fragment"><p>A method which outputs <span class="math inline">\(h_T\)</span> by minimizing <span class="math inline">\(\overline{err}_T(\hat{f})\)</span> is called empirical risk minimization <span style="color:red;">ERM</span>:</p></li>
+<li class="fragment"><p>A method which outputs <span class="math inline">\(h_T\)</span> by minimizing <span class="math inline">\(\overline{err}_T(h)\)</span> is called empirical risk minimization <span style="color:red;">ERM</span>:</p></li>
 <li class="fragment"><p>From <span style="color:red;">Realizability</span>: <span class="math inline">\(\overline{err}_T(h_T) = 0\)</span></p></li>
 <li class="fragment"><p>Can we <em>always</em> find <span class="math inline">\(h\)</span> for which <span class="math inline">\(Err_{P_X, f}(h) = 0\)</span> via ERM (= by minimizing <span class="math inline">\(\overline{err}_T(h)\)</span>)?</p></li>
 </ul>
@@ -602,7 +605,7 @@
 </div>
 <div class="callout-content">
 <p>Theorem:</p>
-<p>For any <span class="math inline">\(\delta, \varepsilon \in (0,1)\)</span>, if <span class="math inline">\(n \geq \frac{\log(|\mathcal{H}| / \delta)}{\varepsilon}\)</span>, then for every <span class="math inline">\(P_X, f\)</span>, w.p. at least <span class="math inline">\(1 - \delta\)</span> over the choice of training sample <span class="math inline">\(T\)</span> of size <span class="math inline">\(n\)</span>, <span class="math inline">\(Err_{P_X, f}(ERM_\mathcal{H}(T)) \leq \varepsilon\)</span></p>
+<p>For any <span class="math inline">\(\varepsilon, \delta \in (0,1)\)</span>, if <span class="math inline">\(n \geq \frac{\log(|\mathcal{H}| / \delta)}{\varepsilon}\)</span>, then for every <span class="math inline">\(P_X, f\)</span>, w.p. at least <span class="math inline">\(1 - \delta\)</span> over the choice of training sample <span class="math inline">\(T\)</span> of size <span class="math inline">\(n\)</span>, <span class="math inline">\(Err_{P_X, f}(ERM_\mathcal{H}(T)) \leq \varepsilon\)</span></p>
 </div>
 </div>
 </div>
@@ -737,26 +740,31 @@ P_X\left[T: Err_{P_X, f}(ERM_\mathcal{H}(T)) &gt; \varepsilon\right] &amp;\leq P
 <td><span class="math inline">\(P_{XY}\)</span> over <span class="math inline">\(\mathcal{X}\times\mathcal{Y}\)</span></td>
 </tr>
 <tr class="even">
+<td><span class="math inline">\(\mathcal{Y}\)</span></td>
+<td><span class="math inline">\(\{0, 1\}\)</span></td>
+<td>Any</td>
+</tr>
+<tr class="odd">
 <td>Truth</td>
 <td><span class="math inline">\(f \in \mathcal{H}\)</span></td>
 <td>not in class or doesn’t exist</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Training <span class="math inline">\(T\)</span></td>
 <td><span class="math inline">\((x_1, \dots, x_n) \sim P_X \quad \forall i, y_i = f(x_i)\)</span></td>
 <td><span class="math inline">\(((x_1, y_1), \dots, (x_n, y_n)) \sim P_{XY}\)</span></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Risk</td>
 <td><span class="math inline">\(Err_{P_X, f}(h) = P_X\left[f(x) \neq h(x)\right]\)</span></td>
 <td><span class="math inline">\(Err_{P_{XY}}(h) = \mathbb{E}_{P_{XY}}\left[L(h, (x, y))\right]\)</span></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Approximately</td>
 <td><span class="math inline">\(Err_{P_X, f}(A(T)) \leq \varepsilon\)</span></td>
 <td><span class="math inline">\(Err_{P_{XY}}(A(T)) \leq \min_{h \in \mathcal{H}}Err_{P_{XY}}(h) + \varepsilon\)</span></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Probably</td>
 <td><span class="math inline">\(P_X\left[T: \text{Approximately}\right] \geq 1 - \delta\)</span></td>
 <td><span class="math inline">\(P_{XY}\left[T: \text{Approximately}\right] \geq 1 - \delta\)</span></td>
@@ -867,8 +875,17 @@ P_X\left[T: Err_{P_X, f}(ERM_\mathcal{H}(T)) &gt; \varepsilon\right] &amp;\leq P
 <p>Still not done, need “an algorithm <span class="math inline">\(A\)</span>”:</p>
 </div>
 <div class="fragment">
+<div class="callout callout-important callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
 <p>Claim:</p>
 <p>If <span class="math inline">\(T\)</span> is <span class="math inline">\(\frac{\varepsilon}{2}\)</span>-representative, then for any solution <span class="math inline">\(h_T\)</span> of <span class="math inline">\(ERM_\mathcal{H}(T) \in \arg\min_{h \in \mathcal{H}}\overline{err}_T(h)\)</span>: <span class="math display">\[Err_{P_{XY}}(h_T) \leq \min_{h \in \mathcal{H}}Err_{P_{XY}}(h) + \varepsilon\]</span></p>
+</div>
+</div>
+</div>
 </div>
 <div class="fragment">
 <p>Proof:</p>
@@ -892,6 +909,41 @@ P_X\left[T: Err_{P_X, f}(ERM_\mathcal{H}(T)) &gt; \varepsilon\right] &amp;\leq P
 <section class="slide level2">
 
 <h3 id="what-is-agnostic-pac-learnable-how">What is (agnostic) PAC learnable? How?</h3>
+<p>Uniform convergence with <span class="math inline">\(\frac{\varepsilon}{2}\)</span> <span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(T\)</span> is <span class="math inline">\(\frac{\varepsilon}{2}\)</span>-representative <span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(ERM_\mathcal{H}(T)\)</span> gets PAC bound</p>
+<div class="fragment">
+<div class="callout callout-tip callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<p>Corollary:</p>
+<ul>
+<li>If <span class="math inline">\(\mathcal{H}\)</span> has uniform convergence with a function <span class="math inline">\(n_\mathcal{H}^{UC}\)</span> with some <span class="math inline">\(\frac{\varepsilon}{2}\)</span> then <span class="math inline">\(\mathcal{H}\)</span> is agnostic PAC learnable, with <span class="math inline">\(n \geq n_\mathcal{H}(\varepsilon, \delta)\)</span></li>
+<li>Furthermore, <span class="math inline">\(ERM_\mathcal{H}(T)\)</span> is a succesful PAC learner for <span class="math inline">\(\mathcal{H}\)</span></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="finite-classes-are-angnostic-pac-learnable" class="slide level2 title-slide center">
+<h2>Finite Classes are Angnostic PAC Learnable</h2>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 
@@ -910,6 +962,203 @@ P_X\left[T: Err_{P_X, f}(ERM_\mathcal{H}(T)) &gt; \varepsilon\right] &amp;\leq P
 </section>
 <section class="slide level2">
 
+<h3 id="what-has-uniform-convergence">What has uniform convergence?</h3>
+<div class="fragment">
+<div class="callout callout-tip callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<p>Theorem:</p>
+<p>Assume <span class="math inline">\(\mathcal{H}\)</span> is <strong>finite</strong> and the range of the loss function is bounded in <span class="math inline">\([0, 1]\)</span>. Then:</p>
+<ul>
+<li><span class="math inline">\(\mathcal{H}\)</span> has uniform convergence with function <span class="math inline">\(n_\mathcal{H}^{UC} \leq \Bigl\lceil\frac{\log(2|\mathcal{H}|/\delta)}{2\varepsilon^2}\Bigr\rceil\)</span></li>
+<li>Therefore, <span class="math inline">\(\mathcal{H}\)</span> is agnostic PAC learnable using the <span class="math inline">\(ERM_\mathcal{H}\)</span> algorithm with sample size <span class="math inline">\(n \geq \Bigl\lceil\frac{2\log(2|\mathcal{H}|/\delta)}{\varepsilon^2}\Bigr\rceil\)</span></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>Comments:</p>
+<ul>
+<li>Use the Hoeffding’s Inequality:
+<ul>
+<li>Let <span class="math inline">\(X_1, \dots, X_n\)</span> in <span class="math inline">\([a, b]\)</span> i.i.d RVs with <span class="math inline">\(\mathbb{E}(X_i) = \mu\)</span>, then for any <span class="math inline">\(\varepsilon &gt; 0\)</span>: <span class="math display">\[P\left[|\bar{X} - \mu| &gt; \varepsilon\right] \leq 2\exp\left(-2n\varepsilon^2/(b - a)^2\right)\]</span></li>
+</ul></li>
+<li>So the loss can be bounded in any <span class="math inline">\([a, b]\)</span></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="linear-model-pac-learnability">Linear Model PAC Learnability</h3>
+<div>
+<ul>
+<li class="fragment">Now suppose <span class="math inline">\(y_i = f(x_i) + \tau_i\)</span>, specifically <span class="math inline">\(y_i = \beta_0 + \beta_1x_{i1} + \dots \beta_px_{ip} + \tau_i\)</span></li>
+<li class="fragment">Suppose our squared error loss can be bounded (in <span class="math inline">\([0, 1]\)</span>, but can manage <span class="math inline">\([0, a]\)</span> for some large <span class="math inline">\(a\)</span>)</li>
+<li class="fragment">What is <span class="math inline">\(\mathcal{H}\)</span>? Is it finite?</li>
+<li class="fragment">Discretization Trick: if every coefficient <span class="math inline">\(\beta_j\)</span> is represented as a 64 bit float:
+<ul>
+<li class="fragment">Let <span class="math inline">\(d = p + 1\)</span></li>
+<li class="fragment"><span class="math inline">\(|\mathcal{H}| = 2^{64d}\)</span></li>
+</ul></li>
+<li class="fragment">We reach agnostic PAC learnability for any <span class="math inline">\(\varepsilon, \delta \in (0,1)\)</span>!
+<ul>
+<li class="fragment">With <span class="math inline">\(ERM_\mathcal{H}(T) = \hat{\beta} = (X'X)^{-1}X'y\)</span></li>
+<li class="fragment"><span class="math inline">\(n \geq \Bigl\lceil\frac{2\log(2|\mathcal{H}|/\delta)}{\varepsilon^2}\Bigr\rceil \approx \frac{128d + 2\log(2/\delta)}{\varepsilon^2}\)</span></li>
+<li class="fragment">Compare this to the Fixed-<span class="math inline">\(X\)</span> optimism bound: <span class="math inline">\(n \geq \frac{2d\sigma^2}{\varepsilon}\)</span></li>
+</ul></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-bias-complexity-tradeoff" class="slide level2 title-slide center">
+<h2>The Bias-Complexity Tradeoff</h2>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="the-bias-complexity-tradeoff-1">The Bias-Complexity Tradeoff</h3>
+<div>
+<ul>
+<li class="fragment"><p>Let <span class="math inline">\(h_T\)</span> be the model reached by <span class="math inline">\(ERM_\mathcal{H}(T)\)</span>, that is: <span class="math inline">\(h_T \in \arg\min_{h \in \mathcal{H}}\overline{err}_T(h)\)</span>.</p></li>
+<li class="fragment"><p>Its “true” error over unseen data: <span class="math inline">\(Err_{P_{XY}}(h_T)\)</span></p></li>
+<li class="fragment"><p>The actual minimum error achievable in <span class="math inline">\(\mathcal{H}\)</span>: <span class="math inline">\(\min_{h \in \mathcal{H}} Err_{P_{XY}}(h)\)</span></p></li>
+<li class="fragment"><p>So: <span class="math inline">\(Err_{P_{XY}}(h_T) = \min_{h \in \mathcal{H}} Err_{P_{XY}}(h) + \tau = \varepsilon_{\text{app}} + \varepsilon_{\text{est}}\)</span></p></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="the-bias-complexity-tradeoff-2">The Bias-Complexity Tradeoff</h3>
+<p><span class="math display">\[Err_{P_{XY}}(h_T) = \varepsilon_{\text{app}} + \varepsilon_{\text{est}}\]</span></p>
+<div class="fragment">
+<ul>
+<li>Approximation Error <span class="math inline">\(\varepsilon_{\text{app}}\)</span>:
+<ul>
+<li>Caused by restricting class <span class="math inline">\(\mathcal{H}\)</span></li>
+<li>Does not depend on <span class="math inline">\(T\)</span></li>
+<li>Decreases with <span class="math inline">\(|\mathcal{H}|\)</span></li>
+<li>Model bias!</li>
+</ul></li>
+<li>Estimation Error <span class="math inline">\(\varepsilon_{\text{est}}\)</span>:
+<ul>
+<li>Caused by ERM with specific <span class="math inline">\(T\)</span></li>
+<li>increases (logarithmically) with <span class="math inline">\(|\mathcal{H}|\)</span>, decreases with sample size <span class="math inline">\(n\)</span></li>
+<li>Model complexity (our “variance”)</li>
+</ul></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="where-did-irreducible-go">Where did “irreducible” go?</h3>
+<div>
+<ul>
+<li class="fragment">Recall: <span class="math inline">\(Err_{P_{XY}}(h_T) = \min_{h \in \mathcal{H}} Err_{P_{XY}}(h) + \tau = \varepsilon_{\text{app}} + \varepsilon_{\text{est}}\)</span></li>
+<li class="fragment">The <span class="math inline">\(\min_{h \in \mathcal{H}} Err_{P_{XY}}(h)\)</span> could be decomposed itself to: <span class="math display">\[\min_{h \in \mathcal{H}} Err_{P_{XY}}(h) = \min_{h \in \mathcal{Y}^\mathcal{X}} Err_{P_{XY}}(h) + \left[\min_{h \in \mathcal{H}} Err_{P_{XY}}(h) - \min_{h \in \mathcal{Y}^\mathcal{X}} Err_{P_{XY}}(h)\right]\]</span></li>
+</ul>
+</div>
+<p><br><br></p>
+<div>
+<ul>
+<li class="fragment">That is, the best possible (“Bayes optimal”) error for any <span class="math inline">\(\mathcal{H}\)</span> + excess over that which is what we know as bias
+<ul>
+<li class="fragment">Under realizability <span class="math inline">\(\min_{h \in \mathcal{Y}^\mathcal{X}} Err_{P_{XY}}(h) = 0\)</span></li>
+<li class="fragment">Under agnostic model it could be <span class="math inline">\(&gt; 0\)</span>, like our <span class="math inline">\(\sigma^2\)</span></li>
+</ul></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 <div class="quarto-auto-generated-content">
 <p><img src="../Intro2SL_logo_white.jpg" class="slide-logo"></p>
 <div class="footer footer-default">

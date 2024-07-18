@@ -70,15 +70,16 @@ $$op = \mathbb{E}_{y}\left[Err_{in} - \overline{err}|X\right] = \mathbb{E}_{y}\l
 ### Learning theory ingredients
 
 - $x \sim P_X$ on $\mathcal{X}$
-- Label set: $y \in \mathcal{Y}$  (if $\mathcal{Y} \subset \mathbb{R}$ can discretize)
+- Label set: $y \in \mathcal{Y}$  (start with $\mathcal{Y}  = \{0, 1\}$)
 - True relation: $f: \mathcal{X} \to \mathcal{Y}$
 - Classifier: $h: \mathcal{X} \to \mathcal{Y}$ (our $\hat{f}$)
 - Training data: $T = \{x_1, \dots, x_n\}$, $i.i.d$, where $y_i = f(x_i)$
-- Risk function: $L(f(x), h(x)) \text{= 0-1 loss}$
+- Risk function: $L(f(x), h(x))$ (start with 0-1 loss)
 - Error: $Err_{P_X, f}(h) = \mathbb{E}_{X \sim P_X}\left[L(f(x), h(x))\right] = P_X\left[f(x) \neq h(x)\right]$
 
 ::: {.fragment}
 Most startling assumption:
+
 - [Realizability]{style="color:red;"}: $y_i = f(x_i)$, i.e. for $Err_{P_X, f}(f) = 0$
 :::
 
@@ -106,7 +107,7 @@ Most startling assumption:
 $$\overline{err}_T(h) = \frac{1}{n}\sum_{i=1}^{n} L(y_i, h(x_i)) = \frac{1}{n}\sum_{i=1}^{n} \mathbb{1}\left[f(x_i) \neq h(x_i)\right]$$
 
 ::: {.incremental}
-- A method which outputs $h_T$ by minimizing $\overline{err}_T(\hat{f})$ is called empirical risk minimization [ERM]{style="color:red;"}:
+- A method which outputs $h_T$ by minimizing $\overline{err}_T(h)$ is called empirical risk minimization [ERM]{style="color:red;"}:
 
 - From [Realizability]{style="color:red;"}: $\overline{err}_T(h_T) = 0$
 
@@ -202,7 +203,7 @@ For any $\delta \in (0,1), \varepsilon < 1/2$, for any learner $A$ and training 
 ::: {.callout-tip}
 Theorem:
 
-For any $\delta, \varepsilon \in (0,1)$, if $n \geq \frac{\log(|\mathcal{H}| / \delta)}{\varepsilon}$, then for every $P_X, f$, w.p. at least $1 - \delta$ over the choice of training sample $T$ of size $n$, $Err_{P_X, f}(ERM_\mathcal{H}(T)) \leq \varepsilon$
+For any $\varepsilon, \delta \in (0,1)$, if $n \geq \frac{\log(|\mathcal{H}| / \delta)}{\varepsilon}$, then for every $P_X, f$, w.p. at least $1 - \delta$ over the choice of training sample $T$ of size $n$, $Err_{P_X, f}(ERM_\mathcal{H}(T)) \leq \varepsilon$
 :::
 :::
 
@@ -281,6 +282,7 @@ $\Rightarrow n \geq \frac{\log(|\mathcal{H}| / \delta)}{\varepsilon}$
 |               | PAC                                                       | [Agnostic]{style="color:red;"} PAC                               |
 |---------------|-----------------------------------------------------------|------------------------------------------------------------------|
 | Distribution  | $P_X$ over $\mathcal{X}$                                  | $P_{XY}$ over $\mathcal{X}\times\mathcal{Y}$                     |
+| $\mathcal{Y}$ | $\{0, 1\}$                                                 | Any                                                              |
 | Truth         | $f \in \mathcal{H}$                                       | not in class or doesn't exist                                    |
 | Training $T$  |$(x_1, \dots, x_n) \sim P_X \quad \forall i, y_i = f(x_i)$ | $((x_1, y_1), \dots, (x_n, y_n)) \sim P_{XY}$                    |
 | Risk          | $Err_{P_X, f}(h) = P_X\left[f(x) \neq h(x)\right]$        | $Err_{P_{XY}}(h) = \mathbb{E}_{P_{XY}}\left[L(h, (x, y))\right]$ |
@@ -353,10 +355,12 @@ Still not done, need "an algorithm $A$":
 :::
 
 ::: {.fragment}
+::: {.callout-important}
 Claim:
 
 If $T$ is $\frac{\varepsilon}{2}$-representative, then for any solution $h_T$ of $ERM_\mathcal{H}(T) \in \arg\min_{h \in \mathcal{H}}\overline{err}_T(h)$:
 $$Err_{P_{XY}}(h_T) \leq \min_{h \in \mathcal{H}}Err_{P_{XY}}(h) + \varepsilon$$
+:::
 :::
 
 ::: {.fragment}
@@ -372,9 +376,152 @@ Proof:
 
 ### What is (agnostic) PAC learnable? How?
 
+Uniform convergence with $\frac{\varepsilon}{2}$ $\rightarrow$ $T$ is $\frac{\varepsilon}{2}$-representative $\rightarrow$ $ERM_\mathcal{H}(T)$ gets PAC bound
+
+::: {.fragment}
+::: {.callout-tip}
+Corollary:
+
+- If $\mathcal{H}$ has uniform convergence with a function $n_\mathcal{H}^{UC}$ with some $\frac{\varepsilon}{2}$ then $\mathcal{H}$ is agnostic PAC learnable, with $n \geq n_\mathcal{H}(\varepsilon, \delta)$
+- Furthermore, $ERM_\mathcal{H}(T)$ is a succesful PAC learner for $\mathcal{H}$
+:::
+:::
+
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
 :::
 :::
 
 ---
+
+## Finite Classes are Angnostic PAC Learnable {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### What has uniform convergence?
+
+::: {.fragment}
+::: {.callout-tip}
+Theorem:
+
+Assume $\mathcal{H}$ is **finite** and the range of the loss function is bounded in $[0, 1]$. Then:
+
+- $\mathcal{H}$ has uniform convergence with function $n_\mathcal{H}^{UC} \leq \Bigl\lceil\frac{\log(2|\mathcal{H}|/\delta)}{2\varepsilon^2}\Bigr\rceil$
+- Therefore, $\mathcal{H}$ is agnostic PAC learnable using the $ERM_\mathcal{H}$ algorithm with sample size $n \geq \Bigl\lceil\frac{2\log(2|\mathcal{H}|/\delta)}{\varepsilon^2}\Bigr\rceil$
+:::
+:::
+
+::: {.fragment}
+Comments:
+
+- Use the Hoeffding's Inequality:
+  - Let $X_1, \dots, X_n$ in $[a, b]$ i.i.d RVs with $\mathbb{E}(X_i) = \mu$, then for any $\varepsilon > 0$:
+  $$P\left[|\bar{X} - \mu| > \varepsilon\right] \leq 2\exp\left(-2n\varepsilon^2/(b - a)^2\right)$$
+- So the loss can be bounded in any $[a, b]$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Linear Model PAC Learnability
+
+::: {.incremental}
+- Now suppose $y_i = f(x_i) + \tau_i$, specifically $y_i = \beta_0 + \beta_1x_{i1} + \dots \beta_px_{ip} + \tau_i$
+- Suppose our squared error loss can be bounded (in $[0, 1]$, but can manage $[0, a]$ for some large $a$)
+- What is $\mathcal{H}$? Is it finite?
+- Discretization Trick: if every coefficient $\beta_j$ is represented as a 64 bit float:
+  - Let $d = p + 1$
+  - $|\mathcal{H}| = 2^{64d}$
+- We reach agnostic PAC learnability for any $\varepsilon, \delta \in (0,1)$!
+  - With $ERM_\mathcal{H}(T) = \hat{\beta} = (X'X)^{-1}X'y$
+  - $n \geq \Bigl\lceil\frac{2\log(2|\mathcal{H}|/\delta)}{\varepsilon^2}\Bigr\rceil \approx \frac{128d + 2\log(2/\delta)}{\varepsilon^2}$
+  - Compare this to the Fixed-$X$ optimism bound: $n \geq \frac{2d\sigma^2}{\varepsilon}$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+## The Bias-Complexity Tradeoff {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### The Bias-Complexity Tradeoff
+
+::: {.incremental}
+- Let $h_T$ be the model reached by $ERM_\mathcal{H}(T)$, that is: $h_T \in \arg\min_{h \in \mathcal{H}}\overline{err}_T(h)$.
+
+- Its "true" error over unseen data: $Err_{P_{XY}}(h_T)$
+
+- The actual minimum error achievable in $\mathcal{H}$: $\min_{h \in \mathcal{H}} Err_{P_{XY}}(h)$
+
+- So: $Err_{P_{XY}}(h_T) = \min_{h \in \mathcal{H}} Err_{P_{XY}}(h) + \tau = \varepsilon_{\text{app}} + \varepsilon_{\text{est}}$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### The Bias-Complexity Tradeoff
+
+$$Err_{P_{XY}}(h_T) = \varepsilon_{\text{app}} + \varepsilon_{\text{est}}$$
+
+::: {.fragment}
+- Approximation Error $\varepsilon_{\text{app}}$:
+  - Caused by restricting class $\mathcal{H}$
+  - Does not depend on $T$
+  - Decreases with $|\mathcal{H}|$
+  - Model bias!
+- Estimation Error $\varepsilon_{\text{est}}$:
+  - Caused by ERM with specific $T$
+  - increases (logarithmically) with $|\mathcal{H}|$, decreases with sample size $n$
+  - Model complexity (our "variance")
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Where did "irreducible" go?
+
+::: {.incremental}
+- Recall: $Err_{P_{XY}}(h_T) = \min_{h \in \mathcal{H}} Err_{P_{XY}}(h) + \tau = \varepsilon_{\text{app}} + \varepsilon_{\text{est}}$
+- The $\min_{h \in \mathcal{H}} Err_{P_{XY}}(h)$ could be decomposed itself to:
+$$\min_{h \in \mathcal{H}} Err_{P_{XY}}(h) = \min_{h \in \mathcal{Y}^\mathcal{X}} Err_{P_{XY}}(h) + \left[\min_{h \in \mathcal{H}} Err_{P_{XY}}(h) - \min_{h \in \mathcal{Y}^\mathcal{X}} Err_{P_{XY}}(h)\right]$$
+:::
+
+<br></br>
+
+::: {.incremental}
+- That is, the best possible ("Bayes optimal") error for any $\mathcal{H}$ + excess over that which is what we know as bias
+  - Under realizability $\min_{h \in \mathcal{Y}^\mathcal{X}} Err_{P_{XY}}(h) = 0$
+  - Under agnostic model it could be $> 0$, like our $\sigma^2$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
