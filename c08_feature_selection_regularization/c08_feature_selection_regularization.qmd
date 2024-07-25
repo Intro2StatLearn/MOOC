@@ -1,0 +1,509 @@
+---
+format:
+  revealjs:
+    slide-number: true
+    chalkboard: true
+    fig-width: 6
+    fig-asp: 0.618
+    template-partials:
+      - "../title-slide.html"
+css: "../slides_quarto.css"
+standalone: false
+include-in-header: "../header_quarto.html"
+logo: "../Intro2SL_logo_white.jpg"
+pagetitle: "Feature Selection and Regularization"
+callout-appearance: simple
+smaller: true
+execute:
+  eval: true
+  echo: true
+code-line-numbers: false
+code-block-border-left: true
+highlight-style: github
+footer: "[Intro to Statistical Learning](https://intro2statlearn.github.io/mooc/){target='_blank'}"
+---
+
+## {.logo-slide}
+
+## Introduction to Statistical Learning {.title-slide}
+
+### Feat. Selection and Regularization - Class 8
+
+### Giora Simchoni
+
+#### `gsimchoni@gmail.com` and add `#intro2sl` in subject
+
+### Stat. and OR Department, TAU
+
+---
+
+## Goals of Selection and Regularization {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Why select features? Why regularize?
+
+E.g., did we not see the Gauss-Markov Theorem?
+
+::: {.incremental}
+- Improve prediction accuracy
+  - Recall: the Bias-Variance Tradeoff $\Rightarrow$ allowing some bias might decrease variance!
+  - Recall: $op \approx \mathcal{O}\left(\frac{p\sigma^2}{n}\right)$
+  - If $p > n$: $X'X$ has no inverse, infinite solutions
+
+- Improve interpretability
+  - Discarding features with small "unlikely" coefficients
+  
+    $\Rightarrow$ lowering model complexity
+    
+    $\Rightarrow$ parsimony!
+  - Often coincides with improving prediction accuracy
+
+- In general: "don't believe *everything* the data says"
+
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Feature Selection and Regularization
+
+We will focus on:
+
+- Subset selection (best, stepwise, stagewise)
+- Regularized regression (Ridge, Lasso)
+- Dimensionality reduction (PCR)
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+## Subset Selection {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Best subset selection
+
+1. $M_0$ model: predict $\hat{y} = \hat{\beta}_0 = \bar{y}$
+2. For $k = 1, \dots, p$:
+    i. Fit all ${p \choose k}$ models containing $k$ features
+    ii. Pick the best $M_k$ with $\min RSS$
+3. Select the best model from $M_0, \dots, M_p$ with the $C_p$/$AIC$ criterion or CV
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Best subset selection
+
+```{python}
+#| echo: false
+
+import pandas as pd
+import numpy as np
+import itertools
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+
+# Load the dataset
+df = pd.read_csv('../datasets/ISLP_credit_data.csv')
+
+# One-hot encoding for categorical features
+df['Gender'] = df['Gender'].apply(lambda x: 1 if x == 'Male' else 0)
+df['Married'] = df['Married'].apply(lambda x: 1 if x == 'Yes' else 0)
+df['Student'] = df['Student'].apply(lambda x: 1 if x == 'Yes' else 0)
+df = pd.get_dummies(df, columns=['Ethnicity'], drop_first=True)
+
+# Drop the unnecessary 'Unnamed: 0' column
+df = df.drop(columns=['Unnamed: 0', 'Married'])
+
+# Define the dependent variable
+y = df['Balance']
+
+# Define the independent variables
+X = df.drop(columns=['Balance'])
+
+# Function to calculate RSS
+def calculate_rss(y, y_pred):
+    return np.sum((y - y_pred) ** 2)
+
+# Perform best subset selection
+rss_list = []
+best_models = []
+
+# Model M0: only intercept
+X_intercept = np.ones((len(y), 1))
+model = LinearRegression().fit(X_intercept, y)
+rss = calculate_rss(y, model.predict(X_intercept))
+rss_list.append((0, rss, 'Intercept'))
+best_models.append((0, rss, []))
+
+# Iterate over the number of predictors from 1 to 11
+for k in range(1, X.shape[1] + 1):
+    best_rss = np.inf
+    best_model = None
+    best_features = None
+    for combo in itertools.combinations(X.columns, k):
+        X_subset = X[list(combo)]
+        model = LinearRegression().fit(X_subset, y)
+        rss = calculate_rss(y, model.predict(X_subset))
+        rss_list.append((k, rss, combo))
+        if rss < best_rss:
+            best_rss = rss
+            best_model = model
+            best_features = combo
+    best_models.append((k, best_rss, best_features))
+
+# Convert RSS list to a DataFrame
+rss_df = pd.DataFrame(rss_list, columns=['k', 'RSS', 'Features'])
+
+# Estimate sigma^2 from the full model
+full_model = LinearRegression().fit(X, y)
+full_rss = calculate_rss(y, full_model.predict(X))
+sigma2_est = full_rss / (len(y) - X.shape[1] - 1)
+
+# Calculate RSS + 2 * k * sigma2_est
+rss_plus_penalty = [rss + 2 * k * sigma2_est for k, rss, _ in best_models]
+
+# Find the minimum RSS + penalty and corresponding k
+min_rss_plus_penalty = min(rss_plus_penalty)
+best_k = rss_plus_penalty.index(min_rss_plus_penalty)
+
+# Plot the RSS for all models
+plt.figure(figsize=(10, 5))
+for k in range(X.shape[1] + 1):
+    k_rss = rss_df[rss_df['k'] == k]
+    plt.scatter(k_rss['k'], k_rss['RSS'], color='blue', label='All models' if k == 0 else "")
+best_rss_df = pd.DataFrame(best_models, columns=['k', 'RSS', 'Features'])
+plt.plot(best_rss_df['k'], best_rss_df['RSS'], color='red', label='Best models')
+plt.plot(best_rss_df['k'], rss_plus_penalty, color='green', linestyle='dashed', label='Best models + Cp penalty')
+plt.axvline(x=best_k, color='orange', linestyle='dashed', label='Best Cp model')
+plt.xlabel('Number of predictors (k)')
+plt.ylabel('RSS')
+plt.title('RSS for Best Subset Selection')
+plt.legend()
+plt.show()
+```
+
+::: {.fragment}
+::: {.callout-note}
+How many models are run?
+:::
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Forward stepwise selection
+
+1. $M_0$ model: predict $\hat{y} = \hat{\beta}_0 = \bar{y}$
+2. For $k = 0, \dots, p - 1$:
+    i. Fit all $p - k$ models adding 1 additional feature
+    ii. Pick the best $M_{k + 1}$ with $\min RSS$
+3. Select the best model from $M_0, \dots, M_p$ with the $C_p$/$AIC$ criterion or CV
+
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Forward stepwise selection
+
+```{python}
+#| echo: false
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+
+# Load the dataset
+df = pd.read_csv('../datasets/ISLP_credit_data.csv')
+
+# One-hot encoding for categorical features
+df['Gender'] = df['Gender'].apply(lambda x: 1 if x == 'Male' else 0)
+df['Married'] = df['Married'].apply(lambda x: 1 if x == 'Yes' else 0)
+df['Student'] = df['Student'].apply(lambda x: 1 if x == 'Yes' else 0)
+df = pd.get_dummies(df, columns=['Ethnicity'], drop_first=True)
+
+# Drop the unnecessary 'Unnamed: 0' column
+df = df.drop(columns=['Unnamed: 0'])
+
+# Define the dependent variable
+y = df['Balance']
+
+# Define the independent variables
+X = df.drop(columns=['Balance'])
+
+# Function to calculate RSS
+def calculate_rss(y, y_pred):
+    return np.sum((y - y_pred) ** 2)
+
+# Forward stepwise selection
+rss_list = []
+best_models = []
+
+# Model M0: only intercept
+X_intercept = np.ones((len(y), 1))
+model = LinearRegression().fit(X_intercept, y)
+rss = calculate_rss(y, model.predict(X_intercept))
+rss_list.append((0, rss, 'Intercept'))
+best_models.append((0, rss, []))
+
+current_features = []
+remaining_features = list(X.columns)
+
+# Iterate to add predictors from 1 to 11
+for k in range(1, X.shape[1] + 1):
+    best_rss = np.inf
+    best_feature = None
+    for feature in remaining_features:
+        trial_features = current_features + [feature]
+        X_subset = X[trial_features]
+        model = LinearRegression().fit(X_subset, y)
+        rss = calculate_rss(y, model.predict(X_subset))
+        rss_list.append((k, rss, trial_features))
+        if rss < best_rss:
+            best_rss = rss
+            best_feature = feature
+    current_features.append(best_feature)
+    remaining_features.remove(best_feature)
+    best_models.append((k, best_rss, current_features.copy()))
+
+# Convert RSS list to a DataFrame
+rss_df = pd.DataFrame(rss_list, columns=['k', 'RSS', 'Features'])
+
+# Estimate sigma^2 from the full model
+full_model = LinearRegression().fit(X, y)
+full_rss = calculate_rss(y, full_model.predict(X))
+sigma2_est = full_rss / (len(y) - X.shape[1] - 1)
+
+# Calculate RSS + 2 * k * sigma2_est
+rss_plus_penalty = [rss + 2 * k * sigma2_est for k, rss, _ in best_models]
+
+# Find the minimum RSS + penalty and corresponding k
+min_rss_plus_penalty = min(rss_plus_penalty)
+best_k = rss_plus_penalty.index(min_rss_plus_penalty)
+
+# Plot the RSS for all models
+plt.figure(figsize=(10, 5))
+for k in range(X.shape[1] + 1):
+    k_rss = rss_df[rss_df['k'] == k]
+    plt.scatter(k_rss['k'], k_rss['RSS'], color='blue', label='All models' if k == 0 else "")
+best_rss_df = pd.DataFrame(best_models, columns=['k', 'RSS', 'Features'])
+plt.plot(best_rss_df['k'], best_rss_df['RSS'], color='red', label='Best models')
+plt.plot(best_rss_df['k'], rss_plus_penalty, color='green', linestyle='dashed', label='Best models + Cp penalty')
+plt.axvline(x=best_k, color='orange', linestyle='dashed', label='Best Cp model')
+plt.xlabel('Number of predictors (k)')
+plt.ylabel('RSS')
+plt.title('RSS for Forward Stepwise Selection')
+plt.legend()
+plt.show()
+```
+
+::: {.fragment}
+::: {.callout-note}
+How many models are run?
+:::
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Stepwise regression main disadvantage
+
+| k | Best subset                           | Forward stepwise                    |
+|---|---------------------------------------|-------------------------------------|
+| 1 | {Rating}                              | {Rating}                            |
+| 2 | {Rating, Income}                      | {Rating, Income}                    |
+| 3 | {Rating, Income, Student}             | {Rating, Income, Student}           |
+| 4 | {Income, Student, Limit, Cards}       | {Rating, Income, Student, Limit}    |
+
+::: {.fragment}
+::: {.callout-note}
+What happens if $p > n$?
+:::
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+## Regularized Regression: Ridge {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Ridge regression
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Ridge solution
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Ridge justification I: stabilization
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Choosing $\lambda$
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+## Regularized Regression: Lasso {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Lasso regression
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Lasso solution
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Shrinkage view of Ridge and Lasso
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+## Bayesian Viewpoint {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Bayesian Statistics
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Ridge: Gaussian prior
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Lasso: Laplace prior
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+## Dimensionality Reduction Methods: PCR {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Recall: PCA
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### PCA regression (PCR)
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
