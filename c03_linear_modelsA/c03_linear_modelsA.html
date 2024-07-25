@@ -434,7 +434,7 @@
 <section class="slide level2">
 
 <h3 id="from-line-to-rss-surface">From line to RSS surface</h3>
-<div id="b96b2d06" class="cell" data-execution_count="1">
+<div id="15ca06cf" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -498,7 +498,7 @@
 <section class="slide level2">
 
 <h3 id="average-of-many-ols-lines">Average of many OLS lines</h3>
-<div id="bce68bca" class="cell" data-execution_count="2">
+<div id="a6818bdd" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -663,7 +663,7 @@
 <section class="slide level2">
 
 <h3 id="from-line-to-hyperplane">From line to (hyper)plane</h3>
-<div id="ca83af8b" class="cell" data-execution_count="3">
+<div id="b7935eff" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -861,7 +861,7 @@
 <section class="slide level2">
 
 <h3 id="se-vs.-x-spread">SE vs.&nbsp;<span class="math inline">\(x\)</span> spread</h3>
-<div id="dd87d587" class="cell" data-execution_count="4">
+<div id="60c5afd3" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1004,15 +1004,15 @@
 <section class="slide level2">
 
 <h3 id="example-with-statsmodels">Example with <code>statsmodels</code></h3>
-<div id="c5965f7a" class="cell" data-execution_count="5">
+<div id="159493e0" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-stdout">
 <pre><code>                            OLS Regression Results                            
 ==============================================================================
 Dep. Variable:                 Income   R-squared:                       0.934
 Model:                            OLS   Adj. R-squared:                  0.929
 Method:                 Least Squares   F-statistic:                     191.4
-Date:                Mon, 24 Jun 2024   Prob (F-statistic):           1.13e-16
-Time:                        12:43:28   Log-Likelihood:                -100.15
+Date:                Thu, 25 Jul 2024   Prob (F-statistic):           1.13e-16
+Time:                        09:29:12   Log-Likelihood:                -100.15
 No. Observations:                  30   AIC:                             206.3
 Df Residuals:                      27   BIC:                             210.5
 Df Model:                           2                                         
@@ -1123,7 +1123,7 @@ Notes:
 
 <h3 id="model-fit-plotting">Model Fit: plotting</h3>
 <p>When <span class="math inline">\(p\)</span> is low - draw!</p>
-<div id="dde32350" class="cell" data-execution_count="6">
+<div id="ed2e7f29" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1151,7 +1151,7 @@ Notes:
 <section class="slide level2">
 
 <h3 id="model-fit-residuals-plots">Model fit: residuals plots</h3>
-<div id="a51f54cb" class="cell" data-execution_count="7">
+<div id="c7ac2cdf" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1182,7 +1182,7 @@ Notes:
 <h3 id="model-fit-r-squared">Model Fit: <span class="math inline">\(R\)</span> squared</h3>
 <p>Measure of “explained variance”:</p>
 <p><span class="math inline">\(R^2 = 1 - \frac{\sum_{i = 1}^n (y_i - X\hat{\beta})^2}{\sum_{i = 1}^n (y_i - \bar{y})^2} = 1 - \frac{RSS}{TSS} = 1 - \frac{(y - X\hat{\beta})'(y - X\hat{\beta})}{(y - X\hat{\beta^*_0})'(y - X\hat{\beta^*_0})}\)</span></p>
-<div id="45061351" class="cell" data-execution_count="8">
+<div id="f0f9e831" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1237,10 +1237,10 @@ Notes:
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-<p>מה שמביא אותנו לדיון קצר על פיצ’ר סלקשן, בחירת משתנים, נושא שנעסוק בו בהמשך. איך נזהה את תת הקבוצה הטובה ביותר? היא לא קטנה כל כך שהמודל פשטני מדי עם שאריות גדולות ואולי שיטתיות עם R בריבוע גבוה. והיא לא גדולה מדי, וסתם מנפחת את R בריבוע.</p>
+<p>מה שמביא אותנו לדיון קצר על פיצ’ר סלקשן, בחירת משתנים, נושא שנעסוק בו בהמשך. איך נזהה את תת הקבוצה הטובה ביותר? היא לא קטנה כל כך שהמודל פשטני מדי עם שאריות גדולות ועם R בריבוע קטן. והיא לא גדולה מדי, וסתם מנפחת את R בריבוע.</p>
 <p>האם יש לנו אפשרות לבדוק את כל תתי הקבוצות? לכל בעיה מעשית לא ממש, מדובר בבדיקה בסדר גדול של 2 בחזקת P. כבר עבור 10 משתנים זה אומר להריץ כאלף רגרסיות.</p>
 <p>אפשר לבצע רגרסיית פורוורד: להתחיל במודל עם חותך בלבד, וכל פעם להוסיף את המשתנה המשפיע ביותר, למשל זה שמגדיל את הR בריבוע הכי הרבה. אם נגיע למצב שבו אף משתנה לא מביא להגדלה משמעותית של הR בריבוע או שהמקדם שלו לא מובהק מעבר לשאר המשתנים - נעצור. הבעיה היא שזאת שיטה מאוד גרידית. וכפי שנראה בהמשך, מאחר שבכל זאת המשתנים יכולים להיות מתואמים ביניהם במידה מסוימת, בהחלט יכול לקרות מצב שיהיה לנו במודל משתנה שהוא כבר מיותר, לעומת שניים שהגיעו אחריו.</p>
-<p>אפשרות אחרת זה רגרסיית באקוורד: להתחיל עם כל המשתנים במודל, וכל פעם להוריד משתנה שהמקדם שלו לא מובהק סטטיסטית, הכי פחות מועיל, למשל שהP-value שלו הכי גדול. נבצע שוב רגרסייה ונבחר במשתנה הבא הכי פחות מועיל. נעצור למשל כשכל המקדמים מובהקים, כלומר כשברור שלכל אחד המשתנים יש השפעה מובהקת מעבר לאחרים. בעיה עם גישה כזאת יכולה להיות למשל במקרה שמספר המשתנים גדול ממספר התצפיות, ולא ניתן להתאים מודל ליניארי סטנדרטי.</p>
+<p>אפשרות אחרת זה רגרסיית באקוורד: להתחיל עם כל המשתנים במודל, וכל פעם להוריד משתנה שהמקדם שלו לא מובהק סטטיסטית, הכי פחות מועיל, למשל שהP-value שלו הכי גדול. נבצע שוב רגרסייה ונבחר במשתנה הבא הכי פחות מועיל. נעצור למשל כשכל המקדמים מובהקים, כלומר כשברור שלכל אחד מהמשתנים יש השפעה מובהקת מעבר לאחרים. בעיה עם גישה כזאת יכולה להיות למשל במקרה שמספר המשתנים גדול ממספר התצפיות, ולא ניתן להתאים מודל ליניארי סטנדרטי.</p>
 <p>הגישה ההיברידית משלבת בין שתי הגישות: נתחיל עם מודל ללא משתנים, נוסיף את המשתנה המועיל ביותר ונמשיך ככה. בכל נקודה נעצור ונשאל אם יש משתנה שאינו מובהק סטטיסטית, כלומר הוא כבר לא מועיל מעבר לאחרים, ואם כן נוריד אותו מהמודל. ככה נמשיך עד שלא תהיה יותר תנועה פנימה והחוצה מהמודל, כל המשתנים בפנים מובהקים, ואף משתנה שנוסיף לא יהיה מובהק. זאת הגישה הטובה ביותר בשלב זה, אבל נשים לב שחישובית היא הרבה יותר קשה.</p>
 <p>מלבד הגישות האלה יש עוד שאולי ניתקל בהן בהמשך הקורס. עד כאן לגבי רגרסיה ליניארית. בשיעור הבא נראה איך להגמיש את המודל הליניארי, ולהתאים אותו גם למצב שY הוא משתנה קטגוריאלי.</p>
 </div>
