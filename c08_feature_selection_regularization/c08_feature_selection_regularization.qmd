@@ -364,6 +364,17 @@ What happens if $p > n$?
 
 ---
 
+### Forward [stagewise]{style="color:red;"} selection
+
+TODO
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
 ## Regularized Regression: Ridge {.title-slide}
 
 ::: {.notes}
@@ -375,6 +386,16 @@ What happens if $p > n$?
 
 ### Ridge regression
 
+::: {.incremental}
+- Instead of reducing the number of parameters $\to$ restrict their norm.
+- With $\ell_2$ norm we get the penalized RSS criterion for some regularization/penalty parameter $\lambda$:
+$$PRSS(\lambda) = \sum_{i = 1}^n \left(y_i - \beta_0 + \sum_{j = 1}^p \beta_j x_{ij}\right)^2 + \lambda\sum_{j = 1}^p \beta_j^2 = RSS + \lambda\|\beta^*\|^2_2$$
+
+- Standardize the features in $X$, then:
+  - $\hat{\beta}_0 = \bar{y}$
+  - $\lambda$ punishes features of different scale comparably
+:::
+
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
 :::
@@ -384,6 +405,22 @@ What happens if $p > n$?
 
 ### Ridge solution
 
+$$PRSS(\lambda) = \|y - X\beta\|^2_2 + \lambda\|\beta\|^2_2$$
+
+::: {.fragment}
+$\frac{\partial PRSS}{\partial \beta} = -2X'y + 2X'X\beta +2\lambda\beta$
+:::
+
+::: {.fragment}
+$2X'y - 2X'X\beta - 2\lambda\beta = 0$
+:::
+::: {.fragment}
+$(X'X + \lambda I_p)\beta = X'y$
+:::
+::: {.fragment}
+$\hat{\beta}(\lambda) = (X'X + \lambda I_p)^{-1}X'y$
+:::
+
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
 :::
@@ -391,7 +428,18 @@ What happens if $p > n$?
 
 ---
 
-### Ridge justification I: stabilization
+### Ridge (original) justification
+
+$$\hat{\beta}(\lambda) = (X'X + \lambda I_p)^{-1}X'y$$
+
+::: {.incremental}
+- Numerical stability:
+  - If $X$'s columns are correlated, $X'X$ is ill-conditioned and its inverse is unstable, variance of $\hat{\beta}$ is high -- but $X'X + \lambda I_p$ improves on this
+- Feasibility:
+  - If $X$'s columns are linearly dependent $X'X$ is not invertible but $X'X + \lambda I_p$ is!
+  - If $p > n$ -- same!
+- Guaranteed prediction error reduction for some $\lambda$: Bias increases but variance decreases *more*
+:::
 
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
@@ -401,6 +449,123 @@ What happens if $p > n$?
 ---
 
 ### Choosing $\lambda$
+
+```{python}
+#| echo: false
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import Ridge, LinearRegression
+from sklearn.model_selection import KFold
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import make_pipeline
+
+# Load the dataset
+df = pd.read_csv('../datasets/ISLP_credit_data.csv')
+
+# One-hot encoding for categorical features
+df['Gender'] = df['Gender'].apply(lambda x: 1 if x == 'Male' else 0)
+df['Married'] = df['Married'].apply(lambda x: 1 if x == 'Yes' else 0)
+df['Student'] = df['Student'].apply(lambda x: 1 if x == 'Yes' else 0)
+df = pd.get_dummies(df, columns=['Ethnicity'], drop_first=True)
+
+# Drop the unnecessary 'Unnamed: 0' column
+df = df.drop(columns=['Unnamed: 0'])
+
+# Define the dependent variable
+y = df['Balance']
+
+# Define the independent variables
+X = df.drop(columns=['Balance'])
+
+# Define lambdas for Ridge regression
+lambdas = np.logspace(-2, 3, 100)
+
+# Cross-validation setup
+kf = KFold(n_splits=5, shuffle=True, random_state=1)
+
+# Variables to store results
+train_errors = []
+test_errors = []
+ridge_coefficients = []
+
+# Regular linear regression for comparison
+lr_model = LinearRegression()
+lr_train_errors = []
+lr_test_errors = []
+
+# Ridge regression with cross-validation
+for alpha in lambdas:
+    ridge = make_pipeline(StandardScaler(), Ridge(alpha=alpha))
+    
+    fold_train_errors = []
+    fold_test_errors = []
+    
+    for train_index, test_index in kf.split(X):
+        X_train, X_test = X.iloc[train_index], X.iloc[test_index]
+        y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+        
+        ridge.fit(X_train, y_train)
+        y_train_pred = ridge.predict(X_train)
+        y_test_pred = ridge.predict(X_test)
+        
+        fold_train_errors.append(((y_train - y_train_pred) ** 2).mean())
+        fold_test_errors.append(((y_test - y_test_pred) ** 2).mean())
+
+    train_errors.append(np.mean(fold_train_errors))
+    test_errors.append(np.mean(fold_test_errors))
+    ridge_coefficients.append(ridge.named_steps['ridge'].coef_)
+
+# Fit regular linear regression and calculate mean train and test errors
+for train_index, test_index in kf.split(X):
+    X_train, X_test = X.iloc[train_index], X.iloc[test_index]
+    y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+    scale = StandardScaler()
+    X_train = scale.fit_transform(X_train)
+    X_test = scale.transform(X_test)
+    lr_model.fit(X_train, y_train)
+    lr_train_errors.append(((y_train - lr_model.predict(X_train)) ** 2).mean())
+    lr_test_errors.append(((y_test - lr_model.predict(X_test)) ** 2).mean())
+
+mean_lr_train_error = np.mean(lr_train_errors)
+mean_lr_test_error = np.mean(lr_test_errors)
+
+# Find the best lambda
+best_lambda_index = np.argmin(test_errors)
+best_lambda = lambdas[best_lambda_index]
+max_lam = 10
+# Plot the results
+plt.figure(figsize=(14, 5))
+
+# Plot 1: Training and test errors vs lambda
+plt.subplot(1, 2, 1)
+plt.plot(lambdas[lambdas <= max_lam], np.array(train_errors)[lambdas <= max_lam], label='Train Error', color='blue')
+plt.plot(lambdas[lambdas <= max_lam], np.array(test_errors)[lambdas <= max_lam], label='Test Error', color='red')
+plt.axhline(y=mean_lr_train_error, color='blue', linestyle='dashed', label='Linear Regression Train Error')
+plt.axhline(y=mean_lr_test_error, color='red', linestyle='dashed', label='Linear Regression Test Error')
+plt.axvline(x=best_lambda, color='green', linestyle='dashed', label='Best Lambda')
+plt.xscale('log')
+plt.xlabel('Lambda')
+plt.ylabel('Mean Squared Error')
+plt.title('Ridge Regression: 5-Fold CV Mean MSE')
+plt.legend()
+
+# Plot 2: Ridge coefficients profile
+plt.subplot(1, 2, 2)
+ridge_coefficients = np.array(ridge_coefficients)
+for i in range(ridge_coefficients.shape[1]):
+    plt.plot(lambdas, ridge_coefficients[:, i], label=X.columns[i])
+plt.axvline(x=best_lambda, color='green', linestyle='dashed', label='Best Lambda')
+plt.xscale('log')
+plt.xlabel('Lambda')
+plt.ylabel('Coefficient Value')
+plt.title('Ridge Coefficients Profile')
+plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+
+plt.tight_layout()
+plt.show()
+```
 
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
