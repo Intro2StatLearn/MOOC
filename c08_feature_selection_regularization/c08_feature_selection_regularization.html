@@ -477,7 +477,7 @@
 <section class="slide level2">
 
 <h3 id="best-subset-selection-1">Best subset selection</h3>
-<div id="f6f189da" class="cell" data-execution_count="1">
+<div id="989700ac" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -545,7 +545,7 @@
 <section class="slide level2">
 
 <h3 id="forward-stepwise-selection-1">Forward stepwise selection</h3>
-<div id="48bdfa69" class="cell" data-execution_count="2">
+<div id="b7ddb39c" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -811,7 +811,7 @@
 <section class="slide level2">
 
 <h3 id="choosing-lambda">Choosing <span class="math inline">\(\lambda\)</span></h3>
-<div id="e5ff945a" class="cell" data-execution_count="3">
+<div id="ffffb949" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -884,7 +884,7 @@
 <section class="slide level2">
 
 <h3 id="the-lasso-path">The Lasso Path</h3>
-<div id="af7b953e" class="cell" data-execution_count="4">
+<div id="d068bbae" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -923,7 +923,7 @@
 <li>But also, surprisingly:</li>
 </ul>
 <div class="fragment">
-<div id="d322f447" class="cell" data-execution_count="5">
+<div id="8eededb9" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -949,10 +949,28 @@
           display:block!important;
       }</style></aside>
 </section>
+<section id="on-shrinkage-and-sparsity" class="slide level2 title-slide center">
+<h2>On Shrinkage and Sparsity</h2>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
 <section class="slide level2">
 
-<h3 id="shrinkage-viewpoint">Shrinkage viewpoint</h3>
-<p>Ridge and Lasso’s dual criteria:</p>
+<h3 id="dual-criteria">Dual criteria</h3>
+<p>There is 1-to-1 correspondnece between Ridge and Lasso’s previous criteria and:</p>
 <div class="fragment">
 <ul>
 <li>Ridge: <span class="math inline">\(\min_{\beta} RSS \text{  s.t.  } \sum_{j = 1}^p\beta_j^2 \le s\)</span></li>
@@ -960,9 +978,9 @@
 </ul>
 </div>
 <div class="fragment">
-<p>But also for Best Subset regression:</p>
+<p>In this contest can also write for Best Subset regression:</p>
 <ul>
-<li><span class="math inline">\(\min_{\beta} RSS \text{  s.t.  } \sum_{j = 1}^p\mathbb{1}(\beta_j \neq 0) \le s\)</span></li>
+<li><span class="math inline">\(\min_{\beta} RSS \text{  s.t.  } \sum_{j = 1}^p\mathbb{1}\left[\beta_j \neq 0\right] \le s\)</span></li>
 </ul>
 </div>
 <aside class="notes">
@@ -983,13 +1001,70 @@
 </section>
 <section class="slide level2">
 
-<h3 id="shrinkage-viewpoint-1">Shrinkage viewpoint</h3>
-<div id="6423b67e" class="cell" data-execution_count="6">
+<h3 id="seeing-shrinkage-and-sparsity-i">Seeing Shrinkage and Sparsity (I)</h3>
+<div id="c2c58994" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
 <p><img data-src="c08_feature_selection_regularization_files/figure-revealjs/cell-7-output-1.png" width="948" height="468"></p>
 </figure>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="seeing-shrinkage-and-sparsity-ii">Seeing Shrinkage and Sparsity (II)</h3>
+<p>If <span class="math inline">\(X\)</span> has orthonormal columns (<span class="math inline">\(X'X = I_p\)</span>) and <span class="math inline">\(\hat{\beta}_j\)</span> is the OLS estimator:</p>
+<table>
+<colgroup>
+<col style="width: 22%">
+<col style="width: 77%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Estimator</th>
+<th><span class="math inline">\(\tilde{\beta}_j\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Best <span class="math inline">\(M\)</span> subset</td>
+<td><span class="math inline">\(\hat{\beta}_j \cdot \mathbb{1}\left[|\hat{\beta}_j| \ge  |\hat{\beta}_{(M)}|\right]\)</span></td>
+</tr>
+<tr class="even">
+<td>Ridge</td>
+<td><span class="math inline">\(\hat{\beta}_j / (1 + \lambda)\)</span></td>
+</tr>
+<tr class="odd">
+<td>Lasso</td>
+<td><span class="math inline">\(\text{sign}(\hat{\beta}_j)(|\hat{\beta}_j| - \lambda)_+\)</span></td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<div id="a942d540" class="cell" data-execution_count="7">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c08_feature_selection_regularization_files/figure-revealjs/cell-8-output-1.png" width="1428" height="325"></p>
+</figure>
+</div>
 </div>
 </div>
 </div>
