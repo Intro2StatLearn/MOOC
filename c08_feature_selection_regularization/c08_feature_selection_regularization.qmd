@@ -893,6 +893,65 @@ But also for Best Subset regression:
 
 ---
 
+### Shrinkage viewpoint
+
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Define the grid for beta values
+beta1 = np.linspace(-2, 2, 400)
+beta2 = np.linspace(-2, 2, 400)
+B1, B2 = np.meshgrid(beta1, beta2)
+
+# Define the RSS function with identical contours for both lasso and ridge
+RSS = (B1 - 1.0)**2 / 1 + (B2 - 1.57)**2 / 0.25
+
+# Create the figure and subplots
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
+
+# Lasso constraint plot
+ax1.contour(B1, B2, RSS, levels=[1.0, 2.0], colors='red')
+lasso_constraint = plt.Polygon([[-1.07, 0], [0, 1.07], [1.07, 0], [0, -1.07]], color='cyan', alpha=0.5)
+ax1.add_patch(lasso_constraint)
+ax1.plot(1.0, 1.57, 'ko')  # Point representing the unbiased beta_hat
+ax1.text(1.1, 1.67, r'$\hat{\beta}$', fontsize=12, color='black')
+ax1.axhline(0, color='black', linewidth=1)
+ax1.axvline(0, color='black', linewidth=1)
+ax1.set_xlim([-2, 2])
+ax1.set_ylim([-2, 2])
+ax1.set_title('Lasso Constraint')
+ax1.set_xlabel(r'$\beta_1$')
+ax1.set_ylabel(r'$\beta_2$')
+
+# Ridge constraint plot
+ax2.contour(B1, B2, RSS, levels=[1.0, 2.0], colors='red')
+circle = plt.Circle((0, 0), 1, color='cyan', alpha=0.5)
+ax2.add_artist(circle)
+ax2.plot(1.0, 1.57, 'ko')  # Point representing the unbiased beta_hat
+ax2.text(1.1, 1.67, r'$\hat{\beta}$', fontsize=12, color='black')
+ax2.axhline(0, color='black', linewidth=1)
+ax2.axvline(0, color='black', linewidth=1)
+ax2.set_xlim([-2, 2])
+ax2.set_ylim([-2, 2])
+ax2.set_title('Ridge Constraint')
+ax2.set_xlabel(r'$\beta_1$')
+ax2.set_ylabel(r'$\beta_2$')
+
+plt.tight_layout()
+plt.show()
+
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
 ## Bayesian Viewpoint {.title-slide}
 
 ::: {.notes}
