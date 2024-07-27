@@ -477,7 +477,7 @@
 <section class="slide level2">
 
 <h3 id="best-subset-selection-1">Best subset selection</h3>
-<div id="368fec74" class="cell" data-execution_count="1">
+<div id="1e190972" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -545,7 +545,7 @@
 <section class="slide level2">
 
 <h3 id="forward-stepwise-selection-1">Forward stepwise selection</h3>
-<div id="1a38b960" class="cell" data-execution_count="2">
+<div id="578954cf" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -652,7 +652,29 @@
 <section class="slide level2">
 
 <h3 id="forward-stagewise-selection">Forward <span style="color:red;">stagewise</span> selection</h3>
-<p>TODO</p>
+<ol start="0" type="1">
+<li>Standardize all features, input some <span class="math inline">\(\tau_{thresh} \in (0, 1)\)</span> and <span class="math inline">\(\varepsilon &gt; 0\)</span> step size</li>
+<li>Residual <span class="math inline">\(\mathbf{r} = \mathbf{x} - \bar{y}\)</span>, <span class="math inline">\(\beta_1, \dots, \beta_p = 0\)</span></li>
+<li>Find the predictor <span class="math inline">\(\mathbf{x}_j\)</span> most correlated with <span class="math inline">\(\mathbf{r}\)</span>, and let <span class="math inline">\(\tau = Corr(\mathbf{r}, \mathbf{x}_j)\)</span></li>
+<li>While <span class="math inline">\(|\tau| &gt; \tau_{thresh}\)</span>:
+<ol type="i">
+<li>Update <span class="math inline">\(\beta_j \leftarrow \beta_j + \delta_j\)</span>, where <span class="math inline">\(\delta_j = \varepsilon \cdot \text{sign}(\tau)\)</span></li>
+<li>Update <span class="math inline">\(\mathbf{r} \leftarrow \mathbf{r} - \delta_j\mathbf{x}_j\)</span></li>
+<li>Find the predictor <span class="math inline">\(\mathbf{x}_j\)</span> most correlated with <span class="math inline">\(\mathbf{r}\)</span>, and let <span class="math inline">\(\tau = Corr(\mathbf{r}, \mathbf{x}_j)\)</span></li>
+</ol></li>
+</ol>
+<div class="fragment">
+<div class="callout callout-note callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<p>Why would we want to “slow-learn”?</p>
+</div>
+</div>
+</div>
+</div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 
@@ -692,7 +714,7 @@
 <h3 id="ridge-regression">Ridge regression</h3>
 <div>
 <ul>
-<li class="fragment"><p>Instead of reducing the number of parameters <span class="math inline">\(\to\)</span> restrict their norm.</p></li>
+<li class="fragment"><p>Instead of reducing the number of parameters <span class="math inline">\(\to\)</span> penalize their norm</p></li>
 <li class="fragment"><p>With <span class="math inline">\(\ell_2\)</span> norm we get the penalized RSS criterion for some regularization/penalty parameter <span class="math inline">\(\lambda\)</span>: <span class="math display">\[PRSS(\lambda) = \sum_{i = 1}^n \left(y_i - \beta_0 + \sum_{j = 1}^p \beta_j x_{ij}\right)^2 + \lambda\sum_{j = 1}^p \beta_j^2 = RSS + \lambda\|\beta^*\|^2_2\]</span></p></li>
 <li class="fragment"><p>Standardize the features in <span class="math inline">\(X\)</span>, then:</p>
 <ul>
@@ -764,7 +786,10 @@
 <li class="fragment">If <span class="math inline">\(X\)</span>’s columns are linearly dependent <span class="math inline">\(X'X\)</span> is not invertible but <span class="math inline">\(X'X + \lambda I_p\)</span> is!</li>
 <li class="fragment">If <span class="math inline">\(p &gt; n\)</span> – same!</li>
 </ul></li>
-<li class="fragment">Guaranteed prediction error reduction for some <span class="math inline">\(\lambda\)</span>: Bias increases but variance decreases <em>more</em></li>
+<li class="fragment">Guaranteed prediction error reduction for some <span class="math inline">\(\lambda\)</span>:
+<ul>
+<li class="fragment">Bias increases but variance decreases <em>more</em></li>
+</ul></li>
 </ul>
 </div>
 <aside class="notes">
@@ -786,11 +811,11 @@
 <section class="slide level2">
 
 <h3 id="choosing-lambda">Choosing <span class="math inline">\(\lambda\)</span></h3>
-<div id="b0462198" class="cell" data-execution_count="3">
+<div id="0741d097" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c08_feature_selection_regularization_files/figure-revealjs/cell-4-output-1.png" width="1333" height="468"></p>
+<p><img data-src="c08_feature_selection_regularization_files/figure-revealjs/cell-4-output-1.png" width="949" height="468"></p>
 </figure>
 </div>
 </div>
@@ -832,6 +857,48 @@
 <section class="slide level2">
 
 <h3 id="lasso-regression">Lasso regression</h3>
+<p><span class="math display">\[PRSS(\lambda) = \sum_{i = 1}^n \left(y_i - \beta_0 + \sum_{j = 1}^p \beta_j x_{ij}\right)^2 + \lambda\sum_{j = 1}^p |\beta_j| = RSS + \lambda\|\beta^*\|\]</span></p>
+<ul>
+<li>As with Ridge, standardize the features in <span class="math inline">\(X\)</span>, then:
+<ul>
+<li><span class="math inline">\(\hat{\beta}_0 = \bar{y}\)</span></li>
+<li><span class="math inline">\(\lambda\)</span> punishes features of different scale comparably</li>
+</ul></li>
+</ul>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="the-lasso-path">The Lasso Path</h3>
+<div id="c76d4966" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c08_feature_selection_regularization_files/figure-revealjs/cell-5-output-1.png" width="949" height="468"></p>
+</figure>
+</div>
+</div>
+</div>
+<div>
+<ul>
+<li class="fragment">Lasso’s selling point: <em>sparsity</em>!</li>
+<li class="fragment">Highly useful, especially for <span class="math inline">\(p &gt; n\)</span> datasets</li>
+</ul>
+</div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 
@@ -851,6 +918,21 @@
 <section class="slide level2">
 
 <h3 id="lasso-solution">Lasso solution</h3>
+<ul>
+<li>Quadratic Programming, LARS</li>
+<li>But also, surprisingly:</li>
+</ul>
+<div class="fragment">
+<div id="8ef9de31" class="cell" data-execution_count="5">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c08_feature_selection_regularization_files/figure-revealjs/cell-6-output-1.png" width="949" height="468"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 
@@ -869,7 +951,20 @@
 </section>
 <section class="slide level2">
 
-<h3 id="shrinkage-view-of-ridge-and-lasso">Shrinkage view of Ridge and Lasso</h3>
+<h3 id="shrinkage-viewpoint">Shrinkage viewpoint</h3>
+<p>Ridge and Lasso’s dual criteria:</p>
+<div class="fragment">
+<ul>
+<li>Ridge: <span class="math inline">\(\min_{\beta} RSS \text{  s.t.  } \sum_{j = 1}^p\beta_j^2 \le s\)</span></li>
+<li>Lasso: <span class="math inline">\(\min_{\beta} RSS \text{  s.t.  } \sum_{j = 1}^p|\beta_j| \le s\)</span></li>
+</ul>
+</div>
+<div class="fragment">
+<p>But also for Best Subset regression:</p>
+<ul>
+<li><span class="math inline">\(\min_{\beta} RSS \text{  s.t.  } \sum_{j = 1}^p\mathbb{1}(\beta_j \neq 0) \le s\)</span></li>
+</ul>
+</div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 
