@@ -1043,8 +1043,49 @@ plt.show()
 
 ---
 
+### Conditional Distribution
+
+::: {.incremental}
+- Recall Bayes Rule:
+$$P(B | A) = \frac{P(A | B) \cdot P(B)}{P(A)} \text{     or     } \text{posterior} = \frac{\text{likelihood}\cdot\text{prior}}{\text{evidence}}$$
+
+- For continuous distributions:
+$$f_{Y|X}(y|x) = \frac{f_{X|Y}(x|y)f_Y(y)}{f_X(x)} \propto f_{X|Y}(x|y)f_Y(y)$$
+
+- E.g. For normal distribution, if $X \sim \mathcal{N}(\mu_X, \sigma^2_X), Y \sim \mathcal{N}(\mu_Y, \sigma^2_Y), \rho = Corr(X, Y)$:
+$$Y | X = x \sim \mathcal{N}\left(\mu_Y + \frac{\sigma_Y}{\sigma_X}\rho(x - \mu_X), (1 - \rho^2)\sigma_Y^2\right)$$
+
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
 ### Bayesian Statistics
 
+::: {.incremental}
+- In Bayesian statistics a parameter $\theta$ isn't a *fixed* number but an RV having a [prior]{style="color:red;"} distribution $P(\theta)$
+- In comes data sample $Y = y_1, \dots, y_n$ with distribution $P(Y | \theta)$
+- We calculate the [posterior]{style="color:red;"} distribution given the data $P(\theta|Y)$
+- $\theta$'s final estimate is the mean or mode of $P(\theta|Y)$
+:::
+
+::: {.fragment}
+::: {.callout-note}
+Why would we take this approach?
+:::
+:::
+
+::: {.fragment}
+- For linear regression and normal prior:
+    - Prior: $\beta \sim \mathcal{N}(0, \tau^2I_p)$
+    - Data: $Y | \beta \sim \mathcal{N}(X\beta, \sigma^2I_n)$
+    - Posterior: $\beta|Y \sim \mathcal{N}\left((X'X + \frac{\sigma^2}{\tau^2}I_p)^{-1}X'y, \Sigma\right)$
+:::
+
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
 :::
@@ -1052,16 +1093,49 @@ plt.show()
 
 ---
 
-### Ridge: Gaussian prior
+### Ridge and Lasso priors
 
-::: {.notes}
-::: {style="direction:rtl; font-size:16px"}
-:::
-:::
+```{python}
+#| echo: false
 
----
+import numpy as np
+import matplotlib.pyplot as plt
+import scipy.stats as stats
 
-### Lasso: Laplace prior
+# Define the x-axis range
+beta_j = np.linspace(-5, 5, 400)
+
+# Define the distributions
+flat_prior = np.ones_like(beta_j) / len(beta_j)  # Uniform distribution
+gaussian_prior = stats.norm.pdf(beta_j, 0, 1)    # Gaussian distribution
+laplace_prior = stats.laplace.pdf(beta_j, 0, 1)  # Laplace distribution
+
+# Create the plots
+fig, axs = plt.subplots(1, 3, figsize=(5 * 3, 3.5), sharey=True)
+
+# Plot flat prior (Linear Regression)
+axs[0].plot(beta_j, flat_prior, label='Flat Prior')
+axs[0].axvline(x=0, color='grey', linestyle='--')
+axs[0].set_title('Flat Prior (Linear Regression)')
+axs[0].set_xlabel(r'$\beta_j$')
+axs[0].set_ylabel('Density')
+
+# Plot Gaussian prior (Ridge Regression)
+axs[1].plot(beta_j, gaussian_prior, label='Gaussian Prior')
+axs[1].axvline(x=0, color='grey', linestyle='--')
+axs[1].set_title('Gaussian Prior (Ridge Regression)')
+axs[1].set_xlabel(r'$\beta_j$')
+
+# Plot Laplace prior (Lasso Regression)
+axs[2].plot(beta_j, laplace_prior, label='Laplace Prior')
+axs[2].axvline(x=0, color='grey', linestyle='--')
+axs[2].set_title('Laplace Prior (Lasso Regression)')
+axs[2].set_xlabel(r'$\beta_j$')
+
+# Adjust layout
+plt.tight_layout()
+plt.show()
+```
 
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
@@ -1094,5 +1168,3 @@ plt.show()
 ::: {style="direction:rtl; font-size:16px"}
 :::
 :::
-
----

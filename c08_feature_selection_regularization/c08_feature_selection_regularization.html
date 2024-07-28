@@ -477,7 +477,7 @@
 <section class="slide level2">
 
 <h3 id="best-subset-selection-1">Best subset selection</h3>
-<div id="989700ac" class="cell" data-execution_count="1">
+<div id="ea017377" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -545,7 +545,7 @@
 <section class="slide level2">
 
 <h3 id="forward-stepwise-selection-1">Forward stepwise selection</h3>
-<div id="b7ddb39c" class="cell" data-execution_count="2">
+<div id="037d5499" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -811,7 +811,7 @@
 <section class="slide level2">
 
 <h3 id="choosing-lambda">Choosing <span class="math inline">\(\lambda\)</span></h3>
-<div id="ffffb949" class="cell" data-execution_count="3">
+<div id="1b6c64fa" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -884,7 +884,7 @@
 <section class="slide level2">
 
 <h3 id="the-lasso-path">The Lasso Path</h3>
-<div id="d068bbae" class="cell" data-execution_count="4">
+<div id="5d5d364b" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -923,7 +923,7 @@
 <li>But also, surprisingly:</li>
 </ul>
 <div class="fragment">
-<div id="8eededb9" class="cell" data-execution_count="5">
+<div id="e62c9c3a" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1002,7 +1002,7 @@
 <section class="slide level2">
 
 <h3 id="seeing-shrinkage-and-sparsity-i">Seeing Shrinkage and Sparsity (I)</h3>
-<div id="c2c58994" class="cell" data-execution_count="6">
+<div id="fd2423be" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1058,7 +1058,7 @@
 </tbody>
 </table>
 <div class="fragment">
-<div id="a942d540" class="cell" data-execution_count="7">
+<div id="5b832bd3" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1104,7 +1104,63 @@
 </section>
 <section class="slide level2">
 
+<h3 id="conditional-distribution">Conditional Distribution</h3>
+<div>
+<ul>
+<li class="fragment"><p>Recall Bayes Rule: <span class="math display">\[P(B | A) = \frac{P(A | B) \cdot P(B)}{P(A)} \text{     or     } \text{posterior} = \frac{\text{likelihood}\cdot\text{prior}}{\text{evidence}}\]</span></p></li>
+<li class="fragment"><p>For continuous distributions: <span class="math display">\[f_{Y|X}(y|x) = \frac{f_{X|Y}(x|y)f_Y(y)}{f_X(x)} \propto f_{X|Y}(x|y)f_Y(y)\]</span></p></li>
+<li class="fragment"><p>E.g. For normal distribution, if <span class="math inline">\(X \sim \mathcal{N}(\mu_X, \sigma^2_X), Y \sim \mathcal{N}(\mu_Y, \sigma^2_Y), \rho = Corr(X, Y)\)</span>: <span class="math display">\[Y | X = x \sim \mathcal{N}\left(\mu_Y + \frac{\sigma_Y}{\sigma_X}\rho(x - \mu_X), (1 - \rho^2)\sigma_Y^2\right)\]</span></p></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
 <h3 id="bayesian-statistics">Bayesian Statistics</h3>
+<div>
+<ul>
+<li class="fragment">In Bayesian statistics a parameter <span class="math inline">\(\theta\)</span> isn’t a <em>fixed</em> number but an RV having a <span style="color:red;">prior</span> distribution <span class="math inline">\(P(\theta)\)</span></li>
+<li class="fragment">In comes data sample <span class="math inline">\(Y = y_1, \dots, y_n\)</span> with distribution <span class="math inline">\(P(Y | \theta)\)</span></li>
+<li class="fragment">We calculate the <span style="color:red;">posterior</span> distribution given the data <span class="math inline">\(P(\theta|Y)\)</span></li>
+<li class="fragment"><span class="math inline">\(\theta\)</span>’s final estimate is the mean or mode of <span class="math inline">\(P(\theta|Y)\)</span></li>
+</ul>
+</div>
+<div class="fragment">
+<div class="callout callout-note callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<p>Why would we take this approach?</p>
+</div>
+</div>
+</div>
+</div>
+<div class="fragment">
+<ul>
+<li>For linear regression and normal prior:
+<ul>
+<li>Prior: <span class="math inline">\(\beta \sim \mathcal{N}(0, \tau^2I_p)\)</span></li>
+<li>Data: <span class="math inline">\(Y | \beta \sim \mathcal{N}(X\beta, \sigma^2I_n)\)</span></li>
+<li>Posterior: <span class="math inline">\(\beta|Y \sim \mathcal{N}\left((X'X + \frac{\sigma^2}{\tau^2}I_p)^{-1}X'y, \Sigma\right)\)</span></li>
+</ul></li>
+</ul>
+</div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 
@@ -1123,26 +1179,16 @@
 </section>
 <section class="slide level2">
 
-<h3 id="ridge-gaussian-prior">Ridge: Gaussian prior</h3>
-<aside class="notes">
-<div style="direction:rtl; font-size:16px">
-
+<h3 id="ridge-and-lasso-priors">Ridge and Lasso priors</h3>
+<div id="83ecaf6b" class="cell" data-execution_count="8">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c08_feature_selection_regularization_files/figure-revealjs/cell-9-output-1.png" width="1430" height="325"></p>
+</figure>
 </div>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section class="slide level2">
-
-<h3 id="lasso-laplace-prior">Lasso: Laplace prior</h3>
+</div>
+</div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 
@@ -1214,9 +1260,6 @@
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-</section>
-<section class="slide level2">
-
 <div class="quarto-auto-generated-content">
 <p><img src="../Intro2SL_logo_white.jpg" class="slide-logo"></p>
 <div class="footer footer-default">
