@@ -477,7 +477,7 @@
 <section class="slide level2">
 
 <h3 id="best-subset-selection-1">Best subset selection</h3>
-<div id="ea017377" class="cell" data-execution_count="1">
+<div id="c1b95fe4" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -545,7 +545,7 @@
 <section class="slide level2">
 
 <h3 id="forward-stepwise-selection-1">Forward stepwise selection</h3>
-<div id="037d5499" class="cell" data-execution_count="2">
+<div id="d8cd18ad" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -811,7 +811,7 @@
 <section class="slide level2">
 
 <h3 id="choosing-lambda">Choosing <span class="math inline">\(\lambda\)</span></h3>
-<div id="1b6c64fa" class="cell" data-execution_count="3">
+<div id="7371dbce" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -884,7 +884,7 @@
 <section class="slide level2">
 
 <h3 id="the-lasso-path">The Lasso Path</h3>
-<div id="5d5d364b" class="cell" data-execution_count="4">
+<div id="6e32e059" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -923,7 +923,7 @@
 <li>But also, surprisingly:</li>
 </ul>
 <div class="fragment">
-<div id="e62c9c3a" class="cell" data-execution_count="5">
+<div id="ba9b764b" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1002,7 +1002,7 @@
 <section class="slide level2">
 
 <h3 id="seeing-shrinkage-and-sparsity-i">Seeing Shrinkage and Sparsity (I)</h3>
-<div id="fd2423be" class="cell" data-execution_count="6">
+<div id="6ba74493" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1058,7 +1058,7 @@
 </tbody>
 </table>
 <div class="fragment">
-<div id="5b832bd3" class="cell" data-execution_count="7">
+<div id="048f46b2" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1180,7 +1180,7 @@
 <section class="slide level2">
 
 <h3 id="ridge-and-lasso-priors">Ridge and Lasso priors</h3>
-<div id="83ecaf6b" class="cell" data-execution_count="8">
+<div id="e443936f" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1226,6 +1226,53 @@
 <section class="slide level2">
 
 <h3 id="recall-pca">Recall: PCA</h3>
+<p>PCA will find the best direction to project the data on, while preserving the maximum “information”:</p>
+<div id="bbb8ac74" class="cell" data-execution_count="9">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c08_feature_selection_regularization_files/figure-revealjs/cell-10-output-1.png" width="1034" height="449"></p>
+</figure>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="the-pca-problem">The PCA Problem</h3>
+<div>
+<ul>
+<li class="fragment"><p>Goal: Find the <span class="math inline">\(q\)</span> direction(s) with the most dispersion</p></li>
+<li class="fragment"><p>Projection is direction <span class="math inline">\(\mathbf{v}\)</span>: <span class="math inline">\(X\mathbf{v} \in \mathbb R^n.\)</span> Examples:</p>
+<ul>
+<li class="fragment"><span class="math inline">\(\mathbf{v} = (1,0,\dots,0)'\)</span>: pick first coordinate from each observation</li>
+<li class="fragment"><span class="math inline">\(\mathbf{v} = (1/\sqrt{p},1/\sqrt{p},\dots,1/\sqrt{p})'\)</span>: project on diagonal (average all coordinates)</li>
+</ul></li>
+<li class="fragment"><p>Dispersion in direction <span class="math inline">\(\mathbf{v}\)</span>: <span class="math inline">\(||X\mathbf{v}||^2 = \mathbf{v}'(X'X)\mathbf{v}.\)</span></p></li>
+<li class="fragment"><p>Finding the best direction which maximizes dispersion: <span class="math inline">\(\mathbf{v}_1 = \arg\max_{\mathbf{v}:\|\mathbf{v}\|^2 =1} \|X\mathbf{v}\|^2\)</span></p></li>
+<li class="fragment"><p><span class="math inline">\(\mathbf{v}_1\)</span> is the first Principal Component direction: the best direction to project on!</p></li>
+<li class="fragment"><p>Similarly find the next PC directions and stack them to matrix <span class="math inline">\(W_{p \times q}\)</span></p></li>
+<li class="fragment"><p>Data with reduced dimensionality:</p>
+<ul>
+<li class="fragment"><span class="math inline">\(T_{n \times q} = X_{n \times p}W_{p \times q}\)</span> taking only the first <span class="math inline">\(q\)</span> principal directions</li>
+</ul></li>
+</ul>
+</div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 
@@ -1245,6 +1292,44 @@
 <section class="slide level2">
 
 <h3 id="pca-regression-pcr">PCA regression (PCR)</h3>
+<div>
+<ul>
+<li class="fragment">Standardize the features in <span class="math inline">\(X\)</span></li>
+<li class="fragment">Find <span class="math inline">\(W_{p \times q}\)</span> via SVD decomposition</li>
+<li class="fragment">Perform (regular) linear regression on <span class="math inline">\(T_{n \times q} = XW\)</span> <span class="math display">\[y_i = \theta_0 + \theta_1 \cdot t_{i1} + \dots + + \theta_q \cdot t_{iq} + \varepsilon_i \quad \text{ or } \quad y = T\theta + \varepsilon\]</span></li>
+<li class="fragment">Then, <span class="math inline">\(\beta = W\theta\)</span>, hence <span class="math inline">\(\beta\)</span> is still constrained</li>
+<li class="fragment"><span class="math inline">\(q\)</span> becomes a hyperparameter</li>
+<li class="fragment">SVD decomposition also shows similarities to Ridge regression</li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="pca-regression-pcr-1">PCA regression (PCR)</h3>
+<div id="5ca71ab0" class="cell" data-execution_count="10">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c08_feature_selection_regularization_files/figure-revealjs/cell-11-output-1.png" width="949" height="470"></p>
+</figure>
+</div>
+</div>
+</div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 
