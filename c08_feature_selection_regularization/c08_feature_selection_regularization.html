@@ -486,7 +486,7 @@
 <section class="slide level2">
 
 <h3 id="best-subset-selection-1">Best subset selection</h3>
-<div id="c0e0c318" class="cell" data-execution_count="1">
+<div id="651d05c9" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -560,7 +560,7 @@
 <section class="slide level2">
 
 <h3 id="forward-stepwise-selection-1">Forward stepwise selection</h3>
-<div id="ff20f7bd" class="cell" data-execution_count="2">
+<div id="8b32fbc9" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -848,7 +848,7 @@
 <section class="slide level2">
 
 <h3 id="choosing-lambda">Choosing <span class="math inline">\(\lambda\)</span></h3>
-<div id="23fd2ce1" class="cell" data-execution_count="3">
+<div id="b6efb9df" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -926,7 +926,7 @@
 <section class="slide level2">
 
 <h3 id="the-lasso-path">The Lasso Path</h3>
-<div id="91191860" class="cell" data-execution_count="4">
+<div id="cd2a91d2" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -968,7 +968,7 @@
 <li>But also, surprisingly:</li>
 </ul>
 <div class="fragment">
-<div id="d0fccfbf" class="cell" data-execution_count="5">
+<div id="f737b6f1" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1055,7 +1055,7 @@
 <section class="slide level2">
 
 <h3 id="seeing-shrinkage-and-sparsity-i">Seeing Shrinkage and Sparsity (I)</h3>
-<div id="cb83f0c1" class="cell" data-execution_count="6">
+<div id="674a89b3" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1113,7 +1113,7 @@
 </tbody>
 </table>
 <div class="fragment">
-<div id="55942bc7" class="cell" data-execution_count="7">
+<div id="936c5120" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1149,7 +1149,7 @@
 <h2>Bayesian Viewpoint</h2>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>נקודת מבט נוספת על רידג’ ולאסו מגיעה מכיוון פחות צפוי, של סטטיסטיקה בייזיאנית. אנחנו נראה שהאומדים של רידג’ ולאסו הם בדיוק מה שמתקבל עבור המודל הליניארי, תחת ציפיות מסוימות עוד לפני שראינו את הנתונים. אבל קודם נעשה הקדמה קצרה לגבי סטטיסטיקה בייזיאנית, נושא שאפשר לבלות רק עליו סמסטר שלם.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1175,7 +1175,9 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>בבסיס של סטטיסטיקה בייזיאנית עומד כלל בייז. ההסתברות למאורע B בהינתן שאני יודע שמאורע A קרה, היא הסתברות החיתוך חלקי הסתברות המאורע המתנה. והסתברות החיתוך ניתן לרשום כהסתברות המאורע B השולית, כפול ההסתברות המותנית ההפוכה של מאורע A בהינתן מאורע B. כלומר כלל בייז מקשר לנו בין ההסתברות האפריורית שהנחנו על מאורע B, לבין ההסתברות הפוסטריורית, בהינתן שאנחנו יודעים שמאורע A קרה. אנחנו נגיד שההסתברות האפוסטריורית שווה למכפלת ההסתברות האפריורית בסבירות או לייקליהוד לראות את מאורע A בהינתן מאורע B, חלקי ההסתברות השולית לראות את מאורע A או האבידנס.</p>
+<p>עבור התפלגויות רציפות אין לנו פונקצית הסתברות יש לנו פונקצית צפיפות אבל העיקרון דומה. הצפיפות המותנית של משתנה Y בהינתן שראינו מהו משתנה X, היא הצפיפות השולית של Y כפול הצפיפות המותנית של X בהינתן Y, חלקי הצפיפות השולית של X. הרבה פעמים נרשום שהצפיפות המותנית היא פרופורציונלית למכפלת הצפיפות האפריורית והצפיפות המותנית ההפוכה. לא תמיד אנחנו מצליחים לזהות את ההתפלגות המותנית כהתפלגות שמוכרת לנו אבל הרבה פעמים כן.</p>
+<p>למשל, אם X מתפלג בצורה שולית נורמלית עם תוחלת ושונות משלו, ו-Y מתפלג בצורה שולית נורמלית עם תוחלת ושונות משלו, הקורלציה ביניהם מסומנת ברו ואני יודע שX קרה, הוא שווה לX קטן. אז כעת אם אני ארשום את הצפיפות המותנית של Y בהינתן X לפי ההגדרה כאן ואעשה קצת אלגברה, אני אזהה בסופו של דבר שההתפלגות של Y בהינתן X היא התפלגות שמוכרת לי. היא עדיין התפלגות נורמלית, רק שהתוחלת והשונות האפוסטריורים התעדכנו. למשל התוחלת היא התוחלת המקורית של Y ועוד תוספת שתלויה ביחס בין סטיות התקן, בגודל וסימן של רו, ובמרחק של X שהתקבל מהתוחלת שלו. מעניין לציין שהשונות של Y בהינתן X, אלא אם כן רו שווה לאפס, בהכרח קטנה, מה שעושה שכל, כי צפיתי כבר במשתנה שמתואם עם Y, הציפיות שלי מתעדכנות ויש הרבה פחות שונות לערכים שY יכול לקבל.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1194,9 +1196,9 @@
 <h3 id="bayesian-statistics">Bayesian Statistics</h3>
 <div>
 <ul>
-<li class="fragment">In Bayesian statistics a parameter <span class="math inline">\(\theta\)</span> isn’t a <em>fixed</em> number but an RV having a <span style="color:red;">prior</span> distribution <span class="math inline">\(P(\theta)\)</span></li>
-<li class="fragment">In comes data sample <span class="math inline">\(Y = y_1, \dots, y_n\)</span> with distribution <span class="math inline">\(P(Y | \theta)\)</span></li>
-<li class="fragment">We calculate the <span style="color:red;">posterior</span> distribution given the data <span class="math inline">\(P(\theta|Y)\)</span></li>
+<li class="fragment">In Bayesian statistics a parameter <span class="math inline">\(\theta\)</span> isn’t a <em>fixed</em> number but a RV having a <span style="color:red;">prior</span> distribution <span class="math inline">\(P(\theta)\)</span></li>
+<li class="fragment">In comes data sample <span class="math inline">\(Y = y_1, \dots, y_n\)</span> with distribution <span class="math inline">\(P(Y | \theta)\)</span> (likelihood)</li>
+<li class="fragment">We calculate the <span style="color:red;">posterior</span> distribution given the data <span class="math inline">\(P(\theta|Y) \propto P(Y|\theta)P(\theta)\)</span></li>
 <li class="fragment"><span class="math inline">\(\theta\)</span>’s final estimate is the mean or mode of <span class="math inline">\(P(\theta|Y)\)</span></li>
 </ul>
 </div>
@@ -1224,7 +1226,14 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>בסטטיסטיקה בייזיאנית באופן כללי, לאו דוקא בבעיות רגרסיה, הפרמטר שאנחנו מנסים לאמוד תטא, הוא כבר לא פרמטר. הוא משתנה מקרי, שיש לו התפלגות אפריורית, פי של תטא. אם הוא רציף כמובן נדבר על צפיפויות, נהוג לסמן פי של תטא באופן כללי.</p>
+<p>כעת מגיע משתנה אחר שאנחנו רואים, והוא מדגם מקרי של נתונים Y. למדגם הזה יש הסתברות מותנית או לייקליהוד.</p>
+<p>וכעת, אחרי שראינו את הנתונים, אנחנו רוצים לעדכן את הידע שלנו לגבי תטא, את ההתפלגות האפוסטריורית של תטא בהינתן הנתונים, שהיא כאמור פרופורציונלית ללייקליהוד כפול הפריור. בדרך כלל נשתמש בפריור ובלייקליהוד נוחים ככה שנוכל לזהות את ההתפלגות האפוסטריורית בקלות.</p>
+<p>ואם אנחנו רוצים לאמוד את תטא, נשתמש בתוחלת של ההתפלגות הזאת, או בשכיח.</p>
+<p>עכשיו כדאי לשאול למה לעשות את זה, בפרט שצורת החשיבה הזאת מכריחה אותנו להוסיף עוד הנחות וציפיות, שלא ברור בכלל שיש לנו. והתשובה כמו תמיד בסטטיסטיקה נעוצה בהפחתת השונות של האומד, רמז לזה ראינו בדוגמא בשקף הקודם. אם יש לכם איזשהו ידע קודם על העולם, על הפרמטר הזה שאתם רוצים לאמוד, למשל שהוא תחום בין גבולות מסוימים, כמו מטבע שלא סביר שהסיכוי בו לעץ הוא נמוך יותר מ20 אחוז או גבוה יותר מ80 אחוז – זה ידע שכדאי להשתמש בו כי האמידה הופכת לטובה ומדויקת יותר, מאשר אם באים לבעיה כזאת טאבולה ראסה. יש פחות סיכוי לדאטא לקחת אותנו איתו לכיוונים לא צפויים.</p>
+<p>זה יכול להיות פרמטר אחד וזה יכול להיות וקטור של פרמטרים כמו בבעיה שלנו של רגרסיה ליניארית. ברגרסיה ליניארית למשל נוח להשתמש בפריור על המקדמים של התפלגות נורמלית. כלומר הוקטור עצמו בעל התפלגות רב נורמלית עם איזושהי שונות על אלכסון המטריצת קווריאנס שהיא נגיד טאו בריבוע. מראש אני מניח את זה. מגיע הדאטא עם הלייקליהוד המוכר של התפלגות נורמלית עם תוחלת שהיא הצירוף הליניארי ושונות סיגמא בריבוע.</p>
+<p>וכעת מסתבר כמו מקודם שיש צורה סגורה ופשוטה להתפלגות האפוסטריורית של מקדמי הרגרסיה אחרי שראינו את הדאטא. הם מתפלגים נורמלית, עם איזושהי מטריצת שונות סיגמא שלא פרטנו כאן, ושימו לב לתוחלת. X’X + המנה של סיגמא בריבוע חלקי טאו בריבוע על האלכסון, בהופכי, X’y.</p>
+<p>התוחלת המותנית הזאת מוכרת לנו! זה בדיוק פתרון רידג’, אם נגדיר את למדא להיות היחס בין סיגמא בריבוע לטאו בריבוע. והרי אמרנו שזה גם האומד שניקח כאומד סופי, התוחלת של ההתפלגות האפוסטריורית. וכשאנחנו מנסחים את זה ככה גם המשמעות של למדא מקבלת מימד נוסף. ככל שטאו בריבוע קטן יותר, אני מניח מראש שהמקדמים שלי מתפלגים עם שונות קטנה יותר מסביב לאפס, האילוץ חמור יותר, ככה גדלה למדא. ככל שטאו בריבוע גדלה יותר, אני מאפשר למקדמים לנוע חופשי סביב האפס ככה למדא קטנה יותר והאומד הסופי כבר לא שונה מהאומד של רגרסיה ליניארית רגילה. כלומר רגרסיה ליניארית רגילה מתקבלת עם מה שאנחנו קוראים פלאט פריור, פריור שטוח, למשל התפלגות נורמלית עם שונות גדולה מאוד או אינסופית.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1241,7 +1250,7 @@
 <section class="slide level2">
 
 <h3 id="ridge-and-lasso-priors">Ridge and Lasso priors</h3>
-<div id="1bd1384e" class="cell" data-execution_count="8">
+<div id="e94ebf86" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1252,7 +1261,8 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>אבל בזה זה לא נגמר. אמרנו שהאומד לרגרסיה ליניארית רגילה מתקבל עם פריור שטוח, אין לי שום ציפיות מראש לפיזור המקדמים. האומד של רידג’ מתקבל עבור פריור נורמלי עם איזושהי שונות סופית. ומסתבר, שהאומד של לאסו מתקבל, אם הפריור שלנו הוא התפלגות עם שפיץ באפס שנקראת לפלאס או double exponential. כלומר אנחנו מניחים מראש שהמקדמים מתפלגים סימטרית סביב האפס אבל עם הרבה יותר צפיפות קרוב לאפס. ולכן גם כאן אנחנו רואים איך סביר בלאסו להיתקל במקדמים שהם פשוט אפס.</p>
+<p>עד כאן לגבי שיטות רגולריזציה. נגיד שזה ממש לא הסוף, יש עוד מובנים גם לרידג’ וגם ללאסו, יש עוד שיטות לרגולריזציה שמנסות לשלב ביניהן. אבל הכי חשוב העיקרון של רגולריזציה הוא לא רק לרגרסיה ליניארית, הוא אפילו חשוב יותר, במודלים מורכבים יותר שתלמדו כמו עצי החלטה ורשתות נוירונים. הוא חשוב יותר ככל שהמודל גמיש יותר וצריך לאלף אותו.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1270,7 +1280,7 @@
 <h2>Dimensionality Reduction Methods: PCR</h2>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>הסוג האחרון של וריאציות לרגרסיה שנדבר עליהן מנסה להפחית קודם כל את המימד של הנתונים, ורק אז לבצע רגרסיה רגילה על הדאטא עם המימד הקטן יותר. אנחנו נתמקד רק ברגרסיה אחרי PCA או PCR אבל גם כאן יש עוד הרבה שיטות להורדת מימד. לבסוף כפי שעשינו עד כה נראה איך גם בשיטות האלה ניתן לראות כעוד גרסה של רגולריזציה, או לקיחת אילוץ על המקדמים.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1288,7 +1298,7 @@
 
 <h3 id="recall-pca">Recall: PCA</h3>
 <p>PCA will find the best direction to project the data on, while preserving the maximum “information”:</p>
-<div id="686f6e22" class="cell" data-execution_count="9">
+<div id="8ac3574f" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1299,7 +1309,7 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>ניזכר מה אנחנו מנסים לעשות בPCA. נניח שיש לנו נתונים בשני מימדים X1 וX2, ואנחנו רוצים לתמצת אותם במימד אחד. במקום שני מספרים שיתארו כל תצפית, אנחנו רוצים מספר אחד. היינו רוצים לשמר את מירב האינפורמציה שיש בנתונים, ובמונחים סטטיסטיים זה אומר לשמר את מירב השונות שלהם. בPCA אנחנו עושים את זה באמצעות מציאת הכיוון של הכי הרבה שונות בדאטא. כאן זה די ברור, זה הכיוון הזה בקו האדום. ברגע שמצאנו את הכיוון הזה נטיל את הנתונים שלנו עליו, כלומר עבור כל תצפית נראה מה הערך שלה על הקו הזה כשאנחנו מסתכלים על המרחק הכי קצר עליו. והתוצאה היא ההטלה מימין, כאן על המימד החדש שנקרא T1 לכל תצפית יש רק ערך אחד, אין משמעות לציר הY, והטענה היא שככה שמרנו על הכי הרבה אינפורמציה במעבר מדו-מימד לחד-מימד.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1327,7 +1337,7 @@
 <li class="fragment"><p>Dispersion in direction <span class="math inline">\(\mathbf{v}\)</span>: <span class="math inline">\(||X\mathbf{v}||^2 = \mathbf{v}'(X'X)\mathbf{v}.\)</span></p></li>
 <li class="fragment"><p>Finding the best direction which maximizes dispersion: <span class="math inline">\(\mathbf{v}_1 = \arg\max_{\mathbf{v}:\|\mathbf{v}\|^2 =1} \|X\mathbf{v}\|^2\)</span></p></li>
 <li class="fragment"><p><span class="math inline">\(\mathbf{v}_1\)</span> is the first Principal Component direction: the best direction to project on!</p></li>
-<li class="fragment"><p>Similarly find the next PC directions and stack them to matrix <span class="math inline">\(W_{p \times q}\)</span></p></li>
+<li class="fragment"><p>Similarly find the next PC directions <span class="math inline">\(\mathbf{v}_2, \dots, \mathbf{v}_q\)</span> and stack them to matrix <span class="math inline">\(W_{p \times q}\)</span></p></li>
 <li class="fragment"><p>Data with reduced dimensionality:</p>
 <ul>
 <li class="fragment"><span class="math inline">\(T_{n \times q} = X_{n \times p}W_{p \times q}\)</span> taking only the first <span class="math inline">\(q\)</span> principal directions</li>
@@ -1336,7 +1346,15 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>באופן כללי יותר נגיד שהמטרה שלנו היא למצוא Q כיוונים כאלה ששומרים על מקסימום פיזור או שונות.</p>
+<p>כיוון כזה כמו הוקטור האדום שלנו אפשר לסמן בווי, והטלה של הנתונים עליו היא מכפלה של X כפול V, מה שנותן וקטור חדש באורך n, קודם קראנו לו T1.</p>
+<p>לדוגמא, ההטלה יכלה להיות הוקטור שיש לו 1 באלמנט הראשון שלו, ואפס בכל השאר – אם מכפילים את X בוקטור כזה זה בדיוק כמו לבחור רק את המשתנה הראשון בנתונים.</p>
+<p>למשל, הוקטור וי יכול להיות וקטור שבכל האלמנטים שלו יש 1 חלקי שורש P. אם תעשו קצת אלגברה תראו שלהכפיל את X בוקטור כזה אומר עבור כל תצפית לקחת את הממוצע של על כל המשתנים.</p>
+<p>מה זה פיזור של וקטור ההטלה שאנחנו רוצים למקסם? אנחנו ניקח את הנורמה בריבוע של וקטור ההטלה, אותה אפשר לרשום כv’X’Xv.</p>
+<p>והנה הבעיה שלנו, למצוא את הכיוון, הוקטור v1 בעל נורמה 1, שממקסם את פיזור ההטלה. אנחנו עוד נלמד על PCA יותר לעומר ונראה למה אנחנו מוכרחים את האילוץ הזה על הוקטור וי.</p>
+<p>כשנמצא את הוקטור הזה נקרא לו פרינסיפל קומפוננט דירקשן: זה הכיוון הכי טוב להטיל עליו על פי קריטריון הפיזור.</p>
+<p>כעת נמצא את הכיוון הבא v2, v3 וכולי. נראה שהם צריכים להיות אורתוגונליים זה לזה. ונשים אותם זה לצד זה במטריצה W מסדר p שורות על q עמודות. זאת מטריצת ההטלה הסופית.</p>
+<p>את הדאטא ממימד נמוך יותר נכתוב כT. הדאטא שלנו עבר הפחתת מימד מp שיכול להיות גבוה מאוד, לq שיכול להיות קטן מאוד, והוא מוכן לרגרסיה.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1358,14 +1376,20 @@
 <li class="fragment">Standardize the features in <span class="math inline">\(X\)</span></li>
 <li class="fragment">Find <span class="math inline">\(W_{p \times q}\)</span> via SVD decomposition</li>
 <li class="fragment">Perform (regular) linear regression on <span class="math inline">\(T_{n \times q} = XW\)</span> <span class="math display">\[y_i = \theta_0 + \theta_1 \cdot t_{i1} + \dots + + \theta_q \cdot t_{iq} + \varepsilon_i \quad \text{ or } \quad y = T\theta + \varepsilon\]</span></li>
-<li class="fragment">Then, <span class="math inline">\(\beta = W\theta\)</span>, hence <span class="math inline">\(\beta\)</span> is still constrained</li>
 <li class="fragment"><span class="math inline">\(q\)</span> becomes a hyperparameter</li>
+<li class="fragment"><span class="math inline">\(\beta = W\theta\)</span>, hence <span class="math inline">\(\beta\)</span> is still constrained</li>
 <li class="fragment">SVD decomposition also shows similarities to Ridge regression</li>
 </ul>
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>נסכם איך אנחנו מבצעים PCR:</p>
+<p>עושים סטנדרטיזציה על עמודות X.</p>
+<p>מוצאים את מטריצת ההטלה W, בדרך כלל על-ידי פירוק SVD ועוד נחזור לזה כשנלמד PCA לעומק.</p>
+<p>וכעת נבצע רגרסיה ליניארית עם המודל הליניארי הרגיל, על הדאטא אחרי הורדת מימד. אנחנו מחפשים עכשיו וקטור מקדמים תטא באורך Q, שכשנכפיל אותו פי הנתונים החדשים שלנו T נקבל בקירוב את המשתנה התלוי Y.</p>
+<p>נשים לב שכמו שאר השיטות שלנו אין רק פתרון אחד, לא דיברנו על איך יודעים מהו Q, מה המימד הנכון לבחור? למעשה Q הופך להיפרפרמטר נוסף בדומה ללמדא, שצריך לבחור, למשל דרך קרוס ולידיישן.</p>
+<p>עכשיו מה הקשר לשיטות שלמדנו: נביט שוב במודל שאנחנו מניחים ונראה שבהכרח זה אומר שאנחנו מחפשים וקטור מקדמים בטא ששווה לW כפול תטא. והנה אנחנו רואים שוב קשר לתמה הכללית שלנו, אפשר לראות בביטוי הזה כאילוץ על הבטאות, המקדמים בעצמם חייבים להיות צירוף ליניארי על וקטור מקדמים ממימד נמוך יותר!</p>
+<p>וזה לא הקשר היחיד. כשנלמד על פירוק הSVD נראה אפילו קשר נוסף בין PCR לרגרסיית רידג’.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1382,7 +1406,7 @@
 <section class="slide level2">
 
 <h3 id="pca-regression-pcr-1">PCA regression (PCR)</h3>
-<div id="f6280732" class="cell" data-execution_count="10">
+<div id="03a0e925" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1393,7 +1417,10 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>בנתונים שלנו המימד P מלכתחילה לא כל כך גבוה, הוא 11, ולא ברור שצריך הורדת מימד באמצעות PCA או כל שיטה אחרת לפני הרצת רגרסיה.</p>
+<p>ואכן, אם אנחנו בודקים מה הQ שמביא למינימום שגיאת חיזוי באמצעות קרוס ולידיישן כמו שעשינו עד עכשיו, אנחנו מקבלים שבנתונים שלנו לא כדאי כמעט להוריד מימד, הQ הטוב ביותר הוא 10. ואמנם לא רואים את זה בגרף אבל כן יש הפחתה בשורה התחתונה בMSE של הטסט לעומת רגרסיה רגילה, אבל אחוזית זה הפרש די קטן.</p>
+<p>נשים לב שברגע שמבינים שאפשר לחזור מוקטור המקדמים תטא אל וקטור המקדמים המקורי בטא באמצעות הכפלה פי מטריצת W, אפשר לראות את פרופיל המקדמים בטא כמו שעשינו עד עכשיו עם פרמטר הפנאלטי למדא. אנחנו רואים שגם בPCR המקדמים עוברים שרינקג’ שמזכיר את רידג’, ככל שQ קטן יותר או הורדת המימד היא אגרסיבית יותר. הכיוון כאן הפוך כי לא רצינו להפוך את ציר הX בצורה מלאכותית מ11 ל-1, אבל הרעיון זהה.</p>
+<p>עד כאן בשיטות בחירה של משתנים ורגולריזציה. בשיעורים הבאים נלמד מודלים מורכבים וגמישים הרבה יותר, חלק מהם כל כך גמישים שהם באים בילט-אין עם רגולריזציה. העקרונות שראינו היום ישמשו אתכם לשיפור כל מודל מורכב שתראו בעתיד והם לא המלצה הם כבר חלק מהמודלים המודרנים ביותר שנמצאים בשימוש יומיומי, ולכן מומלץ להכיר אותם ואת החשיבות שלהם היטב.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
