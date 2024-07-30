@@ -486,7 +486,7 @@
 <section class="slide level2">
 
 <h3 id="best-subset-selection-1">Best subset selection</h3>
-<div id="80bb849e" class="cell" data-execution_count="1">
+<div id="87023ab4" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -560,7 +560,7 @@
 <section class="slide level2">
 
 <h3 id="forward-stepwise-selection-1">Forward stepwise selection</h3>
-<div id="785a2945" class="cell" data-execution_count="2">
+<div id="c935cbdc" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -653,7 +653,7 @@
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 <p>אבל ההקלה בסיבוכיות לא באה בלי מחיר, על הגרידיות של האלגוריתם הסטפווייז. כאן אנחנו ממש משווים בין המשתנים עצמם שהבסט סאבסט חוזה מול הפורוורד סטפווייז. עד מודל עם 3 משתנים אין הבדל ביניהם. במודל עם 4 משתנים הבסט סאבסט לוקח בחשבון את כל האפשרויות ומגיע למסקנה שהמודל הכי טוב צריך לזנוח את משתנה הרייטינג, ולהוסיף שני משתנים אחרים. ואילו עבור מודל הפורוורד סטפוויז זאת לא אופציה בכלל! הוא לעולם לא יגיע לאיזור הזה במרחב החיפוש! וזאת יכולה להיות בעיה רצינית של האלגוריתם הזה.</p>
-<p>לפני שנעבור לאלגוריתם האחרון בקבוצה, האם אפשר לטפל באמצעות הפורוורד סטפוויז בבעיות ממימד גבוה בהם p גדול מn, כלומר יש יותר משתנים משתצפיות? בודאי, מתחילים עם חותך ועוצרים עבור n - 1 מודלים, כלומר עד שהרגרסיה הליניארית כבר לא פיזיבילית.</p>
+<p>לפני שנעבור לאלגוריתם האחרון בקבוצה, האם אפשר לטפל באמצעות הפורוורד סטפוויז בבעיות ממימד גבוה בהם p גדול מn, כלומר יש יותר משתנים מתצפיות? בודאי, מתחילים עם חותך ועוצרים עבור n - 1 מודלים, כלומר עד שהרגרסיה הליניארית כבר לא פיזיבילית.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -722,7 +722,7 @@
 <h2>Regularized Regression: Ridge</h2>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>את רוב השיעור נקדיש לשיטות של רגולריזציה, איך אנחנו ממתנים את המודל, מפקחים עליו ומגבילים אותו. השיטה הותיקה והמפורסמת ביותר, היא רגרסיית רידג’.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -741,8 +741,8 @@
 <h3 id="ridge-regression">Ridge regression</h3>
 <div>
 <ul>
-<li class="fragment"><p>Instead of reducing the number of parameters <span class="math inline">\(\to\)</span> penalize their norm</p></li>
-<li class="fragment"><p>With <span class="math inline">\(\ell_2\)</span> norm we get the penalized RSS criterion for some regularization/penalty parameter <span class="math inline">\(\lambda\)</span>: <span class="math display">\[PRSS(\lambda) = \sum_{i = 1}^n \left(y_i - \beta_0 + \sum_{j = 1}^p \beta_j x_{ij}\right)^2 + \lambda\sum_{j = 1}^p \beta_j^2 = RSS + \lambda\|\beta^*\|^2_2\]</span></p></li>
+<li class="fragment"><p>Instead of reducing the number of parameters <span class="math inline">\(\to\)</span> constrain them, penalize their norm</p></li>
+<li class="fragment"><p>With <span class="math inline">\(\ell_2\)</span> norm we get the penalized RSS criterion for some regularization/penalty parameter <span class="math inline">\(\lambda &gt; 0\)</span>: <span class="math display">\[PRSS(\lambda) = \sum_{i = 1}^n \left(y_i - \beta_0 + \sum_{j = 1}^p \beta_j x_{ij}\right)^2 + \lambda\sum_{j = 1}^p \beta_j^2 = RSS + \lambda\|\beta^*\|^2_2\]</span></p></li>
 <li class="fragment"><p>Standardize the features in <span class="math inline">\(X\)</span>, then:</p>
 <ul>
 <li class="fragment"><span class="math inline">\(\hat{\beta}_0 = \bar{y}\)</span></li>
@@ -752,7 +752,10 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>אנחנו לא עושים משהו שונה מאוד. במקום להפחית את מספר הפרמטרים, אנחנו מגבילים אותם, אנחנו מחפשים אותם במרחב מצומצם יותר. ואת זה אנחנו משיגים על-ידי הוספת עונש, פנאלטי, על הנורמה שלהם.</p>
+<p>אם הנורמה היא L2 זה נראה ככה: הקריטריון שלנו הוא פנאלייזד RSS או PRSS, כלומר סכום הריבועים הפחותים הרגיל שאנחנו מכירים, ועוד פרמטר למדא גדול מאפס כפול סכום על הריבוע של מקדמי הרגרסיה. העונש הזה שומר על האומדנים לפרמטרים שלא יהיו גדולים מדי, ותיכף נרחיב על איך בוחרים את למדא.</p>
+<p>נשים לב שאת החותך אנחנו לא מענישים כי אין בזה היגיון, לכל Y יש פיזור טבעי ואין סיבה לא להתחיל מהממוצע שלו כמנבא בייסליין. אם נסמן את וקטור המקדמים בטא בלי בטא-אפס כבטא כוכב נקבל שאפשר לרשום את הקריטריון שלנו כRSS ועוד למדא כפול הנורמה בריבוע של וקטור בטא-האט.</p>
+<p>שימו-לב שצריך לעשות סטנדרטיזציה של המשתנים, כלומר לחסר מכל עמודה של X את הממוצע ולחלק בסטיית התקן. אם מקפידים על זה אפשר לאמוד את בטא-אפס כממוצע של Y. ואז נקבל גם שלמדא משפיע בצורה דומה על כל המשתנים. אחרת שימוש בפרמטר למדא יהיה בעייתי, כי הוא יכול להיות מושפע מאוד ממשתנה ספציפי עם סקאלה מאוד רחבה.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -784,7 +787,10 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>נניח שאנחנו יודעים את למדא. איך נראה הפתרון של רידג’?</p>
+<p>בואו נכתוב את הPRSS בצורה וקטורית, כאן כבר ויתרנו על הסימון בטא-כוכב, בטא לא כולל את החותך בטא-אפס.</p>
+<p>אנחנו עושים בדיוק מה שעשינו ברגרסיה ליניארית, כלומר גוזרים את הPRSS לפי וקטור בטא, משווים לאפס, ומחלצים את בטא.</p>
+<p>הפתרון שקיבלנו מזכיר מאוד את הפתרון של רגרסיה ליניארית, ואפשר כמובן לוודא שהוא נקודת מינימום. ההבדל הוא במטריצה שאנחנו הופכים, כאן נוסף לה הפרמטר למדא הקטן על האלכסון, ומכאן השם רידג’, רכס באנגלית.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -821,7 +827,11 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>מה זה נותן לנו, הרידג’ הזה על האלכסון? מסתבר שלא מעט, כאן אנחנו נוגעים בהצדקה המקורית לשיטה הזאת.</p>
+<p>קודם כל, למי שיש ניסיון בהפיכה של מטריצות סימטריות כמו X’X, יודע שלהוסיף למדא קטן לאלכסון של המטריצה עוזר ליציבות נומרית.</p>
+<p>ספציפית כאן, כפי שראינו הסכנה היא שיש קורלציה בין העמודות של X, אז אנחנו קוראים למטריצה X’X איל קונדישונד, ההופכי שלה לא יציב מה שעלול להגדיל מאוד את שונות המקדמים כמו שדיברנו בשיעור על רגרסיה ליניארית. וההוספה הזאת של קבוע חיובי קטן לאלכסון של המטריצה הזאת משפרת מאוד את התופעה הזאת.</p>
+<p>חוץ מזה כמו שאמרנו במצב שבו העמודות של X תלויות ליניארית, או במצב שיש יותר משתנים מתצפיות ההופכי של X’X בכלל לא קיים, ורגרסיית רידג’ בכלל מאפשרת לנו פתרון לבעיה.</p>
+<p>אבל אולי ההצדקה הכי מעניינת לרידג’ זה גרנטי שיש לנו, בלי הוכחה כרגע, לשיפור טעות החיזוי הריבועית. האומד שלנו בטא-האט שתלוי בלמדא כבר לא חסר הטייה, אנחנו משלמים קצת בהטייה אבל מקבלים הפחתה ניכרת בשונות, ובסך הכל הפחתה בשגיאה הריבועית.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -838,7 +848,7 @@
 <section class="slide level2">
 
 <h3 id="choosing-lambda">Choosing <span class="math inline">\(\lambda\)</span></h3>
-<div id="4ec0f81c" class="cell" data-execution_count="3">
+<div id="773c9e83" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -849,7 +859,10 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>נראה את רגרסיית רידג’ בפעולה על הנתונים שלנו ועל הדרך נדגים גם איך בוחרים את הפרמטר למדא.</p>
+<p>הפרמטר למדא הוא מה שקרוי היפרפרמטר, צריך לבחור אותו באמצעות בדיקה של אפשרויות שונות, בדרך כלל עם קרוס ולידיישן, ולראות איזו מהן נותנת את שגיאת החיזוי הטובה ביותר על מדגמים שהמודל לא ראה. כאן אנחנו בודקים את זה עם קרוס ולידיישן עם חמישה פולדים ומדווחים את ממוצע הMSE על הטריין ועל הטסט. אנחנו רואים כאן כמה דברים:</p>
+<p>שבאופן צפוי השגיאה על הטריין נמוכה יותר מאשר השגיאה על הטסט. שהפרמטר למדא הטוב ביותר שמביא למינימום את השגיאה על הטסט הוא קצת פחות מ10 בחזקת 0 כלומר קצת פחות מ1. והכי חשוב, אנחונ רואים שאם אנחנו משווים לשגיאה של רגרסיה ליניארית רגילה, OLS, שהיא לא תלויה בלמדא בכלל כמובן ומופיעה כאן במקווקו, עבור הלמדא הנכון רידג’ אכן מצליח להגיע לירידה בMSE ניכרת.</p>
+<p>מצד ימין, אנחנו מראים איך נראים המקדמים הנאמדים של 11 המשתנים שלנו, בהתאם ללמדא. כשהלמדא הוא אפסי, אין ענישה בכלל כל אומדני המקדמים והם מקבלים את הערכים שהם היו מקבלים ברגרסיה רגילה. באופן צפוי, ככל שלמדא גדול יותר, העונש על הנורמה של וקטור בטא גדול יותר והאילוץ חמור יותר ומאפשר פחות ופחות חופש למודל והמקדמים הנאמדים נעשים קטנים יותר, הם מתכווצים לכיוון אפס. לתופעה כזאת של כיווץ אנחנו קוראים שרינקג’, אפשר לראות שהיא עשויה מאוד לסייע להקטין את שגיאת החיזוי ונדבר עליה עוד בהמשך.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -867,7 +880,7 @@
 <h2>Regularized Regression: Lasso</h2>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>נדבר עכשיו על שיטה אחרת ותיקה לעשות רגולריזציה למקדמי הרגרסיה. גם השיטה הזאת, כמו רידג’ היא בעלת השלכות ושימושים נרחבים הרבה יותר מרגרסיה ליניארית בלבד, והיא נקראת לאסו.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -894,7 +907,9 @@
 </ul>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>ברגרסיית לאסו, אנחנו גם מענישים הנורמה של מקדמי הרגרסיה כמו ברידג’, אלא שכאן אנחנו מענישים את הנורמה L1, כלומר סכום המקדמים בערך מוחלט.</p>
+<p>גם כאן בטא-אפס לא תחת אילוץ ואם אנחנו עושים סטנדרטיזציה של המשתנים אפשר לאמוד אותו כממוצע Y.</p>
+<p>לקריטריון שלפנינו אין פתרון סגור. תיכף נגיד כמה מילים על איך פותרים את בעיית הלאסו. אבל קודם כל, למה שנרצה להעניש דווקא את נורמה L1 ובמה זה שונה מרידג’.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -911,7 +926,7 @@
 <section class="slide level2">
 
 <h3 id="the-lasso-path">The Lasso Path</h3>
-<div id="4da8ac40" class="cell" data-execution_count="4">
+<div id="606bcce3" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -928,7 +943,10 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>נעיף קודם מבט על שגיאת החיזוי. אפשר לראות שעבור הנתונים שלנו לאסו לא מאוד הועיל. הלמדא שהביא למינימום את שגיאת החיזוי על מדגמי הטסט בקרוס ולידיישן הוא למדא אפסי, ולכן האומדנים למקדמי הרגרסיה שהתקבלו עבור הלמדא האופטימלי הם כמעט ללא שינוי מרגרסיה ליניארית רגילה.</p>
+<p>נראה שגם המקדמים של לאסו עוברים שרינקג’ אבל הדפוס שבו הם מתכווצים הוא מאוד ייחודי. בעוד שברידג’ המקדמים קטנים וקטנים לכיוון אפס, בלאסו בנקודה מסוימת מובטח לנו שהמקדמים מתאפסים, ממש. אפשר לראות כאן שזה קורה אחד אחרי השני.</p>
+<p>התופעה הזאת היא ההצדקה המרכזית של שימוש דווקא ברגרסיית לאסו, באנגלית לאסו מביא למודלים ספרסיים עם מעט משתנים, בעברית אנחנו קוראים לזה מודלים דלילים.</p>
+<p>כאן אנחנו לא רואים את היתרון של זה, מדובר בסך הכל ב11 משתנים, אבל הדבר יעיל מאוד ברגרסיה לנתונים ממימד גבוה כשP מספר המשתנים גדול מאוד ואולי אפילו גדול ממספר המשתנים. במקרה כזה לא סביר שכל המשתנים שונים באופן מהותי מאפס, ושימוש בלאסו משיג לנו מודל דליל, שהוא לא רק יותר אינטרפרטבילי אלא פעמים רבות מביא לשגיאת חיזוי נמוכה יותר כי הוא נמנע מאוברפיטינג.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -950,7 +968,7 @@
 <li>But also, surprisingly:</li>
 </ul>
 <div class="fragment">
-<div id="d92b62bb" class="cell" data-execution_count="5">
+<div id="4a36cc24" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -962,7 +980,11 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>בחלק הבא ננסה לתת תחושה מה עומד מאחורי המודלים הספרסיים שלאסו נותן. לפני זה נגיד כמה מילים על איך פותרים את בעיית לאסו, כי כפי שאמרנו פתרון סגור אין.</p>
+<p>כשרק נוסחה הבעיה של לאסו, המחברים הצליחו להציג אותה כבעית אופטימיזציה די סטנדרטית, שמצריכה תכנות ריבועי או קוואדרטיק פרוגרמינג. מאוחר יותר נמצא פתרון יעיל יותר שנקרא least angle regression, או לארס, שלקח השראה מהתופעה הזאת שאפשר להוכיח, שכשלמדא הולך וקטן כל פעם נכנס משתנה אחר לרגרסיה, והמקדם שלו גדל בצורה ליניארית בקירוב, עד שנכנס המשתנה הבא.</p>
+<p>אבל מה בעצם אמרנו כאן? איזה עוד אלגוריתם מכניס בזהירות כל פעם משתנה בצעד קטן עד שיימצא משתנה אחר שהכי מתואם עם Y שצריך להכניס לרגרסיה?</p>
+<p>אני מדבר כמובן על אלגוריתם הפורוורד סטייג’וויז. אם ניקח אפסילון מספיק קטן, אפשר להראות שאלגוריתם הסטייג’וויז פותר בקירוב את בעיית לאסו. כאן אנחנו מראים את הדמיון המפתיע בין לאסו לפורוורד סטייג’וויז על הנתונים שלנו, באמצעות השוואה של הפרופילים של המקדמים.</p>
+<p>נדגיש לסיום שפורוורד סטייג’וויז נחשבת לשיטה עם שגיאת חיזוי איכותית אבל היא מאוד איטית, ככה המחשב לא פותר את בעיית הלאסו אלא באמצעות שיטות אופטימיזציה. זה עדיין מעניין לראות את הקשר בין השיטות השונות ולנסות להבין מה משותף ומה שונה בהן, ועם הקו הזה נמשיך בחלקים הבאים.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1029,7 +1051,7 @@
 <section class="slide level2">
 
 <h3 id="seeing-shrinkage-and-sparsity-i">Seeing Shrinkage and Sparsity (I)</h3>
-<div id="59ccc9d1" class="cell" data-execution_count="6">
+<div id="00235266" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1085,7 +1107,7 @@
 </tbody>
 </table>
 <div class="fragment">
-<div id="9fd13116" class="cell" data-execution_count="7">
+<div id="7aeb87e2" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1207,7 +1229,7 @@
 <section class="slide level2">
 
 <h3 id="ridge-and-lasso-priors">Ridge and Lasso priors</h3>
-<div id="ee6ef089" class="cell" data-execution_count="8">
+<div id="300c81ac" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1254,7 +1276,7 @@
 
 <h3 id="recall-pca">Recall: PCA</h3>
 <p>PCA will find the best direction to project the data on, while preserving the maximum “information”:</p>
-<div id="87618510" class="cell" data-execution_count="9">
+<div id="6ea3d6b8" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1348,7 +1370,7 @@
 <section class="slide level2">
 
 <h3 id="pca-regression-pcr-1">PCA regression (PCR)</h3>
-<div id="8dcf21b9" class="cell" data-execution_count="10">
+<div id="bfa45374" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
