@@ -486,7 +486,7 @@
 <section class="slide level2">
 
 <h3 id="best-subset-selection-1">Best subset selection</h3>
-<div id="87023ab4" class="cell" data-execution_count="1">
+<div id="c0e0c318" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -560,7 +560,7 @@
 <section class="slide level2">
 
 <h3 id="forward-stepwise-selection-1">Forward stepwise selection</h3>
-<div id="c935cbdc" class="cell" data-execution_count="2">
+<div id="ff20f7bd" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -848,7 +848,7 @@
 <section class="slide level2">
 
 <h3 id="choosing-lambda">Choosing <span class="math inline">\(\lambda\)</span></h3>
-<div id="773c9e83" class="cell" data-execution_count="3">
+<div id="23fd2ce1" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -926,7 +926,7 @@
 <section class="slide level2">
 
 <h3 id="the-lasso-path">The Lasso Path</h3>
-<div id="606bcce3" class="cell" data-execution_count="4">
+<div id="91191860" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -968,7 +968,7 @@
 <li>But also, surprisingly:</li>
 </ul>
 <div class="fragment">
-<div id="4a36cc24" class="cell" data-execution_count="5">
+<div id="d0fccfbf" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1002,7 +1002,7 @@
 <h2>On Shrinkage and Sparsity</h2>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>האם אנחנו יכולים להגיד עוד על האופן שבו המקדמים מתכווצים ברידג’ ומתדללים בלאסו? האמת היא שיש הרבה עבודות בתחום, ומעניין לעבור על כמה תובנות.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1027,14 +1027,18 @@
 </ul>
 </div>
 <div class="fragment">
-<p>In this contest can also write for Best Subset regression:</p>
+<p>In this contest we can also write for Best Subset regression:</p>
 <ul>
 <li><span class="math inline">\(\min_{\beta} RSS \text{  s.t.  } \sum_{j = 1}^p\mathbb{1}\left[\beta_j \neq 0\right] \le s\)</span></li>
 </ul>
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>ראשית מעניין לציין שגם את רידג’ וגם את לאסו ניתן לכתוב בצורה דואלית מעט שונה: ברידג’ אנחנו רוצים להביא את הRSS למינימום כפוף לזה שסכום הריבועים של המקדמים או הנורמה L2 בריבוע, קטן או שווה לאיזשהו S.</p>
+<p>בלאסו אנחנו רוצים להביא למינימום את הRSS באילוץ על סכום המקדמים בערך מוחלט שיהיה לכל היותר S.</p>
+<p>אלה לא ניסוחים שונים כאמור, אפשר להראות שיש מיפוי 1 ל1 בין פרמטר למדא בבעיה המקורית לפרמטר S מתאים בבעיה הדואלית.</p>
+<p>אבל הניסוח הזה מראה בצורה ברורה יותר למה יש שרינקג’ ולכן השיטות האלה נקראות גם שיטות שרינקג’. הפרמטר S הוא כמו תקציב שהמקדמים צריכים לעמוד בו. גם מאוד ברור ככה למה כדאי לעשות סטנדרטיזציה על המשתנים, אם לא כל ה”תקציב” יכול להתבזבז על משתנה אחד עם סקאלה רחבה.</p>
+<p>יותר מזה, צורת הכתיבה הזאת מאפשרת לנו גם לרשום את הקריטריון שבסט סאבסט מנסה להציג בכל אחד מהשלבים שלו: מינימום RSS כפוף לכך שלא יותר מS מקדמים יהיו שונים מאפס. אבל זו בעיה קומבינטורית די קשה לפתרון כמו שראינו. דרך אחרת זה לנסות להשיג את המינימום הזה עם שיטות פורוורד או בקוורד סטפווייז שראינו. דרך אחרת כמו שאנחנו רואים כאן היא לעשות רילקסציה על הקריטריון הקשה הזה. כלומר אנחנו יכולים לחשוב על רידג’ ולאסו, כאלטרנטיבות לבסט סאבסט, שמציבות קריטריון קל יותר להשגה, כמו שקורה אגב בהרבה בעיות אחרות באופטימיזציה.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1051,7 +1055,7 @@
 <section class="slide level2">
 
 <h3 id="seeing-shrinkage-and-sparsity-i">Seeing Shrinkage and Sparsity (I)</h3>
-<div id="00235266" class="cell" data-execution_count="6">
+<div id="cb83f0c1" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1062,7 +1066,9 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>נמשיך לפתח את זה. נאמר ויש לנו רגרסיה עם שני מקדמים בטא אחת ובטא שתיים. מה אומר האילוץ של רידג’? בטא אחת בריבוע ועוד בטא שתיים בריבוע צריך להיות קטן מאיזשהו S. כלומר יש איפשהו בטא-האט שמתאים למינימום RSS, ואנחנו מחפשים נקודה קצת ליד שנמצאת בתוך המעגל הזה, שעומדת בתקציב שלנו. כאן אנחנו רואים את הנקודה הזאת בחיתוך בין הקונטורים של RSS סביב בטא-האט הכי טובה, ברגע שהם נוגעים בתקציב. עכשיו התקציב בתלת-מימד יהיה כדור, בp מימד זה יהיה הייפרספיר.</p>
+<p>לעומת זאת איך נראה האילוץ בלאסו? בטא אחת בערך מוחלט ועוד בטא שתיים בערך מוחלט קטן או שווה לאיזשהו תקציב S, זה יוצר לנו צורה של מעוין, עם שפיצים. בתלת מימד זה יהיה מעין יהלום, וככל שנעלה במימד נראה שזאת צורה עם הרבה שפיצים. כלומר כאן יש נטייה לקונטורים של הRSS להיפגש עם שפיצים של מעוין או יהלום. ומה המשמעות של לקבל פתרון באחד השפיצים? בדוגמא הזאת זה אומר שהמקדם בטא אחת מתאפס! מה שלא סביר שיקרה עם האילוץ של רידג’.</p>
+<p>כלומר אם אנחנו מתאמצים אנחנו רואים גיאומטרית איך קורה שרינקג’ לצפות למודלים דלילים עם לאסו.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1107,7 +1113,7 @@
 </tbody>
 </table>
 <div class="fragment">
-<div id="7aeb87e2" class="cell" data-execution_count="7">
+<div id="55942bc7" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1119,7 +1125,13 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>ואנחנו יכולים לשחק עם זה בצורה אפילו יותר מתוחכמת.</p>
+<p>אם נניח שהעמודות של X הן אורתונורמליות, כלומר X’X שווה למטריצת היחידה, ונסמן את בטא-האט כאומד הOLS הקלאסי. אנחנו ממש יכולים לקבל נוסחה לכל מקדם בטא-J ולראות מתמטית גם את השרינקג’, גם את הדלילות.</p>
+<p>נצייר את הנוסחאות שרשומות כאן כדי לראות את זה טוב יותר.</p>
+<p>ברגרסיית בסט סאבסט שבה אנחנו מחפשים M משתנים הכי טובים, ונסמן את המקדם הכי קטן כבטא-האט M, המקדם בטא-J לא נבחר או מתאפס כל עוד הוא קטן מהמקדם הזה. ברגע שיעבור אותו, יופיע כפי שהוא.</p>
+<p>ברגרסיית רידג’ הנה השרינקג’, ככל שלמדא יהיה גדול יותר כך נכווץ את בטא-J המקורי יותר, לכיוון קו האפס, אבל למדא צריך להיות ממש גדול כדי ממש לאפס את המקדם הזה. אפשר גם לראות שהשרינקג’ לא אחד לכל מקדם. אם מקדם גדול אז כיווץ פי 1 ועוד למדא משמעותי יותר מאשר אם המקדם קטן.</p>
+<p>לבסוף ברגרסיית לאסו הסימון הזה אומר המקסימום בין הביטוי בסוגריים לבין אפס. כלומר עם בטא J בערך מוחלט לא גדול מלמדא הוא יקבל אפס. ואם הוא גדול אז נפחית ממנו את למדא, בצורה קבועה לא משנה מה הגודל שלו. אנחנו רואים גם את הדלילות וגם את השרינקג’.</p>
+<p>נגיד שבעזרת אלגברה קצת יותר מסובכת אפשר להכליל את ההמחשות האלה גם למצבים מורכבים יותר, אבל אנחנו נעצור כאן, ונעבור לאפילו הצדקה נוספת לשימוש ברידג’ ובלאסו.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1229,7 +1241,7 @@
 <section class="slide level2">
 
 <h3 id="ridge-and-lasso-priors">Ridge and Lasso priors</h3>
-<div id="300c81ac" class="cell" data-execution_count="8">
+<div id="1bd1384e" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1276,7 +1288,7 @@
 
 <h3 id="recall-pca">Recall: PCA</h3>
 <p>PCA will find the best direction to project the data on, while preserving the maximum “information”:</p>
-<div id="6ea3d6b8" class="cell" data-execution_count="9">
+<div id="686f6e22" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1370,7 +1382,7 @@
 <section class="slide level2">
 
 <h3 id="pca-regression-pcr-1">PCA regression (PCR)</h3>
-<div id="bfa45374" class="cell" data-execution_count="10">
+<div id="f6280732" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
