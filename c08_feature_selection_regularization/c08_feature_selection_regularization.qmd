@@ -695,7 +695,7 @@ plt.show()
 
 ### Lasso regression
 
-$$PRSS(\lambda) = \sum_{i = 1}^n \left(y_i - \beta_0 + \sum_{j = 1}^p \beta_j x_{ij}\right)^2 + \lambda\sum_{j = 1}^p |\beta_j| = RSS + \lambda\|\beta^*\|$$
+$$PRSS(\lambda) = \sum_{i = 1}^n \left(y_i - \beta_0 + \sum_{j = 1}^p \beta_j x_{ij}\right)^2 + \lambda\sum_{j = 1}^p |\beta_j| = RSS + \lambda\|\beta^*\|_1$$
 
 - As with Ridge, standardize the features in $X$, then:
   - $\hat{\beta}_0 = \bar{y}$
@@ -1008,7 +1008,7 @@ There is 1-to-1 correspondnece between Ridge and Lasso's previous criteria and:
 :::
 
 ::: {.fragment}
-In this contest we can also write for Best Subset regression:
+In this context we can also write for Best Subset regression:
 
 - $\min_{\beta} RSS \text{  s.t.  } \sum_{j = 1}^p\mathbb{1}\left[\beta_j \neq 0\right] \le s$
 :::

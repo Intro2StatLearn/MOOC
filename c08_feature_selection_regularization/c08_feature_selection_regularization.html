@@ -486,7 +486,7 @@
 <section class="slide level2">
 
 <h3 id="best-subset-selection-1">Best subset selection</h3>
-<div id="651d05c9" class="cell" data-execution_count="1">
+<div id="945c8347" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -560,7 +560,7 @@
 <section class="slide level2">
 
 <h3 id="forward-stepwise-selection-1">Forward stepwise selection</h3>
-<div id="8b32fbc9" class="cell" data-execution_count="2">
+<div id="6e768446" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -848,7 +848,7 @@
 <section class="slide level2">
 
 <h3 id="choosing-lambda">Choosing <span class="math inline">\(\lambda\)</span></h3>
-<div id="b6efb9df" class="cell" data-execution_count="3">
+<div id="848e88eb" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -897,7 +897,7 @@
 <section class="slide level2">
 
 <h3 id="lasso-regression">Lasso regression</h3>
-<p><span class="math display">\[PRSS(\lambda) = \sum_{i = 1}^n \left(y_i - \beta_0 + \sum_{j = 1}^p \beta_j x_{ij}\right)^2 + \lambda\sum_{j = 1}^p |\beta_j| = RSS + \lambda\|\beta^*\|\]</span></p>
+<p><span class="math display">\[PRSS(\lambda) = \sum_{i = 1}^n \left(y_i - \beta_0 + \sum_{j = 1}^p \beta_j x_{ij}\right)^2 + \lambda\sum_{j = 1}^p |\beta_j| = RSS + \lambda\|\beta^*\|_1\]</span></p>
 <ul>
 <li>As with Ridge, standardize the features in <span class="math inline">\(X\)</span>, then:
 <ul>
@@ -926,7 +926,7 @@
 <section class="slide level2">
 
 <h3 id="the-lasso-path">The Lasso Path</h3>
-<div id="cd2a91d2" class="cell" data-execution_count="4">
+<div id="faefc1a7" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -968,7 +968,7 @@
 <li>But also, surprisingly:</li>
 </ul>
 <div class="fragment">
-<div id="f737b6f1" class="cell" data-execution_count="5">
+<div id="82f598c6" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1027,7 +1027,7 @@
 </ul>
 </div>
 <div class="fragment">
-<p>In this contest we can also write for Best Subset regression:</p>
+<p>In this context we can also write for Best Subset regression:</p>
 <ul>
 <li><span class="math inline">\(\min_{\beta} RSS \text{  s.t.  } \sum_{j = 1}^p\mathbb{1}\left[\beta_j \neq 0\right] \le s\)</span></li>
 </ul>
@@ -1055,7 +1055,7 @@
 <section class="slide level2">
 
 <h3 id="seeing-shrinkage-and-sparsity-i">Seeing Shrinkage and Sparsity (I)</h3>
-<div id="674a89b3" class="cell" data-execution_count="6">
+<div id="3d4ee671" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1113,7 +1113,7 @@
 </tbody>
 </table>
 <div class="fragment">
-<div id="936c5120" class="cell" data-execution_count="7">
+<div id="fcfeacbf" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1250,7 +1250,7 @@
 <section class="slide level2">
 
 <h3 id="ridge-and-lasso-priors">Ridge and Lasso priors</h3>
-<div id="e94ebf86" class="cell" data-execution_count="8">
+<div id="6ef54613" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1298,7 +1298,7 @@
 
 <h3 id="recall-pca">Recall: PCA</h3>
 <p>PCA will find the best direction to project the data on, while preserving the maximum “information”:</p>
-<div id="8ac3574f" class="cell" data-execution_count="9">
+<div id="403f88da" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1406,7 +1406,7 @@
 <section class="slide level2">
 
 <h3 id="pca-regression-pcr-1">PCA regression (PCR)</h3>
-<div id="03a0e925" class="cell" data-execution_count="10">
+<div id="d27fa030" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
