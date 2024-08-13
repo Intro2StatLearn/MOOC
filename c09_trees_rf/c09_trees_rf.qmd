@@ -450,7 +450,6 @@ plt.ylabel('MSE')
 plt.legend()
 plt.show()
 ```
----
 
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
@@ -618,3 +617,230 @@ We mostly use Gini and Cross-entropy to grow the tree, not misclassification err
 :::
 
 ---
+
+### Ensemble methods: using trees as subroutines
+
+Instead of a single tree being a model, combine many trees into a model:
+
+1. Bagging and Random Forest: Fit different trees to the data and average them
+2. Boosting: Adaptively build a model from adding more and more trees
+
+::: {.fragment}
+- We will focus now on Random Forest (also Bagging), later discuss boosting
+
+- Main idea of Random Forest: Take advantage of the instability and high variance of the trees
+
+- Trees are unstable and greedy: if we change the data a little bit, the tree can change a lot
+
+- Now we intentionally change (randomize) the data to get a different tree every time, and average them
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+ביחידה הזאת נלמד על שיטות אנסמבל, שעושות קומבינציה של מודלים חלשים רבים, למודל חזק במיוחד. אמרנו כבר כשלמדנו על עצי החלטה שהם מודלים מוגבלים עם שונות גבוהה, ושאלנו את עצמנו -- למה עץ אחד? למה לא יער?
+
+נראה היום שתי שיטות אנסמבל מבוססות עצים. הראשונה רנדום פורסט, שמבוססת על מיצוע של הרבה עצים שונים, והשנייה בוסטינג שבה אנחנו בונים עץ אחרי עץ בצורה אדפטיבית.
+
+נתחיל ברנדום פורסט. במקום להתאים עץ אחד לנתונים, אנחנו נתאים הרבה. אבל לא נתאים אותם לאותם הנתונים, אחרת אין הבדל. נתאים אותם כל פעם על דאטא קצת אחר, דאטא שעבר רנדומיזציה, בשתי דרכים שונות. לבסוף נמצע את העצים -- החיזוי לכל תצפית יהיה ממוצע שלה על פני הרבה עצים, ונראה שכך נטפל באופן ישיר בבעיות של העץ היחיד.
+:::
+:::
+
+---
+
+### Reminder: the value of averaging
+
+- Assume $z_i \sim F$ has some distribution with mean $\mu$ and variance $\sigma^2$
+
+- If $z_1,\dots,z_m \sim F$ are independent, then $Var(\bar{z}) = \sigma^2 / m$, so $\bar{z}$ is close to $\mu$ for large $m$ 
+
+::: {.incremental}
+- What if $z_1,\dots,z_m$ are dependent?
+
+- Slightly more complex setting: assume $z_1,\dots,z_m$ are *somewhat* dependent $Cov(z_i,z_j) = \rho \sigma^2,\;\rho<1$
+
+- Now we still get some variance reduction from averaging: 
+$$Var(\bar{z}) \approx \rho\sigma^2 + (1-\rho)\sigma^2/ m$$
+
+- This is exactly the intuition behind Random Forest
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+ניזכר בערך המיצוע. מה מיצוע נותן לנו? אנחנו מכירים את זה מהתפלגות הממוצע או ממשפט הגבול המרכזי. אם משתנה מקרי Z_i, מתפלג לפי איזושהי התפלגות F עם תוחלת מיו ושונות סיגמא בריבוע, ואני לוקח m תצפיות כאלה בלתי תלויות, אז השונות של ממוצע המדגם המקרי קטנה פי m. כלומר ככל שm גדול כך הפיזור סביב הממוצע קטן והוא מתקרב לתוחלת האמיתית מיו.
+
+ונניח שהתצפיות הן לא בלתי תלויות. לא רק שהן לא בלתי תלויות, הן תלויות לחלוטין, הן אותה תצפית בדיוק, שחוזרת על עצמה m פעמים. מה יהיה אז הממוצע? התצפית עצמה כמובן. והאם הקטנו את השונות של ההתפלגות המקורית? בכלל לא, נישאר עם השונות המקורית סיגמא בריבוע. כלומר יש כאן איזשהו טווח מתצפיות בלתי תלויות לחלוטין ועד תצפיות תלויות לחלוטין, וההקטנה של סיגמא בריבוע בהתאם.
+
+נסתכל על מצב ביניים, שהתצפיות לא בלתי תלויות לחלוטין אבל גם לא חוזרות על עצמן, המתאם בין זוג תצפיות הוא איזשהו רו שקטן מ1, כלומר הקווריאנס יהיה סיגמא בריבוע כפול רו.
+
+אפשר לראות שכעת שונות ממוצע המדגם היא בקירוב רו סיגמא בריבוע, ועוד 1 מינוס רו כפול סיגמא בריבוע חלקי m. זאת אומרת כשרו שווה ל1, תלות מושלמת, אנחנו נשארים עם סיגמא בריבוע השונות המקורית, וכשרו שווה לאפס, שזה אומר תצפיות בלתי תלויות, נקבל את סיגמא בריבוע חלקי m, שונות מדגם מקרי המוכרת לנו.
+
+זו האינטואיציה שמסבירה למה רנדום פורסט עובד. אם נצליח לקחת עוד ועוד דגימות עם כמה שפחות תלות - במקרה שלנו עוד ועוד עצים, נקטין את השונות המקורית של כל אחת מהן עד פי m. אם הדגימות שלי תלויות חזק אחת בשניה, הרווח שלי מוגבל מפעולת המיצוע. נרצה אם ככה לייצר עצים שיהיו שונים כמה שיותר אחד מהשני כך שנרוויח מהמיצוע שלהם.
+
+:::
+:::
+
+---
+
+### Random forest algorithm
+
+- Repeat $B$ times: 
+1. Randomize the data (by taking a [bootstrap]{style="color:red;"} sample $b$)
+2. Build a tree $T_b(X)$ on the randomized data, also randomize tree building: randomly choose $m$ features to consider at each node
+
+::: {.fragment}
+- To predict at new $x_0$, apply each tree and average their predictions: $\hat{f}(x_0) = \frac{1}{B}\sum_{b = 1}^B T_b(x_0)$ or take majority class for classification
+:::
+::: {.fragment}
+- Intuition: trees are different because of randomization, they are like $z_1,...z_n \stackrel{\cdot}{\sim} P(y|x_0)$
+:::
+::: {.fragment}
+- Hence we expect (and indeed see!) that Random Forest gives more accurate predictions of $E(y|x)$ or $P(y=1|x)$ than single trees
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+אז איך נשיג את היער עצים הזה ששונים זה מזה כמה שיותר?
+
+נזריק רנדומיזציה לתהליך: כל עץ יראה דאטא קצת אחר, נהוג לקחת רק חלק מהנתונים, subsample, או מדגם בוטסטראפ, שזה מדגם בגודל m המקורי, עם החזרה. דבר שני שנעשה, תוך כדי בנית העצים על הדאטא הזה, זה בכל צומת נגריל מספר מסוים של משתנים שיהיו מועמדים לפיצול. כלומר אם בעץ המקורי בכל צומת הוא מתחשב בכל המשתנים האפשריים, העצים שלנו עשויים לראות בכל צומת משתנים אחרים לחלוטין.
+
+כעת מגיעה תצפית חדשה לחיזוי. מה זה אומר למצע עצים? זה אומר שנריץ אותה בכל העצים, והחיזוי הסופי שלה יהיה הממוצע שלהם או הקלאס שרוב העצים מצביעים עליו, בשביל קלסיפיקציה.
+
+על האינטואיציה דיברנו בהרחבה, העצים הם כמו תצפיות ממדגם. הם לא יכולים להיות לגמרי בלתי תלויים כי הם בכל זאת מבוססים על אותו דאטא. אבל נדאג שיהיו כמה שפחות תלויים אחד בשני, וככה נרוויח מהמיצוע שלהם. כשאנחנו רואים תצפית חדשה אפשר לחשוב שאנחנו דוגמים עבורה בקירוב מתוך ההתפלגות המותנית של Y בהינתן התצפית החדשה, ולכן הממוצע על פני הרבה עצים או דגימות כאלה, אומד את התוחלת המותנית של Y בהינתן התצפית החדשה.
+
+אילו עצים נגדל? עמוקים או שטוחים? עמוקים כמובן! עצים עמוקים שמסוגלים לתאר יחסים מורכבים כמה שניתן. לעצים כאלה תהיה שונות גבוהה שנקטין עם המיצוע. אם נבחר בעצים שטוחים יותר, נתחיל אולי בטעות פחות גבוהה אבל גם לא נרוויח מספיק מהמיצוע. למה שלא נראה את רנדום פורסט בפעולה על הנתונים שלנו.
+:::
+:::
+
+---
+
+### Example: credit data
+
+```{python}
+#| echo: false
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import cross_val_score, KFold
+
+# Load the dataset
+df = pd.read_csv('../datasets/ISLP_credit_data.csv')
+
+# One-hot encoding for categorical features
+df['Gender'] = df['Gender'].apply(lambda x: 1 if x == 'Male' else 0)
+df['Student'] = df['Student'].apply(lambda x: 1 if x == 'Yes' else 0)
+df['Married'] = df['Married'].apply(lambda x: 1 if x == 'Yes' else 0)
+df = pd.get_dummies(df, columns=['Ethnicity'], drop_first=True)
+
+# Drop the unnecessary 'Unnamed: 0' column
+df = df.drop(columns=['Unnamed: 0'])
+
+# Define the dependent variable
+y = df['Balance']
+
+# Define the independent variables
+X = df.drop(columns=['Balance'])
+# Assuming X, y are already defined
+n_splits = 5  # Number of cross-validation folds
+n_trees = range(1, 101, 10)  # Range of trees to evaluate in Random Forest
+
+train_errors_rf = []
+test_errors_rf = []
+train_errors_rf_std = []
+test_errors_rf_std = []
+
+# Cross-validation setup
+kf = KFold(n_splits=n_splits, shuffle=True, random_state=42)
+
+for n_tree in n_trees:
+    train_scores = []
+    test_scores = []
+    
+    for train_index, test_index in kf.split(X):
+        X_train, X_test = X.iloc[train_index], X.iloc[test_index]
+        y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+        
+        # Initialize the Random Forest Regressor
+        rf_regressor = RandomForestRegressor(n_estimators=n_tree, random_state=42)
+        rf_regressor.fit(X_train, y_train)
+        
+        # Evaluate train and test MSE
+        train_scores.append(np.mean((rf_regressor.predict(X_train) - y_train) ** 2))
+        test_scores.append(np.mean((rf_regressor.predict(X_test) - y_test) ** 2))
+    
+    # Store mean and standard deviation of MSE across folds
+    train_errors_rf.append(np.mean(train_scores))
+    test_errors_rf.append(np.mean(test_scores))
+    train_errors_rf_std.append(np.std(train_scores)/np.sqrt(5))
+    test_errors_rf_std.append(np.std(test_scores)/np.sqrt(5))
+
+# Compute train/test MSE for Linear Regression and Single Decision Tree
+linear_regressor = LinearRegression()
+tree_regressor = DecisionTreeRegressor(max_depth=9)
+
+# Single Decision Tree MSE
+train_mse_tree = -cross_val_score(tree_regressor, X, y, cv=kf, scoring='neg_mean_squared_error').mean()
+test_mse_tree = train_mse_tree  # Same for train and test in cross-validation
+
+# Plotting the results
+# plt.figure(figsize=(12, 8))
+
+# Plot Random Forest MSE vs. Number of Trees
+plt.errorbar(n_trees, train_errors_rf, yerr=train_errors_rf_std, label='RF Train MSE')
+plt.errorbar(n_trees, test_errors_rf, yerr=test_errors_rf_std, label='RF Test MSE')
+
+# Plot horizontal lines for a Single Decision Tree
+plt.axhline(y=train_mse_tree, color='black', linestyle='-.', label='Single Tree MSE')
+
+plt.xlabel('Number of trees')
+plt.ylabel('MSE')
+plt.ylim(0, 40000)
+plt.legend()
+plt.show()
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Summary of Random Forest 
+
+- Uses advantages of trees, mitigates their shortcomings
+
+- RF trees should be as different as possible from each other: 
+    1. Uses the high-variance property of trees
+    2. Add randomization: subsampling of training data for each tree; randomizations in tree splitting
+
+- Add diversity by making trees bigger, control variance by averaging, therefore: 
+    1. Trees should be deep
+    2. Should build and average as many of them as computationally possible
+
+::: {.fragment}
+- Great advantages for "big data": highly parallelizable and (almost) hyperparameter free!
+:::
+
+::: {.fragment}
+- But it is also our first "black box" model
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+נסכם: שיטת רנדום פורסט משמרת את הגמישות של עצים תוך כדי שהיא מנסה להפחית את החסרון הכי גדול שלם, הנוקשות והשונות הגדולה שלהם.
+
+אנחנו עושים את העצים כמה שיותר שונים זה מזה, על-ידי מדגמי בוטסטראפ ובחירת משתנים שונים כמועמדים לכל פיצול.
+
+ומלבד זה אנחנו דואגים שהעצים יהיו עמוקים כמה שאפשר, כדי שנרוויח כמה שיותר מאפקט המיצוע, מעץ בודד עם איכות חיזוי גרועה להרבה עם איכות חיזוי טובה.
+
+ עקרונית גם אמרנו, שככל שנבנה יותר עצים איכות החיזוי על הטסט סט יכולה רק לקטון, יתרון משמעותי לשיטה, בפועל אנחנו כנראה מוגבלים על-ידי כוח חישוב וגם גודל על הדיסק, כל אחד מהעצים האלה יכול להיות אוביקט די גדול, אלף עצים לשמור על שרתים זה כבר לא סימפטי.
+
+ עוד יתרון שאנחנו פחות עוסקים בקורס הזה אבל הוא קריטי: קל למקבל רנדום פורסט על-פני מספר מחשבים? קל מאוד! כל עץ ברנדום פורסט יכול לגדול באופן בלתי תלוי מהאחרים, לכן אם הנתונים גדולים ועומדת לרשות מדען הנתונים סביבת עבודה מבוזרת, קלאסטר של מספר מחשבים, ניתן להגיע לאימון מהיר מאוד של האלגוריתם. ויתרון אחרון שרמזנו עליו - כמעט בכל שיטה שאנחנו לומדים יש היפרפרמטרים, איזשהם כפתורים שצריך לסובב כדי להתאים את האלגוריתם למקרה שלנו, כמו מספר השכנים בKNN או מטריקת המרחק. בסך הכל ברנדום פורסט אין פרמטרים שיש עליהם סימן שאלה, ברור שאנחנו צריכים כמה שיותר עצים וברור שהם צריכים להיות כמה שיותר עמוקים. זה הופך את רנדום פורסט לאלגוריתם אוף-דה-שלף מאוד פופולרי, כי בלי כיוונון אפשר להגיע מהר לתוצאה מצוינת.
+
+ מצד שני, כרגע ראינו גם את המודל הראשון שלנו שהוא בגדר קופסה שחורה. להגיד איזה משתנה השפיע על התוצאה, האם משתנה מסוים מעלה או מוריד את ההסתברות שהתצפית תהיה מקלאס מסוים -- זה כבר הרבה יותר קשה לעשות ברנדום פורסט. איבדנו את האינטרפרטביליות. יש הרבה דרכים לנסות להסביר מה עושים מודלים של קופסה שחורה. בקורס שלנו אנחנו עוצרים כאן.
+:::
+:::

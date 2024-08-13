@@ -404,7 +404,7 @@
 <section class="slide level2">
 
 <h3 id="what-should-r_1-dots-r_m-be">What should <span class="math inline">\(R_1, \dots, R_M\)</span> be?</h3>
-<div id="398c4b60" class="cell" data-execution_count="1">
+<div id="cc377f4c" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -435,7 +435,7 @@
 <section class="slide level2">
 
 <h3 id="how-does-a-doctor-think">How does a doctor think?</h3>
-<div id="458538de" class="cell" data-execution_count="2">
+<div id="225f0a59" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -668,7 +668,7 @@
 <section class="slide level2">
 
 <h3 id="example-credit-data">Example: credit data</h3>
-<div id="322eb67a" class="cell" data-execution_count="3">
+<div id="fb8199a8" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -677,9 +677,6 @@
 </div>
 </div>
 </div>
-</section>
-<section class="slide level2">
-
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 
@@ -699,7 +696,7 @@
 <section class="slide level2">
 
 <h3 id="example-credit-data-1">Example: credit data</h3>
-<div id="42c3fb18" class="cell" data-execution_count="4">
+<div id="e360a064" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -777,7 +774,7 @@
 
 <h3 id="on-impurity-measures">On impurity measures</h3>
 <p>For a single node, <span class="math inline">\(K = 2\)</span> classes, no weighing:</p>
-<div id="9fc54787" class="cell" data-execution_count="5">
+<div id="dbf13550" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -928,6 +925,192 @@
 </section>
 <section class="slide level2">
 
+<h3 id="ensemble-methods-using-trees-as-subroutines">Ensemble methods: using trees as subroutines</h3>
+<p>Instead of a single tree being a model, combine many trees into a model:</p>
+<ol type="1">
+<li>Bagging and Random Forest: Fit different trees to the data and average them</li>
+<li>Boosting: Adaptively build a model from adding more and more trees</li>
+</ol>
+<div class="fragment">
+<ul>
+<li><p>We will focus now on Random Forest (also Bagging), later discuss boosting</p></li>
+<li><p>Main idea of Random Forest: Take advantage of the instability and high variance of the trees</p></li>
+<li><p>Trees are unstable and greedy: if we change the data a little bit, the tree can change a lot</p></li>
+<li><p>Now we intentionally change (randomize) the data to get a different tree every time, and average them</p></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+<p>ביחידה הזאת נלמד על שיטות אנסמבל, שעושות קומבינציה של מודלים חלשים רבים, למודל חזק במיוחד. אמרנו כבר כשלמדנו על עצי החלטה שהם מודלים מוגבלים עם שונות גבוהה, ושאלנו את עצמנו – למה עץ אחד? למה לא יער?</p>
+<p>נראה היום שתי שיטות אנסמבל מבוססות עצים. הראשונה רנדום פורסט, שמבוססת על מיצוע של הרבה עצים שונים, והשנייה בוסטינג שבה אנחנו בונים עץ אחרי עץ בצורה אדפטיבית.</p>
+<p>נתחיל ברנדום פורסט. במקום להתאים עץ אחד לנתונים, אנחנו נתאים הרבה. אבל לא נתאים אותם לאותם הנתונים, אחרת אין הבדל. נתאים אותם כל פעם על דאטא קצת אחר, דאטא שעבר רנדומיזציה, בשתי דרכים שונות. לבסוף נמצע את העצים – החיזוי לכל תצפית יהיה ממוצע שלה על פני הרבה עצים, ונראה שכך נטפל באופן ישיר בבעיות של העץ היחיד.</p>
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="reminder-the-value-of-averaging">Reminder: the value of averaging</h3>
+<ul>
+<li><p>Assume <span class="math inline">\(z_i \sim F\)</span> has some distribution with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span></p></li>
+<li><p>If <span class="math inline">\(z_1,\dots,z_m \sim F\)</span> are independent, then <span class="math inline">\(Var(\bar{z}) = \sigma^2 / m\)</span>, so <span class="math inline">\(\bar{z}\)</span> is close to <span class="math inline">\(\mu\)</span> for large <span class="math inline">\(m\)</span></p></li>
+</ul>
+<div>
+<ul>
+<li class="fragment"><p>What if <span class="math inline">\(z_1,\dots,z_m\)</span> are dependent?</p></li>
+<li class="fragment"><p>Slightly more complex setting: assume <span class="math inline">\(z_1,\dots,z_m\)</span> are <em>somewhat</em> dependent <span class="math inline">\(Cov(z_i,z_j) = \rho \sigma^2,\;\rho&lt;1\)</span></p></li>
+<li class="fragment"><p>Now we still get some variance reduction from averaging: <span class="math display">\[Var(\bar{z}) \approx \rho\sigma^2 + (1-\rho)\sigma^2/ m\]</span></p></li>
+<li class="fragment"><p>This is exactly the intuition behind Random Forest</p></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+<p>ניזכר בערך המיצוע. מה מיצוע נותן לנו? אנחנו מכירים את זה מהתפלגות הממוצע או ממשפט הגבול המרכזי. אם משתנה מקרי Z_i, מתפלג לפי איזושהי התפלגות F עם תוחלת מיו ושונות סיגמא בריבוע, ואני לוקח m תצפיות כאלה בלתי תלויות, אז השונות של ממוצע המדגם המקרי קטנה פי m. כלומר ככל שm גדול כך הפיזור סביב הממוצע קטן והוא מתקרב לתוחלת האמיתית מיו.</p>
+<p>ונניח שהתצפיות הן לא בלתי תלויות. לא רק שהן לא בלתי תלויות, הן תלויות לחלוטין, הן אותה תצפית בדיוק, שחוזרת על עצמה m פעמים. מה יהיה אז הממוצע? התצפית עצמה כמובן. והאם הקטנו את השונות של ההתפלגות המקורית? בכלל לא, נישאר עם השונות המקורית סיגמא בריבוע. כלומר יש כאן איזשהו טווח מתצפיות בלתי תלויות לחלוטין ועד תצפיות תלויות לחלוטין, וההקטנה של סיגמא בריבוע בהתאם.</p>
+<p>נסתכל על מצב ביניים, שהתצפיות לא בלתי תלויות לחלוטין אבל גם לא חוזרות על עצמן, המתאם בין זוג תצפיות הוא איזשהו רו שקטן מ1, כלומר הקווריאנס יהיה סיגמא בריבוע כפול רו.</p>
+<p>אפשר לראות שכעת שונות ממוצע המדגם היא בקירוב רו סיגמא בריבוע, ועוד 1 מינוס רו כפול סיגמא בריבוע חלקי m. זאת אומרת כשרו שווה ל1, תלות מושלמת, אנחנו נשארים עם סיגמא בריבוע השונות המקורית, וכשרו שווה לאפס, שזה אומר תצפיות בלתי תלויות, נקבל את סיגמא בריבוע חלקי m, שונות מדגם מקרי המוכרת לנו.</p>
+<p>זו האינטואיציה שמסבירה למה רנדום פורסט עובד. אם נצליח לקחת עוד ועוד דגימות עם כמה שפחות תלות - במקרה שלנו עוד ועוד עצים, נקטין את השונות המקורית של כל אחת מהן עד פי m. אם הדגימות שלי תלויות חזק אחת בשניה, הרווח שלי מוגבל מפעולת המיצוע. נרצה אם ככה לייצר עצים שיהיו שונים כמה שיותר אחד מהשני כך שנרוויח מהמיצוע שלהם.</p>
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="random-forest-algorithm">Random forest algorithm</h3>
+<ul>
+<li>Repeat <span class="math inline">\(B\)</span> times:</li>
+</ul>
+<ol type="1">
+<li>Randomize the data (by taking a <span style="color:red;">bootstrap</span> sample <span class="math inline">\(b\)</span>)</li>
+<li>Build a tree <span class="math inline">\(T_b(X)\)</span> on the randomized data, also randomize tree building: randomly choose <span class="math inline">\(m\)</span> features to consider at each node</li>
+</ol>
+<div class="fragment">
+<ul>
+<li>To predict at new <span class="math inline">\(x_0\)</span>, apply each tree and average their predictions: <span class="math inline">\(\hat{f}(x_0) = \frac{1}{B}\sum_{b = 1}^B T_b(x_0)\)</span> or take majority class for classification</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Intuition: trees are different because of randomization, they are like <span class="math inline">\(z_1,...z_n \stackrel{\cdot}{\sim} P(y|x_0)\)</span></li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Hence we expect (and indeed see!) that Random Forest gives more accurate predictions of <span class="math inline">\(E(y|x)\)</span> or <span class="math inline">\(P(y=1|x)\)</span> than single trees</li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+<p>אז איך נשיג את היער עצים הזה ששונים זה מזה כמה שיותר?</p>
+<p>נזריק רנדומיזציה לתהליך: כל עץ יראה דאטא קצת אחר, נהוג לקחת רק חלק מהנתונים, subsample, או מדגם בוטסטראפ, שזה מדגם בגודל m המקורי, עם החזרה. דבר שני שנעשה, תוך כדי בנית העצים על הדאטא הזה, זה בכל צומת נגריל מספר מסוים של משתנים שיהיו מועמדים לפיצול. כלומר אם בעץ המקורי בכל צומת הוא מתחשב בכל המשתנים האפשריים, העצים שלנו עשויים לראות בכל צומת משתנים אחרים לחלוטין.</p>
+<p>כעת מגיעה תצפית חדשה לחיזוי. מה זה אומר למצע עצים? זה אומר שנריץ אותה בכל העצים, והחיזוי הסופי שלה יהיה הממוצע שלהם או הקלאס שרוב העצים מצביעים עליו, בשביל קלסיפיקציה.</p>
+<p>על האינטואיציה דיברנו בהרחבה, העצים הם כמו תצפיות ממדגם. הם לא יכולים להיות לגמרי בלתי תלויים כי הם בכל זאת מבוססים על אותו דאטא. אבל נדאג שיהיו כמה שפחות תלויים אחד בשני, וככה נרוויח מהמיצוע שלהם. כשאנחנו רואים תצפית חדשה אפשר לחשוב שאנחנו דוגמים עבורה בקירוב מתוך ההתפלגות המותנית של Y בהינתן התצפית החדשה, ולכן הממוצע על פני הרבה עצים או דגימות כאלה, אומד את התוחלת המותנית של Y בהינתן התצפית החדשה.</p>
+<p>אילו עצים נגדל? עמוקים או שטוחים? עמוקים כמובן! עצים עמוקים שמסוגלים לתאר יחסים מורכבים כמה שניתן. לעצים כאלה תהיה שונות גבוהה שנקטין עם המיצוע. אם נבחר בעצים שטוחים יותר, נתחיל אולי בטעות פחות גבוהה אבל גם לא נרוויח מספיק מהמיצוע. למה שלא נראה את רנדום פורסט בפעולה על הנתונים שלנו.</p>
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="example-credit-data-2">Example: credit data</h3>
+<div id="ef0809aa" class="cell" data-execution_count="6">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c09_trees_rf_files/figure-revealjs/cell-7-output-1.png" width="536" height="434"></p>
+</figure>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="summary-of-random-forest">Summary of Random Forest</h3>
+<ul>
+<li><p>Uses advantages of trees, mitigates their shortcomings</p></li>
+<li><p>RF trees should be as different as possible from each other:</p>
+<ol type="1">
+<li>Uses the high-variance property of trees</li>
+<li>Add randomization: subsampling of training data for each tree; randomizations in tree splitting</li>
+</ol></li>
+<li><p>Add diversity by making trees bigger, control variance by averaging, therefore:</p>
+<ol type="1">
+<li>Trees should be deep</li>
+<li>Should build and average as many of them as computationally possible</li>
+</ol></li>
+</ul>
+<div class="fragment">
+<ul>
+<li>Great advantages for “big data”: highly parallelizable and (almost) hyperparameter free!</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>But it is also our first “black box” model</li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+<p>נסכם: שיטת רנדום פורסט משמרת את הגמישות של עצים תוך כדי שהיא מנסה להפחית את החסרון הכי גדול שלם, הנוקשות והשונות הגדולה שלהם.</p>
+<p>אנחנו עושים את העצים כמה שיותר שונים זה מזה, על-ידי מדגמי בוטסטראפ ובחירת משתנים שונים כמועמדים לכל פיצול.</p>
+<p>ומלבד זה אנחנו דואגים שהעצים יהיו עמוקים כמה שאפשר, כדי שנרוויח כמה שיותר מאפקט המיצוע, מעץ בודד עם איכות חיזוי גרועה להרבה עם איכות חיזוי טובה.</p>
+<p>עקרונית גם אמרנו, שככל שנבנה יותר עצים איכות החיזוי על הטסט סט יכולה רק לקטון, יתרון משמעותי לשיטה, בפועל אנחנו כנראה מוגבלים על-ידי כוח חישוב וגם גודל על הדיסק, כל אחד מהעצים האלה יכול להיות אוביקט די גדול, אלף עצים לשמור על שרתים זה כבר לא סימפטי.</p>
+<p>עוד יתרון שאנחנו פחות עוסקים בקורס הזה אבל הוא קריטי: קל למקבל רנדום פורסט על-פני מספר מחשבים? קל מאוד! כל עץ ברנדום פורסט יכול לגדול באופן בלתי תלוי מהאחרים, לכן אם הנתונים גדולים ועומדת לרשות מדען הנתונים סביבת עבודה מבוזרת, קלאסטר של מספר מחשבים, ניתן להגיע לאימון מהיר מאוד של האלגוריתם. ויתרון אחרון שרמזנו עליו - כמעט בכל שיטה שאנחנו לומדים יש היפרפרמטרים, איזשהם כפתורים שצריך לסובב כדי להתאים את האלגוריתם למקרה שלנו, כמו מספר השכנים בKNN או מטריקת המרחק. בסך הכל ברנדום פורסט אין פרמטרים שיש עליהם סימן שאלה, ברור שאנחנו צריכים כמה שיותר עצים וברור שהם צריכים להיות כמה שיותר עמוקים. זה הופך את רנדום פורסט לאלגוריתם אוף-דה-שלף מאוד פופולרי, כי בלי כיוונון אפשר להגיע מהר לתוצאה מצוינת.</p>
+<p>מצד שני, כרגע ראינו גם את המודל הראשון שלנו שהוא בגדר קופסה שחורה. להגיד איזה משתנה השפיע על התוצאה, האם משתנה מסוים מעלה או מוריד את ההסתברות שהתצפית תהיה מקלאס מסוים – זה כבר הרבה יותר קשה לעשות ברנדום פורסט. איבדנו את האינטרפרטביליות. יש הרבה דרכים לנסות להסביר מה עושים מודלים של קופסה שחורה. בקורס שלנו אנחנו עוצרים כאן.</p>
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 <div class="quarto-auto-generated-content">
 <p><img src="../Intro2SL_logo_white.jpg" class="slide-logo"></p>
 <div class="footer footer-default">
