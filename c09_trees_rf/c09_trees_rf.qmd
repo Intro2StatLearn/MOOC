@@ -1,0 +1,620 @@
+---
+format:
+  revealjs:
+    slide-number: true
+    chalkboard: true
+    fig-width: 6
+    fig-asp: 0.618
+    template-partials:
+      - "../title-slide.html"
+css: "../slides_quarto.css"
+standalone: false
+include-in-header: "../header_quarto.html"
+logo: "../Intro2SL_logo_white.jpg"
+pagetitle: "Decision Trees and Random Forests"
+callout-appearance: simple
+smaller: true
+execute:
+  eval: true
+  echo: true
+code-line-numbers: false
+code-block-border-left: true
+highlight-style: github
+footer: "[Intro to Statistical Learning](https://intro2statlearn.github.io/mooc/){target='_blank'}"
+---
+
+## {.logo-slide}
+
+## Introduction to Statistical Learning {.title-slide}
+
+### Decision Trees and Random Forests - Class 9
+
+### Giora Simchoni
+
+#### `gsimchoni@gmail.com` and add `#intro2sl` in subject
+
+### Stat. and OR Department, TAU
+
+---
+
+## Intro. to Decision Trees {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### The models we learned so far
+
+::: {.incremental}
+- Parameteric, linear, global: linear regression, logistic regression, Ridge, Lasso, PCR
+- Non-parametric, non-linear, local: $K$-nearest neighbors
+:::
+
+<br></br>
+
+::: {.fragment}
+::: {.incremental}
+Simpler idea (non-paramteric, non-linear, local):
+
+- Segment predictor space $\mathcal{X}$ to relatively homogenous neighborhoods in $\mathcal{Y}$
+- For each region $R_1, \dots, R_M$ predict constant/class $c_m$, s.t.:
+$$\hat{f}(X) = \sum_{m = 1}^M c_m\mathbb{I}\left(X \in R_m\right)$$
+- Is this not a linear model?
+:::
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### What should $R_1, \dots, R_M$ be?
+
+```{python}
+#| echo: false
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Set up the figure and subplots
+fig, axs = plt.subplots(1, 3, figsize=(14, 3.5))
+
+# Plot 3: Non-linear segmentation (spiral or circles)
+theta = np.linspace(0, 4 * np.pi, 100)
+r = np.linspace(0, 1, 100)
+x1 = r * np.cos(theta)
+x2 = r * np.sin(theta)
+axs[2].plot(x1, x2, color='black')
+axs[2].plot(-x1, -x2, color='black')
+
+circle1 = plt.Circle((0.3, 0.3), 0.3, color='black', fill=False)
+circle2 = plt.Circle((-0.3, -0.3), 0.3, color='black', fill=False)
+
+axs[2].add_artist(circle1)
+axs[2].add_artist(circle2)
+axs[2].set_xlim([-1, 1])
+axs[2].set_ylim([-1, 1])
+axs[2].set_xlabel('X1')
+axs[2].set_ylabel('X2')
+axs[2].set_xticks([-1.0, -0.5, 0.0, 0.5, 1.0])
+axs[2].set_yticks([-1.0, -0.5, 0.0, 0.5, 1.0])
+
+# Plot 1: Tilted rectangle segmentation
+# Creating a tilted rectangle
+rectangle = np.array([[0.2, 0.3], [0.7, 0.3], [0.6, 0.8], [0.1, 0.8], [0.2, 0.3]])
+axs[0].plot(rectangle[:, 0], rectangle[:, 1], 'black')
+axs[0].set_xlim([0, 1])
+axs[0].set_ylim([0, 1])
+axs[0].set_xlabel('X1')
+axs[0].set_ylabel('X2')
+
+# Plot 2: Complex segmentation with stacked rectangles
+# Adding 3-4 rectangles one on top of the other
+rect1 = np.array([[0.1, 0.1], [0.4, 0.1], [0.4, 0.4], [0.1, 0.4], [0.1, 0.1]])
+rect2 = np.array([[0.3, 0.3], [0.6, 0.3], [0.6, 0.7], [0.3, 0.7], [0.3, 0.3]])
+rect3 = np.array([[0.5, 0.5], [0.9, 0.5], [0.9, 0.9], [0.5, 0.9], [0.5, 0.5]])
+
+axs[1].plot(rect1[:, 0], rect1[:, 1], 'black')
+axs[1].plot(rect2[:, 0], rect2[:, 1], 'black')
+axs[1].plot(rect3[:, 0], rect3[:, 1], 'black')
+axs[1].set_xlim([0, 1])
+axs[1].set_ylim([0, 1])
+axs[1].set_xlabel('X1')
+axs[1].set_ylabel('X2')
+
+# Adding labels R1, R2, ... to the relevant regions
+# You can adjust the coordinates to place the labels in the desired positions
+axs[0].text(0.4, 0.55, 'R1', fontsize=12)
+axs[0].text(0.4, 0.15, 'R2', fontsize=12)
+
+# More complex labels for the right-most plot
+axs[1].text(0.25, 0.25, 'R1', fontsize=12)
+axs[1].text(0.33, 0.33, 'R2', fontsize=12)
+axs[1].text(0.43, 0.43, 'R3', fontsize=12)
+axs[1].text(0.53, 0.53, 'R4', fontsize=12)
+axs[1].text(0.7, 0.7, 'R5', fontsize=12)
+axs[1].text(0.6, 0.2, 'R6', fontsize=12)
+
+# Show plot
+plt.tight_layout()
+plt.show()
+```
+
+::: {.fragment}
+What should $c_1, \dots, c_M$ be?
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### How does a doctor think?
+
+```{python}
+#| echo: false
+
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+import numpy as np
+
+# Set up the figure and subplots
+fig, axs = plt.subplots(1, 3, figsize=(14, 3.5))
+
+# Plot 1: Decision Tree Structure
+ax_tree = axs[0]
+
+# Drawing a simple decision tree manually with 3 splits
+ax_tree.plot([0.5, 0.5], [1, 0.9], 'k-', lw=2)  # First split
+ax_tree.plot([0.5, 0.25], [0.9, 0.7], 'k-', lw=2)  # Left branch
+ax_tree.plot([0.5, 0.75], [0.9, 0.7], 'k-', lw=2)  # Right branch
+ax_tree.plot([0.25, 0.125], [0.7, 0.4], 'k-', lw=2)  # Left-Left branch
+ax_tree.plot([0.25, 0.375], [0.7, 0.4], 'k-', lw=2)  # Left-Right branch
+ax_tree.plot([0.375, 0.3], [0.4, 0.1], 'k-', lw=2)  # Left-Left branch
+ax_tree.plot([0.375, 0.45], [0.4, 0.1], 'k-', lw=2)  # Left-Right branch
+
+# Adding text for nodes and leaves
+ax_tree.text(0.35, 0.92, 'X1 <= 0.5', ha='center', fontsize=12)
+ax_tree.text(0.15, 0.72, 'X2 <= 0.5', ha='center', fontsize=12)
+ax_tree.text(0.35, 0.42, 'X1 <= 0.25', ha='center', fontsize=12)
+ax_tree.text(0.125, 0.33, 'R1', ha='center', fontsize=12)
+ax_tree.text(0.3, 0.03, 'R2', ha='center', fontsize=12)
+ax_tree.text(0.45, 0.03, 'R3', ha='center', fontsize=12)
+ax_tree.text(0.75, 0.63, 'R4', ha='center', fontsize=12)
+
+ax_tree.set_xlim([0, 1])
+ax_tree.set_ylim([0, 1])
+ax_tree.axis('off')  # No axes for the tree plot
+
+# Plot 2: Decision areas on X1, X2 plane
+ax_decision = axs[1]
+
+# Plotting decision boundaries
+ax_decision.axvline(x=0.5, color='black')  # First split on X1
+ax_decision.axhline(y=0.5, xmin=0, xmax=0.5, color='black')  # Split on X2 for left side
+ax_decision.axvline(x=0.25, ymin=0.5, ymax=1.0, color='black')  # Split on X1 for left side
+
+# Adding labels for decision areas
+ax_decision.text(0.25, 0.25, 'R1', fontsize=12)
+ax_decision.text(0.15, 0.75, 'R2', fontsize=12)
+ax_decision.text(0.35, 0.75, 'R3', fontsize=12)
+ax_decision.text(0.75, 0.5, 'R4', fontsize=12)
+
+ax_decision.set_xlim([0, 1])
+ax_decision.set_ylim([0, 1])
+ax_decision.set_xlabel('X1')
+ax_decision.set_ylabel('X2')
+
+# Plot 3: 3D plot of Y predictions
+ax_3d = fig.add_subplot(133, projection='3d')
+
+# Data for the 3D plot
+x_edges = [0, 0.5, 0.75, 1]
+y_edges = [0, 0.5, 1]
+X, Y = np.meshgrid(x_edges, y_edges)
+Z = np.zeros_like(X)
+
+# Assigning average Y values to each region
+z_values = [1, 3, 2, 4]  # example Y averages for R1, R2, R3, R4
+
+# Creating the boxes
+ax_3d.bar3d(0, 0, 0, 0.5, 0.5, z_values[2], color='gray', edgecolor='black', alpha=0.5)  # R1
+ax_3d.bar3d(0.5, 0, 0, 0.5, 1, z_values[0], color='gray', edgecolor='black', alpha=0.5)  # R4
+ax_3d.bar3d(0, 0.5, 0, 0.25, 0.5, z_values[3], color='gray', edgecolor='black', alpha=0.5)  # R2
+ax_3d.bar3d(0.25, 0.5, 0, 0.25, 0.5, z_values[1], color='gray', edgecolor='black', alpha=0.5)  # R3
+
+ax_3d.set_xlabel('X1')
+ax_3d.set_ylabel('X2')
+ax_3d.set_zlabel('$\hat{Y}$')
+
+plt.tight_layout()
+plt.show()
+```
+
+::: {.fragment}
+$\Rightarrow$ recursive binary splitting.
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Decision trees at high level
+
+::: {.incremental}
+- Root: start with $\hat{f}(X) = \bar{y}$ or $\max\{\hat{P}(y = 0), \hat{P}(y = 1)\}$ to all observations
+- Recursively:
+  - Choose $(j, s)$ pair: feature $j$ to split on value $s$: $X_j \le s$ and $X_j > s$
+  - Predict $c_m$ for each region $R_1, \dots, R_M$
+- Until $STOP$ criterion
+:::
+
+<br></br>
+
+::: {.fragment}
+Questions:
+:::
+
+::: {.incremental}
+- How to choose a split at each node of the tree?
+- How to fit a value $c_m$ for each region / terminal node / leaf?
+- What is $STOP$ criterion?
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+## Regression Trees {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### How to split?
+
+::: {.incremental}
+- Criterion: Minimize RSS on training.
+
+- Given set of $r$ observations in current node, define for a variable $j$ and possible split point $s$: 
+$$L(j,s) = \{i\leq r: x_{ij} \leq s\}\;,\;\; R(j,s) = \{i\leq r: x_{ij} > s\}$$
+$$\bar{y}_L =\frac{\sum_{i \in L(j,s)} y_i}{|L(j,s)|}\;,\; \bar{y}_R=\frac{\sum_{i \in R(j,s)} y_i}{|R(j,s)|}$$
+$$RSS(j,s) = \sum_{i \in L(j,s)} (y_i - \bar{y}_L)^2 + \sum_{i \in R(j,s)} (y_i - \bar{y}_R)^2$$
+
+- And find the pair $j, s$ which minimize this RSS among all possible pairs
+:::
+
+::: {.fragment}
+::: {.callout-note}
+What is the complexity of this search?
+:::
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### How to fit a value $c_m$ at leaves?
+
+- Similar to OLS, we want to estimate $\hat{y}(x) \approx E(y|x)$ 
+
+- We interpret the splitting as finding *homogeneous areas* with similar $y$ values in our data, hence hopefully similar $E(y|x).$
+
+- Consequently, given a leaf (terminal node) $R_m$ with set of observations $Q_m \subseteq \{1,\dots,n\}$, we estimate: 
+$$c_m = \bar{y}_{R_m} = \frac{\sum_{i \in Q_m} y_i}{|Q_m|}$$
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### When to $STOP$?
+
+::: {.incremental}
+- Why stop?
+- Bias-variance tradeoff!
+  - Tree too shallow --- high bias, underfitting
+  - Tree too deep --- high variance, overfitting
+:::
+::: {.fragment}
+Some heuristics:
+
+  - Maximum tree depth (i.e. maximum "questions")
+  - Minimum improvement in RSS
+  - Minimum node size $Q$
+:::
+
+::: {.fragment}
+::: {.callout-note}
+What could be the issue with each of those?
+:::
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Cost complexity pruning
+
+::: {.incremental}
+- Grow a deep tree $T_0$, e.g. with the size criterion
+- [Prune]{style="color:red;"} to tree $T$ with some $\alpha$ penalty on its size:
+$$C_\alpha(T) = RSS(T) + \alpha|T|$$
+- Choose $T_\alpha$ which gives minimum $C_\alpha(T)$
+:::
+
+::: {.fragment}
+- For a given $\alpha$ efficient algorithms exist to find the pruning path
+- $\alpha$ is chosen with CV
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Example: credit data
+
+```{python}
+#| echo: false
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.model_selection import cross_val_score, KFold
+
+# Load the dataset
+df = pd.read_csv('../datasets/ISLP_credit_data.csv')
+
+# One-hot encoding for categorical features
+df['Gender'] = df['Gender'].apply(lambda x: 1 if x == 'Male' else 0)
+df['Student'] = df['Student'].apply(lambda x: 1 if x == 'Yes' else 0)
+df['Married'] = df['Married'].apply(lambda x: 1 if x == 'Yes' else 0)
+df = pd.get_dummies(df, columns=['Ethnicity'], drop_first=True)
+
+# Drop the unnecessary 'Unnamed: 0' column
+df = df.drop(columns=['Unnamed: 0'])
+
+# Define the dependent variable
+y = df['Balance']
+
+# Define the independent variables
+X = df.drop(columns=['Balance'])
+
+max_depths = range(1, 12)  # Define the range of max_depth values to evaluate
+n_splits = 5  # Number of cross-validation folds
+
+train_errors = []
+test_errors = []
+train_errors_std = []
+test_errors_std = []
+
+# Setting up cross-validation
+kf = KFold(n_splits=n_splits, shuffle=True, random_state=42)
+
+for max_depth in max_depths:
+    train_scores = []
+    test_scores = []
+    
+    for train_index, test_index in kf.split(X):
+        X_train, X_test = X.iloc[train_index], X.iloc[test_index]
+        y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+        
+        # Initialize the Decision Tree Regressor with the current max_depth
+        regressor = DecisionTreeRegressor(max_depth=max_depth)
+        regressor.fit(X_train, y_train)
+        
+        # Evaluate train and test MSE
+        train_scores.append(np.mean((regressor.predict(X_train) - y_train) ** 2))
+        test_scores.append(np.mean((regressor.predict(X_test) - y_test) ** 2))
+    
+    # Store mean and standard deviation of MSE across folds
+    train_errors.append(np.mean(train_scores))
+    test_errors.append(np.mean(test_scores))
+    train_errors_std.append(np.std(train_scores))
+    test_errors_std.append(np.std(test_scores))
+
+# Plotting the results
+plt.errorbar(max_depths, train_errors, yerr=train_errors_std, label='Train MSE')
+plt.errorbar(max_depths, test_errors, yerr=test_errors_std, label='Test MSE')
+
+plt.xlabel('max tree depth')
+plt.ylabel('MSE')
+plt.legend()
+plt.show()
+```
+---
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Example: credit data
+
+```{python}
+#| echo: false
+
+from sklearn.tree import DecisionTreeRegressor, plot_tree
+import matplotlib.pyplot as plt
+
+# Assuming X, y are already defined
+
+# Train the Decision Tree Regressor on all data
+regressor = DecisionTreeRegressor(max_depth=3)
+regressor.fit(X, y)
+
+# Plot the tree
+plt.figure(figsize=(18, 8))  # Increase figsize to give nodes more space
+plot_tree(
+    regressor, 
+    filled=True, 
+    feature_names=regressor.feature_names_in_,  # Use your actual feature names
+    rounded=True, 
+    fontsize=9,
+    precision=1  # Control decimal precision in node labels
+)
+
+plt.show()
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+## Classification Trees {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### How to split?
+
+::: {.incremental}
+- Criterion: Minimize [Impurity]{style="color:red;"} on training:
+- If $\hat{p}_{kL}, \hat{p}_{kR}$ are the left and right empricial probabilities for each class $k$, and $\hat{y}_{L}, \hat{y}_{R}$ are the most common classes:
+  - Misclassification error: $$MC(j,s) = \sum_{i \in L(j,s)} \mathbb{I}\{y_i \neq \hat{y}_L\} + \sum_{i \in R(j,s)} \mathbb{I}\{y_i \neq \hat{y}_R\}$$
+  - Gini index: $\quad Gini(j,s) = \sum_{k=1}^K n_{L} \hat{p}_{kL}(1- \hat{p}_{kL}) + \sum_{k=1}^K n_{R} \hat{p}_{kR}(1- \hat{p}_{kR})$
+  - Cross-entropy: $$CE(j,s) = -\sum_{k=1}^K n_{L} \hat{p}_{kL}\log(\hat{p}_{kL}) - \sum_{k=1}^K n_{R} \hat{p}_{kR}\log(\hat{p}_{kR})$$
+- Otherwise the algorithm stays the same (e.g. cost complexity pruning)
+:::
+
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### On impurity measures
+
+For a single node, $K = 2$ classes, no weighing:
+
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Define the range of probabilities p from 0 to 1
+p = np.linspace(0, 1, 500)
+
+# Calculate the metrics
+misclassification_error = np.minimum(p, 1 - p)
+gini_index = 2 * p * (1 - p)
+cross_entropy = -(p * np.log(p + 1e-10) + (1 - p) * np.log(1 - p + 1e-10))  # Adding a small value to avoid log(0)
+
+# Plot the metrics
+plt.figure(figsize=(8, 5))
+
+plt.plot(p, misclassification_error, color='black', label='Misclassification Error')
+plt.plot(p, gini_index, color='black', linestyle='--', label='Gini Index')
+plt.plot(p, cross_entropy, color='black', linestyle='-.', label='Cross-Entropy')
+plt.xlabel('Probability p')
+plt.ylabel('Impurity metric')
+plt.legend()
+plt.show()
+```
+
+::: {.fragment}
+::: {.callout-note}
+We mostly use Gini and Cross-entropy to grow the tree, not misclassification error. Why?
+:::
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+## Trees issues {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Categorical features
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Missing data
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Other advantages
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Trees disadvantages
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+## Random Forests {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
