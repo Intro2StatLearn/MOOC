@@ -1010,7 +1010,7 @@ There is 1-to-1 correspondnece between Ridge and Lasso's previous criteria and:
 ::: {.fragment}
 In this context we can also write for Best Subset regression:
 
-- $\min_{\beta} RSS \text{  s.t.  } \sum_{j = 1}^p\mathbb{1}\left[\beta_j \neq 0\right] \le s$
+- $\min_{\beta} RSS \text{  s.t.  } \sum_{j = 1}^p\mathbb{I}\left[\beta_j \neq 0\right] \le s$
 :::
 
 ::: {.notes}
@@ -1099,7 +1099,7 @@ If $X$ has orthonormal columns ($X'X = I_p$) and $\hat{\beta}_j$ is the OLS esti
 
 | Estimator              | $\tilde{\beta}_j$                                                                 |
 |------------------------|-----------------------------------------------------------------------------------|
-| Best $M$ subset        | $\hat{\beta}_j \cdot \mathbb{1}\left[|\hat{\beta}_j| \ge  |\hat{\beta}_{(M)}|\right]$ |
+| Best $M$ subset        | $\hat{\beta}_j \cdot \mathbb{I}\left[|\hat{\beta}_j| \ge  |\hat{\beta}_{(M)}|\right]$ |
 | Ridge                  | $\hat{\beta}_j / (1 + \lambda)$                                                   |
 | Lasso                  | $\text{sign}(\hat{\beta}_j)(|\hat{\beta}_j| - \lambda)_+$                         |
 
