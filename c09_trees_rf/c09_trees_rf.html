@@ -421,7 +421,7 @@
 <section class="slide level2">
 
 <h3 id="what-should-r_1-dots-r_m-be">What should <span class="math inline">\(R_1, \dots, R_M\)</span> be?</h3>
-<div id="0a85755c" class="cell" data-execution_count="1">
+<div id="7dc282fc" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -454,7 +454,7 @@
 <section class="slide level2">
 
 <h3 id="how-does-a-doctor-think">How does a doctor think?</h3>
-<div id="55b20c0f" class="cell" data-execution_count="2">
+<div id="283c4f12" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -717,7 +717,7 @@
 <section class="slide level2">
 
 <h3 id="example-credit-data">Example: credit data</h3>
-<div id="b48b395f" class="cell" data-execution_count="3">
+<div id="eabb4169" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -747,7 +747,7 @@
 <section class="slide level2">
 
 <h3 id="example-credit-data-1">Example: credit data</h3>
-<div id="21ac70ed" class="cell" data-execution_count="4">
+<div id="3bec6b4d" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -781,7 +781,7 @@
 <h2>Classification Trees</h2>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>נעבור עכשיו לעצים לקלסיפיקציה לK קלאסים, ונראה שנשאר לנו מעט מאוד לשנות.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -800,7 +800,7 @@
 <h3 id="how-to-split-1">How to split?</h3>
 <div>
 <ul>
-<li class="fragment">Criterion: Minimize <span style="color:red;">Impurity</span> on training:</li>
+<li class="fragment">Criterion: Minimize <span style="color:red;">impurity</span> on training:</li>
 <li class="fragment">If <span class="math inline">\(\hat{p}_{kL}, \hat{p}_{kR}\)</span> are the left and right empricial probabilities for each class <span class="math inline">\(k\)</span>, and <span class="math inline">\(\hat{y}_{L}, \hat{y}_{R}\)</span> are the most common classes:
 <ul>
 <li class="fragment">Misclassification error: <span class="math display">\[MC(j,s) = \sum_{i \in L(j,s)} \mathbb{I}\{y_i \neq \hat{y}_L\} + \sum_{i \in R(j,s)} \mathbb{I}\{y_i \neq \hat{y}_R\}\]</span></li>
@@ -812,7 +812,12 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>הקריטריון שאנחנו עושים לו מינימיזציה כשאנחנו בוחנים ספליט נקרא באופן כללי אימפיוריטי, כי אנחנו רוצים לבדוק עד כמה החלוקה הופכת את שני הנודים שנוצרים ל”טהורים” כלומר עד כמה הם מכינים רק קלאס אחד של תצפיות.</p>
+<p>נסמן בp_hat את שיעור התצפיות מקלאס K בנוד השמאלי ובנוד הימני. ונסמן בy_hat את הקלאס שהוא הרוב בנוד השמאלי ובימני.</p>
+<p>אפשרות אחת היא לעשות מינימום למיסקלסיפיקיישן ארור: שגיאת הפיצול היא מספר התצפיות שלא שוות לקלאס הרוב בצד שמאל, ועוד מספר התצפיות שלא שוות לקלאס הרוב בצד ימין.</p>
+<p>אפשרות נוספת פופולרית היא מדד הג’יני. ניקח לדוגמא את צד שמאל עם nL תצפיות. אם נחשוב על איזשהו משתנה Z שסופר כמה מהתצפיות האלה שייכות לקלאס k מסוים, כשההסתברות לקלאס k היא p_hatK, אז אפשר למדל משתנה כזה כמשתנה בינומי, והשונות שלו היא הרכיב שרשום כאן: N כפול P כפול 1 פחות P. כלומר אפשר לחשוב על מדד ג’יני כסוכם את השונויות של משתנים בינומיים שסופרים כמה מהתצפיות ה מכל קלאס. תיכף ננסה לתת תחושה איך זה נראה.</p>
+<p>אפשרות נוספת היא קרוס-אנתרופי. גם לקרוס אנתרופי יש הצדקה, זה מדד מתחום תורת האינפורמציה שמנסה לכמת כמה קל להעביר מידע על וקטור של נתונים. במקרה שלנו, להעביר וקטור שעבור כל תצפית אומר מאיזה קלאס היא. אם כל התצפיות אחידות מאותו קלאס למשל, צריך להעביר רק נתון אחד, מה הקלאס של התצפית הראשונה, והקרוס אנתרופי יהיה נמוך מאוד. הכי גרוע זה אם כל התצפיות שונות ואז נצטרך להעביר את כל הנתונים של הוקטור, תצפית אחר תצפית, והקרוס-אנתרופי יהיה מאוד גבוה. כלומר זה מדד טוב לאימפיוריטי של הספליט שאנחנו רוצים לבצע.</p>
+<p>לוקח זמן להתרגל למדדים האלה, אבל החדשות הטובות הן שחוץ מהשינוי הזה האלגוריתם של בניית עץ שלמדנו נשאר בדיוק אותו דבר. למשל גם הקריטריון לעצירה נשאר אותו דבר, אפשר לעצור רק כשמגיעים לעומק מקסימלי של צמתים, אפשר לעשות פרונינג, המדד שישמש אותנו לקריטריון פרונינג יהיה אחד המדדים שאנחנו רואים כאן של אימפיוריטי, במקום RSS.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -830,11 +835,11 @@
 
 <h3 id="on-impurity-measures">On impurity measures</h3>
 <p>For a single node, <span class="math inline">\(K = 2\)</span> classes, no weighing:</p>
-<div id="070699a1" class="cell" data-execution_count="5">
+<div id="05d8e44a" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c09_trees_rf_files/figure-revealjs/cell-6-output-1.png" width="663" height="429"></p>
+<p><img data-src="c09_trees_rf_files/figure-revealjs/cell-6-output-1.png" width="663" height="437"></p>
 </figure>
 </div>
 </div>
@@ -853,7 +858,11 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>בכל-זאת כדי לתת תחושה של ההבדל בין המדדים אפשר לצייר מה הם יגידו כפונקציה של p_hat, הפרופורציה שY יהיה מקלאס אחד לעומת קלאס אחר בבעיה בינארית. כאן המיסקלסיפיקיישן ארור יהיה בעצם המינימום בין p ל-1 פחות p.&nbsp;הג’יני יהיה פעמיים p כפול 1 פחות p.&nbsp;והקרוס-אנתרופי יהיה p כפול לוג p, ועוד 1 פחות p כפול לוג של 1 פחות p, על כל זה מינוס.</p>
+<p>הדבר הראשון שבולט הוא ששלושת המדדים מסכימים שהכי גרוע זה אם P הוא חצי, כלומר התצפיות בנוד מסוים מתחלקות חצי חצי בין שני הקלאסים. זה מצב של חוסר ודאות מוחלט. שלושתם מקבלים את המקסימום שלהם בנקודה הזאת.</p>
+<p>הדבר השני שבולט הוא שבעוד שלמיסקלסיפיקיישן רייט יש נקודת חוסר רציפות כאן והעונש שלו עולה ויורד בצורה ליניארית, שני המדדים האחרים רציפים ומענישים הרבה יותר פרופורציות נמוכות מדי וגבוהות מדי, כלומר מענישים יותר פרופורציות ברגע שהנוד מתחיל להיות רק קצת לא טהור.</p>
+<p>ומסתבר שיש לזה השפעה, אנחנו בדרך כלל ניקח את מדד הג’יני או הקרוס אנתרופי לגידול העץ ולא את המיסקלסיפיקיישן ארור. למה? כי הוא קצת חסר רגישות. אפשר להישאר בעולם של קלספיקציה בינארית ולחשוב למשל על 400 תצפיות שמגיעות לצומת, מתוכן 200 מקלאס 0 ו200 מקלאס 1. נניח שיש שני מועמדים לפיצול, פיצול אחד נותן: ((150, 50), (50, 150)) פיצול אחר נותן: ((100, 200), (100, 0)) מבחינת מיסקלסיפיקיישן ארור, שני הספליטים זהים, 0.25 מהתצפיות לא מסווגות לקלאס הרוב. אבל ברור לנו שהחלוקה השניה היא קצת טובה יותר, היא מצאה דרך ליצור נוד טהור לגמרי, 100 תצפיות או רבע מהנתונים שלגביהם אין ספק. ושני המדדים האחרים ג’יני וקרוס אנתרופי יהיו נמוכים יותר, הם יהיו רגישים לזה ויעדיפו את הספליט השני.</p>
+<p>בזה אנחנו מסכמים את ההתייחסות לעצים לקלסיפיקציה, בחלק הבא נראה כמה דברים שעצים לקלסיפיקציה וגם לרגרסיה עושים טוב מאוד, כמה דברים שהם עושים רע מאוד, ואיך בסופו של דבר נשתמש בהם כדי ליצור את אחד המודלים החזקים ביותר בלמידת מכונה.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -871,7 +880,7 @@
 <h2>Trees issues</h2>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>מה עצים טובים בו במיוחד? מה הם גרועים בו במיוחד? בחלק הזה נסכם את היתרונות והחסרונות של עצים.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -893,11 +902,11 @@
 <li class="fragment">Ordered categorical variables: treat exactly as continuous</li>
 <li class="fragment">Unordered categorical variables:
 <ul>
-<li class="fragment">All subsets exhaustive search? Two main issues:</li>
+<li class="fragment">All subsets exhaustive search? (two main problems)</li>
 <li class="fragment">Grouping for values with too few observations</li>
 <li class="fragment">CART approach:
 <ul>
-<li class="fragment">For each category <span class="math inline">\(h_q\)</span> denote <span class="math inline">\(\bar{y}_q\)</span> the average of the observations of class <span class="math inline">\(q\)</span> in the current node.</li>
+<li class="fragment">For each category <span class="math inline">\(q\)</span> denote <span class="math inline">\(\bar{y}_q\)</span> the average of the observations of class <span class="math inline">\(q\)</span> in the current node.</li>
 <li class="fragment">Sort categories in increasing order of <span class="math inline">\(\bar{y}_q\)</span> : <span class="math inline">\(\bar{y}_{(1)} \leq \bar{y}_{(2)} \leq \ldots \leq \bar{y}_{(Q)}\)</span></li>
 <li class="fragment">The optimal split on the training data is guaranteed to be one of the <span class="math inline">\(Q-1\)</span> splits along this list</li>
 <li class="fragment">For 2-class classification, we simply replace <span class="math inline">\(\bar{y}_q\)</span> with <span class="math inline">\(\hat{p}_q\)</span></li>
@@ -907,7 +916,13 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>מה לגבי משתנים קטגוריאליים? דיברנו עליהם גם כשהתמקדנו במודל הליניארי, שם העלינו את האפשרות לקודד Q רמות של המשתנה הקטגוריאלי לQ - 1 משתנים בינאריים, קראנו לזה OHE.</p>
+<p>אפשר עקרונית לעשות את זה גם בעצים, אבל בעצים יש אפשרות טובה יותר.</p>
+<p>קודם כל אני מקווה שברור שהם המשתנה הוא אורדינלי, למשל רמת השכלה, אפשר להתייחס אליו כמשתנה רציף עם Q רמות ולהמשיך כרגיל, לבחון את האפשרות לעשות ספליט בין כל שתי רמות עוקבות.</p>
+<p>אם הוא לא אורדינלי, אפשרות אחת היא לעשות חיפוש על פני כל האפשרויות לחלק את Q הקטגוריות לשתי קבוצות. אבל זה בעייתי משתי סיבות: אחת חישובית, מספר האפשרויות שנצטרך לבדוק בכל צומת הוא סדר גודל של 2 בחזקת Q, מה שיכול להתפוצץ מהר מאוד. סיבה אחרת היא סטטיסטית, גם אם היה לנו מחשב על שאין לו בעיה לבדוק 2 בחזקת Q אפשרויות לפיצול רק על המשתנה הזה, הסיכון לאוברפיטינג גדול מאוד. בכל צומת יש סיכוי סביר שבקומבינציה ספציפית של קבוצה מסוימת של קטגוריות עם מעט מאוד תצפיות באחד הנודים אחרי הפיצול, נקבל שכולן מקלאס מסוים – אבל זה רק במקרה!</p>
+<p>אפשרות שתמיד צריך לשקול אותה היא לאחד קטגוריות עם מעט תצפיות לקטגוריה אחת ובכך להוריד את המימד של המשתנה הקטגוריאלי שלנו.</p>
+<p>אבל מסתבר שעצים יכולים לעשות דבר נוסף: נחשב עבור כל קטגוריה את הממוצע של Y ונמיין את הממוצעים האלה בסדר עולה. אפשר להוכיח שהספליט הטוב ביותר נמצא בחיפוש רגיל על וקטור הממוצעים הזה, לפי הסדר, כלומר ירדנו שוב לQ - 1 אפשרויות, כמו משתנה קטגוריאלי אורדינלי.</p>
+<p>אם הבעיה היא קלסיפיקציה בינארית אפשר לעשות בדיוק אותו דבר על הפרופורציות של אחד הקלאסים, ממוינות בסדר עולה.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -939,7 +954,10 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>תחום אחר שעצים יכולים להועיל בו מאוד הוא טיפול בערכים חסרים. טיפול בערכים חסרים זה תחום עצום, שאפשר לבלות עליו סמסטר שלם, כמו לחשוב על למה ערכים הם חסרים והאם המנגנון הזה שיצר את החוסר צריך או לא להשפיע על המידול שלנו. רוב המודלים ניצבים בין שתי אפשרויות: להתעלם מתצפיות עם ערכים חסרים באחד המשתנים, מה שנשמע בעייתי מאוד בצדק ויכול להקטין משמעותית את מדגם הלמידה. ואפשרות אחרת זה להציב ערכים במשתנים שבהם יש לנו ערכים חסרים ורק אז להמשיך בלמידה. אפשר להציב את הממוצע או החציון של המשתנה על פני תצפיות שבהן הוא לא חסר. דרך מתוחכמת יותר היא לעשות רגרסיה של המשתנה על פני המשתנים האחרים, זה תיאור קצת פשטני של האלגוריתם EM שנלמד בהמשך.</p>
+<p>בעצים יש אפשרויות טבעיות יותר להכיל באופן טבעי תצפיות חסרות:</p>
+<p>דרך אחת היא באמצעות סארוגייט ספליטס או פיצולים פונדקאיים: במהלך בניית העץ, לכל פיצול J, S, נשמור גם פיצולים חלופיים על משתנים אחרים, שהם דומים לפיצול המקורי, כלומר הם מחלקים את המדגם בצורה דומה לפיצול המקורי. זה כמובן מנפח קצת על הדיסק את המודל שבסוף נשמר, אבל זה פרקטי מאוד. כשתגיע באימון או בחיזוי תצפית שאין לה ערך במשתנה שמפצל צומת, נעביר אותה בפיצול החלופי הבא שלגביו אין לה ערך חסר.</p>
+<p>אפשרות אחרת שאנחנו רואים במימושים של עצים, היא איפה שלתצפית I יש ערך חסר במשתנה J, לשלוח אותה גם ימינה וגם שמאלה. אם זה בזמן חיזוי, החיזוי הסופי שלה יהיה הממוצע של החיזויים בעלים שהיא הגיעה אליהם בסופו של דבר. היתרון כאן הוא שבמקרה כזה החיזוי שלה מקבל פירוש מפתה, זה בעצם התוחלת המותנית של Y כשלקחנו בחשבון שהתצפית חסרה, על פני אפשרויות שונות למילוי הערכים החסרים שלה.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -960,16 +978,18 @@
 <li>Highly interpretable, “neighborhoods” (when tree is not large, but see variance issue)</li>
 <li>Easy to implement (if-else statements)</li>
 <li>Fast (in prediction at least)</li>
-<li>Little pre-processing of predictors needed</li>
-<li>Handles all types of predictors (continuous, categorical)</li>
-<li>Handles missing data</li>
+<li>Little pre-processing of predictors needed (continuous, categorical, missing)</li>
 <li>Non-parameteric, non-linear, assumption free</li>
 <li>Feature selection built-in</li>
 <li>Low bias, in general</li>
 </ul>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>נסכם את היתרונות של עצים: באופן כללי מדובר במודל די אינטואיטיבי שמחקה חשיבה בתרשים זרימה. אם הוא קטן גם אפשר ממש בכמה צעדים להבין איך החליט מה שהחליט – למרות שתיכף נסייג את זה.</p>
+<p>מלבד זאת, קל מאוד לממש עץ החלטה, בכל שפה שתרצו, זה בסך הכל אוסף של if else.</p>
+<p>זה מודל די מהיר לחיזוי עבור תצפיות חדשות, כמו שדיברנו אין צורך בטיפול מיוחד במשתנים כמו סטנדרטיזציה או טיפול במשתנים קטגוריאליים, או טיפול במשתנים עם ערכים חסרים.</p>
+<p>המודל א-פרמטרי, בלי הנחות מיוחדות, מסוגל לתאר יחסים לא-ליניאריים, יש לו פיצ’ר סלקשן בילט אין במובן שאם משתנה לא מופיע בעץ פשוט אין לו השפעה.</p>
+<p>ואנחנו רואים שעץ הוא מודל עם הטיה קטנה מאוד, תלוי כמובן בעומק שלו, ככל שיהיה עמוק יותר כך ירד הביאס.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -987,7 +1007,7 @@
 
 <h3 id="trees-disadvantages">Trees disadvantages</h3>
 <div class="fragment">
-<div id="b91d6600" class="cell" data-execution_count="6">
+<div id="0f1e7424" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -999,7 +1019,10 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>אז זה נשמע שיש המון יתרונות לעצי החלטה. מה עם חסרונות?</p>
+<p>חיסרון אחד שיש בכל מודל שאנחנו לומדים מגיע ממשפט הנו פרי לאנץ’, לכל מודל אני יכול למצוא נתונים שמאוד לא מתאימים לו, ובמקרה של עץ החלטה הטענה היא שאני יכול בקלות רבה מדי.</p>
+<p>מה שאנחנו רואים כאן זו בעיה של קלסיפיקציה לשני קלאסים, עבור שני פיצ’רים, X1 וX2. מצד שמאל אפשר לראות שהקלאסים הם מה שנקרא ליניארלי ספרבל, אפשר למצוא קו רגרסיה לוגיסטית שיפריד בין הקלאסים בקלות. זה יחס פשוט מאוד ונפוץ מאוד בנתונים אמיתיים. אבל עץ נורא מתקשה עם יחס כזה בין X לY. תראו איזה סלטות באוויר הוא עושה עם ההתעקשות שלו לחלק את המרחב רק עם קווים מקבילים לצירים. (להדגים) ואתם יכולים לדמיין לעצמכם שהעץ הזה עמוק מאוד ודי מסובך.</p>
+<p>כדי לא לקפח את העץ ציירנו כאן גם מצב הפוך, של יחס לא ליניארי בין X לקלאס Y, שעץ ממדל בצורה יחסית קלה ורגרסיה לוגיסטית נכשל לגמרי, כל מה שיש לרגרסיה לוגיסטית זה קו ישר.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1017,15 +1040,21 @@
 
 <h3 id="trees-disadvantages-1">Trees disadvantages</h3>
 <ul>
-<li>Intuitive appeal is misleading: very unstable, sensitive to small changes in data</li>
 <li>Lack of smoothness: rectangular predictor regions are not always a good thing</li>
-<li>Complexity of prediction limited in no. of leaves! (For a simple CART)</li>
+<li>Intuitive appeal is misleading: very unstable, sensitive to small changes in data</li>
 <li>Greedy: no guarantee for optimality</li>
+<li>Complexity of prediction limited in no. of leaves! (For a simple CART)</li>
 <li>HIGH VARIANCE <span class="math inline">\(\Rightarrow\)</span> not a competitive model in terms of prediction accuracy!</li>
 </ul>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>יש עוד הרבה חסרונות לעצי החלטה:</p>
+<p>מה שכרגע הדגמנו הוא שהם מודלים מאוד לא חלקים וקשה להם לתאר פונקציות חלקות, עם איזורי ההחלטה המלבניים שלהם.</p>
+<p>גם מה שאמרנו קודם על מודל אינטואיטיבי שקל להסביר זה לא מדויק - בפועל עצים הם מודלים לא יציבים במובן שהם רגישים מאוד לשינויים קלים בדאטא אמיתי, לא דאטא מסומלץ.</p>
+<p>זה נובע בעיקר מהאופן הגרידי שלהם, שפיצולים ראשונים במעלה העץ יש להם המון השפעה על האפשרויות של המודל להתפצל בהמשך. זה נובע גם מהנוקשות של איזורי החלטה מלבניים.</p>
+<p>וזה נובע גם מהמוגבלות של עץ לתאר איזושהי תופעה בשורה התחתונה במספר סופי של עלים. תחשבו על זה שעץ רגרסיה עם עומק מקסימלי של 3 בסופו של דבר נותן לנו מקסימום 8 שכונות, כלומר 8 מספרים אפשריים של חיזוי.</p>
+<p>בשורה התחתונה זה עניין של שונות. הביאס אולי נמוך, אבל השונות גבוהה מאוד, מה שמביא לתופעה שבנתונים אמיתיים עץ החלטה פשוט לא מדייק מבחינת חיזוי וכמעט תמיד אפשר למצוא מודלים עם דיוק גבוה יותר.</p>
+<p>אז בשביל מה אנחנו לומדים על עצים?! אנחנו לומדים על עצים כי אמנם עץ אחד הוא מודל די מוגבל, אבל יער של עצים, הוא כבר מודל עוצמתי למדי.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1043,7 +1072,7 @@
 <h2>Random Forests</h2>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>אז איך משלבים קבוצה של עצים ליער?</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1075,8 +1104,8 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-<p>ביחידה הזאת נלמד על שיטות אנסמבל, שעושות קומבינציה של מודלים חלשים רבים, למודל חזק במיוחד. אמרנו כבר כשלמדנו על עצי החלטה שהם מודלים מוגבלים עם שונות גבוהה, ושאלנו את עצמנו – למה עץ אחד? למה לא יער?</p>
-<p>נראה היום שתי שיטות אנסמבל מבוססות עצים. הראשונה רנדום פורסט, שמבוססת על מיצוע של הרבה עצים שונים, והשנייה בוסטינג שבה אנחנו בונים עץ אחרי עץ בצורה אדפטיבית.</p>
+<p>בחלק הזה נלמד על שיטת אנסמבל, שעושה קומבינציה של מודלים חלשים רבים, למודל חזק במיוחד.</p>
+<p>נראה בקורס שתי שיטות אנסמבל מבוססות עצים. הראשונה רנדום פורסט, שמבוססת על מיצוע של הרבה עצים שונים, והשנייה בוסטינג שבה אנחנו בונים עץ אחרי עץ בצורה אדפטיבית.</p>
 <p>נתחיל ברנדום פורסט. במקום להתאים עץ אחד לנתונים, אנחנו נתאים הרבה. אבל לא נתאים אותם לאותם הנתונים, אחרת אין הבדל. נתאים אותם כל פעם על דאטא קצת אחר, דאטא שעבר רנדומיזציה, בשתי דרכים שונות. לבסוף נמצע את העצים – החיזוי לכל תצפית יהיה ממוצע שלה על פני הרבה עצים, ונראה שכך נטפל באופן ישיר בבעיות של העץ היחיד.</p>
 </div>
 <style type="text/css">
@@ -1108,7 +1137,7 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-<p>ניזכר בערך המיצוע. מה מיצוע נותן לנו? אנחנו מכירים את זה מהתפלגות הממוצע או ממשפט הגבול המרכזי. אם משתנה מקרי Z_i, מתפלג לפי איזושהי התפלגות F עם תוחלת מיו ושונות סיגמא בריבוע, ואני לוקח m תצפיות כאלה בלתי תלויות, אז השונות של ממוצע המדגם המקרי קטנה פי m. כלומר ככל שm גדול כך הפיזור סביב הממוצע קטן והוא מתקרב לתוחלת האמיתית מיו.</p>
+<p>ניזכר בערך המיצוע. מה מיצוע נותן לנו? אנחנו מכירים את זה משונות הממוצע או מהתפלגות הממוצע לפי משפט הגבול המרכזי. אם משתנה מקרי Z_i, מתפלג לפי איזושהי התפלגות F עם תוחלת מיו ושונות סיגמא בריבוע, ואני לוקח m תצפיות כאלה בלתי תלויות, אז השונות של ממוצע המדגם המקרי קטנה פי m. כלומר ככל שm גדול כך הפיזור סביב הממוצע קטן והוא מתקרב לתוחלת האמיתית מיו.</p>
 <p>ונניח שהתצפיות הן לא בלתי תלויות. לא רק שהן לא בלתי תלויות, הן תלויות לחלוטין, הן אותה תצפית בדיוק, שחוזרת על עצמה m פעמים. מה יהיה אז הממוצע? התצפית עצמה כמובן. והאם הקטנו את השונות של ההתפלגות המקורית? בכלל לא, נישאר עם השונות המקורית סיגמא בריבוע. כלומר יש כאן איזשהו טווח מתצפיות בלתי תלויות לחלוטין ועד תצפיות תלויות לחלוטין, וההקטנה של סיגמא בריבוע בהתאם.</p>
 <p>נסתכל על מצב ביניים, שהתצפיות לא בלתי תלויות לחלוטין אבל גם לא חוזרות על עצמן, המתאם בין זוג תצפיות הוא איזשהו רו שקטן מ1, כלומר הקווריאנס יהיה סיגמא בריבוע כפול רו.</p>
 <p>אפשר לראות שכעת שונות ממוצע המדגם היא בקירוב רו סיגמא בריבוע, ועוד 1 מינוס רו כפול סיגמא בריבוע חלקי m. זאת אומרת כשרו שווה ל1, תלות מושלמת, אנחנו נשארים עם סיגמא בריבוע השונות המקורית, וכשרו שווה לאפס, שזה אומר תצפיות בלתי תלויות, נקבל את סיגמא בריבוע חלקי m, שונות מדגם מקרי המוכרת לנו.</p>
@@ -1174,7 +1203,7 @@
 <section class="slide level2">
 
 <h3 id="example-credit-data-2">Example: credit data</h3>
-<div id="be379a49" class="cell" data-execution_count="7">
+<div id="f9417f39" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
