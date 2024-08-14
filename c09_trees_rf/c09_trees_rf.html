@@ -404,7 +404,7 @@
 <section class="slide level2">
 
 <h3 id="what-should-r_1-dots-r_m-be">What should <span class="math inline">\(R_1, \dots, R_M\)</span> be?</h3>
-<div id="cc377f4c" class="cell" data-execution_count="1">
+<div id="3966fc10" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -435,7 +435,7 @@
 <section class="slide level2">
 
 <h3 id="how-does-a-doctor-think">How does a doctor think?</h3>
-<div id="225f0a59" class="cell" data-execution_count="2">
+<div id="1049c9ab" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -668,7 +668,7 @@
 <section class="slide level2">
 
 <h3 id="example-credit-data">Example: credit data</h3>
-<div id="fb8199a8" class="cell" data-execution_count="3">
+<div id="23136bb2" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -696,7 +696,7 @@
 <section class="slide level2">
 
 <h3 id="example-credit-data-1">Example: credit data</h3>
-<div id="e360a064" class="cell" data-execution_count="4">
+<div id="9faee02a" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -774,7 +774,7 @@
 
 <h3 id="on-impurity-measures">On impurity measures</h3>
 <p>For a single node, <span class="math inline">\(K = 2\)</span> classes, no weighing:</p>
-<div id="dbf13550" class="cell" data-execution_count="5">
+<div id="becc88a6" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -832,6 +832,23 @@
 <section class="slide level2">
 
 <h3 id="categorical-features">Categorical features</h3>
+<div>
+<ul>
+<li class="fragment">Ordered categorical variables: treat exactly as continuous</li>
+<li class="fragment">Unordered categorical variables:
+<ul>
+<li class="fragment">All subsets exhaustive search? Two main issues:</li>
+<li class="fragment">Grouping for values with too few observations</li>
+<li class="fragment">CART approach:
+<ul>
+<li class="fragment">For each category <span class="math inline">\(h_q\)</span> denote <span class="math inline">\(\bar{y}_q\)</span> the average of the observations of class <span class="math inline">\(q\)</span> in the current node.</li>
+<li class="fragment">Sort categories in increasing order of <span class="math inline">\(\bar{y}_q\)</span> : <span class="math inline">\(\bar{y}_{(1)} \leq \bar{y}_{(2)} \leq \ldots \leq \bar{y}_{(Q)}\)</span></li>
+<li class="fragment">The optimal split on the training data is guaranteed to be one of the <span class="math inline">\(Q-1\)</span> splits along this list</li>
+<li class="fragment">For 2-class classification, we simply replace <span class="math inline">\(\bar{y}_q\)</span> with <span class="math inline">\(\hat{p}_q\)</span></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 
@@ -851,6 +868,19 @@
 <section class="slide level2">
 
 <h3 id="missing-data">Missing data</h3>
+<div>
+<ul>
+<li class="fragment">Many models’ only choices: ignore missing data or impute them (e.g.&nbsp;mean imputation, EM algorithm)</li>
+<li class="fragment">Two more natural choices in trees:
+<ul>
+<li class="fragment">Surrogate splits: for every split <span class="math inline">\((j, s)\)</span> keep the next most “similar” <span class="math inline">\((j', s')\)</span> splits</li>
+<li class="fragment">If observation <span class="math inline">\(\mathbb{x}_i\)</span> is missing element <span class="math inline">\(x_{ij}\)</span> for split <span class="math inline">\((j, s)\)</span> — send it both left and right!
+<ul>
+<li class="fragment">Its average (weighted) prediction has a nice interpretation: <span class="math inline">\(\mathbb{E}(y|x_{ij} \text{ is missing})\)</span></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 
@@ -869,7 +899,18 @@
 </section>
 <section class="slide level2">
 
-<h3 id="other-advantages">Other advantages</h3>
+<h3 id="trees-advantages">Trees advantages</h3>
+<ul>
+<li>Highly interpretable, “neighborhoods” (when tree is not large, but see variance issue)</li>
+<li>Easy to implement (if-else statements)</li>
+<li>Fast (in prediction at least)</li>
+<li>Little pre-processing of predictors needed</li>
+<li>Handles all types of predictors (continuous, categorical)</li>
+<li>Handles missing data</li>
+<li>Non-parameteric, non-linear, assumption free</li>
+<li>Feature selection built-in</li>
+<li>Low bias, in general</li>
+</ul>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 
@@ -889,6 +930,43 @@
 <section class="slide level2">
 
 <h3 id="trees-disadvantages">Trees disadvantages</h3>
+<div class="fragment">
+<div id="5d355e25" class="cell" data-execution_count="6">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c09_trees_rf_files/figure-revealjs/cell-7-output-1.png" width="566" height="566"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="trees-disadvantages-1">Trees disadvantages</h3>
+<ul>
+<li>Intuitive appeal is misleading: very unstable, sensitive to small changes in data</li>
+<li>Lack of smoothness: rectangular predictor regions are not always a good thing</li>
+<li>Complexity of prediction limited in no. of leaves! (For a simple CART)</li>
+<li>Greedy: no guarantee for optimality</li>
+<li>HIGH VARIANCE <span class="math inline">\(\Rightarrow\)</span> not a competitive model in terms of prediction accuracy!</li>
+</ul>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 
@@ -1040,11 +1118,11 @@
 <section class="slide level2">
 
 <h3 id="example-credit-data-2">Example: credit data</h3>
-<div id="ef0809aa" class="cell" data-execution_count="6">
+<div id="d1fe168d" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c09_trees_rf_files/figure-revealjs/cell-7-output-1.png" width="536" height="434"></p>
+<p><img data-src="c09_trees_rf_files/figure-revealjs/cell-8-output-1.png" width="536" height="434"></p>
 </figure>
 </div>
 </div>

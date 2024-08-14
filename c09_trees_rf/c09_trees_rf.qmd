@@ -575,6 +575,18 @@ We mostly use Gini and Cross-entropy to grow the tree, not misclassification err
 
 ### Categorical features
 
+::: {.incremental}
+- Ordered categorical variables: treat exactly as continuous
+- Unordered categorical variables:
+  - All subsets exhaustive search? Two main issues:
+  - Grouping for values with too few observations
+  - CART approach:
+    - For each category $h_q$ denote $\bar{y}_q$ the average of the observations of class $q$ in the current node.
+    - Sort categories in increasing order of  $\bar{y}_q$ : $\bar{y}_{(1)} \leq \bar{y}_{(2)} \leq \ldots \leq \bar{y}_{(Q)}$
+    - The optimal split on the training data is guaranteed to be one of the $Q-1$ splits along this list
+    - For 2-class classification, we simply replace $\bar{y}_q$ with $\hat{p}_q$
+:::
+
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
 :::
@@ -584,6 +596,14 @@ We mostly use Gini and Cross-entropy to grow the tree, not misclassification err
 
 ### Missing data
 
+::: {.incremental}
+- Many models' only choices: ignore missing data or impute them (e.g. mean imputation, EM algorithm)
+- Two more natural choices in trees:
+  - Surrogate splits: for every split $(j, s)$ keep the next most "similar" $(j', s')$ splits
+  - If observation $\mathbb{x}_i$ is missing element $x_{ij}$ for split $(j, s)$ --- send it both left and right!
+    - Its average (weighted) prediction has a nice interpretation: $\mathbb{E}(y|x_{ij} \text{ is missing})$
+:::
+
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
 :::
@@ -591,7 +611,145 @@ We mostly use Gini and Cross-entropy to grow the tree, not misclassification err
 
 ---
 
-### Other advantages
+### Trees advantages
+
+- Highly interpretable, "neighborhoods" (when tree is not large, but see variance issue)
+- Easy to implement (if-else statements)
+- Fast (in prediction at least)
+- Little pre-processing of predictors needed
+- Handles all types of predictors (continuous, categorical)
+- Handles missing data
+- Non-parameteric, non-linear, assumption free
+- Feature selection built-in
+- Low bias, in general
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+
+:::
+:::
+
+---
+
+### Trees disadvantages
+
+::: {.fragment}
+
+```{python}
+#| echo: false
+
+import matplotlib.pyplot as plt
+import numpy as np
+from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
+
+# Updated plotting function for logistic regression boundary
+def plot_logistic_boundary(X, y, model, ax):
+    x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+    y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+    xx, yy = np.meshgrid(np.linspace(x_min, x_max, 100), np.linspace(y_min, y_max, 100))
+    Z = model.predict(np.c_[xx.ravel(), yy.ravel()])
+    Z = Z.reshape(xx.shape)
+    
+    ax.contourf(xx, yy, Z, alpha=0.3, colors=['white', 'lightgreen'])
+    ax.scatter(X[:, 0], X[:, 1], c=y, edgecolor='k', cmap=plt.cm.Paired)
+
+    # Logistic Regression decision boundary
+    coef = model.coef_[0]
+    intercept = model.intercept_
+    x_vals = np.array([x_min, x_max])
+    y_vals = -(x_vals * coef[0] + intercept) / coef[1]
+    ax.plot(x_vals, y_vals, color="black", linewidth=2)
+
+    # Adjust limits
+    ax.set_xlim(x_min, x_max)
+    ax.set_ylim(y_min, y_max)
+
+# Updated plotting function for decision tree boundaries
+def plot_decision_tree_boundary(X, y, model, ax):
+    x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+    y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+    xx, yy = np.meshgrid(np.linspace(x_min, x_max, 100), np.linspace(y_min, y_max, 100))
+    Z = model.predict(np.c_[xx.ravel(), yy.ravel()])
+    Z = Z.reshape(xx.shape)
+    
+    ax.contourf(xx, yy, Z, alpha=0.3, colors=['white', 'lightgreen'])
+    ax.scatter(X[:, 0], X[:, 1], c=y, edgecolor='k', cmap=plt.cm.Paired)
+
+    # Recursive partition plotting
+    def plot_partition(node_id, x_min, x_max, y_min, y_max):
+        node = model.tree_.__getstate__()['nodes'][node_id]
+        if node['left_child'] == -1:  # Leaf node
+            return
+        
+        # Split on X1 or X2
+        if node['feature'] == 0:  # Split on X1
+            split_value = node['threshold']
+            ax.plot([split_value, split_value], [y_min, y_max], color="black", linewidth=2)
+            plot_partition(node['left_child'], x_min, split_value, y_min, y_max)
+            plot_partition(node['right_child'], split_value, x_max, y_min, y_max)
+        elif node['feature'] == 1:  # Split on X2
+            split_value = node['threshold']
+            ax.plot([x_min, x_max], [split_value, split_value], color="black", linewidth=2)
+            plot_partition(node['left_child'], x_min, x_max, y_min, split_value)
+            plot_partition(node['right_child'], x_min, x_max, split_value, y_max)
+    
+    plot_partition(0, x_min, x_max, y_min, y_max)
+
+    # Adjust limits
+    ax.set_xlim(x_min, x_max)
+    ax.set_ylim(y_min, y_max)
+
+# Generate a linearly separable dataset
+np.random.seed(0)
+X_linear = np.random.randn(200, 2)
+y_linear = (X_linear[:, 0] + X_linear[:, 1] > 0).astype(int)
+
+# Generate a non-linearly separable dataset (a square in the middle)
+X_nonlinear = np.random.uniform(-3, 3, size=(200, 2))
+y_nonlinear = np.ones(200)
+y_nonlinear[(X_nonlinear[:, 0] > -1) & (X_nonlinear[:, 0] < 1) & 
+           (X_nonlinear[:, 1] > -1) & (X_nonlinear[:, 1] < 1)] = 0
+
+# Initialize classifiers
+logistic_model_linear = LogisticRegression()
+tree_model_linear = DecisionTreeClassifier(max_depth=10)
+
+logistic_model_nonlinear = LogisticRegression(fit_intercept=False)
+tree_model_nonlinear = DecisionTreeClassifier(max_depth=5)
+
+# Fit classifiers on the linear dataset
+logistic_model_linear.fit(X_linear, y_linear)
+tree_model_linear.fit(X_linear, y_linear)
+
+# Fit classifiers on the non-linear dataset
+logistic_model_nonlinear.fit(X_nonlinear, y_nonlinear)
+tree_model_nonlinear.fit(X_nonlinear, y_nonlinear)
+
+# Create subplots
+fig, axs = plt.subplots(2, 2, figsize=(6, 6))
+
+# Top-left: Logistic regression (linear separable)
+plot_logistic_boundary(X_linear, y_linear, logistic_model_linear, ax=axs[0, 0])
+
+# Top-right: Decision tree (linear separable)
+plot_decision_tree_boundary(X_linear, y_linear, tree_model_linear, ax=axs[0, 1])
+
+# Bottom-left: Logistic regression (non-linear separable)
+plot_logistic_boundary(X_nonlinear, y_nonlinear, logistic_model_nonlinear, ax=axs[1, 0])
+
+# Bottom-right: Decision tree (non-linear separable)
+plot_decision_tree_boundary(X_nonlinear, y_nonlinear, tree_model_nonlinear, ax=axs[1, 1])
+
+# Remove plot titles and set X, Y axis labels
+for ax in axs.flat:
+    ax.set_xlabel('X1')
+    ax.set_ylabel('X2')
+
+plt.tight_layout()
+plt.show()
+```
+:::
 
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
@@ -601,6 +759,12 @@ We mostly use Gini and Cross-entropy to grow the tree, not misclassification err
 ---
 
 ### Trees disadvantages
+
+- Intuitive appeal is misleading: very unstable, sensitive to small changes in data
+- Lack of smoothness: rectangular predictor regions are not always a good thing
+- Complexity of prediction limited in no. of leaves! (For a simple CART)
+- Greedy: no guarantee for optimality
+- HIGH VARIANCE $\Rightarrow$ not a competitive model in terms of prediction accuracy!
 
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
