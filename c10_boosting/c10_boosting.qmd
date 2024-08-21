@@ -1,0 +1,444 @@
+---
+format:
+  revealjs:
+    slide-number: true
+    chalkboard: true
+    fig-width: 6
+    fig-asp: 0.618
+    template-partials:
+      - "../title-slide.html"
+css: "../slides_quarto.css"
+standalone: false
+include-in-header: "../header_quarto.html"
+logo: "../Intro2SL_logo_white.jpg"
+pagetitle: "Boosting"
+callout-appearance: simple
+smaller: true
+execute:
+  eval: true
+  echo: true
+code-line-numbers: false
+code-block-border-left: true
+highlight-style: github
+footer: "[Intro to Statistical Learning](https://intro2statlearn.github.io/mooc/){target='_blank'}"
+---
+
+## {.logo-slide}
+
+## Introduction to Statistical Learning {.title-slide}
+
+### Boosting - Class 10
+
+### Giora Simchoni
+
+#### `gsimchoni@gmail.com` and add `#intro2sl` in subject
+
+### Stat. and OR Department, TAU
+
+---
+
+## AdaBoost {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Instead of averaging
+
+::: {.incremental}
+- Suppose $y \in \{-1, 1\}$
+- Recall the final Random Forests model: $\hat{f}(x_0) = \text{sign}\left[\frac{1}{M}\sum_{m = 1}^M T_m(x_0)\right]$
+- Why not $\hat{f}(x_0) = \text{sign}\left[\sum_{m = 1}^M \alpha_m T_m(x_0)\right]$?
+  - If $M$ is the number of all possible trees $T_m$, then finding weights $\alpha_m$ is intractable!
+
+- [Boosting]{style="color:red;"} finds $\alpha_m$ *sequentially*:
+  - Take a [weak classifier]{style="color:red;"} $G(x)$ with accuracy slightly better than random
+    - for any dist. $P_{T}$ of the training data:
+  $Err_{P_{T}} = \mathbb{E}_{P_{T}}\left(\mathbb{I}\left[y_i \neq G(x_i)\right]\right) \leq \frac{1}{2} - \gamma$
+  - Apply it sequentially over modified (weighted) versions of the training data
+  - Each time selecting the best $\alpha_m$ to get: $\hat{f}(x_0) = \text{sign}\left[\sum_{m = 1}^M \alpha_m G_m(x_0)\right]$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+מהי ביקורת סבירה על רנדום פורסט?
+:::
+:::
+
+---
+
+### AdaBoost
+
+1. Initialize observations weights $w_i = 1/n$ for $i = 1, \dots, n$
+2. For $m  = 1$ to $M$:
+    (a) Fit classifier $G_m(x)$ to the training data using weights* $w_i$
+    (b) Compute weighted classification error: $$err_m = \frac{\sum_{i = 1}^n w_i\mathbb{I}\left[y_i \neq G_m(x_i)\right]}{\sum_{i = 1}^n w_i}$$
+    (c) Compute coefficient $\alpha_m = \ln\left[\frac{1-err_m}{err_m}\right]$
+    (d) Update weights: $w_i \leftarrow w_i \cdot \exp\left[\alpha_m \cdot \mathbb{I}\left[y_i \neq G_m(x_i)\right]\right]$
+3. Output: $\hat{f}(x) = \text{sign}\left[\sum_{m = 1}^M \alpha_m G_m(x)\right]$
+
+::: {.fragment}
+::: {.callout-note}
+*What does it mean training a classification tree with weighted data?
+:::
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Adaboost with Tree Stumps
+
+```{python}
+#| echo: false
+
+import numpy as np
+from sklearn.tree import DecisionTreeClassifier
+import matplotlib.pyplot as plt
+from matplotlib.colors import ListedColormap
+
+# Set seed for reproducibility
+np.random.seed(42)
+
+# Generate 10 random 2D points and binary labels {-1, 1}
+n = 10
+X = np.random.randn(n, 2)
+y = np.random.choice([-1, 1], size=n)
+
+# Initial weights, all equal to 1/n
+w = np.ones(n) / n
+
+x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+
+for i in range(len(X)):
+  if y[i] == -1:
+    plt.scatter(X[i, 0], X[i, 1], color='blue', s=500*w[i], marker='o', edgecolor='black')
+  else:
+    plt.scatter(X[i, 0], X[i, 1], color='red', s=500*w[i], marker='s', edgecolor='black')
+  plt.text(X[i, 0], X[i, 1], f'{w[i]:.2f}', color='black', fontsize=9,
+    verticalalignment='bottom', horizontalalignment='right')
+plt.xlim(x_min, x_max)
+plt.ylim(y_min, y_max)
+plt.show()
+```
+
+::: {.fragment}
+::: {.callout-note}
+Can a tree stump get to $\overline{err} = 0$? Can a deep decision tree?
+:::
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Adaboost: iteration 1
+
+```{python}
+#| echo: false
+
+def plot_status(X, y, classifier, w, iteration, err, alpha):
+    # Create mesh grid
+    x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+    y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+    xx, yy = np.meshgrid(np.arange(x_min, x_max, 0.01),
+                         np.arange(y_min, y_max, 0.01))
+
+    # Plot for the current weak classifier
+    Z_weak = classifier.predict(np.c_[xx.ravel(), yy.ravel()])
+    Z_weak = Z_weak.reshape(xx.shape)
+
+    # Plot weak classifier decision boundary
+    plt.contourf(xx, yy, Z_weak, alpha=0.3, cmap=ListedColormap(['blue', 'red']))
+    for i in range(len(X)):
+        if y[i] == -1:
+            plt.scatter(X[i, 0], X[i, 1], color='blue', s=500*w[i], marker='o', edgecolor='black')
+        else:
+            plt.scatter(X[i, 0], X[i, 1], color='red', s=500*w[i], marker='s', edgecolor='black')
+        plt.text(X[i, 0], X[i, 1], f'{w[i]:.2f}', color='black', fontsize=9,
+                    verticalalignment='bottom', horizontalalignment='right')
+    plt.title(f'Weak Classifier (Iteration {iteration})\nerr = {err:.3f}, alpha = {alpha:.3f}')
+    plt.xlim(x_min, x_max)
+    plt.ylim(y_min, y_max)
+
+    plt.show()
+
+# Reset stumps and alphas for clean state
+stumps = []
+alphas = []
+
+iteration = 1
+
+# Fit a tree stump (DecisionTreeClassifier with max_depth=1)
+stump = DecisionTreeClassifier(max_depth=1)
+stump.fit(X, y, sample_weight=w)
+
+# Store the stump and alpha values
+stumps.append(stump)
+
+# Calculate weighted predictions and error
+pred = stump.predict(X)
+err = np.sum(w * (pred != y)) / np.sum(w)
+
+# Calculate alpha
+alpha = np.log((1 - err) / err)
+alphas.append(alpha)
+
+# Plot weak classifier
+plot_status(X, y, stump, w, iteration, err, alpha)
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### AdaBoost: iteration 2
+
+```{python}
+#| echo: false
+
+# Update weights
+w = w * np.exp(alpha * (pred != y))
+# w /= np.sum(w)  # Normalize weights
+
+iteration = 2
+
+# Fit a tree stump (DecisionTreeClassifier with max_depth=1)
+stump = DecisionTreeClassifier(max_depth=1)
+stump.fit(X, y, sample_weight=w)
+
+# Store the stump and alpha values
+stumps.append(stump)
+
+# Calculate weighted predictions and error
+pred = stump.predict(X)
+err = np.sum(w * (pred != y)) / np.sum(w)
+
+# Calculate alpha
+alpha = np.log((1 - err) / err)
+alphas.append(alpha)
+
+# Plot weak classifier
+plot_status(X, y, stump, w, iteration, err, alpha)
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### AdaBoost: iteration 3
+
+```{python}
+#| echo: false
+
+# Update weights
+w = w * np.exp(alpha * (pred != y))
+# w /= np.sum(w)  # Normalize weights
+
+iteration = 3
+
+# Fit a tree stump (DecisionTreeClassifier with max_depth=1)
+stump = DecisionTreeClassifier(max_depth=1)
+stump.fit(X, y, sample_weight=w)
+
+# Store the stump and alpha values
+stumps.append(stump)
+
+# Calculate weighted predictions and error
+pred = stump.predict(X)
+err = np.sum(w * (pred != y)) / np.sum(w)
+
+# Calculate alpha
+alpha = np.log((1 - err) / err)
+alphas.append(alpha)
+
+# Plot weak classifier
+plot_status(X, y, stump, w, iteration, err, alpha)
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### AdaBoost: iteration 4
+
+```{python}
+#| echo: false
+
+# Update weights
+w = w * np.exp(alpha * (pred != y))
+# w /= np.sum(w)  # Normalize weights
+
+iteration = 4
+
+# Fit a tree stump (DecisionTreeClassifier with max_depth=1)
+stump = DecisionTreeClassifier(max_depth=1)
+stump.fit(X, y, sample_weight=w)
+
+# Store the stump and alpha values
+stumps.append(stump)
+
+# Calculate weighted predictions and error
+pred = stump.predict(X)
+err = np.sum(w * (pred != y)) / np.sum(w)
+
+# Calculate alpha
+alpha = np.log((1 - err) / err)
+alphas.append(alpha)
+
+# Plot weak classifier
+plot_status(X, y, stump, w, iteration, err, alpha)
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### AdaBoost: iteration 5
+
+```{python}
+#| echo: false
+
+# Update weights
+w = w * np.exp(alpha * (pred != y))
+# w /= np.sum(w)  # Normalize weights
+
+iteration = 5
+
+# Fit a tree stump (DecisionTreeClassifier with max_depth=1)
+stump = DecisionTreeClassifier(max_depth=1)
+stump.fit(X, y, sample_weight=w)
+
+# Store the stump and alpha values
+stumps.append(stump)
+
+# Calculate weighted predictions and error
+pred = stump.predict(X)
+err = np.sum(w * (pred != y)) / np.sum(w)
+
+# Calculate alpha
+alpha = np.log((1 - err) / err)
+alphas.append(alpha)
+
+# Plot weak classifier
+plot_status(X, y, stump, w, iteration, err, alpha)
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### AdaBoost: aggregate
+
+::: {.fragment}
+$\hat{f}(x) = \text{sign}\left[\sum_{m = 1}^M \alpha_m G_m(x)\right] =$
+
+$= \text{sign}\left[1.386G_1(x) + 1.466G_2(x) + 0.934G_3(x) + 1.299G_4(x) + 1.126G_5(x)\right]$
+:::
+
+::: {.fragment}
+
+```{python}
+#| echo: false
+
+# Plot for the aggregated classifier
+# Create mesh grid
+x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+xx, yy = np.meshgrid(np.arange(x_min, x_max, 0.01),
+                      np.arange(y_min, y_max, 0.01))
+
+agg_pred = np.zeros_like(xx, dtype=float)
+y_pred = np.zeros_like(y, dtype=float)
+for a, stump in zip(alphas, stumps):
+    agg_pred += a * stump.predict(np.c_[xx.ravel(), yy.ravel()]).reshape(xx.shape)
+    y_pred += a * stump.predict(X)
+Z_agg = np.sign(agg_pred)
+y_pred_agg = np.sign(y_pred)
+overall_err = np.mean(y_pred_agg != y)
+
+# Plot aggregated classifier decision boundary
+plt.contourf(xx, yy, Z_agg, alpha=0.3, cmap=ListedColormap(['blue', 'red']))
+for i in range(len(X)):
+    if y[i] == -1:
+        plt.scatter(X[i, 0], X[i, 1], color='blue', s=500*0.1, marker='o', edgecolor='black')
+    else:
+        plt.scatter(X[i, 0], X[i, 1], color='red', s=500*0.1, marker='s', edgecolor='black')
+    # plt.text(X[i, 0], X[i, 1], f'{w[i]:.2f}', color='black', fontsize=9,
+    #             verticalalignment='bottom', horizontalalignment='right')
+plt.title(f'Aggregated Classifier (after {iteration} iterations)\noverall_err = {overall_err:.3f}')
+plt.xlim(x_min, x_max)
+plt.ylim(y_min, y_max)
+
+plt.show()
+```
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### AdaBoost Guarantee
+
+::: {.fragment}
+::: {.callout-tip}
+Theorem:
+
+$$\overline{err} = \sum_{i = 1}^n \mathbb{I}\left[y_i \neq \hat{f}(x_i)\right] \le \left(1-4\gamma^2\right)^{M/2} \le e^{-2M\gamma^2}$$
+:::
+:::
+
+::: {.incremental}
+- This means for a large enough $M$ we can get $\overline{err}$ as low as we want (on training data)!
+
+- Specifically, to make the upper bound $e^{-2M\gamma^2} < \frac{1}{n}$ (i.e. $\overline{err} = 0$) $\Rightarrow M > \frac{\log(n)}{2\gamma^2}$
+
+- A weak classifier which can only guarantee up to 40\% error at each iteration ($\gamma = 0.1$):
+  - after $M = 100$ iterations will be boosted to give $\overline{err} = (1 - 4 \cdot 0.1^2)^{(100/2)} = 0.96^{50} \approx 0.13$ error
+
+  - if $n = 1000$, need $M > \log(1000) / 2 \cdot 0.1^2 \approx 345$ iterations to get $\overline{err} = 0$
+
+- Really nice proof in Freund \& Schapire (1997)
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+## AdaBoost as an Additive Stagewise Model {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
