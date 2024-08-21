@@ -447,8 +447,8 @@
 </section>
 <section class="slide level2">
 
-<h3 id="adaboost-with-tree-stumps">Adaboost with Tree Stumps</h3>
-<div id="e73e524f" class="cell" data-execution_count="1">
+<h3 id="adaboost-with-tree-stumps">AdaBoost with Tree Stumps</h3>
+<div id="ca0b50a5" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -487,8 +487,8 @@
 </section>
 <section class="slide level2">
 
-<h3 id="adaboost-iteration-1">Adaboost: iteration 1</h3>
-<div id="613e229e" class="cell" data-execution_count="2">
+<h3 id="adaboost-iteration-1">AdaBoost: iteration 1</h3>
+<div id="5c4b0aac" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -516,7 +516,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-2">AdaBoost: iteration 2</h3>
-<div id="57ff66d8" class="cell" data-execution_count="3">
+<div id="aaf6bddc" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -544,7 +544,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-3">AdaBoost: iteration 3</h3>
-<div id="d6898679" class="cell" data-execution_count="4">
+<div id="69640234" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -572,7 +572,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-4">AdaBoost: iteration 4</h3>
-<div id="0537e6e2" class="cell" data-execution_count="5">
+<div id="04fa4e40" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -600,7 +600,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-5">AdaBoost: iteration 5</h3>
-<div id="429092d9" class="cell" data-execution_count="6">
+<div id="158b14a2" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -633,7 +633,7 @@
 <p><span class="math inline">\(= \text{sign}\left[1.386G_1(x) + 1.466G_2(x) + 0.934G_3(x) + 1.299G_4(x) + 1.126G_5(x)\right]\)</span></p>
 </div>
 <div class="fragment">
-<div id="d95e45ad" class="cell" data-execution_count="7">
+<div id="1a2e9239" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -703,8 +703,8 @@
           display:block!important;
       }</style></aside>
 </section>
-<section id="adaboost-as-an-additive-stagewise-model" class="slide level2 title-slide center">
-<h2>AdaBoost as an Additive Stagewise Model</h2>
+<section id="adaboost-as-additive-stagewise-modeling" class="slide level2 title-slide center">
+<h2>AdaBoost as Additive Stagewise Modeling</h2>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 
@@ -720,6 +720,76 @@
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="adaboost-sure-sounds-familiar">AdaBoost sure sounds familiar</h3>
+<div class="fragment">
+<p>Recall: <strong>Forward stagewise regression</strong></p>
+</div>
+<div class="fragment">
+<ol start="0" type="1">
+<li>Standardize all features, input some <span class="math inline">\(\tau_{thresh} \in (0, 1)\)</span> and <span class="math inline">\(\varepsilon &gt; 0\)</span> step size</li>
+<li>Residual <span class="math inline">\(\mathbf{r} = \mathbf{y} - \bar{y}\)</span>, <span class="math inline">\(\beta_1, \dots, \beta_p = 0\)</span></li>
+<li>Find the predictor <span class="math inline">\(\mathbf{x}_j\)</span> most correlated with <span class="math inline">\(\mathbf{r}\)</span>, and let <span class="math inline">\(\tau = Corr(\mathbf{r}, \mathbf{x}_j)\)</span></li>
+<li>While <span class="math inline">\(|\tau| &gt; \tau_{thresh}\)</span>:
+<ol type="i">
+<li>Update <span class="math inline">\(\beta_j \leftarrow \beta_j + \delta_j\)</span>, where <span class="math inline">\(\delta_j = \varepsilon \cdot \text{sign}(\tau)\)</span></li>
+<li>Update <span class="math inline">\(\mathbf{r} \leftarrow \mathbf{r} - \delta_j\mathbf{x}_j\)</span></li>
+<li>Find the predictor <span class="math inline">\(\mathbf{x}_j\)</span> most correlated with <span class="math inline">\(\mathbf{r}\)</span>, and let <span class="math inline">\(\tau = Corr(\mathbf{r}, \mathbf{x}_j)\)</span></li>
+</ol></li>
+</ol>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="a-general-forward-stagewise-additive-model">A general forward stagewise additive model</h3>
+<div class="fragment">
+<ol type="1">
+<li>Initialize <span class="math inline">\(f_0(x) = 0\)</span></li>
+<li>For <span class="math inline">\(m = 1\)</span> to <span class="math inline">\(M\)</span>:
+<ol type="a">
+<li>Compute: <span class="math display">\[(\beta_m, \gamma_m) = \arg\min_{\beta, \gamma} \sum_{i = 1}^n L\left(y_i, f_{m-1}(x_i) + \beta b(x_i, \gamma_)\right)\]</span></li>
+<li>Set <span class="math inline">\(f_m(x) = f_{m - 1}(x) + \beta_m b(x; \gamma_m)\)</span></li>
+</ol></li>
+</ol>
+</div>
+<div class="fragment">
+<p>Final model: <span class="math inline">\(\hat{f}_0(x) = \sum_{m = 1}^M \beta_m b(x; \gamma_m)\)</span></p>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
 <div class="quarto-auto-generated-content">
 <p><img src="../Intro2SL_logo_white.jpg" class="slide-logo"></p>
 <div class="footer footer-default">

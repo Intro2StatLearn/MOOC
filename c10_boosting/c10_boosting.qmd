@@ -93,7 +93,7 @@ footer: "[Intro to Statistical Learning](https://intro2statlearn.github.io/mooc/
 
 ---
 
-### Adaboost with Tree Stumps
+### AdaBoost with Tree Stumps
 
 ```{python}
 #| echo: false
@@ -142,7 +142,7 @@ Can a tree stump get to $\overline{err} = 0$? Can a deep decision tree?
 
 ---
 
-### Adaboost: iteration 1
+### AdaBoost: iteration 1
 
 ```{python}
 #| echo: false
@@ -436,9 +436,55 @@ $$\overline{err} = \sum_{i = 1}^n \mathbb{I}\left[y_i \neq \hat{f}(x_i)\right] \
 
 ---
 
-## AdaBoost as an Additive Stagewise Model {.title-slide}
+## AdaBoost as Additive Stagewise Modeling {.title-slide}
 
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
 :::
 :::
+
+---
+
+### AdaBoost sure sounds familiar
+
+::: {.fragment}
+Recall: **Forward stagewise regression**
+:::
+
+::: {.fragment}
+0. Standardize all features, input some $\tau_{thresh} \in (0, 1)$ and $\varepsilon > 0$ step size
+1. Residual $\mathbf{r} = \mathbf{y} - \bar{y}$, $\beta_1, \dots, \beta_p = 0$
+2. Find the predictor $\mathbf{x}_j$ most correlated with $\mathbf{r}$, and let $\tau = Corr(\mathbf{r}, \mathbf{x}_j)$
+3. While $|\tau| > \tau_{thresh}$:
+    i. Update $\beta_j \leftarrow \beta_j + \delta_j$, where $\delta_j = \varepsilon \cdot \text{sign}(\tau)$
+    ii. Update $\mathbf{r} \leftarrow \mathbf{r} - \delta_j\mathbf{x}_j$
+    iii. Find the predictor $\mathbf{x}_j$ most correlated with $\mathbf{r}$, and let $\tau = Corr(\mathbf{r}, \mathbf{x}_j)$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### A general forward stagewise additive model
+
+::: {.fragment}
+1. Initialize $f_0(x) = 0$
+2. For $m = 1$ to $M$:
+    (a) Compute:
+    $$(\beta_m, \gamma_m) = \arg\min_{\beta, \gamma} \sum_{i = 1}^n L\left(y_i, f_{m-1}(x_i) + \beta b(x_i, \gamma_)\right)$$
+    (b) Set $f_m(x) = f_{m - 1}(x) + \beta_m b(x; \gamma_m)$
+:::
+
+::: {.fragment}
+Final model: $\hat{f}_0(x) = \sum_{m = 1}^M \beta_m b(x; \gamma_m)$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
