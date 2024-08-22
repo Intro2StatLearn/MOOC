@@ -448,7 +448,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-with-tree-stumps">AdaBoost with Tree Stumps</h3>
-<div id="e69faac2" class="cell" data-execution_count="1">
+<div id="b352e709" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -488,7 +488,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-1">AdaBoost: iteration 1</h3>
-<div id="7868436f" class="cell" data-execution_count="2">
+<div id="5ed9f479" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -516,7 +516,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-2">AdaBoost: iteration 2</h3>
-<div id="ec371106" class="cell" data-execution_count="3">
+<div id="7b9f35da" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -544,7 +544,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-3">AdaBoost: iteration 3</h3>
-<div id="7c0855d4" class="cell" data-execution_count="4">
+<div id="2eb959e7" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -572,7 +572,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-4">AdaBoost: iteration 4</h3>
-<div id="50ac5a91" class="cell" data-execution_count="5">
+<div id="ef06178a" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -600,7 +600,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-5">AdaBoost: iteration 5</h3>
-<div id="0aa80327" class="cell" data-execution_count="6">
+<div id="55a2b4ec" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -633,7 +633,7 @@
 <p><span class="math inline">\(= \text{sign}\left[1.386G_1(x) + 1.466G_2(x) + 0.934G_3(x) + 1.299G_4(x) + 1.126G_5(x)\right]\)</span></p>
 </div>
 <div class="fragment">
-<div id="acca5c96" class="cell" data-execution_count="7">
+<div id="ea7eeda6" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -789,7 +789,7 @@
 <li>Initialize <span class="math inline">\(f_0(x) = 0\)</span></li>
 <li>For <span class="math inline">\(m = 1\)</span> to <span class="math inline">\(M\)</span>:
 <ol type="a">
-<li>Compute: <span class="math display">\[(\beta_m, \gamma_m) = \arg\min_{\beta, \gamma} \sum_{i = 1}^n L\left(y_i, f_{m-1}(x_i) + \beta b(x_i, \gamma_)\right)\]</span></li>
+<li>Compute: <span class="math display">\[(\beta_m, \gamma_m) = \arg\min_{\beta, \gamma} \sum_{i = 1}^n L\left(y_i, f_{m-1}(x_i) + \beta b(x_i, \gamma)\right)\]</span></li>
 <li>Set <span class="math inline">\(f_m(x) = f_{m - 1}(x) + \beta_m b(x; \gamma_m)\)</span></li>
 </ol></li>
 </ol>
@@ -804,7 +804,7 @@
 <i class="callout-icon"></i>
 </div>
 <div class="callout-content">
-<p>If <span class="math inline">\(L\)</span> is the squared loss, and finding <span class="math inline">\(\gamma_m\)</span> is finding the <span class="math inline">\(j\)</span>-th predictor most correlated with with the residual</p>
+<p>If <span class="math inline">\(L\)</span> is the squared loss, and finding <span class="math inline">\(\gamma_m\)</span> is finding the <span class="math inline">\(j\)</span>-th predictor <span class="math inline">\(\mathbf{x}_j\)</span> most correlated with with the residual</p>
 <p><span class="math inline">\(\Rightarrow\)</span> this is forward stagewise regression!</p>
 </div>
 </div>
@@ -837,7 +837,7 @@
 </ul>
 </div>
 <div class="fragment">
-<div id="e7aee03c" class="cell" data-execution_count="8">
+<div id="d3af0dce" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1019,7 +1019,7 @@
 <h3 id="classification-losses">Classification losses</h3>
 <div class="columns">
 <div class="column">
-<div id="776d0dae" class="cell" data-execution_count="9">
+<div id="d287f24f" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1074,8 +1074,396 @@
           display:block!important;
       }</style></aside>
 </section>
+<section id="boosting-for-regression" class="slide level2 title-slide center">
+<h2>Boosting for Regression</h2>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
 <section class="slide level2">
 
+<h3 id="recap">Recap</h3>
+<p>What the FSAM framework got us:</p>
+<p><span class="math display">\[(\beta_m, \gamma_m) = \arg\min_{\beta, \gamma} \sum_{i = 1}^n L\left(y_i, f_{m-1}(x_i) + \beta b(x_i, \gamma)\right)\]</span></p>
+<ul>
+<li>Classification:
+<ul>
+<li><span class="math inline">\(y \in \{-1, 1\}\)</span>, exponential loss, <span class="math inline">\(b(x_i, \gamma)\)</span> are weak learners <span class="math inline">\(G(x)\)</span> <span class="math inline">\(\to\)</span> AdaBoost</li>
+</ul></li>
+<li>Regression:
+<ul>
+<li><span class="math inline">\(y \in \mathbb{R}\)</span>, squared error loss, <span class="math inline">\(b(x_i, \gamma)\)</span> are single features <span class="math inline">\(\mathbf{x}_j\)</span> <span class="math inline">\(\to\)</span> Forward stagewise regression</li>
+</ul></li>
+</ul>
+<div class="fragment">
+<ul>
+<li>What if we want to boost weak learners <span class="math inline">\(G(x)\)</span> for regression?</li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="boosted-trees-for-regression">Boosted trees for regression</h3>
+<div>
+<ul>
+<li class="fragment">Specifically, let us focus on boosting trees: <span class="math inline">\(f(x) = \sum_{m = 1}^M T(x, \Theta_m)\)</span></li>
+<li class="fragment">Where <span class="math inline">\(T(x, \Theta) = \sum_{j = 1}^J \gamma_j\mathbb{I}\left(X \in R_j\right)\)</span></li>
+<li class="fragment">With parameters <span class="math inline">\(\Theta = \{R_j, \gamma_j\}_1^J\)</span></li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>With squared loss, no problem:</li>
+</ul>
+<p><span class="math inline">\(\Theta_m = \arg\min_{\Theta} \sum_{i = 1}^n L\left(y_i, f_{m-1}(x_i) + T(x_i, \Theta)\right) = \arg\min_{\Theta} \sum_{i = 1}^n\left(y_i - f_{m-1}(x_i) - T(x_i, \Theta)\right)^2\)</span></p>
+</div>
+<div class="fragment">
+<p><span class="math inline">\(= \arg\min_{\Theta} \sum_{i = 1}^n\left(r_{im} - T(x_i, \Theta)\right)^2\)</span></p>
+</div>
+<div>
+<ul>
+<li class="fragment">Because we know how to build such trees!</li>
+<li class="fragment">That is, at each iteration <span class="math inline">\(m\)</span> build standard regression tree <span class="math inline">\(T(x, \Theta)\)</span> which best fits the current residuals <span class="math inline">\(\mathbf{r}_m\)</span></li>
+</ul>
+</div>
+<div class="fragment">
+<div class="callout callout-note callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<p>At high-level, similar to AdaBoost!</p>
+</div>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="what-about-more-robust-losses">What about more <span style="color:red;">robust</span> losses?</h3>
+<div class="columns">
+<div class="column">
+<div id="85e76499" class="cell" data-execution_count="10">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c10_boosting_files/figure-revealjs/cell-11-output-1.png" width="427" height="356"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column">
+<ul>
+<li><p>Squared Error Loss:</p>
+<p><span class="math inline">\(L_{\text{sq}}(y, f) = (y - f(x))^2\)</span></p></li>
+<li><p>Absolute Error Loss:</p>
+<p><span class="math inline">\(L_{\text{abs}}(y, f) = |y - f(x)|\)</span></p></li>
+<li><p>Huber Loss:</p>
+<p><span class="math inline">\(L_{\text{H}}(y, f) = \begin{cases}
+(y - f(x))^2 &amp; |y - f(x)| \leq \delta \\
+2\delta |y - f(x)| - \delta^2 &amp; \text{otherwise.}
+\end{cases}\)</span></p></li>
+</ul>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="gradient-boosting" class="slide level2 title-slide center">
+<h2>Gradient Boosting</h2>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="gradient-descent-algorithms">Gradient descent algorithms</h3>
+<p>Minimize a function <span class="math inline">\(J(\theta)\)</span> by moving in the opposite direction of the gradient: <span class="math display">\[\hat\theta_{i+1} = \hat\theta_i - \varepsilon \frac{\partial J(\theta)}{\partial \theta}\]</span></p>
+<div id="f2ba1b8c" class="cell" data-execution_count="11">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c10_boosting_files/figure-revealjs/cell-12-output-1.png" width="444" height="362"></p>
+</figure>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="gradient-boosting-machines">Gradient Boosting Machines</h3>
+<div>
+<ul>
+<li class="fragment">Consider any loss <span class="math inline">\(L(y, \mathbf{f})\)</span> a function of <span class="math inline">\(n\)</span> data points <span class="math inline">\(\mathbf{f} = (f(x_1), \dots, f(x_n))\)</span></li>
+<li class="fragment">At each iteration <span class="math inline">\(m\)</span>, calculate the gradient of <span class="math inline">\(L\)</span> by <span class="math inline">\(\mathbf{f}\)</span>, evaluated at <span class="math inline">\(\mathbf{f}_{m - 1}\)</span>: <span class="math display">\[\mathbf{g}_m = \frac{\partial L(y, \mathbf{f})}{\partial \mathbf{f}}\Bigr|_{\mathbf{f} = \mathbf{f}_{m - 1}}\]</span></li>
+<li class="fragment">Move a small step <span class="math inline">\(\varepsilon\)</span> down this gradient: <span class="math display">\[\mathbf{f}_m = \mathbf{f}_{m - 1} - \varepsilon\mathbf{g}_m\]</span></li>
+<li class="fragment">Technically, <span class="math inline">\(\varepsilon\)</span> can also be optimized at each iteration <span class="math inline">\(m\)</span> to minimize <span class="math display">\[\varepsilon_m = \arg\min_\varepsilon L(y, \mathbf{f}_{m - 1} - \varepsilon\mathbf{g}_m)\]</span></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="gradient-boosting-machines-1">Gradient Boosting Machines</h3>
+<div>
+<ul>
+<li class="fragment">Eventually we would get: <span class="math display">\[\mathbf{f}_M = \sum_{i = 1}^M\varepsilon_m(-\mathbf{g}_m)\]</span></li>
+<li class="fragment">But we are not interested in <span class="math inline">\(\mathbf{f}_M\)</span> for our training data, we wanted a model!
+<ul>
+<li class="fragment">E.g. <span class="math inline">\(f(x) = \sum_{m = 1}^M T(x, \Theta_m)\)</span></li>
+</ul></li>
+<li class="fragment">Solution: at each iteartion <span class="math inline">\(m\)</span> approximate the negative gradient <span class="math inline">\(-\mathbf{g}_m\)</span> with a weak learner or regression tree! <span class="math display">\[\Theta_m = \arg\min_\Theta \sum_{i = 1}^n (-g_{im} - T(x_i, \Theta))^2\]</span></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="gradients-of-common-loss-functions">Gradients of common loss functions</h3>
+<table>
+<colgroup>
+<col style="width: 18%">
+<col style="width: 32%">
+<col style="width: 48%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>setting</th>
+<th>loss</th>
+<th>gradient</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Regression</td>
+<td><span class="math inline">\(\frac{1}{2}(y_i - f(x_i))^2\)</span></td>
+<td><span class="math inline">\(y_i - f(x)\)</span></td>
+</tr>
+<tr class="even">
+<td>Regression</td>
+<td><span class="math inline">\(|y_i - f(x_i)|\)</span></td>
+<td><span class="math inline">\(\text{sign}(y_i - f(x))\)</span></td>
+</tr>
+<tr class="odd">
+<td>Regression</td>
+<td>Huber</td>
+<td><span class="math inline">\(\begin{cases} y_i - f(x) &amp; \text{if } |y - f(x)| \leq \delta \\ \delta\text{sign}(y_i - f(x)) &amp; \text{otherwise} \end{cases}\)</span></td>
+</tr>
+<tr class="even">
+<td>Classification*</td>
+<td>NLL</td>
+<td><span class="math inline">\(\mathbb{I}\left[y_i = 1\right] - \hat{p}_i\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>*Here <span class="math inline">\(y \in \{0, 1\}\)</span> and <span class="math inline">\(\hat{p}_i = \frac{\exp(\hat{y}_i)}{1 + \exp(\hat{y}_i)} = \frac{\exp(f_{m - 1}(x_i))}{1 + \exp(f_{m - 1}(x_i))}\)</span></p>
+<div class="fragment">
+<div class="callout callout-note callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<p>Notice for (half) squared loss the gradient is the residuals, as we got earlier.</p>
+</div>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="gradient-boosting-trees-simplified">Gradient Boosting Trees (simplified)</h3>
+<ol type="1">
+<li>Initialize <span class="math inline">\(f_0(x) = \arg\min_\gamma \sum_{i = 1}^n L(y_i, \gamma)\)</span> (e.g.&nbsp;<span class="math inline">\(f_0(x) = \bar{y}\)</span>)</li>
+<li>For <span class="math inline">\(m = 1\)</span> to <span class="math inline">\(M\)</span>:
+<ol type="a">
+<li>Compute pseudo-residuals: <span class="math display">\[\mathbf{r}_m = -\left[\frac{\partial L(y, \mathbf{f})}{\partial \mathbf{f}}\right]_{\mathbf{f} = \mathbf{f}_{m - 1}}\]</span></li>
+<li>Fit a <strong>regression tree</strong> to data <span class="math inline">\((\mathbf{x}, \mathbf{r}_m)\)</span>, giving <span class="math inline">\(T(x, \Theta_m)\)</span></li>
+<li>Update: <span class="math inline">\(f_m(x) = f_{m - 1}(x) + \varepsilon T(x, \Theta_m)\)</span></li>
+</ol></li>
+<li>Output: <span class="math inline">\(\hat{f}(x) = \sum_{m = 1}^M \varepsilon T(x, \Theta_m)\)</span></li>
+</ol>
+<div class="fragment">
+<div class="callout callout-note callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<p>What parameters need tuning?</p>
+</div>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="example-credit-data">Example: credit data</h3>
+<div id="e8de1210" class="cell" data-execution_count="12">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c10_boosting_files/figure-revealjs/cell-13-output-1.png" width="536" height="434"></p>
+</figure>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 <div class="quarto-auto-generated-content">
 <p><img src="../Intro2SL_logo_white.jpg" class="slide-logo"></p>
 <div class="footer footer-default">

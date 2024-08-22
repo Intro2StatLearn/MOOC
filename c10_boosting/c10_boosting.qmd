@@ -491,7 +491,7 @@ Recall: **Forward stagewise regression**
 1. Initialize $f_0(x) = 0$
 2. For $m = 1$ to $M$:
     (a) Compute:
-    $$(\beta_m, \gamma_m) = \arg\min_{\beta, \gamma} \sum_{i = 1}^n L\left(y_i, f_{m-1}(x_i) + \beta b(x_i, \gamma_)\right)$$
+    $$(\beta_m, \gamma_m) = \arg\min_{\beta, \gamma} \sum_{i = 1}^n L\left(y_i, f_{m-1}(x_i) + \beta b(x_i, \gamma)\right)$$
     (b) Set $f_m(x) = f_{m - 1}(x) + \beta_m b(x; \gamma_m)$
 :::
 
@@ -501,7 +501,7 @@ Final model: $\hat{f}_0(x) = \sum_{m = 1}^M \beta_m b(x; \gamma_m)$
 
 ::: {.fragment}
 ::: {.callout-note}
-If $L$ is the squared loss, and finding $\gamma_m$ is finding the $j$-th predictor most correlated with with the residual
+If $L$ is the squared loss, and finding $\gamma_m$ is finding the $j$-th predictor $\mathbf{x}_j$ most correlated with with the residual
 
 $\Rightarrow$ this is forward stagewise regression!
 :::
@@ -746,6 +746,143 @@ The $f(x)$ minimizing exponential loss is also minimizing Binomial negative log-
 
 ---
 
+## Boosting for Regression {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Recap
+
+What the FSAM framework got us:
+
+$$(\beta_m, \gamma_m) = \arg\min_{\beta, \gamma} \sum_{i = 1}^n L\left(y_i, f_{m-1}(x_i) + \beta b(x_i, \gamma)\right)$$
+
+- Classification:
+  - $y \in \{-1, 1\}$, exponential loss, $b(x_i, \gamma)$ are weak learners $G(x)$ $\to$ AdaBoost
+- Regression:
+  - $y \in \mathbb{R}$, squared error loss, $b(x_i, \gamma)$ are single features $\mathbf{x}_j$ $\to$ Forward stagewise regression
+
+::: {.fragment}
+- What if we want to boost weak learners $G(x)$ for regression?
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Boosted trees for regression
+
+::: {.incremental}
+- Specifically, let us focus on boosting trees: $f(x) = \sum_{m = 1}^M T(x, \Theta_m)$
+- Where $T(x, \Theta) = \sum_{j = 1}^J \gamma_j\mathbb{I}\left(X \in R_j\right)$
+- With parameters $\Theta = \{R_j, \gamma_j\}_1^J$
+:::
+::: {.fragment}
+- With squared loss, no problem:
+
+$\Theta_m = \arg\min_{\Theta} \sum_{i = 1}^n L\left(y_i, f_{m-1}(x_i) + T(x_i, \Theta)\right) = \arg\min_{\Theta} \sum_{i = 1}^n\left(y_i - f_{m-1}(x_i) - T(x_i, \Theta)\right)^2$
+:::
+::: {.fragment}
+$= \arg\min_{\Theta} \sum_{i = 1}^n\left(r_{im} - T(x_i, \Theta)\right)^2$
+:::
+::: {.incremental}
+- Because we know how to build such trees!
+- That is, at each iteration $m$ build standard regression tree $T(x, \Theta)$ which best fits the current residuals $\mathbf{r}_m$
+:::
+::: {.fragment}
+::: {.callout-note}
+At high-level, similar to AdaBoost!
+:::
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### What about more [robust]{style="color:red;"} losses?
+
+:::: {.columns}
+::: {.column}
+```{python}
+#| echo: false
+
+# Import necessary libraries
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Define the range for y - f(x)
+residual = np.linspace(-3, 3, 400)
+
+# Define the loss functions
+squared_error = residual ** 2
+absolute_error = np.abs(residual)
+
+# Define Huber loss with delta = 1
+delta = 1
+huber_loss = np.where(np.abs(residual) <= delta,
+                      residual ** 2,
+                      2 * delta * np.abs(residual) - delta**2)
+
+# Plot the losses
+plt.figure(figsize=(5, 4))
+
+# Squared Error Loss
+plt.plot(residual, squared_error, label="Squared Error", color="orange")
+
+# Absolute Error Loss
+plt.plot(residual, absolute_error, label="Absolute Error", color="cyan")
+
+# Huber Loss
+plt.plot(residual, huber_loss, label="Huber", color="green")
+
+# Add vertical lines at -delta and delta for Huber loss
+plt.axvline(x=-delta, color='black', linestyle='dotted')
+plt.axvline(x=delta, color='black', linestyle='dotted')
+
+# Add labels and legend
+plt.xlabel("y - f")
+plt.ylabel("Loss")
+plt.legend()
+plt.grid(True)
+plt.show()
+```
+
+:::
+::: {.column}
+- Squared Error Loss:
+   
+  $L_{\text{sq}}(y, f) = (y - f(x))^2$
+
+- Absolute Error Loss:
+  
+  $L_{\text{abs}}(y, f) = |y - f(x)|$
+
+- Huber Loss:
+  
+  $L_{\text{H}}(y, f) = \begin{cases} 
+   (y - f(x))^2 & |y - f(x)| \leq \delta \\
+   2\delta |y - f(x)| - \delta^2 & \text{otherwise.}
+   \end{cases}$
+:::
+::::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
 ## Gradient Boosting {.title-slide}
 
 ::: {.notes}
@@ -754,3 +891,252 @@ The $f(x)$ minimizing exponential loss is also minimizing Binomial negative log-
 :::
 
 ---
+
+### Gradient descent algorithms
+
+Minimize a function $J(\theta)$ by moving in the opposite direction of the gradient:
+$$\hat\theta_{i+1} = \hat\theta_i - \varepsilon \frac{\partial J(\theta)}{\partial \theta}$$
+
+```{python}
+#| echo: false
+
+# Import necessary libraries
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Define the function J(theta) = theta_1^2 + 0.5 * theta_2^2 (quadratic function)
+def J(theta):
+    return theta[0]**2 + 0.5 * theta[1]**2
+
+# Define the gradient of J(theta)
+def grad_J(theta):
+    return np.array([2 * theta[0], 1 * theta[1]])
+
+# Perform gradient descent
+def gradient_descent(initial_theta, learning_rate, num_iterations):
+    theta = initial_theta
+    path = [theta]
+    for i in range(num_iterations):
+        theta = theta - learning_rate * grad_J(theta)
+        path.append(theta)
+    return np.array(path)
+
+# Set parameters for gradient descent
+initial_theta = np.array([-3.0, -3.0])
+learning_rate = 0.3
+num_iterations = 5
+
+# Run gradient descent and get the path
+path = gradient_descent(initial_theta, learning_rate, num_iterations)
+
+# Create a grid of points for the contour plot
+theta1_vals = np.linspace(-4, 4, 400)
+theta2_vals = np.linspace(-4, 4, 400)
+theta1, theta2 = np.meshgrid(theta1_vals, theta2_vals)
+Z = J([theta1, theta2])
+
+# Plot the contour map
+plt.figure(figsize=(5, 4))
+plt.contour(theta1, theta2, Z, levels=20, colors='blue')
+
+# Plot the path of gradient descent
+plt.plot(path[:, 0], path[:, 1], marker='x', color='red', markersize=10, label="Gradient Descent Path")
+plt.quiver(path[:-1, 0], path[:-1, 1], path[1:, 0] - path[:-1, 0], path[1:, 1] - path[:-1, 1], 
+           scale_units='xy', angles='xy', scale=1, color='red')
+
+# Annotate the points
+for i in range(len(path)):
+    plt.text(path[i, 0], path[i, 1], r"$\hat\theta_{}$".format(i), color="black", fontsize=12)
+
+# Set labels and title
+plt.xlabel(r'$\theta_1$')
+plt.ylabel(r'$\theta_2$')
+plt.grid(True)
+plt.show()
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Gradient Boosting Machines
+
+::: {.incremental}
+- Consider any loss $L(y, \mathbf{f})$ a function of $n$ data points $\mathbf{f} = (f(x_1), \dots, f(x_n))$
+- At each iteration $m$, calculate the gradient of $L$ by $\mathbf{f}$, evaluated at $\mathbf{f}_{m - 1}$:
+$$\mathbf{g}_m = \frac{\partial L(y, \mathbf{f})}{\partial \mathbf{f}}\Bigr|_{\mathbf{f} = \mathbf{f}_{m - 1}}$$
+- Move a small step $\varepsilon$ down this gradient:
+$$\mathbf{f}_m = \mathbf{f}_{m - 1} - \varepsilon\mathbf{g}_m$$
+- Technically, $\varepsilon$ can also be optimized at each iteration $m$ to minimize
+$$\varepsilon_m = \arg\min_\varepsilon L(y, \mathbf{f}_{m - 1} - \varepsilon\mathbf{g}_m)$$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Gradient Boosting Machines
+
+::: {.incremental}
+- Eventually we would get:
+$$\mathbf{f}_M = \sum_{i = 1}^M\varepsilon_m(-\mathbf{g}_m)$$
+- But we are not interested in $\mathbf{f}_M$ for our training data, we wanted a model!
+  - E.g. $f(x) = \sum_{m = 1}^M T(x, \Theta_m)$
+
+- Solution: at each iteartion $m$ approximate the negative gradient $-\mathbf{g}_m$ with a weak learner or regression tree!
+$$\Theta_m = \arg\min_\Theta \sum_{i = 1}^n (-g_{im} - T(x_i, \Theta))^2$$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Gradients of common loss functions
+
+| setting         | loss                          | gradient                                     |
+|-----------------|-------------------------------|----------------------------------------------|
+| Regression      | $\frac{1}{2}(y_i - f(x_i))^2$ | $y_i - f(x)$                                 |
+| Regression      | $|y_i - f(x_i)|$              | $\text{sign}(y_i - f(x))$                    |
+| Regression      | Huber                         | $\begin{cases} y_i - f(x) & \text{if } |y - f(x)| \leq \delta \\ \delta\text{sign}(y_i - f(x)) & \text{otherwise} \end{cases}$ |
+| Classification* | NLL                           | $\mathbb{I}\left[y_i = 1\right] - \hat{p}_i$ |
+
+*Here $y \in \{0, 1\}$ and $\hat{p}_i = \frac{\exp(\hat{y}_i)}{1 + \exp(\hat{y}_i)} = \frac{\exp(f_{m - 1}(x_i))}{1 + \exp(f_{m - 1}(x_i))}$
+
+::: {.fragment}
+::: {.callout-note}
+Notice for (half) squared loss the gradient is the residuals, as we got earlier.
+:::
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Gradient Boosting Trees (simplified)
+
+1. Initialize $f_0(x) = \arg\min_\gamma \sum_{i = 1}^n L(y_i, \gamma)$ (e.g. $f_0(x) = \bar{y}$)
+2. For $m = 1$ to $M$:
+    (a) Compute pseudo-residuals:
+    $$\mathbf{r}_m = -\left[\frac{\partial L(y, \mathbf{f})}{\partial \mathbf{f}}\right]_{\mathbf{f} = \mathbf{f}_{m - 1}}$$
+    (b) Fit a **regression tree** to data $(\mathbf{x}, \mathbf{r}_m)$, giving $T(x, \Theta_m)$
+    (c) Update: $f_m(x) = f_{m - 1}(x) + \varepsilon T(x, \Theta_m)$
+3. Output: $\hat{f}(x) = \sum_{m = 1}^M \varepsilon T(x, \Theta_m)$
+
+::: {.fragment}
+::: {.callout-note}
+What parameters need tuning?
+:::
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Example: credit data
+
+```{python}
+#| echo: false
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import cross_val_score, KFold
+
+# Load the dataset
+df = pd.read_csv('../datasets/ISLP_credit_data.csv')
+
+# One-hot encoding for categorical features
+df['Gender'] = df['Gender'].apply(lambda x: 1 if x == 'Male' else 0)
+df['Student'] = df['Student'].apply(lambda x: 1 if x == 'Yes' else 0)
+df['Married'] = df['Married'].apply(lambda x: 1 if x == 'Yes' else 0)
+df = pd.get_dummies(df, columns=['Ethnicity'], drop_first=True)
+
+# Drop the unnecessary 'Unnamed: 0' column
+df = df.drop(columns=['Unnamed: 0'])
+
+# Define the dependent variable
+y = df['Balance']
+
+# Define the independent variables
+X = df.drop(columns=['Balance'])
+# Assuming X, y are already defined
+n_splits = 5  # Number of cross-validation folds
+n_trees = range(1, 101, 10)  # Range of trees to evaluate in GBT
+
+train_errors_gb = []
+test_errors_gb = []
+train_errors_gb_std = []
+test_errors_gb_std = []
+
+# Cross-validation setup
+kf = KFold(n_splits=n_splits, shuffle=True, random_state=42)
+
+for n_tree in n_trees:
+    train_scores = []
+    test_scores = []
+    
+    for train_index, test_index in kf.split(X):
+        X_train, X_test = X.iloc[train_index], X.iloc[test_index]
+        y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+        
+        # Initialize the GBT Regressor
+        gb_regressor = GradientBoostingRegressor(n_estimators=n_tree, random_state=42)
+        gb_regressor.fit(X_train, y_train)
+        
+        # Evaluate train and test MSE
+        train_scores.append(np.mean((gb_regressor.predict(X_train) - y_train) ** 2))
+        test_scores.append(np.mean((gb_regressor.predict(X_test) - y_test) ** 2))
+    
+    # Store mean and standard deviation of MSE across folds
+    train_errors_gb.append(np.mean(train_scores))
+    test_errors_gb.append(np.mean(test_scores))
+    train_errors_gb_std.append(np.std(train_scores)/np.sqrt(5))
+    test_errors_gb_std.append(np.std(test_scores)/np.sqrt(5))
+
+# Compute train/test MSE for Linear Regression and Single Decision Tree
+linear_regressor = LinearRegression()
+tree_regressor = DecisionTreeRegressor(max_depth=9)
+
+# Single Decision Tree MSE
+train_mse_tree = -cross_val_score(tree_regressor, X, y, cv=kf, scoring='neg_mean_squared_error').mean()
+test_mse_tree = train_mse_tree  # Same for train and test in cross-validation
+
+# Plotting the results
+# plt.figure(figsize=(12, 8))
+
+# Plot GBT MSE vs. Number of Trees
+plt.errorbar(n_trees, train_errors_gb, yerr=train_errors_gb_std, label='GBT Train MSE')
+plt.errorbar(n_trees, test_errors_gb, yerr=test_errors_gb_std, label='GBT Test MSE')
+
+# Plot horizontal lines for a Single Decision Tree
+plt.axhline(y=train_mse_tree, color='black', linestyle='-.', label='Single Tree MSE')
+
+plt.xlabel('Number of trees')
+plt.ylabel('MSE')
+plt.ylim(0, 40000)
+plt.legend()
+plt.show()
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
