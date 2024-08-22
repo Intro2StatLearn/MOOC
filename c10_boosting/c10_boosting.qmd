@@ -445,6 +445,23 @@ $$\overline{err} = \sum_{i = 1}^n \mathbb{I}\left[y_i \neq \hat{f}(x_i)\right] \
 
 ---
 
+### Questions from AdaBoost
+
+- Does it optimize a specific loss? Can we plug-in a different loss?
+
+- What about regression?
+
+- What about $K$-class classification?
+
+- Is there a probabilistic justification? A likelihood-based approach?
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
 ### AdaBoost sure sounds familiar
 
 ::: {.fragment}
@@ -468,7 +485,7 @@ Recall: **Forward stagewise regression**
 
 ---
 
-### A general forward stagewise additive model
+### A general forward stagewise additive model (FSAM)
 
 ::: {.fragment}
 1. Initialize $f_0(x) = 0$
@@ -481,6 +498,255 @@ Recall: **Forward stagewise regression**
 ::: {.fragment}
 Final model: $\hat{f}_0(x) = \sum_{m = 1}^M \beta_m b(x; \gamma_m)$
 :::
+
+::: {.fragment}
+::: {.callout-note}
+If $L$ is the squared loss, and finding $\gamma_m$ is finding the $j$-th predictor most correlated with with the residual
+
+$\Rightarrow$ this is forward stagewise regression!
+:::
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### AdaBoost is also a FSAM
+
+::: {.incremental}
+- If $L$ is the exponential loss: $L(y, f(x)) = \exp(-yf(x))$
+- And, $b(x; \gamma_m) = Gm(x)$
+- We get AdaBoost!
+:::
+
+::: {.fragment}
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+f_x = np.linspace(-2, 2, 100)
+L = np.exp(-f_x)
+
+f_x_disc = np.array([-1, 1])
+L_disc = np.exp(-f_x_disc)
+
+plt.figure(figsize=(4, 3))
+plt.plot(f_x, L, label = 'f(x) continuous')
+plt.bar(f_x_disc, L_disc, label = 'f(x) discrete', width = 0.1)
+plt.xlabel('f(x)')
+plt.ylabel('L(f(x)) = exp(-f(x))')
+plt.title('Exponential loss for y = +1')
+plt.legend()
+plt.show()
+```
+
+:::
+
+::: {.fragment}
+Fast forward: plug-in *other* loss functions!
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Showing AdaBoost is FSAM
+
+::: {.incremental}
+- Recall the goal in FSAM iteration $m$:
+$$(\beta_m, \gamma_m) = \arg\min_{\beta, \gamma} \sum_{i = 1}^n L\left(y_i, f_{m-1}(x_i) + \beta b(x_i, \gamma_)\right)$$
+
+- For exponential loss:
+$$(\beta_m, G_m) = \arg\min_{\beta, G} \sum_{i = 1}^n \exp\left[-y_i(f_{m-1}(x_i) + \beta G(x_i))\right]$$
+:::
+::: {.fragment}
+$= \arg\min_{\beta, G} \sum_{i = 1}^n \exp\left[-y_if_{m-1}(x_i)\right]\exp\left[\beta G(x_i)\right]$
+:::
+::: {.fragment}
+$= \arg\min_{\beta, G} \sum_{i = 1}^n w_i^{(m)}\exp\left[-\beta y_i G(x_i)\right]$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Getting $G_m$
+
+::: {.fragment}
+- Assuming $\beta > 0$, separate the criterion to "correct" + "incorrect" sums:
+:::
+::: {.fragment}
+$\sum_{i = 1}^n w_i^{(m)}\exp\left[-\beta y_i G(x_i)\right] = e^{-\beta}\sum_{i = 1}^n w_i^{(m)}\mathbb{I}\left[y_i = G(x_i)\right] + e^{\beta}\sum_{i = 1}^n w_i^{(m)}\mathbb{I}\left[y_i \neq G(x_i)\right]$
+:::
+::: {.fragment}
+- Can also write as:
+
+$= (e^{\beta} - e^{-\beta})\sum_{i = 1}^n w_i^{(m)}\mathbb{I}\left[y_i \neq G(x_i)\right] + e^{-\beta}\sum_{i = 1}^n w_i^{(m)}$
+:::
+::: {.fragment}
+- AdaBoost stage 2a: $G_m$ minimizing the criterion is minimizing weighted error rate:
+$$G_m = \arg\min_G \sum_{i = 1}^n w_i^{(m)}\mathbb{I}\left[y_i \neq G(x_i)\right]$$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Getting $\alpha_m$
+
+::: {.fragment}
+$\text{criterion} = (e^{\beta} - e^{-\beta})\sum_{i = 1}^n w_i^{(m)}\mathbb{I}\left[y_i \neq G(x_i)\right] + e^{-\beta}\sum_{i = 1}^n w_i^{(m)}$
+:::
+::: {.fragment}
+$\frac{\partial \text{criterion}}{\partial \beta} = (e^{\beta} + e^{-\beta})\sum_{i = 1}^n w_i^{(m)}\mathbb{I}\left[y_i \neq G(x_i)\right] - e^{-\beta}\sum_{i = 1}^n w_i^{(m)} \to =0$
+:::
+::: {.fragment}
+- Multiply by $e^\beta$:
+
+$(1 + e^{2\beta}) = \frac{\sum_{i = 1}^n w_i^{(m)}}{\sum_{i = 1}^n w_i^{(m)}\mathbb{I}\left[y_i \neq G(x_i)\right]} = \frac{1}{err_m}$
+:::
+::: {.fragment}
+- Take $ln$, we get AdaBoost stages 2b and 2c:
+
+$\beta_m = \frac{1}{2}\ln\left[\frac{1-err_m}{err_m}\right] = \frac{1}{2}\alpha_m$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Getting $w_i$
+
+::: {.fragment}
+- FSAM says:
+
+$f_m(x) = f_{m - 1}(x) + \beta_m b(x; \gamma_m) = f_{m - 1}(x) + \beta_m G_m(x) = f_{m - 1}(x) + \frac{1}{2}\alpha_m G_m(x)$
+:::
+::: {.fragment}
+- Which means next iteration weights are:
+
+$w_i^{(m + 1)} = \exp\left[-y_if_{m+1}(x_i)\right] = \exp\left[-y_i(f_{m}(x) + \frac{1}{2}\alpha_m G_m(x))\right] = w_i^{(m)}\cdot\exp\left[-\frac{1}{2}\alpha_m y_i G_m(x)\right]$
+:::
+::: {.fragment}
+- Given that $-y_i G_m(x_i) = 2\cdot\mathbb{I}\left[y_i \neq G_m(x_i)\right] - 1$, we can write:
+
+$w_i^{(m + 1)} = w_i^{(m)} \cdot \exp\left[\alpha_m \cdot \mathbb{I}\left[y_i \neq G_m(x_i)\right]\right] \cdot Const$
+:::
+::: {.fragment}
+- Equivalent to AdaBoost stage 2d.
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Classification losses
+
+:::: {.columns}
+::: {.column}
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Define the range for y * f(x)
+yf = np.linspace(-2, 2, 400)
+
+# Define the loss functions
+misclass_loss = np.where(yf > 0, 0, 1)
+exp_loss = np.exp(-yf)
+binomial_deviance = np.log(1 + np.exp(-2 * yf)) / np.log(2)
+squared_error = (1 - yf) ** 2
+hinge_loss = np.maximum(0, 1 - yf)
+
+# Plot the losses
+plt.figure(figsize=(5, 4))
+
+# Misclassification Loss
+plt.plot(yf, misclass_loss, label="Misclassification", color="black")
+
+# Exponential Loss
+plt.plot(yf, exp_loss, label="Exponential", color="cyan")
+
+# Binomial Deviance
+plt.plot(yf, binomial_deviance, label="Binomial NLL", color="orange")
+
+# Squared Error
+plt.plot(yf, squared_error, label="Squared Error", color="red")
+
+# Support Vector (Hinge Loss)
+plt.plot(yf, hinge_loss, label="Support Vector (Hinge)", color="green")
+
+# Add labels and legend
+plt.xlabel("y · f")
+plt.ylabel("Loss")
+plt.legend()
+plt.grid(True)
+plt.show()
+```
+
+::: {.fragment}
+::: {.callout-note}
+The $f(x)$ minimizing exponential loss is also minimizing Binomial negative log-likelihood!
+:::
+:::
+
+:::
+::: {.column}
+- Misclassification (0/1 loss):
+
+   $L_{\text{misclass}}(y, f) = \begin{cases} 
+   0 & \text{if } y \cdot f(x) > 0 \\
+   1 & \text{otherwise}
+   \end{cases}$
+
+- Exponential loss:
+
+   $L_{\text{exp}}(y, f) = \exp(-y \cdot f(x))$
+
+- Binomial negative log-likelihood (cross-entropy):
+
+   $L_{\text{bin}}(y, f) = \log(1 + \exp(-2 \cdot y \cdot f(x))) / \log(2)$
+
+- Squared error loss:
+
+   $L_{\text{sq}}(y, f) = (1 - y \cdot f(x))^2$
+
+- Support vector (hinge Loss):
+
+   $L_{\text{hinge}}(y, f) = \max(0, 1 - y \cdot f(x))$
+:::
+::::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+## Gradient Boosting {.title-slide}
 
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
