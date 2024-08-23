@@ -351,7 +351,8 @@
 <h2>AdaBoost</h2>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>בשיעור הזה נלמד על אחד האלגוריתמים שנמצאים הכי הרבה בשימוש במאשין לרנינג על נתונים גדולים ובמיוחד על נתונים טבלאיים. יש לו הרבה גירסאות והרבה שימושים מאוד פופולריים, אבל כולם בסופו של דבר נקראים: בוסטינג.</p>
+<p>הגירסה הראשונה של האלגוריתם פותחה בתחילת שנות התשעים על-ידי צמד חוקרים בשם פרויד ושפייר שיקבלו על הפיתוח שלהם את פרס גדל. הגירסה הזאת נקראת: אדאבוסט.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -376,7 +377,7 @@
 <ul>
 <li class="fragment">If <span class="math inline">\(M\)</span> is the number of all possible trees <span class="math inline">\(T_m\)</span>, then finding weights <span class="math inline">\(\alpha_m\)</span> is intractable!</li>
 </ul></li>
-<li class="fragment"><span style="color:red;">Boosting</span> finds <span class="math inline">\(\alpha_m\)</span> <em>sequentially</em>:
+<li class="fragment"><span style="color:red;">Boosting</span> finds <span class="math inline">\(\alpha_m\)</span> sequentially, <em>adaptively</em>:
 <ul>
 <li class="fragment">Take a <span style="color:red;">weak classifier</span> <span class="math inline">\(G(x)\)</span> with accuracy slightly better than random
 <ul>
@@ -389,7 +390,15 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-<p>מהי ביקורת סבירה על רנדום פורסט?</p>
+<p>אדאבוסט עוסק ספציפית בקלסיפיקציה לשני קלאסים, 1 ומינוס 1. מאוחר יותר נרחיב אותו לבעיות אחרות.</p>
+<p>בסיטואציה הזאת, מה אמרנו שיעשה אלגוריתם כמו רנדום פורסט? הוא יגדל M עצים שנקרא להם T, כל פעם על גירסה קצת אחרת של הנתונים, וכשתגיע תצפית חדשה הוא ימצע את הסיווג שלהם, ואם אנחנו רוצים סיווג סופי של 1 או מינוס 1, ניקח את פונקציה sign.</p>
+<p>מהי ביקורת סבירה על רנדום פורסט? למה למצע. אולי יש עצים טובים יותר, ועצים טובים פחות, ואנחנו צריכים לא ממוצע פשוט שלהם אלא ממוצע משוקלל, עם משקולת אלפא-אם לכל עץ.</p>
+<p>אבל איך נמצא את המשקולות האופטימליות? הרי אם M הוא מספר כל העצים האפשריים, אולי אפילו נגביל את העומק שלהם, לכל סט נתונים סביר, זה מספר ענק. זה לא שאנחנו יכולים לגדל את כולם ואז להתחיל לבדוק מה סט המשקולות הכי טוב למצע אותם.</p>
+<p>אבל בוסטינג יעשה בדיוק את זה, הוא ימצא את המשקולות והעצים האלה בצורה סדרתית אחד אחרי השני, בצורה אדפטיבית.</p>
+<p>זה לא חייב להיות עץ, זה יכול להיות כל קלסיפייר חלש, או וויק קלסיפייר G, והכוונה בחלש שיש לו דיוק קצת יותר טוב מאקראי.</p>
+<p>אם אנחנו רוצים להיות קצת יותר רשמיים, נניח שסיכוי לסיווג שגוי הוא חצי, אז הקלסיפייר שלנו יכול להשיג על המדגם הנתון שגיאה של קצת פחות מחצי, חצי פחות איזשהו פרמטר גאמא קטן, וזה לכל משקול של הנתונים. אנחנו מרדדים קצת את ההגדרה הרשמית אבל זה מספיק טוב בשבילנו.</p>
+<p>ואת הקלסיפייר הזה נתאים לנתונים שלנו, כל פעם על גירסה קצת אחרת כשכל תצפית מקבלת משקולת מתעדכנת,</p>
+<p>נתאים את הקלסיפייר וגם נבחר במשקולת הכי טובה עבורו לפי איזושהי פונקצית הפסד, וזה באמת יהיה החיזוי הסופי, הסיין של סכום הקלסיפיירים הממושקלים שאימנו.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -431,7 +440,35 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>ככה נראה אלגוריתם האדאבוסט הרשמי, לא להיבהל, הוא דוקא די פשוט.</p>
+<p>אנחנו מתחילים עם משקולות שוות לכל התצפיות, אם יש n תצפיות זה יוצר 1 חלקי n.</p>
+<p>ועכשיו בכל איטרציה, אנחנו מגדלים עץ על התצפיות שלנו במשקול הנוכחי w_i.</p>
+<p>אנחנו מחשבים את השגיאה הממושקלת הנוכחית, כלומר סוכמים את כל השגיאות וכופלים כל אחת במשקל שלה, ומחלקים בסך המשקולות.</p>
+<p>המשקולת לכל הקלסיפייר אלפא-אם מחושבת עכשיו והיא שווה לביטוי שרשום כאן שמבוסס על שגיא הממושקלת ארר.</p>
+<p>והשלב האחרון באיטרציה, עדכון המשקולות לאיטרציה הבאה: המשקולת של כל תצפית תוכפל באקספוננט בחזקת אלפא-אם אם הקלסיפייר הנוכחי עשה טעות על התצפית הזאת, וכפול אקספוננט בחזקת אפס אחרת, כלומר כפול 1 – אם צדקנו המשקולת תישאר כפי שהיא.</p>
+<p>נשים לב למה זה הגיוני – אם טעינו, הכפלה פי אקספוננט בחזקת אלפא, תגדיל את המשקולת, וככה באיטרציה הבאה הקלסיפייר שלנו יצטרך לעבוד קשה יותר כדי לסווג אותה נכון, בניגוד לתצפיות עם משקולות קטנות. עוד דבר שנשים לב שעצים עם שגיאה ארר מאוד קטנה יקבלו משקולות אלפא-אם מאוד גדולות, ועצים עם שגיאה מאוד גדולה יקבלו משקולת אלפא-אם מאוד נמוכה.</p>
+<p>בכל אופן האאוטפוט של של אדאבוסט הוא מה שרצינו, ממוצע משוקלל של וויק קלסיפיירים, שאנחנו מפעילים עליו פונקצית סיין כדי לקבל חיזוי סופי של 1 ומינוס 1.</p>
+<p>רק נקודה קטנה שהרבה פעמים שוכחים - הקלסיפייר שלנו חייב לדעת לטפל נכון בתצפיות ממושקלות. למשל איך מגדלים עץ עם משקולות על התצפיות? אז אם זה עץ רגרסיה, הלוס שאנחנו עושים עליו מינימום בכל פיצול הוא הRSS, אבל אנחנו לוקחים RSS ממושקל.</p>
+<p>ואם זה עץ קלסיפיקציה, אז הלוס שלנו הוא למשל מדד הג’יני, ואנחנו צריכים לחשב בכל צומת את אחוז התצפיות שהן פלוס או מינוס אחת, אז במקום לחשב אותן בצורה הרגילה נחשב את סכום משקולות התצפיות שהן אחת חלקי סכום המשקולות של התצפיות בצומת.</p>
+<p>מכל מקום, כעת ברור למה קוראים לאלגוריתם אדאבוסט. הוא לוקח קלסיפייר חלש יחסית, ועושה לו בוסט, בצורה אדאפטיבית. בחלק הבא נראה שבצורה הזאת יש לנו הבטחה, שאנחנו יכולים להוריד את השגיאה על מדגם הלמידה להיות קטנה כרצוננו, כתלות במספר האיטרציות ובפרמטר השגיאה גאמא שאנחנו יכולים להבטיח לכל וויק קלסיפייר. קטנה כרצוננו זה אומר אפילו אפס.</p>
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="adaboost-example" class="slide level2 title-slide center">
+<h2>AdaBoost Example</h2>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+<p>בואו נראה דוגמה פשוטה של אדאבוסט, בדו-מימד.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -448,7 +485,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-with-tree-stumps">AdaBoost with Tree Stumps</h3>
-<div id="b352e709" class="cell" data-execution_count="1">
+<div id="4cd8ff2a" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -471,7 +508,10 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>בדוגמה שלנו יש 10 תצפיות בשני משתנים, ונניח שהאדומות הן פלוס 1 והכחולות הן מינוס 1.</p>
+<p>הוויק קלסיפייר שלנו יהיה גזעים של עצים או טרי סטאמפס, כלומר אנחנו מסוגלים בכל איטרציה לעשות רק פיצול אחד על משתנה אחד.</p>
+<p>זה קלסיפייר ממש חלש, נכון? נניח האם אפשר עם הקלסיפייר הזה להגיע על הנתונים האלה לשגיאת חיזוי אפס? אי אפשר. המשמעות של טרי-סטאמפ היא שאנחנו יכולים רק לחלק את המרחב של שני המשתנים חלוקה אחת מקבילה לאחת הצירים.</p>
+<p>אם היינו מאפשרים עץ עמוק יותר האם היינו צריכים בוסטינג? כנראה שכן (להדגים). אבל זאת רק דוגמה פשוטה.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -488,7 +528,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-1">AdaBoost: iteration 1</h3>
-<div id="5ed9f479" class="cell" data-execution_count="2">
+<div id="2fa4bd8b" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -499,7 +539,10 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>אז אם אנחנו מתחילים עם כל התצפיות ממושקלות אותו הדבר, כלומר עשירית, הטרי סטאמפ הראשון מוצא לנכון את החלוקה על פי המשתנה השני, מתחת יחזה כחול ומעל יחזה אדום.</p>
+<p>השגיאה הממושקלת שלנו היא שני סיווגים שגויים עם משקולות עשירית חלקי סך משקולות של עשר עשיריות או 0.2. והאלפא שלנו תהיה לוג של 0.8 חלקי 0.2 כלומר לוג 4 או 1.386.</p>
+<p>אנחנו ממשקלים מחדש את התצפיות, כאשר המשקולות של התצפיות עם סיווג נכון נשארות עשירית, והמשקולות של התצפיות שסיווגנו לא נכון מוכפלות פי אקספוננט בלוג-4 כלומר פי 4, הן יהיו 0.4.</p>
+<p>אנחנו שומרים את המשקולות, את אלפא ואת העץ בצד וממשיכים לעץ הבא.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -516,7 +559,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-2">AdaBoost: iteration 2</h3>
-<div id="7b9f35da" class="cell" data-execution_count="3">
+<div id="c5304d4d" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -527,7 +570,10 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>באיטרציה הבאה אנחנו באמת רואים את המשקולות שחישבנו, ומגדלים סטאמפ חדש. הסטאמפ החדש רואה את הנתונים אחרת, הפעם הוא שם הרבה יותר דגש על לסווג נכון את התצפיות שלא סווגו נכון בעבר ויש להן משקולת של 0.4. ואכן הוא מחלק את המרחב בצורה שונה לחלוטין.</p>
+<p>אבל זה יוצר שגיאה ממושקלת חדשה, יש לנו 3 טעויות במשקל כולל 0.3 חלקי סכום המשקלים שהוא 1.6 כלומר שגיאה של 0.188.</p>
+<p>האלפא החדשה היא לוג של 0.812 חלקי 0.188, יוצא 1.46.</p>
+<p>ושוב נגדיל את המשקל של התצפיות שחזינו לא נכון, נכפיל עשירית פי אקספוננט בחזקת 1.466, צריך לתת 0.43.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -544,7 +590,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-3">AdaBoost: iteration 3</h3>
-<div id="2eb959e7" class="cell" data-execution_count="4">
+<div id="d1792d43" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -555,7 +601,7 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>וככה אנחנו ממשיכים לסטאמפ הבא.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -572,7 +618,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-4">AdaBoost: iteration 4</h3>
-<div id="ef06178a" class="cell" data-execution_count="5">
+<div id="2c490a43" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -583,7 +629,7 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>ולסטאמפ הבא.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -600,7 +646,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-5">AdaBoost: iteration 5</h3>
-<div id="55a2b4ec" class="cell" data-execution_count="6">
+<div id="94266e92" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -611,7 +657,7 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>ולסטאמפ הבא.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -633,7 +679,7 @@
 <p><span class="math inline">\(= \text{sign}\left[1.386G_1(x) + 1.466G_2(x) + 0.934G_3(x) + 1.299G_4(x) + 1.126G_5(x)\right]\)</span></p>
 </div>
 <div class="fragment">
-<div id="ea7eeda6" class="cell" data-execution_count="7">
+<div id="5e173647" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -645,7 +691,9 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>ואם נניח שאנחנו עושים את זה 5 איטרציות, כלומר 5 סטאמפים, נעצור.</p>
+<p>החיזוי הסופי שלנו לכל נקודה במרחב הזה יהיה פונקציית סיין, על הממוצע המשוקלל של הטרי סטאמפס, G1 עד G5.</p>
+<p>אם נצייר את תחום ההחלטה הזה נראה שהוא כבר אחרי 5 איטרציות הגיע לשגיאה אפס, הוא מסווג נכון את כל התצפיות, ובאופן מרשים אדאבוסט לקח את הקלסיפייר החלש הזה שמסוגל למעט מאוד, ועשה לו בוסטינג בצורה אדאפטיבית ככה שהוא יכול לתאר גבול החלטה הרבה יותר מורכב.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -689,7 +737,11 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>כמובטח, אנחנו יכולים להביא את השגיאה על מדגם הלמידה להיות קטנה כרצוננו. ספציפית אנחנו יכולים לחסום אותה על-ידי הביטוי שמופיע כאן, 1 פחות ארבעה גאמא בריבוע בחזקת M חלקי 2. ואפשר להראות בקלות שחסם פשוט יותר הוא סדר גודל של אי בחזקת מינוס פעמיים מספר האיטרציות כפול גאמא בריבוע.</p>
+<p>למשל, אם רוצים לחסום את הטעות שלא תהיה גדולה יותר מ1 חלקי n, מה שבפועל אומר שהיא חייבת להיות אפס, אנחנו לא מוכנים לעשות אפילו שגיאה אחת, אז אחרי קצת אלגברה אפשר לקבל חסם תחתון על מספר האיטרציות שאנחנו חייבים לבצע, שהוא סדר גודל של לוג-מספר התצפיות מוחלק בפרמטר גאמא בריבוע. שוב כל זה בהנחה שאנחנו מבטיחים שבכל איטרציה הקלסיפייר שלנו טועה עד כדי מרחק גאמא קטן מחצי, השגיאה האקראית.</p>
+<p>אז אם לדוגמא יש לכם קלסיפייר די בינוני, הוא יכול לעשות שגיאה של עד 40 אחוז או גאמא שווה 0.1, אחרי 100 איטרציות, הוא הופך להיות קלסיפייר לא רע בכלל עם שגיאה לא גדולה יותר מ13 אחוז, פשוט מציבים בחסם.</p>
+<p>ואם לדוגמא אנחנו יודעים שיש אלף תצפיות במדגם הלמידה, כדי להגיע לשגיאה אפס אנחנו יודעים שצריך לפחות 345 איטרציות.</p>
+<p>לא נוכיח את זה כאן אבל מי שרוצה יכול לקרוא את אחד המאמרים המקוריים של פרוינד ושפייר, זה פשוט הרבה אלגברה מאוד מאוד נחמדה.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -837,7 +889,7 @@
 </ul>
 </div>
 <div class="fragment">
-<div id="d3af0dce" class="cell" data-execution_count="8">
+<div id="ebd5e2d3" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1019,7 +1071,7 @@
 <h3 id="classification-losses">Classification losses</h3>
 <div class="columns">
 <div class="column">
-<div id="d287f24f" class="cell" data-execution_count="9">
+<div id="7ea4fa62" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1186,7 +1238,7 @@
 <h3 id="what-about-more-robust-losses">What about more <span style="color:red;">robust</span> losses?</h3>
 <div class="columns">
 <div class="column">
-<div id="85e76499" class="cell" data-execution_count="10">
+<div id="1a58c44a" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1247,7 +1299,7 @@
 
 <h3 id="gradient-descent-algorithms">Gradient descent algorithms</h3>
 <p>Minimize a function <span class="math inline">\(J(\theta)\)</span> by moving in the opposite direction of the gradient: <span class="math display">\[\hat\theta_{i+1} = \hat\theta_i - \varepsilon \frac{\partial J(\theta)}{\partial \theta}\]</span></p>
-<div id="f2ba1b8c" class="cell" data-execution_count="11">
+<div id="6a29273c" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1440,7 +1492,7 @@
 <section class="slide level2">
 
 <h3 id="example-credit-data">Example: credit data</h3>
-<div id="e8de1210" class="cell" data-execution_count="12">
+<div id="8356f8ea" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
