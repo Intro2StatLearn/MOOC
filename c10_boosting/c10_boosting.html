@@ -485,7 +485,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-with-tree-stumps">AdaBoost with Tree Stumps</h3>
-<div id="4cd8ff2a" class="cell" data-execution_count="1">
+<div id="87f99bbb" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -528,7 +528,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-1">AdaBoost: iteration 1</h3>
-<div id="2fa4bd8b" class="cell" data-execution_count="2">
+<div id="1fb589a7" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -559,7 +559,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-2">AdaBoost: iteration 2</h3>
-<div id="c5304d4d" class="cell" data-execution_count="3">
+<div id="4f527d56" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -590,7 +590,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-3">AdaBoost: iteration 3</h3>
-<div id="d1792d43" class="cell" data-execution_count="4">
+<div id="24d73812" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -618,7 +618,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-4">AdaBoost: iteration 4</h3>
-<div id="2c490a43" class="cell" data-execution_count="5">
+<div id="b2413e78" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -646,7 +646,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-5">AdaBoost: iteration 5</h3>
-<div id="94266e92" class="cell" data-execution_count="6">
+<div id="7a5f8067" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -679,7 +679,7 @@
 <p><span class="math inline">\(= \text{sign}\left[1.386G_1(x) + 1.466G_2(x) + 0.934G_3(x) + 1.299G_4(x) + 1.126G_5(x)\right]\)</span></p>
 </div>
 <div class="fragment">
-<div id="5e173647" class="cell" data-execution_count="7">
+<div id="402c80a7" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -784,7 +784,10 @@
 </ul>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>הרבה שאלות צריכות לעלות לנו כשאנחנו מסתכלים על אדאבוסט.</p>
+<p>בחשיבה שלנו קודם מגדירים פונקצית הפסד ואז עושים לה מינימיזציה - האם אדאבוסט עושה מינימיזציה לאיזשהו הפסד, ואם כן האם אפשר לייצר אלגוריתמים דומים עם פונקציות הפסד אחרות?</p>
+<p>למשל האם האלגוריתם טוב רק לקלסיפיקציה בינארית, או שאנחנו יכולים ליצור משהו דומה לרגרסיה או לקלסיפיקציה ליותר מ2 קלאסים?</p>
+<p>ואם אמרנו שההוכחה שהאלגוריתם עובד היא פשוט הרבה אלגברה - האם יש לאלגוריתם הצדקה הסתברותית? זה מזכיר את העובדה שראינו כיצד רגרסיה ליניארית היא קודם כל פתרון סגור באלגברה, שאפשר להצדיק אותו גם מנקודת מבט סטטיסטית, עם הנחה של רעש שמתפלג נורמלית וכולי. יכול להיות שגם כאן נמצא נקודת מבט סטטיסטית?</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -819,7 +822,12 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>מסתבר שבאמת אפשר להכליל את אדאבוסט, למשפחה של אלגוריתמים, שאחד מהם ראינו והבטחתי שעוד נראה שוב.</p>
+<p>כשדיברנו על שיטות לבחירת משתנים ברגרסיה ליניארית, ראינו שיטה בשם פורוורד סטייג’וויז רגרשן, שלאט לאט מכניסה משתנים למודל, במשקל קטן. משהו בה מאוד מזכיר את אדאבוסט.</p>
+<p>ניזכר בפורוורד סטייג’וויז: אנחנו עושים סטנדרטיזציה למשתנים, ומחליטים על גודל צעד קטן אפסילון.</p>
+<p>אנחנו בודקים מה השארית בין התצפיות Y לממוצע, מסמנים אותן בR. מאתחלים את המקדמים של כל המשתנים לאפס.</p>
+<p>כעת מוצאים את המשתנה האחד שנמצא בקורלציה הגבוהה ביותר עם השארית, והוא המועמד להיכנס למודל. אם אכן הקורלציה גדולה מאיזשהו סף אנחנו מכניסים עוד קצת מהמשתנה למודל אבל רק אפסילון קטן מתוך הקורלציה הזאת.</p>
+<p>מחשבים מחדש את השאריות, וחוזרים למצוא את המשתנה הJ הבא עם הכי הרבה קורלציה לשאריות, וכך הלאה, עד שאין משתנה יחיד עם קורלציה מספיק גדולה לשאריות.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -847,7 +855,9 @@
 </ol>
 </div>
 <div class="fragment">
-<p>Final model: <span class="math inline">\(\hat{f}_0(x) = \sum_{m = 1}^M \beta_m b(x; \gamma_m)\)</span></p>
+<ol start="3" type="1">
+<li>Output: <span class="math inline">\(\hat{f}(x) = \sum_{m = 1}^M \beta_m b(x; \gamma_m)\)</span></li>
+</ol>
 </div>
 <div class="fragment">
 <div class="callout callout-note callout-style-simple">
@@ -864,7 +874,12 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>את האלגוריתם שכרגע ראינו קל לכתוב הרבה יותר בתור מודל פורוורד אדיטיבי בשלבים, או פורוורד סטייג’וויז אדיטיב מודל:</p>
+<p>נתחיל בחיזוי אפס לכל התצפיות.</p>
+<p>בכל איטרציה M ניקח איזשהו פונקציה פשוטה של הנתונים שנקרא לה B, שיש לה פרמטרים גאמא. ננסה לעדכן את המודל שיש לנו עד כאן עם הליכה של צעד בטא בכיוון הפונקציה הזאת, באופן שיקטין לנו הכי הרבה איזשהו לוס. או כמו שרשום כאן, נמצא את הפרמטרים בטא וגאמא שיביאו למינימום את הלוס של עדכון פשוט כזה.</p>
+<p>נעדכן את המודל עם הפרמטרים שמצאנו ונמשיך לאיטרציה הבאה.</p>
+<p>המודל הסופי הוא אכן מודל אדיטיבי, הוא סכום ממושקל של הרבה מודלים קטנים ופשוטים. בביטוי הזה אנחנו גם מייד רואים את הרמז לאדאבוסט אבל זה עוד לא לגמרי ברור.</p>
+<p>מכל מקום, אם L הוא שגיאה ריבועית, וגאמא בכל איטרציה פירושה פשוט למצוא את המשתנה האחד עם הקורלציה הכי גדולה לשארית, מה שיש כאן זה בדיוק פורוורד סטייג’וויז רגרשן, מלבד הבדלים זניחים. שם אתחלנו את כל התצפיות בממוצע Y וכאן באפס, שם עשינו את זה עד שלא נמצא יותר משתנה עם מספיק קורלציה לשאריות וכאן אנחנו עושים את זה מספר קבוע של צעדים מראש.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -880,16 +895,16 @@
 </section>
 <section class="slide level2">
 
-<h3 id="adaboost-is-also-a-fsam">AdaBoost is also a FSAM</h3>
-<div>
+<h3 id="claim-adaboost-is-also-a-fsam">Claim: AdaBoost is also a FSAM</h3>
+<div class="fragment">
 <ul>
-<li class="fragment">If <span class="math inline">\(L\)</span> is the exponential loss: <span class="math inline">\(L(y, f(x)) = \exp(-yf(x))\)</span></li>
-<li class="fragment">And, <span class="math inline">\(b(x; \gamma_m) = Gm(x)\)</span></li>
-<li class="fragment">We get AdaBoost!</li>
+<li>If <span class="math inline">\(L\)</span> is the exponential loss: <span class="math inline">\(L(y, f(x)) = \exp(-yf(x))\)</span></li>
+<li>And, <span class="math inline">\(b(x; \gamma_m) = Gm(x)\)</span></li>
+<li>We get AdaBoost!</li>
 </ul>
 </div>
 <div class="fragment">
-<div id="ebd5e2d3" class="cell" data-execution_count="8">
+<div id="6fdd67a8" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -900,11 +915,25 @@
 </div>
 </div>
 <div class="fragment">
+<div class="callout callout-note callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
 <p>Fast forward: plug-in <em>other</em> loss functions!</p>
+</div>
+</div>
+</div>
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>אז אני טוען, שגם אדאבוסט הוא מודל פורווד סטייג’וויז אדיטיב.</p>
+<p>אני טוען שהלוס שהוא מביא למינימום בכל איטרציה הוא לוס אקספוננציאלי שלא ראינו עדיין, אקספוננט בחזקת מינוס Y שאני מזכיר שהוא מינוס או פלוס 1, כפול החיזוי f(X).</p>
+<p>ואם הפונקציות הפשוטות שקראנו להן B הן הקלסיפיירים החלשים שלנו Gm בכל איטרציה – נקבל בדיוק את אדאבוסט.</p>
+<p>אז לפני שנראה את זה, נכיר את הלוס האקספוננציאלי ולמה הוא סביר לבעיה שלנו: נניח שY הוא פלוס 1. אם אנחנו חוזים f(X) בדיד, שהוא גם פלוס ומינוס אחת, אז אם אנחנו חוזים מינוס 1 וטועים אנחנו מקבלים שגיאה של אקספוננט בחזקת 1 כלומר 2.7 בערך, ואם אנחנו חוזים 1 וצודקים אנחנו מקבלים שגיאה של אקספוננט בחזקת מינוס 1, כלומר 0.3 בערך.</p>
+<p>אפשר אבל גם להרציף את הטעות הזאת, לחזות f(X) רציף, ואז ככל שהוא שלילי הטעות גדולה יותר, וככל שהוא חיובי הטעות שואפת לאפס.</p>
+<p>ועוד דבר קטן, שוב למה אנחנו טורחים כל כך, רק כי זה מעניין? לא, המטרה שלנו היא להכליל לעוד פונקציות הפסד, ולהיות מסוגלים לעשות אדאבוסט לרגרסיה ולבעיות אחרות. אז בואו ניגש למשימה.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1071,7 +1100,7 @@
 <h3 id="classification-losses">Classification losses</h3>
 <div class="columns">
 <div class="column">
-<div id="7ea4fa62" class="cell" data-execution_count="9">
+<div id="aceb66fe" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1238,7 +1267,7 @@
 <h3 id="what-about-more-robust-losses">What about more <span style="color:red;">robust</span> losses?</h3>
 <div class="columns">
 <div class="column">
-<div id="1a58c44a" class="cell" data-execution_count="10">
+<div id="d4a46112" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1299,7 +1328,7 @@
 
 <h3 id="gradient-descent-algorithms">Gradient descent algorithms</h3>
 <p>Minimize a function <span class="math inline">\(J(\theta)\)</span> by moving in the opposite direction of the gradient: <span class="math display">\[\hat\theta_{i+1} = \hat\theta_i - \varepsilon \frac{\partial J(\theta)}{\partial \theta}\]</span></p>
-<div id="6a29273c" class="cell" data-execution_count="11">
+<div id="dec494af" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1492,7 +1521,7 @@
 <section class="slide level2">
 
 <h3 id="example-credit-data">Example: credit data</h3>
-<div id="8356f8ea" class="cell" data-execution_count="12">
+<div id="13085b37" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
