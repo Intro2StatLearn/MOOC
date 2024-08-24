@@ -485,7 +485,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-with-tree-stumps">AdaBoost with Tree Stumps</h3>
-<div id="87f99bbb" class="cell" data-execution_count="1">
+<div id="96c02efb" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -528,7 +528,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-1">AdaBoost: iteration 1</h3>
-<div id="1fb589a7" class="cell" data-execution_count="2">
+<div id="f0b513bc" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -559,7 +559,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-2">AdaBoost: iteration 2</h3>
-<div id="4f527d56" class="cell" data-execution_count="3">
+<div id="e0aae067" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -590,7 +590,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-3">AdaBoost: iteration 3</h3>
-<div id="24d73812" class="cell" data-execution_count="4">
+<div id="71d30d42" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -618,7 +618,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-4">AdaBoost: iteration 4</h3>
-<div id="b2413e78" class="cell" data-execution_count="5">
+<div id="3aa1c12c" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -646,7 +646,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-5">AdaBoost: iteration 5</h3>
-<div id="7a5f8067" class="cell" data-execution_count="6">
+<div id="02336686" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -679,7 +679,7 @@
 <p><span class="math inline">\(= \text{sign}\left[1.386G_1(x) + 1.466G_2(x) + 0.934G_3(x) + 1.299G_4(x) + 1.126G_5(x)\right]\)</span></p>
 </div>
 <div class="fragment">
-<div id="402c80a7" class="cell" data-execution_count="7">
+<div id="e99b14a0" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -904,7 +904,7 @@
 </ul>
 </div>
 <div class="fragment">
-<div id="6fdd67a8" class="cell" data-execution_count="8">
+<div id="9623e5c6" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -964,7 +964,10 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>האלגוריתם של פורוורד סטייג’וויז אומר לנו בכל איטרציה למצוא את הצעד בטא והגאמא הכי טובים כדי לעשות מינימום ללוס.</p>
+<p>נציב את הלוס האקספוננציאלי ונחליף את בי בקלסיפייר החדש שלנו Gm.</p>
+<p>עכשיו יש פה אקספוננט בחזקת סכום שאני מפרק למכפלת האקספוננטים.</p>
+<p>ואנחנו מסמנים את כל הביטוי הזה כמשקולת w_i שבכל צעד m מבטאת את הלוס באיטרציה האחרונה, אם היה חיזוי טוב היא תהיה קטנה ואם היה חיזוי גרוע, היא תהיה גדולה. נשים לב שהיא לא משתתפת במינימיזציה בגלל זה אני יכול לעשות את זה. הביטוי שקיבלנו כבר מתחיל להזכיר את השגיאה הממושקלת שאנחנו מורידים למינימום באדאבוסט אבל נצטרך עוד קצת אלגברה.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1002,7 +1005,10 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>עכשיו בואו נניח לרגע שהפרמטר בי שמתקבל מבעיה המינימיזציה הזאת הוא חיובי, ונראה שהקלסיפייר של אדאבוסט G_m הוא בדיוק הקלסיפייר שנקבל כאן:</p>
+<p>יש כאן סכום ממושקל. כשהחיזוי נכון, y כפול G נותן 1 והאלמנט בסכום יהיה e בחזקת מינוס בטא. כשהחיזוי לא נכון, y כפול G נותן מינוס 1, והאלמנט בסכום יהיה e בחזקת בטא. אז אני יכול להפריד את הסכום הזה לשני סכומים, סכום החיזויים הנכונים שנותנים אי במינוס בטא ועוד סכום החיזויים הלא נכונים שנותנים אי בבטא.</p>
+<p>אבל גם את זה אני יכול לרשום בצורה יותר קומפקטית שבה G שאני מנסה לעשות עליו מינימום, נמצא רק בביטוי אחד. הדרך לעשות את זה היא לתת לכל התצפיות את האלמנט אי במינוס בטא, ורק לחיזויים הנכונים להוסיף אי בבטא פחות אי במינוס בטא.</p>
+<p>וזה מראה לי שכדי לקבל את קלסיפייר G האופטימלי בכל שלב m אני צריך לעשות בדיוק את מה שאדאבוסט שאף לעשות בשלב 2a. להגיע לקלסיפייר שיביא למינימום את שגיאת החיזוי הממושקלת. נשאר לי רק להראות שמדובר בדיוק באותן המשקולות.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1039,7 +1045,11 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>אז בואו נראה שאנחנו מקבלים בדיוק את אותן המשקולות, ואיך מהאלגוריתם הכללי של פורוורד סטייג’וויז אנחנו מקבלים את הביטוי המוזר לאלפא-אם בכל איטרציה. נזכיר שבכל איטרציה מחשבים לוג של 1 פחות הטעות הממושקלת חלקי הטעות הממושקלת, והמשקולת הנוכחית מוכפלת פי אקספוננט בחזקת אלפא-אם אם היה חיזוי לא נכון.</p>
+<p>אז הגענו לקריטריון שאני פשוט מעתיק שוב כאן, הבנו מה הG שיביא למינימום, נמצא עכשיו מה הבטא שיביא למינימום.</p>
+<p>אנחנו גוזרים את הקריטריון לפי בטא, ומשווים לאפס. תשימו לב שאתם מבינים את הגזירה היא די פשוטה.</p>
+<p>יש לנו עכשיו משוואה, נכפיל את שני האגפים באותו ביטוי חיובי, והנה אנחנו מוצאים שבטא שיביא למינימום את הקריטריון שלנו, קשור לביטוי שסימנו באלגוריתם אדאבוסט כerr, שגיאת החיזוי הממושקלת חלקי סך המשקולות.</p>
+<p>אחרי עוד קצת אלגברה נגיע לביטוי סופי עבור הצעד בטא בכל איטרציה m, ששווה בדיוק לחצי הפרמטר אלפא-אם שאדאבוסט אמר לנו לחשב.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1060,7 +1070,7 @@
 <ul>
 <li>FSAM says:</li>
 </ul>
-<p><span class="math inline">\(f_m(x) = f_{m - 1}(x) + \beta_m b(x; \gamma_m) = f_{m - 1}(x) + \beta_m G_m(x) = f_{m - 1}(x) + \frac{1}{2}\alpha_m G_m(x)\)</span></p>
+<p><span class="math inline">\(f_m(x) = f_{m - 1}(x) + \beta_m b(x; \gamma_m) = f_{m - 1}(x) + \frac{1}{2}\alpha_m G_m(x)\)</span></p>
 </div>
 <div class="fragment">
 <ul>
@@ -1081,7 +1091,12 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>ולמה העובדה הזאת אומרת שהגענו בדיוק לאותו משקול?</p>
+<p>כעת האלגוריתם פורוורד סטייג’וויז אומר לעדכן את החיזוי להיות החיזוי באיטרציה הקודמת f אמ-מינוס-1, ועוד, צעד בטא כפול הפונקציה בי עם הפרמטר גאמא הטוב ביותר שנמצא. אצלינו זה פשוט אומר החיזוי עד עכשיו ועוד חצי אלפא-אם כפול הקלסיפייר G הכי טוב שנמצא.</p>
+<p>אבל זה אומר שהמשקולות שלנו בכל איטרציה הן בדיוק מה שאדאבוסט אומר לנו לחשב: המשקולות שהגענו אליהן לפני שני שקפים הן הלוס האקספוננצילי מהאיטרציה הקודמת. מציבים את הביטוי שפורוורד סטייג’וויז אומר לנו בfm. ומקבלים שהעדכון שווה למשקולת הקודמת כפול ביטוי שכבר מתחיל להזכיר את הביטוי שאנחנו רוצים להגיע אליו, שמערב את אלפא-אם.</p>
+<p>הוא מזכיר מאוד כי הוא שקול, נשים לב שאפשר להגיע בקלות מהמכפלה של y כפול G לביטוי שאנחנו רוצים, האינדיקטור הרם יש לנו כאן חיזוי נכון או לא באמצעות הקשר מינוס y כפול G שווה לפעמיים האינדיקטור פחות 1.</p>
+<p>אנחנו מציבים את הקשר הזה ורואים שהמשקולת באיטרציה הבאה היא תמיד תהיה המשקולת הנוכחית כפול קבוע אקספוננט בחזקת אלפא-אם אם היה חיזוי שגוי, או תישאר כפי שהיא אם היה חיזוי נכון. כל זה כפול איזה קבוע שמכפילים בו את כל המשקולות ולכן אפשר להתעלם ממנו.</p>
+<p>בכך קיבלנו את שלב 2d של אדאבוסט, ובעצם סיימנו להראות שהוא מקרה פרטי של אלגוריתם כללי יותר, פורוורד סטייג’וויז אדיטיב, שנותן הנחיה מה לעשות עם כל לוס שנרצה, וגם לסטינג של רגרסיה. זה אולי ידהים אתכם לדעת שהתובנה הזאת לא הגיעה אלא לפחות חמש שנים אחרי שאדאבוסט פותח.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1100,7 +1115,7 @@
 <h3 id="classification-losses">Classification losses</h3>
 <div class="columns">
 <div class="column">
-<div id="aceb66fe" class="cell" data-execution_count="9">
+<div id="fedaa282" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1141,7 +1156,13 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>אז אם נישאר רגע עדיין בקלסיפיקציה, לא חייבים להישאר עם הלוס האקספוננציאלי, יש כל מיני לוסים שאולי מתאימים לקלסיפיקציה לשני קלאסים.</p>
+<p>נראה שהם לא מאוד שונים אגב, וכולם עושים איזושהי הרצפה ללוס הכי טבעי אבל הלא רציף של מיסקלסיפיקיישן, שהבעיה איתו שהוא לא רגיש, המעבר בו בין עונש ללא-עונש נורא חד, הוא לא מעניש נורא אם החיזוי מאוד מאוד שלילי.</p>
+<p>לוס בעייתי לבעיה שלנו, בדיוק כמו שדיברנו ברגרסיה לוגיסטית הוא הלוס הריבועי. כי הוא מתחיל להעניש גם אם החיזוי f(x) חיובי מדי.</p>
+<p>נשארנו עם הלוס שלנו האקספוננציאלי, והלוס שראינו למשל כשדיברנו על קרוס אנתרופי כלוס אפשרי לעץ קלסיפיקציה. וכאן אחרי קצת אלגברה אנחנו רושמים אותו כפונקציה של המכפלה y כפול f, כדי שנוכל לראות אותו בהקשר של כולם. באופן מפתיע, הלוס הזה הוא גם הלוס המתקבל תחת נקודת מבט סטטיסטית, שוואי מתפלג ברנולי או בינומי עם איזושהי הסתברות שאותה אנחנו ממדלים בדיוק כמו ברגרסיה לוגיסטית, ואז הלוס שלנו הוא מינוס לוג הנראות.</p>
+<p>זה דורש קצת אלגברה להראות שכל הדברים האלה מתכנסים לאותו דבר, אבל התובנה המדהימה שרציתי שתראו כאן, זה ששתי הפונקציות האלה, הפונקציה שלנו והפונקציה שמגיעה מנקודת מבט סטטיסטית, הן מאוד דומות, אחת היא הלוג של השניה בקירוב!</p>
+<p>וזה אומר, שפונקצית החיזוי שאנחנו נמצא בכל שלב של אדאבוסט, שמביאה למינימום לוס אקספונציאלי, צריכה להיות אותה פונקצית חיזוי שתביא למינימום את הלוס של מינוס לוג הנראות, תחת המודל הבינומי!</p>
+<p>ואיך עושים בוסטינג לרגרסיה? את זה נראה בחלק הבא.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1159,7 +1180,7 @@
 <h2>Boosting for Regression</h2>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>ננסה עכשיו להגיע לאלגוריתם לבוסטינג לרגרסיה באותה גישה של פורוורד סטייג’וויז אדיטיב מודלינג.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1195,7 +1216,11 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>ניזכר שוב בהיי-לבל מה ראינו עד עכשיו.</p>
+<p>האלגוריתם פורוורד סטייג’ווויז אדיטיב אומר לנו בכל איטרציה למצוא את הצעד בטא ואת הפונקציה הפשוטה בי האופטימליים, כדי להביא למינימום כל לוס, עם מודל אדיטיבי.</p>
+<p>הראינו שבקלסיפיקציה בינארית איפה שוואי הוא 1 או מינוס 1, הלוס הוא אקספוננציאלי והפונקציות הפשוטות שלנו הן וויק קלסיפיירים G, מקבלים את אלגוריתם אדאבוסט.</p>
+<p>הראינו שברגרסיה איפה שוואי הוא רציף, הלוס ריבועי והפונקציות הפשוטות שלנו הן כל פעם משתנה אחד ויחיד - מקבלים את פורוורד סטייג’וויז רגרשן.</p>
+<p>השאלה המתבקשת היא האם אפשר לקחת את הלומדים החלשים האלה G מהאחד, ולשים אותם בשני, ולקבל גרסה ולידית של בוסטינג לרגרסיה. והתשובה היא לגמרי כן. נשים לב רק שברגרסיה אכן נקרא לG באופן כללי לרנרז או רגרסורז, הם כבר לא יהיהו קלסיפיירים.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1217,11 +1242,34 @@
 <li class="fragment">Specifically, let us focus on boosting trees: <span class="math inline">\(f(x) = \sum_{m = 1}^M T(x, \Theta_m)\)</span></li>
 <li class="fragment">Where <span class="math inline">\(T(x, \Theta) = \sum_{j = 1}^J \gamma_j\mathbb{I}\left(X \in R_j\right)\)</span></li>
 <li class="fragment">With parameters <span class="math inline">\(\Theta = \{R_j, \gamma_j\}_1^J\)</span></li>
+<li class="fragment">“Building a regression tree” is equivalent to: <span class="math display">\[\hat{\Theta} = \arg\min_{\Theta} \sum_{i = 1}^n\left(y_{i} - T(x_i, \Theta)\right)^2\]</span></li>
 </ul>
 </div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+<p>באופן ספציפי, נתמקד בעצים ונרצה לעשות להם בוסטינג. נרצה שהחיזוי שלנו יהיה סכום חיזויים של עצים או סכום ממושקל שאני רגע משמיט רק בשביל הקיצור. ולמה דווקא עצים? בגלל כל היתרונות שלהם שראינו בשיעור הקודם, עצים מטפלים בלי בעיה בסוגי משתנים מגוונים בלי הכנה נוספת, הם יודעים לטפל בתצפיות חסרות, הם לא-ליניאריים מצד אחד אבל לא גמישים מדי מצד שני, ומצד שני החיזוי שלהם בשורה התחתונה הוא לא מאוד טוב, שזה בדיוק מה שאנחנו רוצים בלומד חלש.</p>
+<p>נזכור מהו עץ רגרסיה בשורה התחתונה. עץ רגרסיה הוא בעצם חלוקה של הדאטא לJ שכונות Rj, שבכל שכונה אנחנו חוזים מספר יחיד גאמא J.</p>
+<p>כלומר כל עץ ניתן לרשום בעצמו כמודל אדיטיבי שהחיזוי שלו הוא סכום על כל השכונות, שיחפש לאיזו שכונה התצפית שייכת ויחזה עבורה גאמא J. וכאן אנחנו מתייחסים למודל הזה כמודל פרמטרי לכל דבר, לכל עץ יש פרמטרים תטא שמה הם? השכונות, והמספר שמתאים לכל שכונה, גאמא.</p>
+<p>זה חשוב להבין את זה כי תיכף נזריק את התהליך הזה של בניית עץ אל תוך האלגוריתם פורוורד סטייג’וויז שלנו. לבנות עץ רגרסיה עם לוס ריבועי זה פשוט למצוא את הפרמטרים תטא הכי טובים, למצוא את השכונות והחיזויים הכי טובים כדי לעשות מינימום לשגיאה ריבועית.</p>
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="boosted-trees-for-regression-1">Boosted trees for regression</h3>
 <div class="fragment">
 <ul>
-<li>With squared loss, no problem:</li>
+<li>So FSAM with squared loss, no problem:</li>
 </ul>
 <p><span class="math inline">\(\Theta_m = \arg\min_{\Theta} \sum_{i = 1}^n L\left(y_i, f_{m-1}(x_i) + T(x_i, \Theta)\right) = \arg\min_{\Theta} \sum_{i = 1}^n\left(y_i - f_{m-1}(x_i) - T(x_i, \Theta)\right)^2\)</span></p>
 </div>
@@ -1231,7 +1279,7 @@
 <div>
 <ul>
 <li class="fragment">Because we know how to build such trees!</li>
-<li class="fragment">That is, at each iteration <span class="math inline">\(m\)</span> build standard regression tree <span class="math inline">\(T(x, \Theta)\)</span> which best fits the current residuals <span class="math inline">\(\mathbf{r}_m\)</span></li>
+<li class="fragment">To sum up: at each iteration <span class="math inline">\(m\)</span> build standard regression tree <span class="math inline">\(T(x, \Theta)\)</span> which best fits the current residuals <span class="math inline">\(\mathbf{r}_m\)</span></li>
 </ul>
 </div>
 <div class="fragment">
@@ -1248,7 +1296,10 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>אז אם אנחנו ברגרסיה וההפסד הריבועי, אין בעיה. בכל שלב של האלגוריתם סטייג’וויז נמצא את הפרמטרים תטא שמביאים למינימום את ההפסד הריבועי של המודל האדיטיבי. אבל מה זה אומר? לבנות את העץ הכי שחוזה הכי טוב את השאריות!</p>
+<p>ולמה אין בעיה, כי זה בדיוק עץ הרגרסיה שאנחנו יודעים לבנות.</p>
+<p>אז סיכום ביניים, אם הלוס הוא ריבועי, לעשות בוסטינג לעצי רגרסיה אומר בכל איטרציה m לחשב את השאריות ולבנות עץ רגרסיה לחיזוי השאריות. לעדכן את השאריות ולעבור לאיטרציה הבאה וכולי.</p>
+<p>נשים לב שהפעולה הזאת תואמת מאוד את הרציונל של אדאבוסט - בכל שלב תמצה מה שהמודל עד כה לא הצליח לחזות טוב, וברגרסיה זה שאריות, ותמדל את הפער הזה. זה ממש שקול למשקול מחדש של הנתונים.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1267,7 +1318,7 @@
 <h3 id="what-about-more-robust-losses">What about more <span style="color:red;">robust</span> losses?</h3>
 <div class="columns">
 <div class="column">
-<div id="d4a46112" class="cell" data-execution_count="10">
+<div id="07b01fd0" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1292,7 +1343,11 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>הבעיה היא מה קורה אם אנחנו רוצים להכליל את הרעיון הזה לכל פונקצית הפסד, גם פונקציות שאנחנו קוראים להן רובסטיות או חסינות יותר מההפסד הריבועי.</p>
+<p>סטטיסטיקה רובסטית זה תחום שאפשר לבלות עליו סמסטר שלם. ובכל זאת למה הכוונה – הכוונה היא לפונקציות הפסד שמושפעות פחות מתצפיות חריגות. הרי הלוס הריבועי מעניש אותנו בשארית בריבוע כשהמודל טועה. שארית אחת שלגביה הוא טועה מאוד יכולה לנפח את הלוס מאוד.</p>
+<p>אופציה אחרת היא ההפסד בערך מוחלט, שיעניש אותנו בצורה ליניארית לשארית.</p>
+<p>אופציה אחרת היא הפסד הובר למשל, שעד איזשהו קבוע דלתא יעניש את השארית בריבוע, ומדלתא יעניש אותה בצורה ליניארית כמו הערך המוחלט. ויש עוד הרבה גרסאות לפונקציות הפסד חסינות. העניין הוא שאנחנו לא יודעים לבנות עץ רגרסיה לכל פונקציה כזאת, זאת בעיה די קשה.</p>
+<p>אז בחלק הבא נכליל את הפרוצדורה של בוסטינג שראינו אפילו יותר, וזה יאפשר לנו לטפל בכל פונקצית הפסד. זה גם יהיה אלגוריתם הבוסטינג המוכר והסופי שנגיע אליו בשיעור הזה, שנמצא בשימוש נרחב כל כך בתעשייה היום.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1310,7 +1365,7 @@
 <h2>Gradient Boosting</h2>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>הגירסה שהתקבעה בסופו של דבר לבוסטינג, נקראת גרדיאנט בוסטינג. לפעמים גרדיאנט בוסטינג מאשינז, לפעמים גרדיאנט בוסטינג טריז. מה הקשר בין מה שראינו לגרדיאנט, או לנגזרת של פונקציה?</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1328,7 +1383,7 @@
 
 <h3 id="gradient-descent-algorithms">Gradient descent algorithms</h3>
 <p>Minimize a function <span class="math inline">\(J(\theta)\)</span> by moving in the opposite direction of the gradient: <span class="math display">\[\hat\theta_{i+1} = \hat\theta_i - \varepsilon \frac{\partial J(\theta)}{\partial \theta}\]</span></p>
-<div id="dec494af" class="cell" data-execution_count="11">
+<div id="6268edec" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1339,7 +1394,9 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>ניזכר בשיטה כללית למצוא מינימום של פונקציה מסובכת, כשאין לנו פתרון סגור. אנחנו מתחילים מאיזשהו ניחוש התחלתי לפרמטר שלנו, כאן נגיד פרמטר דו-מימדי תטא. מחשבים את הנגזרת של הפונקציה שלנו ביחס לפרמטר, כלומר הגרדיאנט. הגרדיאנט הוא בעצם הכיוון של ההשתנות הכי מהירה של הפונקציה. כמו להיות על הר גבוה ולחשב איפה הוא יורד הכי מהר. ואז, אנחנו עושים צעד קטן בגודל אפסילון במורד הגרדיאנט. מה שבפועל אומר לקחת את הפרמטרים תטא שיש לנו עד עכשיו, ולהחסיר מהם אפסילון קטן כפול הגרדיאנט.</p>
+<p>אנחנו חוזרים על הצעד הזה שוב ושוב, כל פעם מסתכלים בנקודה שבה אנחנו נמצאים מהו הגרדיאנט והולכים המורד הגרדיאנט צעד קטן, עד שנמצא את הפרמטר שמביא למינימום א הפונקציה. לפונקציה כללית נגיע למינימום לוקאלי, ואם הפונקציה קמורה והצעד אפסילון מספיק קטן מובטח לנו שנגיע למינימום גלובלי.</p>
+<p>אז מה הקשר למה שאנחנו עושים כאן? מאוחר יותר הבינו חוקרים שהאלגוריתם בוסטינג הפשוט שתיארנו רק לפני רגע, הוא ממש חיקוי של גרדיאנט דיסנט.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1355,7 +1412,7 @@
 </section>
 <section class="slide level2">
 
-<h3 id="gradient-boosting-machines">Gradient Boosting Machines</h3>
+<h3 id="gradient-boosting-machines">Gradient boosting machines</h3>
 <div>
 <ul>
 <li class="fragment">Consider any loss <span class="math inline">\(L(y, \mathbf{f})\)</span> a function of <span class="math inline">\(n\)</span> data points <span class="math inline">\(\mathbf{f} = (f(x_1), \dots, f(x_n))\)</span></li>
@@ -1366,7 +1423,10 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>במקרה שלנו הפונקציה שאנחנו רוצים לעשות לה מינימום היא פונקצית הפסד, של הרבה תצפיות וחיזויים של התצפיות. הרעיון היפה הוא להתייחס לוקטור התחזיות שלנו כוקטור פרמטרים של הפונקציה. נכון שאלה לא ממש פרמטרים אלה תחזיות שמבוססות על מודל כמו עץ רגרסיה, אבל הרישום הזה מאפשר לנו לפתור את הבעיה שלנו באמצעות גרדיאנט דיסנט.</p>
+<p>בכל איטרציה m, נרשום את הגרדיאנט של הפונקצית הפסד שלנו לפי התחזיות שהן עכשיו פרמטרים. ונציב בגרדיאנט את החיזויים האחרונים שיש בידינו.</p>
+<p>כעת כדי לקבל חיזויים חדשים, ניקח את החיזויים הקודמים ונלך צעד קטן בכיוון הגרדיאנט, כלומר נחסר מהוקטור הזה צעד אפסילון קטן כפול וקטור הגרדיאנט. ואת זה נעשה שוב ושוב עד שנגיע לחיזויים שמביאים למינימום את פונקצית ההפסד שלנו.</p>
+<p>אפשרות נוספת אגב היא לא להסתפק בצעד קטן אפסילון אלא בכל איטרציה לחשב את האפסילון שמתאים ספציפית לאיטרציה הזאת, אפסילון-אם. כלומר לחשב מהו גודל הצעד שיביא למינימום את ההפסד בנקודה הנוכחית לעומת התחזיות החדשות. בפועל לא נראה תמיד שיש יתרון לתוספת הזאת וצעד אפסילון קטן עובד יופי אבל נזכור את הגירסה הזאת גם כן.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1382,20 +1442,26 @@
 </section>
 <section class="slide level2">
 
-<h3 id="gradient-boosting-machines-1">Gradient Boosting Machines</h3>
+<h3 id="gradient-boosting-machines-1">Gradient boosting machines</h3>
 <div>
 <ul>
 <li class="fragment">Eventually we would get: <span class="math display">\[\mathbf{f}_M = \sum_{i = 1}^M\varepsilon_m(-\mathbf{g}_m)\]</span></li>
-<li class="fragment">But we are not interested in <span class="math inline">\(\mathbf{f}_M\)</span> for our training data, we wanted a model!
+<li class="fragment">But we are not interested in <span class="math inline">\(\mathbf{f}_M\)</span> for our training data, we wanted a model! What about <span class="math inline">\(x_0\)</span>?
 <ul>
-<li class="fragment">E.g. <span class="math inline">\(f(x) = \sum_{m = 1}^M T(x, \Theta_m)\)</span></li>
+<li class="fragment">E.g. <span class="math inline">\(f(x) = \sum_{m = 1}^M \varepsilon T(x, \Theta_m)\)</span></li>
 </ul></li>
 <li class="fragment">Solution: at each iteartion <span class="math inline">\(m\)</span> approximate the negative gradient <span class="math inline">\(-\mathbf{g}_m\)</span> with a weak learner or regression tree! <span class="math display">\[\Theta_m = \arg\min_\Theta \sum_{i = 1}^n (-g_{im} - T(x_i, \Theta))^2\]</span></li>
 </ul>
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>בסופו של דבר נקבל שהחיזויים הסופיים שלנו אחרי M איטרציות הם מזכירים מודל אדיטיבי כמו שרצינו. החיזויים הסופיים הם סכום של צעד אפסילון כפול מינוס הגרדיאנט, ועוד צעד אפסילון כפול מינוס הגרדיאנט וכולי.</p>
+<p>אבל כאן מופיע הקץ’ – זה לא המודל שרצינו! מה שמתואר כאן זה לא משין לרנינג. אם תתייחסו לn החיזויים כפרמטרים, במקרה הטוב פשוט תגיעו לחיזויים טובים ספציפית על מדגם הלמידה. כשתגיע תצפית חדשה X0 לא תדעו איך לחזות עליה. או במילים אחרות למדתם פרמטרים אבל לא למדתם מודל.</p>
+<p>אנחנו רצינו מודל אדיטיבי, למשל סכום של עצים ממושקלים, או שכל אחד יופיע עם משקולת קטנה קבועה.</p>
+<p>והנה הפתרון היפה לגשר בין שתי הגישות: בכל איטרציה, כן נלמד מודל, למשל עץ החלטה, והמודל הזה ינסה לקרב את הגרדיאנט!</p>
+<p>שימו-לב, לא משנה מה הלוס, הוא יכול להיות הובר או ערך מוחלט, הוא יכול להיות אפילו לוס של קלסיפיקציה – העץ שאנחנו בונים תמיד יהיה עץ רגרסיה, עם הפסד ריבועי, שמנסה לקרב את הגרדיאנט. זה עץ שאמרנו שאנחנו יודעים לבנות די בקלות.</p>
+<p>ואז, ברגע שיש לנו עץ כזה נוסיף אותו למודל, אולי עם איזו משקולת קטנה אפסילון, ובאיטרציה הבאה נחשב שוב את הגרדיאנט, נמדל אותו עם עץ, וכך הלא וכך הלאה.</p>
+<p>לכן קוראים לכל הגישה גרדיאנט בוסטינג, מדובר על בוסטינג באמצעות גרדיאנט דיסנט. והיא מתאימה לכל פונקצית הפסד שניתן לחשב לה בקלות את הגרדיאנט, אף על פי שהלומדים שמרכיבים אותה הם עצי רגרסיה.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1463,7 +1529,10 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>תיכף נסכם את האלגוריתם הסופי אבל קודם נראה כמה קל עבור הלוסים שראינו עד כה למצוא את הגרדיאנט ביחס לחיזויים:</p>
+<p>אם ההפסד ריבועי, ונכפיל פי חצי כדי לקבל תוצאה יפה, נקבל את השאריות. שימו-לב, זה אומר שהאלגוריתם בוסטינג הספציפי שראינו לפי רגע הוא מקרה פרטי של גרדיאנט בוסטינג. כי עם לוס ריבועי, וקטור הגרדיאנט הוא בעצם וקטור השאריות!</p>
+<p>ואם הלוס הוא ערך מוחלט או הובר, יש לנו ביטויים סגורים ויפים לוקטור הגרדיאנט.</p>
+<p>ואפילו אם הלוס הוא בכלל לוס של קלסיפיקציה בינארית, Y הוא אפס או אחת, ואנחנו משתמשים במינוס לוג הנראות הבינומית שראינו קודם בקלסיפיקציה. גם אז וקטור הגרדיאנט שנמדל הוא ביטוי פשוט וסגור, מינוס ההסתברות החזויה לתצפיות שהן 0 או 1 פחות ההסתברות החזויה לתצפיות שהן 1.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1479,14 +1548,14 @@
 </section>
 <section class="slide level2">
 
-<h3 id="gradient-boosting-trees-simplified">Gradient Boosting Trees (simplified)</h3>
+<h3 id="gradient-boosting-trees-simplified">Gradient boosting trees (simplified)</h3>
 <ol type="1">
 <li>Initialize <span class="math inline">\(f_0(x) = \arg\min_\gamma \sum_{i = 1}^n L(y_i, \gamma)\)</span> (e.g.&nbsp;<span class="math inline">\(f_0(x) = \bar{y}\)</span>)</li>
 <li>For <span class="math inline">\(m = 1\)</span> to <span class="math inline">\(M\)</span>:
 <ol type="a">
 <li>Compute pseudo-residuals: <span class="math display">\[\mathbf{r}_m = -\left[\frac{\partial L(y, \mathbf{f})}{\partial \mathbf{f}}\right]_{\mathbf{f} = \mathbf{f}_{m - 1}}\]</span></li>
 <li>Fit a <strong>regression tree</strong> to data <span class="math inline">\((\mathbf{x}, \mathbf{r}_m)\)</span>, giving <span class="math inline">\(T(x, \Theta_m)\)</span></li>
-<li>Update: <span class="math inline">\(f_m(x) = f_{m - 1}(x) + \varepsilon T(x, \Theta_m)\)</span></li>
+<li>Update: <span class="math inline">\(f_m(x) = f_{m - 1}(x) + \varepsilon T(x, \Theta_m)\)</span> (or <span class="math inline">\(\varepsilon_m\)</span>)</li>
 </ol></li>
 <li>Output: <span class="math inline">\(\hat{f}(x) = \sum_{m = 1}^M \varepsilon T(x, \Theta_m)\)</span></li>
 </ol>
@@ -1504,7 +1573,15 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>וככה נראה אלגוריתם גרדיאנט בוסטינג טריז בצור הכי פשוטה.</p>
+<p>נתאחל את החיזויים להיות מה שמביא למינימום את פונקצית ההפסד שבחרנו. אם זה הפסד ריבועי נקבל את ממוצע Y, אם זה הפסד בערך מוחלט נקבל את חציון Y. אפשר להתחיל גם עם חיזוי אפס לכל התצפיות, זה גם יעבוד.</p>
+<p>בכל איטרציה m:</p>
+<p>נחשב את וקטור הגרדיאנט או הפסאודו-שאריות. למה זה נקרא פסאודו-שאריות, כי עם הפסד ריבועי מדובר ממש בשאריות (להדגים), ובאופן כללי וקטור שמבטא מה שהמודל לא הצליח לחזות עד כאן.</p>
+<p>נתאים עץ רגרסיה לשאריות, כלומר על הגירסה הזאת של הדאטא, שאפשר לחשוב עליה כמו באדאבוסט כגירסה ממושקלת של הנתונים כך שכל תצפית מקבלת משקולת גדולה יותר אם לא הצלחנו לחזות אותה עד כה.</p>
+<p>ונעדכן את המודל, נוסיף את העץ שלנו עם צעד אפסילון קטן שיכול להיות לרנינג רייט קבוע מראש או ספציפי לאיטרציה הנוכחית.</p>
+<p>אחרי M איטרציות המודל שנקבל יהיה מודל אדיטיבי של אנסמבל של עצי החלטה, עם משקולת קטנה קבועה או משקולת ייחודית לכל אחד, שנבנו בצורה אדפטיבית, אחד אחרי השני, כל פעם על גרסה אחרת של הנתונים.</p>
+<p>נשים לב שיש כאן כמה פרמטרים שצריך לעשות עליהם טיונינג: מספר העצים – בניגוד לרנדום פורסט שם מובטח לנו שלא נעשה אוברפיטינג עם עוד עצים, כאן אין הבטחה כזאת – אבל נגיד שעדיין בפועל על נתונים אמיתיים בוסטינג נוטה לתת תוצאות טובות עם הרבה עצים, במיוחד אם שולטים בעומק העצים. וזה בדיוק הפרמטר הבא - לאילו עצים בוסטינג יכול לסייע במיוחד, עצים עמוקים או עצים לא עמוקים? אנחנו רוצים וויק לרנרז, שלומדים תופעות פשוטות אבל יציבות, שלאט לאט כשנצרף את כולן נקבל מודל חזק, כלומר בפועל בבוסטינג אנחנו מעדיפים עצים לא עמוקים מדי, בדרך כלל עומק 2 עד 4, ואפילו גזעים של עצים ראינו שעובד.</p>
+<p>והפרמטר האחרון הוא קצב הלמידה אפסילון, שהוא כמו גודל הצעד בגרדיאנט דיסנט, אם אנחנו אומרים שהוא קבוע לכל האיטרציות. אבל גם כאן בפועל לנתונים אמיתיים ערך דיפולטיבי כמו 0.01 או 0.001 עובד היטב.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1521,7 +1598,7 @@
 <section class="slide level2">
 
 <h3 id="example-credit-data">Example: credit data</h3>
-<div id="13085b37" class="cell" data-execution_count="12">
+<div id="f990c8e9" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1532,7 +1609,9 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>כאן אנחנו רואים את בוסטינג על הקרדיט דאטא, בהם אנחנו מנסים למדל עבור כל אדם את היתרה בחשבון שלה מכמה משתנים כמו אם הוא סטודנט או לא, או מה נתוני האשראי שלו. במקרה הזה אפשר לראות שבוסטינג משפר בהרבה את שגיאת החיזוי של עץ יחיד, הקו הכתום הוא ממוצע הMSE על תצפיות שהמודל לא ראה בפרוצדורת קרוס ולידיישן, ואנחנו משתמשים בערכים הדיפולטיביים לכל הפרמטרים שהתוכנה נותנת, כאן זה בוסטינג באמצעות sklearn בפייתון.</p>
+<p>במקרה הזה לא נראה שיש נטייה למודל לעשות אוברפיטינג אם נוסיף עוד ועוד עצים, הוא גם מבצע קצת יותר טוב מרנדום פורסט שראינו בשיעור הקודם.</p>
+<p>בשורה התחתונה בוסטינג שמבוסס על עצים הוא אחד האלגוריתמים הטובים ביותר אוף דה שלף להתאים לנתונים טבלאיים גדולים, יש לו הרבה מימושים מאוד מהירים כמו xgboost, ולפני מהפיכת הדיפ לרנינג הוא גם היה בשימוש רב בבעיות של קומפיוטר ויז’ן בהן הדאטא הוא תמונות.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
