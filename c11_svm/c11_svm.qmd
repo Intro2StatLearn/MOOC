@@ -1,0 +1,477 @@
+---
+format:
+  revealjs:
+    slide-number: true
+    chalkboard: true
+    fig-width: 6
+    fig-asp: 0.618
+    template-partials:
+      - "../title-slide.html"
+css: "../slides_quarto.css"
+standalone: false
+include-in-header: "../header_quarto.html"
+logo: "../Intro2SL_logo_white.jpg"
+pagetitle: "SVM"
+callout-appearance: simple
+smaller: true
+execute:
+  eval: true
+  echo: true
+code-line-numbers: false
+code-block-border-left: true
+highlight-style: github
+footer: "[Intro to Statistical Learning](https://intro2statlearn.github.io/mooc/){target='_blank'}"
+---
+
+## {.logo-slide}
+
+## Introduction to Statistical Learning {.title-slide}
+
+### Support Vector Machines - Class 11
+
+### Giora Simchoni
+
+#### `gsimchoni@gmail.com` and add `#intro2sl` in subject
+
+### Stat. and OR Department, TAU
+
+---
+
+## Maximum margin classifier {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### A big assumption
+
+- Suppose $y \in \{-1, 1\}$
+- Suppose $T = \{(x_1, y_1), \dots, (x_n, y_n)\}$ can be separated by a hyperplane:
+
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+from sklearn import datasets
+
+# Generate synthetic 2D data for the left plot
+np.random.seed(0)
+X_2D, y = datasets.make_blobs(n_samples=100, centers=2, random_state=3)
+y = 2*y - 1  # Convert to {-1, 1}
+
+# Generate synthetic 3D data for the right plot
+X_3D = np.c_[X_2D, np.random.randn(X_2D.shape[0])]  # Adding a 3rd random coordinate
+
+# Create figure and axes for side-by-side plots
+fig = plt.figure(figsize=(12, 6))
+
+# Left: 2D plot without hyperplane or support vectors
+ax1 = fig.add_subplot(1, 2, 1)
+ax1.scatter(X_2D[y == -1][:, 0], X_2D[y == -1][:, 1], s=20, c='red', marker='x', label='-1')
+ax1.scatter(X_2D[y == 1][:, 0], X_2D[y == 1][:, 1], s=20, c='blue', marker='o', label='1')
+ax1.grid(True)
+
+# Right: 3D plot without hyperplane
+ax2 = fig.add_subplot(1, 2, 2, projection='3d')
+ax2.scatter(X_3D[y == -1][:, 0], X_3D[y == -1][:, 1], X_3D[y == -1][:, 2], s=20, c='red', marker='x', label='-1')
+ax2.scatter(X_3D[y == 1][:, 0], X_3D[y == 1][:, 1], X_3D[y == 1][:, 2], s=20, c='blue', marker='o', label='1')
+
+# Set labels for 3D plot
+ax2.set_xlabel('X1')
+ax2.set_ylabel('X2')
+ax2.set_zlabel('X3')
+
+# Show plot
+plt.show()
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Separating hyperplanes
+
+- $\beta_0, \beta_1, \dots, \beta_p$ define a $p$-dimensional plane for all points $x \in \mathbb{R}^p$ satisfying:
+$$\beta_0 + \beta_1x_1 + \dots + \beta_px_p = \beta_0 + x^T\beta = 0$$
+- We say $\beta = (\beta_1, \dots, \beta_p)$ is normal to the hyperplane
+
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Coefficients for the line: beta_0 + beta_1*X1 + beta_2*X2 = 0
+beta_0 = -4
+beta_1 = 2
+beta_2 = 3
+
+# Create figure
+plt.figure(figsize=(3, 3))
+
+# Generate X1 values and compute X2 from the line equation
+x1_vals = np.linspace(-5, 5, 100)
+x2_vals = -(beta_0 + beta_1 * x1_vals) / beta_2
+
+# Plot the line
+plt.plot(x1_vals, x2_vals, 'k--', label=r'$\beta_0 + \beta_1 X_1 + \beta_2 X_2 = 0$')
+
+# Plot the normal vector from the origin
+plt.quiver(0, 0, beta_1, beta_2, angles='xy', scale_units='xy', scale=1, color='r')
+
+# Annotate the line and the normal vector
+plt.text(-3.4, -1.0, r'$-4 + 2 X_1 + 3 X_2 = 0$', fontsize=12)
+plt.text(beta_1 / 2, beta_2 / 2-0.5, r'$\beta = (2, 3)$', fontsize=12, color='r')
+
+# Set axis limits and labels
+plt.xlim(-4, 5)
+plt.ylim(-4, 5)
+plt.xlabel('X1')
+plt.ylabel('X2')
+plt.axhline(0, color='black',linewidth=0.5)
+plt.axvline(0, color='black',linewidth=0.5)
+
+# Grid and equal aspect ratio
+plt.grid(True)
+plt.gca().set_aspect('equal', adjustable='box')
+
+# Show the plot
+plt.show()
+```
+
+::: {.fragment}
+::: {.callout-note}
+What would be a natural decision rule for separating $y \in \{-1, 1\}$?
+:::
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Separating hyperplanes
+
+::: {.incremental}
+- In other words, a hyperplane is "separating" iff:
+$$y_i \cdot (\beta_0 + x_i^T\beta) > 0 \quad \forall i$$
+
+- And a natural decision rule for separating hyperplanes:
+$$\hat{f}(x_0) = \text{sign}\left[\beta_0 + x_0^T\beta\right]$$
+
+- But *if* there exists a separating hyperplane, how many are there?
+:::
+
+::: {.fragment}
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+from sklearn import datasets
+
+# Generate synthetic 2D data for the left plot
+np.random.seed(0)
+X_2D, y = datasets.make_blobs(n_samples=100, centers=2, random_state=3)
+y = 2*y - 1  # Convert to {-1, 1}
+
+# Create figure
+plt.figure(figsize=(3, 3))
+
+# Left: 2D plot without hyperplane or support vectors
+plt.scatter(X_2D[y == -1][:, 0], X_2D[y == -1][:, 1], s=20, c='red', marker='x', label='-1')
+plt.scatter(X_2D[y == 1][:, 0], X_2D[y == 1][:, 1], s=20, c='blue', marker='o', label='1')
+plt.grid(True)
+plt.xlabel('X1')
+plt.ylabel('X2')
+
+# Show plot
+plt.show()
+```
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Maximum margin classifier
+
+- Intuitively, we would like the hyperplane that is "fartherst" from points on both sides
+
+::: {.fragment}
+- That is, the hyperplane that maximizes the [margin]{style="color:red;"}:
+  - the minimum distance of training points to the hyperplane
+
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn import datasets
+from sklearn.svm import SVC
+
+# Generate synthetic data
+np.random.seed(0)
+X, y = datasets.make_blobs(n_samples=100, centers=2, random_state=3)
+y = 2 * y - 1  # Convert to {-1, 1}
+
+# Train an SVM classifier with a linear kernel (maximum margin hyperplane)
+clf_max_margin = SVC(kernel='linear', C=1e10)
+clf_max_margin.fit(X, y)
+
+# Get the coefficients and intercept for the hyperplane
+w = clf_max_margin.coef_[0]
+b = clf_max_margin.intercept_[0]
+
+# Function to plot the hyperplane and margins
+def plot_hyperplane(ax, w, b, X, y, title, delta_h=1, delta_l=1):
+    # Plot the points
+    ax.scatter(X[y == -1][:, 0], X[y == -1][:, 1], s=20, c='red', marker='x', label='-1')
+    ax.scatter(X[y == 1][:, 0], X[y == 1][:, 1], s=20, c='blue', marker='o', label='1')
+
+    # Limits
+    ax.set_xlim(min(X[:, 0]) - 1, max(X[:, 0]) + 1)
+    ax.set_ylim(min(X[:, 1]) - 1, max(X[:, 1]) + 1)
+
+    # Plot the decision boundary (hyperplane)
+    x_plot = np.linspace(min(X[:, 0]), max(X[:, 0]), 100)
+    y_plot = -(w[0] * x_plot + b) / w[1]
+    ax.plot(x_plot, y_plot, 'k--')  # Black dashed line for the hyperplane
+    
+    # Plot the margin lines
+    margin = 1 / np.linalg.norm(w)
+    y_margin_1 = -(w[0] * x_plot + (b - delta_h)) / w[1]
+    y_margin_2 = -(w[0] * x_plot + (b + delta_l)) / w[1]
+    ax.plot(x_plot, y_margin_1, 'k:', linewidth=1)  # Upper margin line
+    ax.plot(x_plot, y_margin_2, 'k:', linewidth=1)  # Lower margin line
+    
+    # Title
+    ax.set_title(title)
+
+# Create figure and axes for side-by-side plots
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 4))
+
+# Left plot: Maximum margin hyperplane
+plot_hyperplane(ax1, w, b, X, y, 'Maximum margin hyperplane')
+
+w1 = w + np.array([-0.2, 0.5])
+b1 = b - 1.55
+
+# Right plot: Different hyperplane
+plot_hyperplane(ax2, w1, b1, X, y, 'Different separating hyperplane', delta_h=0.575, delta_l=0.575)
+
+# Show the plot
+plt.tight_layout()
+plt.show()
+```
+
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Maximum margin criterion
+
+::: {.incremental}
+- So far we have:
+$$\max_{\beta, \beta_0}\text{"minimum distance"} \quad s.t. \space y_i (\beta_0 + x_i^T\beta) > 0 \space \forall i$$
+
+- The distance between any point $x$ to the hyperplane is: $\frac{|\beta_0 + x^T\beta|}{\|\beta\|_2}$
+  - because this distance is the length of a vector proportional to the normal $\beta$:
+:::
+
+::: {.fragment}
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
+
+# Coefficients for the line: beta_0 + beta_1*X1 + beta_2*X2 = 0
+beta_0 = -4
+beta_1 = 2
+beta_2 = 3
+
+# Create figure
+plt.figure(figsize=(4, 4))
+
+# Generate X1 values and compute X2 from the line equation
+x1_vals = np.linspace(-5, 5, 100)
+x2_vals = -(beta_0 + beta_1 * x1_vals) / beta_2
+
+# Plot the line
+plt.plot(x1_vals, x2_vals, 'k--', label=r'$\beta_0 + \beta_1 X_1 + \beta_2 X_2 = 0$')
+
+# Plot the normal vector from the origin
+plt.quiver(0, 0, beta_1, beta_2, angles='xy', scale_units='xy', scale=1, color='r')
+
+# Plot the normal vector from projection of a point x to x
+plt.quiver(-2, 2.666, 0.5 * beta_1, 0.5 * beta_2, angles='xy', scale_units='xy', scale=1, color='b')
+right1 = mpatches.Rectangle((-2, 2.666), -0.4, 0.4, fc=[0,0,0,0], ec='b', zorder=0, lw=.7, angle=-35)
+plt.gca().add_patch(right1)
+
+# Annotate the line, the point and the normal vector
+plt.text(-3.4, -1.0, r'$-4 + 2 X_1 + 3 X_2 = 0$', fontsize=12)
+plt.text(-1, 4, r'$x$', fontsize=12, color='b')
+plt.text(beta_1 / 2, beta_2 / 2-0.5, r'$\beta = (2, 3)$', fontsize=12, color='r')
+
+# Set axis limits and labels
+plt.xlim(-4, 5)
+plt.ylim(-4, 5)
+plt.xlabel('X1')
+plt.ylabel('X2')
+plt.axhline(0, color='black',linewidth=0.5)
+plt.axvline(0, color='black',linewidth=0.5)
+
+# Grid and equal aspect ratio
+plt.grid(True)
+plt.gca().set_aspect('equal', adjustable='box')
+
+# Show the plot
+plt.show()
+```
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Maximum margin criterion
+
+::: {.incremental}
+- So for any $M > 0$ a compact way of writing the criterion is:
+$$\max_{\beta, \beta_0}M \quad s.t. \space \|\beta\| = 1 \text{ and } \quad y_i (\beta_0 + x_i^T\beta) \ge M \space \forall i$$
+
+- All the points are at least a signed distance $M$ from the decision boundary defined by $\beta, \beta_0$, and we seek $\beta, \beta_0$ that get the largest such $M$
+
+- Equivalently if we insist on setting $\|\beta\| = 1/M$ we can write:
+$$\min_{\beta, \beta_0}\|\beta\| \quad s.t. \space y_i (\beta_0 + x_i^T\beta) \ge 1 \space \forall i$$
+
+  - because $M = 1/\|\beta\|$ and maximizing $M$ is minimizing $\|\beta\|$
+
+- This is a convex optimization problem (quadratic criterion, linear inequality constraints), many efficient solvers exist
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Support vectors
+
+:::: {.columns}
+::: {.column}
+Back to the maximum margin classifier:
+
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn import datasets
+from sklearn.svm import SVC
+
+# Generate synthetic data
+np.random.seed(0)
+X, y = datasets.make_blobs(n_samples=100, centers=2, random_state=3)
+y = 2 * y - 1  # Convert to {-1, 1}
+
+# Train an SVM classifier with a linear kernel (maximum margin hyperplane)
+clf_max_margin = SVC(kernel='linear', C=1e10)
+clf_max_margin.fit(X, y)
+
+# Get the coefficients and intercept for the hyperplane
+w = clf_max_margin.coef_[0]
+b = clf_max_margin.intercept_[0]
+
+# Function to plot the hyperplane and margins
+def plot_hyperplane(ax, clf, w, b, X, y, title, delta_h=1, delta_l=1):
+    # Plot the points
+    ax.scatter(X[y == -1][:, 0], X[y == -1][:, 1], s=20, c='red', marker='x', label='-1')
+    ax.scatter(X[y == 1][:, 0], X[y == 1][:, 1], s=20, c='blue', marker='o', label='1')
+
+    # Limits
+    ax.set_xlim(min(X[:, 0]) - 1, max(X[:, 0]) + 1)
+    ax.set_ylim(min(X[:, 1]) - 1, max(X[:, 1]) + 1)
+
+    # Plot the decision boundary (hyperplane)
+    x_plot = np.linspace(min(X[:, 0]), max(X[:, 0]), 100)
+    y_plot = -(w[0] * x_plot + b) / w[1]
+    ax.plot(x_plot, y_plot, 'k--')  # Black dashed line for the hyperplane
+    
+    # Plot the margin lines
+    margin = 1 / np.linalg.norm(w)
+    y_margin_1 = -(w[0] * x_plot + (b - delta_h)) / w[1]
+    y_margin_2 = -(w[0] * x_plot + (b + delta_l)) / w[1]
+    ax.plot(x_plot, y_margin_1, 'k:', linewidth=1)  # Upper margin line
+    ax.plot(x_plot, y_margin_2, 'k:', linewidth=1)  # Lower margin line
+    
+    # Highlight the support vectors
+    ax.scatter(clf.support_vectors_[:, 0], clf.support_vectors_[:, 1], s=30, facecolors='none', edgecolors='black')
+
+    # Title
+    ax.set_title(title)
+
+# Create figure and axes for side-by-side plots
+fig, ax = plt.subplots(figsize=(4, 4))
+
+# Left plot: Maximum margin hyperplane
+plot_hyperplane(ax, clf_max_margin, w, b, X, y, '')
+
+# Show the plot
+plt.tight_layout()
+plt.show()
+```
+
+:::
+
+::: {.column}
+::: {.incremental}
+- The final classifier depends only on support vectors but was reached given all the training data
+- What could be advantages/disadvantages to a classifier that only depends on few observations?
+- What would logistic regression do?
+- What if there is no separable hyperplane?
+- And as usual: this is very specific to binary classification, can we generalize?
+:::
+:::
+::::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+## Support vector classifier {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
