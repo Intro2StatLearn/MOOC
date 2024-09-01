@@ -372,7 +372,7 @@
 <li>Suppose <span class="math inline">\(y \in \{-1, 1\}\)</span></li>
 <li>Suppose <span class="math inline">\(T = \{(x_1, y_1), \dots, (x_n, y_n)\}\)</span> can be separated by a hyperplane:</li>
 </ul>
-<div id="718d4317" class="cell" data-execution_count="1">
+<div id="2889be46" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -404,7 +404,7 @@
 <li><span class="math inline">\(\beta_0, \beta_1, \dots, \beta_p\)</span> define a <span class="math inline">\(p\)</span>-dimensional plane for all points <span class="math inline">\(x \in \mathbb{R}^p\)</span> satisfying: <span class="math display">\[\beta_0 + \beta_1x_1 + \dots + \beta_px_p = \beta_0 + x^T\beta = 0\]</span></li>
 <li>We say <span class="math inline">\(\beta = (\beta_1, \dots, \beta_p)\)</span> is normal to the hyperplane</li>
 </ul>
-<div id="16da1681" class="cell" data-execution_count="2">
+<div id="a65ca491" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -447,12 +447,12 @@
 <div>
 <ul>
 <li class="fragment"><p>In other words, a hyperplane is “separating” iff: <span class="math display">\[y_i \cdot (\beta_0 + x_i^T\beta) &gt; 0 \quad \forall i\]</span></p></li>
-<li class="fragment"><p>And a natural decision rule for separating hyperplanes: <span class="math display">\[\hat{f}(x_0) = \text{sign}\left[\beta_0 + x_0^T\beta\right]\]</span></p></li>
+<li class="fragment"><p>And a natural decision rule for separating hyperplanes: <span class="math display">\[\hat{f}(x_0) = \text{sign}\left[\hat{\beta}_0 + x_0^T\hat{\beta}\right]\]</span></p></li>
 <li class="fragment"><p>But <em>if</em> there exists a separating hyperplane, how many are there?</p></li>
 </ul>
 </div>
 <div class="fragment">
-<div id="9db694d2" class="cell" data-execution_count="3">
+<div id="9bd985e3" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -491,7 +491,7 @@
 <li>the minimum distance of training points to the hyperplane</li>
 </ul></li>
 </ul>
-<div id="a10c9cbf" class="cell" data-execution_count="4">
+<div id="20d49998" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -522,7 +522,8 @@
 <h3 id="maximum-margin-criterion">Maximum margin criterion</h3>
 <div>
 <ul>
-<li class="fragment"><p>So far we have: <span class="math display">\[\max_{\beta, \beta_0}\text{"minimum distance"} \quad s.t. \space y_i (\beta_0 + x_i^T\beta) &gt; 0 \space \forall i\]</span></p></li>
+<li class="fragment"><p>So far we have:<br>
+<span class="math inline">\(\max_{\beta, \beta_0}\text{"minimum distance"} \quad s.t. \space y_i (\beta_0 + x_i^T\beta) &gt; 0 \space \forall i\)</span></p></li>
 <li class="fragment"><p>The distance between any point <span class="math inline">\(x\)</span> to the hyperplane is: <span class="math inline">\(\frac{|\beta_0 + x^T\beta|}{\|\beta\|_2}\)</span></p>
 <ul>
 <li class="fragment">because this distance is the length of a vector proportional to the normal <span class="math inline">\(\beta\)</span>:</li>
@@ -530,7 +531,7 @@
 </ul>
 </div>
 <div class="fragment">
-<div id="6fba1f4c" class="cell" data-execution_count="5">
+<div id="35fef695" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -592,7 +593,7 @@
 <div class="columns">
 <div class="column">
 <p>Back to the maximum margin classifier:</p>
-<div id="cd83a5a2" class="cell" data-execution_count="6">
+<div id="673219d9" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -631,6 +632,199 @@
 </section>
 <section id="support-vector-classifier" class="slide level2 title-slide center">
 <h2>Support vector classifier</h2>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="not-just-the-non-separable-case">Not just the non-separable case</h3>
+<div id="c7b25d08" class="cell" data-execution_count="7">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c11_svm_files/figure-revealjs/cell-8-output-1.png" width="950" height="278"></p>
+</figure>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="support-vectors-classifier">Support vectors classifier</h3>
+<ul>
+<li>Let us relax our constraints:
+<ul>
+<li>Allow observations to be inside the margin</li>
+<li>Or even on the wrong side of the hyperplane!</li>
+<li>With a “budget” <span class="math inline">\(C\)</span> for these violations (or penalty)</li>
+</ul></li>
+</ul>
+<div>
+<ul>
+<li class="fragment"><p>We do this with the help of “slack variables”: <span class="math inline">\(\epsilon = (\epsilon_1, \dots, \epsilon_n)\)</span></p></li>
+<li class="fragment"><p>The new optimization problem: <span class="math display">\[\max_{\beta, \beta_0, \epsilon}M \quad s.t. \space \|\beta\| = 1, \quad y_i (\beta_0 + x_i^T\beta) \ge M(1-\epsilon_i), \quad \epsilon_i \ge 0, \quad \sum_{i = 1}^n \epsilon_i \le C\]</span></p></li>
+<li class="fragment"><p>The final prediction is still: <span class="math display">\[\hat{f}(x_0) = \text{sign}\left[\hat{\beta}_0 + x_0^T\hat{\beta}\right]\]</span></p></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="svc-slack-variables">SVC: slack variables</h3>
+<p><span class="math inline">\(\max_{\beta, \beta_0, \epsilon}M \quad s.t. \space \|\beta\| = 1, \quad y_i (\beta_0 + x_i^T\beta) \ge M(1-\epsilon_i), \quad \epsilon_i \ge 0, \quad \sum_{i = 1}^n \epsilon_i \le C\)</span></p>
+<div>
+<ul>
+<li class="fragment"><span class="math inline">\(\epsilon_i\)</span> is the amount by which observation <span class="math inline">\(x_i\)</span> “violates” the margin:
+<ul>
+<li class="fragment">If <span class="math inline">\(\epsilon_i = 0\)</span> then <span class="math inline">\(x_i\)</span> is on the correct side of the margin</li>
+<li class="fragment">If <span class="math inline">\(\epsilon_i &gt; 0\)</span> then <span class="math inline">\(x_i\)</span> is on the wrong side of the margin</li>
+<li class="fragment">If <span class="math inline">\(\epsilon_i &gt; 1\)</span> then <span class="math inline">\(x_i\)</span> is on the wrong side of the hyperplane!</li>
+</ul></li>
+</ul>
+</div>
+<div id="09834ac7" class="cell" data-execution_count="8">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c11_svm_files/figure-revealjs/cell-9-output-1.png" width="950" height="278"></p>
+</figure>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="svc-the-c-parameter">SVC: the <span class="math inline">\(C\)</span> parameter</h3>
+<p><span class="math inline">\(\max_{\beta, \beta_0, \epsilon}M \quad s.t. \space \|\beta\| = 1, \quad y_i (\beta_0 + x_i^T\beta) \ge M(1-\epsilon_i), \quad \epsilon_i \ge 0, \quad \sum_{i = 1}^n \epsilon_i \le C\)</span></p>
+<div>
+<ul>
+<li class="fragment"><span class="math inline">\(C\)</span> is the amount by which the margin may be “violated”:
+<ul>
+<li class="fragment">If <span class="math inline">\(C = 0\)</span> then <span class="math inline">\(\epsilon = \mathbf{0}\)</span>, back to maximum margin classifier</li>
+<li class="fragment">If <span class="math inline">\(C &gt; 0\)</span> no more than <span class="math inline">\(C\)</span> observations can be on the wrong side of the hyperplane</li>
+</ul></li>
+</ul>
+</div>
+<div id="040d7c43" class="cell" data-execution_count="9">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c11_svm_files/figure-revealjs/cell-10-output-1.png" width="950" height="278"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div class="callout callout-note callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<p>How to choose <span class="math inline">\(C\)</span>? What is the relation between <span class="math inline">\(C\)</span> and the bias-variance tradeoff?</p>
+</div>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="svc-equivalent-forms">SVC: equivalent forms</h3>
+<ul>
+<li><p>As with maximum margin classifier, if we insist on setting <span class="math inline">\(\|\beta\| = 1/M\)</span> we can write: <span class="math display">\[\min_{\beta, \beta_0, \epsilon}\|\beta\| \quad s.t. \space y_i (\beta_0 + x_i^T\beta) \ge 1-\epsilon_i, \quad \epsilon_i \ge 0, \quad \sum_{i = 1}^n \epsilon_i \le C\]</span></p></li>
+<li><p>In fact, it is more common to see the equivalent form: <span class="math display">\[\min_{\beta, \beta_0, \epsilon}\frac{1}{2}\|\beta\|^2 + C \sum_{i = 1}^n \epsilon_i \quad s.t. \space y_i (\beta_0 + x_i^T\beta) \ge 1-\epsilon_i, \quad \epsilon_i \ge 0\]</span></p></li>
+<li><p>In which case, notice the <span class="math inline">\(C\)</span> hyperparameter is now a <em>penalty</em> (this is also more similar to how sklearn sees it)</p></li>
+</ul>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="support-vector-machines-svm" class="slide level2 title-slide center">
+<h2>Support vector machines (SVM)</h2>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 
