@@ -364,7 +364,7 @@ plt.show()
 - So for any $M > 0$ a compact way of writing the criterion is:
 $$\max_{\beta, \beta_0}M \quad s.t. \space \|\beta\| = 1 \text{ and } \quad y_i (\beta_0 + x_i^T\beta) \ge M \space \forall i$$
 
-- All the points are at least a signed distance $M$ from the decision boundary defined by $\beta, \beta_0$, and we seek $\beta, \beta_0$ that get the largest such $M$
+- All the points are at least a distance $M$ from the decision boundary defined by $\beta, \beta_0$, and we seek $\beta, \beta_0$ that get the largest such $M$
 
 - Equivalently if we insist on setting $\|\beta\| = 1/M$ we can write:
 $$\min_{\beta, \beta_0}\|\beta\| \quad s.t. \space y_i (\beta_0 + x_i^T\beta) \ge 1 \space \forall i$$
@@ -798,3 +798,481 @@ $$\min_{\beta, \beta_0, \epsilon}\frac{1}{2}\|\beta\|^2 + C \sum_{i = 1}^n \epsi
 :::
 
 ---
+
+### The non-linear case
+
+Recall the Bayes decision boundary example from our the Bias-Variance discussion:
+
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Define a more complex logistic function for P(Y = 1 | X1, X2) to create a wavy decision boundary
+def logistic_function(x1, x2):
+    return 1 / (1 + np.exp(- (np.sin(x1) + np.cos(x2) + 0.5 * x1 * x2 - 1)))
+
+# Create a grid of X1 and X2 values
+x1 = np.linspace(-3, 3, 300)
+x2 = np.linspace(-3, 3, 300)
+X1, X2 = np.meshgrid(x1, x2)
+
+# Compute P(Y = 1 | X1, X2) over the grid
+P = logistic_function(X1, X2)
+
+# Simulate random points within the grid for the training set
+np.random.seed(42)  # For reproducibility
+X1_train = np.random.uniform(-3, 3, 500)
+X2_train = np.random.uniform(-3, 3, 500)
+
+# Calculate the probability for each training sample point
+P_train = logistic_function(X1_train, X2_train)
+
+# Generate Y values based on the probabilities for the training set
+Y_train = np.random.binomial(1, P_train)
+
+# Plot the heatmap
+plt.figure(figsize=(8, 5))
+heatmap = plt.contourf(X1, X2, P, levels=50, cmap='viridis')
+plt.colorbar(heatmap, label='$P(Y = 1 | X1, X2)$')
+
+# Plot the decision boundary where P(Y = 1 | X1, X2) = 0.5
+decision_boundary = plt.contour(X1, X2, P, levels=[0.5], colors='red', linewidths=2.5)
+plt.clabel(decision_boundary, fmt = '%.1f', colors = 'red')
+
+# Plot the simulated training points
+plt.scatter(X1_train[Y_train == 1], X2_train[Y_train == 1], color='yellow', label='Y = 1 (Train)', edgecolor='black')
+plt.scatter(X1_train[Y_train == 0], X2_train[Y_train == 0], color='blue', label='Y = 0 (Train)', edgecolor='black')
+
+# Labels and title
+plt.xlabel('$X1$')
+plt.ylabel('$X2$')
+plt.show()
+```
+
+::: {.fragment}
+Unfortunately, "real data" looks more like this.
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Adding polynomial terms?
+
+::: {.incremental}
+- Similar to polynomial regression we could add quadratic terms:
+$$\max_{\beta^1, \beta^2, \beta_0, \epsilon}M \quad s.t. \\
+\|\beta^1\| + \|\beta^2\| = 1, \quad y_i (\beta_0 + x_i^T\beta^1 + \left(x^2_i\right)^T\beta^2) \ge M(1-\epsilon_i), \quad \epsilon_i \ge 0, \quad \sum_{i = 1}^n \epsilon_i \le C$$
+
+- What about cubic terms? What about interactions?
+
+- Like in regression we could *expand* $x_i$ to any feature mapping $h(x_i): \mathbb{R}^p \to \mathbb{R}^q$ and continue as is
+
+- But this becomes really high-dimensional, really fast.
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### The kernel trick (I)
+
+::: {.incremental}
+- An amazing insight, after a lot of algebra, our solution can be written as:
+$$f(x_0) = \text{sign}\left[\beta_0 + x_0^T\beta\right] = \text{sign}\left[\beta_0 + \sum_{i = 1}^n\alpha_i\langle x_i, x_0 \rangle\right]$$
+- where:
+  - $\langle x_i, x_0 \rangle$ is the inner product $x_i^Tx_0 = \sum_{j = 1}^p x_{ij}x_{0j}$
+  - $\alpha_i, \dots, \alpha_n$ are $n$ parameters for $n$ observations,
+    - but $\alpha_i > 0$ only for support vectors, otherwise $\alpha_i = 0$
+- So for any $h(x_i)$, the solution can be written in terms of inner products only:
+$$f(x_0) = \text{sign}\left[\beta_0 + h(x_0)^T\beta\right] = \text{sign}\left[\beta_0 + \sum_{i = 1}^n\alpha_i\langle h(x_i), h(x_0) \rangle\right]$$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### The kernel trick (II)
+
+::: {.incremental}
+- Now suppose $x_i = (x_{i1}, x_{i2})$ and $h: \mathbb{R}^2 \to \mathbb{R}^6$ is:
+$$h(x_i) = (1, \sqrt{2}x_{i1}, \sqrt{2}x_{i2}, x^2_{i1}, x^2_{i2}, \sqrt{2}x_{i1}x_{i2})$$
+- Amazingly, the inner product with any point $x_0$ is quite compact:
+:::
+::: {.fragment}
+$\langle h(x_i), h(x_0) \rangle = \begin{pmatrix}1 \\ \sqrt{2}x_{i1} \\ \sqrt{2}x_{i2} \\ x^2_{i1} \\ x^2_{i2} \\ \sqrt{2}x_{i1}x_{i2}\end{pmatrix}^T\begin{pmatrix}1 & \sqrt{2}x_{01} & \sqrt{2}x_{02} & x^2_{01} & x^2_{02} & \sqrt{2}x_{01}x_{02}\end{pmatrix} = (1 + x_i^Tx_0)^2$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### The kernel trick (III)
+
+::: {.incremental}
+- Let this be a [kernel]{style="color:red;"} function:
+$$\langle h(x_i), h(x_0) \rangle = (1 + x_i^Tx_0)^2 = K(x_i, x_0)$$
+- Back to our solution:
+$$f(x_0) = \text{sign}\left[\beta_0 + \sum_{i = 1}^n\alpha_i\langle h(x_i), h(x_0) \rangle\right] = \text{sign}\left[\beta_0 + \sum_{i = 1}^n\alpha_i K(x_i, x_0)\right]$$
+- The **kernel trick**:
+  - Forget about specifying $h(x_i): \mathbb{R}^p \to \mathbb{R}^q$!
+  - Focus on specifying kernel functions $K(x_i, x_j): \mathbb{R}^p \times \mathbb{R}^p \to \mathbb{R}$
+  - That is, flexible similarity functions between feature vectors
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Common kernels
+
+| kernel          | $K(x_i, x_j)$                             | comment                                           |
+|-----------------|-------------------------------------------|---------------------------------------------------|
+| Linear          | $\langle x_i, x_j \rangle$                | SVC!                                              |
+| Polynomial      | $(1 + \langle x_i, x_j \rangle)^d$        | For $p = 2, d = 2$ we got $h(x)$                  |
+| Gaussian/SE/RBF | $\exp\left(-\gamma\|x_i - x_j\|^2\right)$ | infintie feature mapping space!                   |
+| Sigmoid         | $\tanh(\kappa_1\langle x_i, x_j \rangle + \kappa_2)$ |                                        |
+
+<br>
+
+::: {.incremental}
+- Each of these *implicitly* uses some mapping $h(x)$, but always: $K(x_i, x_j) = \langle h(x_i), h(x_j) \rangle$
+
+- On entire training set need to compute: $K_{n \times n}$ (kernel matrix) where: $K_{ij} = K(x_i, x_j) = \langle h(x_i), h(x_j) \rangle$
+:::
+
+::: {.fragment}
+::: {.callout-note}
+Can any $K(x_i, x_j): \mathbb{R}^p \times \mathbb{R}^p \to \mathbb{R}$ function use as a kernel?
+:::
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Support vector machines (SVM)
+
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.svm import SVC
+
+# Define a more complex logistic function for P(Y = 1 | X1, X2) to create a wavy decision boundary
+def logistic_function(x1, x2):
+    return 1 / (1 + np.exp(- (np.sin(x1) + np.cos(x2) + 0.5 * x1 * x2 - 1)))
+
+# Create a grid of X1 and X2 values
+x1 = np.linspace(-3, 3, 300)
+x2 = np.linspace(-3, 3, 300)
+X1, X2 = np.meshgrid(x1, x2)
+
+# Compute P(Y = 1 | X1, X2) over the grid
+P = logistic_function(X1, X2)
+
+# Simulate random points within the grid for the training set
+np.random.seed(42)  # For reproducibility
+X1_train = np.random.uniform(-3, 3, 500)
+X2_train = np.random.uniform(-3, 3, 500)
+X = np.vstack((X1_train, X2_train)).T
+
+# Calculate the probability for each training sample point
+P_train = logistic_function(X1_train, X2_train)
+
+# Generate Y values based on the probabilities for the training set
+y = 2 * np.random.binomial(1, P_train) - 1
+
+clf_rbf = SVC(kernel='rbf', C=100)
+clf_rbf.fit(X, y)
+
+# Plot the heatmap
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 4))
+heatmap = ax1.contourf(X1, X2, P, levels=50, cmap='viridis')
+# plt.colorbar(heatmap, label='$P(Y = 1 | X1, X2)$')
+
+# Plot the decision boundary where P(Y = 1 | X1, X2) = 0.5
+decision_boundary = ax1.contour(X1, X2, P, levels=[0.5], colors='red', linewidths=2.5)
+ax1.clabel(decision_boundary, fmt = '%.1f', colors = 'red')
+
+# Plot the simulated training points
+ax1.scatter(X1_train[y == 1], X2_train[y == 1], color='yellow', label='Y = 1', edgecolor='black')
+ax1.scatter(X1_train[y == -1], X2_train[y == -1], color='blue', label='Y = -1', edgecolor='black')
+
+grid_points = np.c_[X1.ravel(), X2.ravel()]
+
+# Evaluate the decision function across the grid
+decision_values = clf_rbf.decision_function(grid_points).reshape(X1.shape)
+
+# Plot the decision function (decision boundary and margins)
+# ax1.contour(X1, X2, decision_values, levels=[-1, 0, 1], linestyles=['--', '-', '--'], colors='k')
+ax1.contour(X1, X2, decision_values, levels=[0], linestyles=['-'], colors='k')
+
+# Labels and title
+ax1.set_title('RBF kernel, gamma = 1')
+ax1.set_xlabel('$X1$')
+ax1.set_ylabel('$X2$')
+
+clf_poly = SVC(kernel='poly', degree=6, C=100)
+clf_poly.fit(X, y)
+
+# Plot the heatmap
+heatmap = ax2.contourf(X1, X2, P, levels=50, cmap='viridis')
+# plt.colorbar(heatmap, label='$P(Y = 1 | X1, X2)$')
+
+# Plot the decision boundary where P(Y = 1 | X1, X2) = 0.5
+decision_boundary = ax2.contour(X1, X2, P, levels=[0.5], colors='red', linewidths=2.5)
+ax2.clabel(decision_boundary, fmt = '%.1f', colors = 'red')
+
+# Plot the simulated training points
+ax2.scatter(X1_train[y == 1], X2_train[y == 1], color='yellow', label='Y = 1', edgecolor='black')
+ax2.scatter(X1_train[y == -1], X2_train[y == -1], color='blue', label='Y = -1', edgecolor='black')
+
+# Evaluate the decision function across the grid
+decision_values = clf_poly.decision_function(grid_points).reshape(X1.shape)
+
+# Plot the decision function (decision boundary and margins)
+# ax2.contour(X1, X2, decision_values, levels=[-1, 0, 1], linestyles=['--', '-', '--'], colors='k')
+ax2.contour(X1, X2, decision_values, levels=[0], linestyles=['-'], colors='k')
+
+# Labels and title
+ax2.set_title('Polynomial kernel, degree = 6')
+ax2.set_xlabel('$X1$')
+ax2.set_ylabel('$X2$')
+plt.show()
+```
+
+::: {.fragment}
+::: {.callout-note}
+Notice this might add a few hyperparameters, including the kernel itself!
+:::
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Example: SAHeart data
+
+```{python}
+#| echo: false
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
+from sklearn.metrics import roc_curve, auc
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+
+saheart = pd.read_table("../datasets/SAheart.data", header = 0, sep=',', index_col=0)
+
+saheart_X=pd.get_dummies(saheart.iloc[:, :9]).iloc[:, :9]
+saheart_y=saheart.iloc[:, 9]
+
+Xtr, Xte, Ytr, Yte = train_test_split(saheart_X, saheart_y, test_size=0.2, random_state=42)
+
+# Standardize the data for SVMs and Logistic Regression
+scaler = StandardScaler()
+Xtr = scaler.fit_transform(Xtr)
+Xte = scaler.transform(Xte)
+
+# Initialize the models
+log_reg = LogisticRegression()
+svc_linear = SVC(kernel='linear', probability=True)
+svc_poly = SVC(kernel='poly', degree=2, probability=True)
+svc_rbf = SVC(kernel='rbf', probability=True)
+
+# Train the models on the training data
+log_reg.fit(Xtr, Ytr)
+svc_linear.fit(Xtr, Ytr)
+svc_poly.fit(Xtr, Ytr)
+svc_rbf.fit(Xtr, Ytr)
+
+# Get predicted probabilities for the test set
+log_reg_probs = log_reg.predict_proba(Xte)[:, 1]
+svc_linear_probs = svc_linear.predict_proba(Xte)[:, 1]
+svc_poly_probs = svc_poly.predict_proba(Xte)[:, 1]
+svc_rbf_probs = svc_rbf.predict_proba(Xte)[:, 1]
+
+# Compute ROC curves and AUCs
+fpr_log, tpr_log, _ = roc_curve(Yte, log_reg_probs)
+fpr_svc_linear, tpr_svc_linear, _ = roc_curve(Yte, svc_linear_probs)
+fpr_svc_poly, tpr_svc_poly, _ = roc_curve(Yte, svc_poly_probs)
+fpr_svc_rbf, tpr_svc_rbf, _ = roc_curve(Yte, svc_rbf_probs)
+
+auc_log = auc(fpr_log, tpr_log)
+auc_svc_linear = auc(fpr_svc_linear, tpr_svc_linear)
+auc_svc_poly = auc(fpr_svc_poly, tpr_svc_poly)
+auc_svc_rbf = auc(fpr_svc_rbf, tpr_svc_rbf)
+
+# Plot ROC curves
+plt.figure(figsize=(8, 6))
+plt.plot(fpr_log, tpr_log, label=f'Logistic Regression (AUC = {auc_log:.2f})')
+plt.plot(fpr_svc_linear, tpr_svc_linear, label=f'SVM (Linear, AUC = {auc_svc_linear:.2f})')
+plt.plot(fpr_svc_poly, tpr_svc_poly, label=f'SVM (Poly d=2, AUC = {auc_svc_poly:.2f})')
+plt.plot(fpr_svc_rbf, tpr_svc_rbf, label=f'SVM (RBF, AUC = {auc_svc_rbf:.2f})')
+
+# Plot settings
+plt.plot([0, 1], [0, 1], 'k--')  # Diagonal line (random classifier)
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('Test ROC Curves for SVMs and Logistic Regression')
+plt.legend(loc='lower right')
+plt.grid(True)
+plt.show()
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+Notice to compute ROC SVM needs to output a probability or score.
+
+This is out of scope, but you could think of the distance of an observation to the hyperplane as a type of confidence.
+:::
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+## SVM extensions {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### SVM for $K$ classes
+
+- One-versus-one (OVO):
+  - Run all $K \choose 2$ pairwise models: class $k$ vs. class $k'$
+  - Assign $x_0$ to class $k$ to which it was most frequently assigned to
+- One-versus-rest (OVR):
+  - Run all $K$ models: class $k$ vs. remaining $K - 1$ classes
+  - Assign $x_0$ to class $k$ in which it gets the highest distance (confidence) from hyperplane $|\beta_{0k} + x_0^T\hat{\beta_{k}}|$
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Support vector regression (SVR)
+
+
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.svm import SVR
+
+def plot_svr_intuition(epsilon=0.1):
+    # Generate synthetic data
+    np.random.seed(42)
+    X = np.linspace(0, 10, 50).reshape(-1, 1)
+    y = 2 * X.ravel() + np.random.randn(50) * 2.0  # Linear trend with noise
+
+    # Train SVR with linear kernel
+    svr = SVR(kernel='linear', epsilon=epsilon)
+    svr.fit(X, y)
+
+    # Get predictions
+    y_pred = svr.predict(X)
+    
+    # Plot scatter points (data points)
+    plt.figure(figsize=(8, 6))
+    plt.scatter(X, y, color='blue', label='Data points', marker='x', s=20)
+
+    # Plot regression line (the hyperplane)
+    plt.plot(X, y_pred, 'k--', label='Regression line (hyperplane)')
+
+    # Plot the epsilon-tube margins
+    plt.plot(X, y_pred + epsilon, 'k:', label=f'Upper margin (+ε={epsilon})')
+    plt.plot(X, y_pred - epsilon, 'k:', label=f'Lower margin (-ε={epsilon})')
+
+    # Highlight the support vectors (points outside the epsilon-tube)
+    support_vectors = svr.support_
+    plt.scatter(X[support_vectors], y[support_vectors], facecolors='none', edgecolors='black', s=30, label='Support vectors')
+
+    # Plot settings
+    plt.xlabel('X')
+    plt.ylabel('y')
+    plt.grid(True)
+    plt.show()
+
+# Example usage
+plot_svr_intuition(epsilon=2)
+```
+
+::: {.fragment}
+::: {.callout-note}
+What would be the support vectors for SVR?
+:::
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### SVR Criterion
+
+::: {.incremental}
+- From maximum margin classifier:
+$\max_{\beta, \beta_0}M \quad s.t. \space \|\beta\| = 1 \text{ and } \quad y_i (\beta_0 + x_i^T\beta) \ge M \space \forall i$
+
+- To "maximum margin regressor" (not really a thing):
+$\max_{\beta, \beta_0}M \quad s.t. \space \|\beta\| = 1 \text{ and } \quad |y_i - (\beta_0 + x_i^T\beta)| \le M \space \forall i$
+
+- From SVC:
+$\max_{\beta, \beta_0, \epsilon}M \quad s.t. \space \|\beta\| = 1, \quad y_i (\beta_0 + x_i^T\beta) \ge M(1-\epsilon_i), \quad \epsilon_i \ge 0, \quad \sum_{i = 1}^n \epsilon_i \le C$
+
+- To SVR:
+$\max_{\beta, \beta_0, \epsilon}M \quad s.t. \space \|\beta\| = 1, \quad |y_i - (\beta_0 + x_i^T\beta)| \le M + \epsilon_i, \quad \epsilon_i \ge 0, \quad \sum_{i = 1}^n \epsilon_i \le C$
+
+- Though this is more common:
+$$\min_{\beta, \beta_0, \epsilon}\frac{1}{2}\|\beta\|^2 + C \sum_{i = 1}^n \epsilon_i \quad s.t. \space |y_i - (\beta_0 + x_i^T\beta)| \le M + \epsilon_i, \quad \epsilon_i \ge 0$$
+
+- And of course SVR can be kernelized as well
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::

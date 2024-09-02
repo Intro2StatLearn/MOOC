@@ -372,7 +372,7 @@
 <li>Suppose <span class="math inline">\(y \in \{-1, 1\}\)</span></li>
 <li>Suppose <span class="math inline">\(T = \{(x_1, y_1), \dots, (x_n, y_n)\}\)</span> can be separated by a hyperplane:</li>
 </ul>
-<div id="2889be46" class="cell" data-execution_count="1">
+<div id="73aeeab5" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -404,7 +404,7 @@
 <li><span class="math inline">\(\beta_0, \beta_1, \dots, \beta_p\)</span> define a <span class="math inline">\(p\)</span>-dimensional plane for all points <span class="math inline">\(x \in \mathbb{R}^p\)</span> satisfying: <span class="math display">\[\beta_0 + \beta_1x_1 + \dots + \beta_px_p = \beta_0 + x^T\beta = 0\]</span></li>
 <li>We say <span class="math inline">\(\beta = (\beta_1, \dots, \beta_p)\)</span> is normal to the hyperplane</li>
 </ul>
-<div id="a65ca491" class="cell" data-execution_count="2">
+<div id="7f38cbbc" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -452,7 +452,7 @@
 </ul>
 </div>
 <div class="fragment">
-<div id="9bd985e3" class="cell" data-execution_count="3">
+<div id="ddef86e8" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -491,7 +491,7 @@
 <li>the minimum distance of training points to the hyperplane</li>
 </ul></li>
 </ul>
-<div id="20d49998" class="cell" data-execution_count="4">
+<div id="fb3ed064" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -531,7 +531,7 @@
 </ul>
 </div>
 <div class="fragment">
-<div id="35fef695" class="cell" data-execution_count="5">
+<div id="9d46028c" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -563,7 +563,7 @@
 <div>
 <ul>
 <li class="fragment"><p>So for any <span class="math inline">\(M &gt; 0\)</span> a compact way of writing the criterion is: <span class="math display">\[\max_{\beta, \beta_0}M \quad s.t. \space \|\beta\| = 1 \text{ and } \quad y_i (\beta_0 + x_i^T\beta) \ge M \space \forall i\]</span></p></li>
-<li class="fragment"><p>All the points are at least a signed distance <span class="math inline">\(M\)</span> from the decision boundary defined by <span class="math inline">\(\beta, \beta_0\)</span>, and we seek <span class="math inline">\(\beta, \beta_0\)</span> that get the largest such <span class="math inline">\(M\)</span></p></li>
+<li class="fragment"><p>All the points are at least a distance <span class="math inline">\(M\)</span> from the decision boundary defined by <span class="math inline">\(\beta, \beta_0\)</span>, and we seek <span class="math inline">\(\beta, \beta_0\)</span> that get the largest such <span class="math inline">\(M\)</span></p></li>
 <li class="fragment"><p>Equivalently if we insist on setting <span class="math inline">\(\|\beta\| = 1/M\)</span> we can write: <span class="math display">\[\min_{\beta, \beta_0}\|\beta\| \quad s.t. \space y_i (\beta_0 + x_i^T\beta) \ge 1 \space \forall i\]</span></p>
 <ul>
 <li class="fragment">because <span class="math inline">\(M = 1/\|\beta\|\)</span> and maximizing <span class="math inline">\(M\)</span> is minimizing <span class="math inline">\(\|\beta\|\)</span></li>
@@ -593,7 +593,7 @@
 <div class="columns">
 <div class="column">
 <p>Back to the maximum margin classifier:</p>
-<div id="673219d9" class="cell" data-execution_count="6">
+<div id="72a27ed0" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -651,7 +651,7 @@
 <section class="slide level2">
 
 <h3 id="not-just-the-non-separable-case">Not just the non-separable case</h3>
-<div id="c7b25d08" class="cell" data-execution_count="7">
+<div id="b1b46a43" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -724,7 +724,7 @@
 </ul></li>
 </ul>
 </div>
-<div id="09834ac7" class="cell" data-execution_count="8">
+<div id="0a4adb97" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -762,7 +762,7 @@
 </ul></li>
 </ul>
 </div>
-<div id="040d7c43" class="cell" data-execution_count="9">
+<div id="bc52196f" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -843,6 +843,431 @@
 </section>
 <section class="slide level2">
 
+<h3 id="the-non-linear-case">The non-linear case</h3>
+<p>Recall the Bayes decision boundary example from our the Bias-Variance discussion:</p>
+<div id="3bbfb5b9" class="cell" data-execution_count="10">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c11_svm_files/figure-revealjs/cell-11-output-1.png" width="642" height="434"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>Unfortunately, “real data” looks more like this.</p>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="adding-polynomial-terms">Adding polynomial terms?</h3>
+<div>
+<ul>
+<li class="fragment"><p>Similar to polynomial regression we could add quadratic terms: <span class="math display">\[\max_{\beta^1, \beta^2, \beta_0, \epsilon}M \quad s.t. \\
+\|\beta^1\| + \|\beta^2\| = 1, \quad y_i (\beta_0 + x_i^T\beta^1 + \left(x^2_i\right)^T\beta^2) \ge M(1-\epsilon_i), \quad \epsilon_i \ge 0, \quad \sum_{i = 1}^n \epsilon_i \le C\]</span></p></li>
+<li class="fragment"><p>What about cubic terms? What about interactions?</p></li>
+<li class="fragment"><p>Like in regression we could <em>expand</em> <span class="math inline">\(x_i\)</span> to any feature mapping <span class="math inline">\(h(x_i): \mathbb{R}^p \to \mathbb{R}^q\)</span> and continue as is</p></li>
+<li class="fragment"><p>But this becomes really high-dimensional, really fast.</p></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="the-kernel-trick-i">The kernel trick (I)</h3>
+<div>
+<ul>
+<li class="fragment">An amazing insight, after a lot of algebra, our solution can be written as: <span class="math display">\[f(x_0) = \text{sign}\left[\beta_0 + x_0^T\beta\right] = \text{sign}\left[\beta_0 + \sum_{i = 1}^n\alpha_i\langle x_i, x_0 \rangle\right]\]</span></li>
+<li class="fragment">where:
+<ul>
+<li class="fragment"><span class="math inline">\(\langle x_i, x_0 \rangle\)</span> is the inner product <span class="math inline">\(x_i^Tx_0 = \sum_{j = 1}^p x_{ij}x_{0j}\)</span></li>
+<li class="fragment"><span class="math inline">\(\alpha_i, \dots, \alpha_n\)</span> are <span class="math inline">\(n\)</span> parameters for <span class="math inline">\(n\)</span> observations,
+<ul>
+<li class="fragment">but <span class="math inline">\(\alpha_i &gt; 0\)</span> only for support vectors, otherwise <span class="math inline">\(\alpha_i = 0\)</span></li>
+</ul></li>
+</ul></li>
+<li class="fragment">So for any <span class="math inline">\(h(x_i)\)</span>, the solution can be written in terms of inner products only: <span class="math display">\[f(x_0) = \text{sign}\left[\beta_0 + h(x_0)^T\beta\right] = \text{sign}\left[\beta_0 + \sum_{i = 1}^n\alpha_i\langle h(x_i), h(x_0) \rangle\right]\]</span></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="the-kernel-trick-ii">The kernel trick (II)</h3>
+<div>
+<ul>
+<li class="fragment">Now suppose <span class="math inline">\(x_i = (x_{i1}, x_{i2})\)</span> and <span class="math inline">\(h: \mathbb{R}^2 \to \mathbb{R}^6\)</span> is: <span class="math display">\[h(x_i) = (1, \sqrt{2}x_{i1}, \sqrt{2}x_{i2}, x^2_{i1}, x^2_{i2}, \sqrt{2}x_{i1}x_{i2})\]</span></li>
+<li class="fragment">Amazingly, the inner product with any point <span class="math inline">\(x_0\)</span> is quite compact:</li>
+</ul>
+</div>
+<div class="fragment">
+<p><span class="math inline">\(\langle h(x_i), h(x_0) \rangle = \begin{pmatrix}1 \\ \sqrt{2}x_{i1} \\ \sqrt{2}x_{i2} \\ x^2_{i1} \\ x^2_{i2} \\ \sqrt{2}x_{i1}x_{i2}\end{pmatrix}^T\begin{pmatrix}1 &amp; \sqrt{2}x_{01} &amp; \sqrt{2}x_{02} &amp; x^2_{01} &amp; x^2_{02} &amp; \sqrt{2}x_{01}x_{02}\end{pmatrix} = (1 + x_i^Tx_0)^2\)</span></p>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="the-kernel-trick-iii">The kernel trick (III)</h3>
+<div>
+<ul>
+<li class="fragment">Let this be a <span style="color:red;">kernel</span> function: <span class="math display">\[\langle h(x_i), h(x_0) \rangle = (1 + x_i^Tx_0)^2 = K(x_i, x_0)\]</span></li>
+<li class="fragment">Back to our solution: <span class="math display">\[f(x_0) = \text{sign}\left[\beta_0 + \sum_{i = 1}^n\alpha_i\langle h(x_i), h(x_0) \rangle\right] = \text{sign}\left[\beta_0 + \sum_{i = 1}^n\alpha_i K(x_i, x_0)\right]\]</span></li>
+<li class="fragment">The <strong>kernel trick</strong>:
+<ul>
+<li class="fragment">Forget about specifying <span class="math inline">\(h(x_i): \mathbb{R}^p \to \mathbb{R}^q\)</span>!</li>
+<li class="fragment">Focus on specifying kernel functions <span class="math inline">\(K(x_i, x_j): \mathbb{R}^p \times \mathbb{R}^p \to \mathbb{R}\)</span></li>
+<li class="fragment">That is, flexible similarity functions between feature vectors</li>
+</ul></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="common-kernels">Common kernels</h3>
+<table>
+<colgroup>
+<col style="width: 15%">
+<col style="width: 38%">
+<col style="width: 45%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>kernel</th>
+<th><span class="math inline">\(K(x_i, x_j)\)</span></th>
+<th>comment</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Linear</td>
+<td><span class="math inline">\(\langle x_i, x_j \rangle\)</span></td>
+<td>SVC!</td>
+</tr>
+<tr class="even">
+<td>Polynomial</td>
+<td><span class="math inline">\((1 + \langle x_i, x_j \rangle)^d\)</span></td>
+<td>For <span class="math inline">\(p = 2, d = 2\)</span> we got <span class="math inline">\(h(x)\)</span></td>
+</tr>
+<tr class="odd">
+<td>Gaussian/SE/RBF</td>
+<td><span class="math inline">\(\exp\left(-\gamma\|x_i - x_j\|^2\right)\)</span></td>
+<td>infintie feature mapping space!</td>
+</tr>
+<tr class="even">
+<td>Sigmoid</td>
+<td><span class="math inline">\(\tanh(\kappa_1\langle x_i, x_j \rangle + \kappa_2)\)</span></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<div>
+<ul>
+<li class="fragment"><p>Each of these <em>implicitly</em> uses some mapping <span class="math inline">\(h(x)\)</span>, but always: <span class="math inline">\(K(x_i, x_j) = \langle h(x_i), h(x_j) \rangle\)</span></p></li>
+<li class="fragment"><p>On entire training set need to compute: <span class="math inline">\(K_{n \times n}\)</span> (kernel matrix) where: <span class="math inline">\(K_{ij} = K(x_i, x_j) = \langle h(x_i), h(x_j) \rangle\)</span></p></li>
+</ul>
+</div>
+<div class="fragment">
+<div class="callout callout-note callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<p>Can any <span class="math inline">\(K(x_i, x_j): \mathbb{R}^p \times \mathbb{R}^p \to \mathbb{R}\)</span> function use as a kernel?</p>
+</div>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="support-vector-machines-svm-1">Support vector machines (SVM)</h3>
+<div id="ff61a1fb" class="cell" data-execution_count="11">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c11_svm_files/figure-revealjs/cell-12-output-1.png" width="666" height="376"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div class="callout callout-note callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<p>Notice this might add a few hyperparameters, including the kernel itself!</p>
+</div>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="example-saheart-data">Example: SAHeart data</h3>
+<div id="fb1ef08e" class="cell" data-execution_count="12">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c11_svm_files/figure-revealjs/cell-13-output-1.png" width="674" height="523"></p>
+</figure>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+<p>Notice to compute ROC SVM needs to output a probability or score.</p>
+<p>This is out of scope, but you could think of the distance of an observation to the hyperplane as a type of confidence.</p>
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="svm-extensions" class="slide level2 title-slide center">
+<h2>SVM extensions</h2>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="svm-for-k-classes">SVM for <span class="math inline">\(K\)</span> classes</h3>
+<ul>
+<li>One-versus-one (OVO):
+<ul>
+<li>Run all <span class="math inline">\(K \choose 2\)</span> pairwise models: class <span class="math inline">\(k\)</span> vs.&nbsp;class <span class="math inline">\(k'\)</span></li>
+<li>Assign <span class="math inline">\(x_0\)</span> to class <span class="math inline">\(k\)</span> to which it was most frequently assigned to</li>
+</ul></li>
+<li>One-versus-rest (OVR):
+<ul>
+<li>Run all <span class="math inline">\(K\)</span> models: class <span class="math inline">\(k\)</span> vs.&nbsp;remaining <span class="math inline">\(K - 1\)</span> classes</li>
+<li>Assign <span class="math inline">\(x_0\)</span> to class <span class="math inline">\(k\)</span> in which it gets the highest distance (confidence) from hyperplane <span class="math inline">\(|\beta_{0k} + x_0^T\hat{\beta_{k}}|\)</span></li>
+</ul></li>
+</ul>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="support-vector-regression-svr">Support vector regression (SVR)</h3>
+<div id="b727ec06" class="cell" data-execution_count="13">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c11_svm_files/figure-revealjs/cell-14-output-1.png" width="659" height="503"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div class="callout callout-note callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<p>What would be the support vectors for SVR?</p>
+</div>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="svr-criterion">SVR Criterion</h3>
+<div>
+<ul>
+<li class="fragment"><p>From maximum margin classifier: <span class="math inline">\(\max_{\beta, \beta_0}M \quad s.t. \space \|\beta\| = 1 \text{ and } \quad y_i (\beta_0 + x_i^T\beta) \ge M \space \forall i\)</span></p></li>
+<li class="fragment"><p>To “maximum margin regressor” (not really a thing): <span class="math inline">\(\max_{\beta, \beta_0}M \quad s.t. \space \|\beta\| = 1 \text{ and } \quad |y_i - (\beta_0 + x_i^T\beta)| \le M \space \forall i\)</span></p></li>
+<li class="fragment"><p>From SVC: <span class="math inline">\(\max_{\beta, \beta_0, \epsilon}M \quad s.t. \space \|\beta\| = 1, \quad y_i (\beta_0 + x_i^T\beta) \ge M(1-\epsilon_i), \quad \epsilon_i \ge 0, \quad \sum_{i = 1}^n \epsilon_i \le C\)</span></p></li>
+<li class="fragment"><p>To SVR: <span class="math inline">\(\max_{\beta, \beta_0, \epsilon}M \quad s.t. \space \|\beta\| = 1, \quad |y_i - (\beta_0 + x_i^T\beta)| \le M + \epsilon_i, \quad \epsilon_i \ge 0, \quad \sum_{i = 1}^n \epsilon_i \le C\)</span></p></li>
+<li class="fragment"><p>Though this is more common: <span class="math display">\[\min_{\beta, \beta_0, \epsilon}\frac{1}{2}\|\beta\|^2 + C \sum_{i = 1}^n \epsilon_i \quad s.t. \space |y_i - (\beta_0 + x_i^T\beta)| \le M + \epsilon_i, \quad \epsilon_i \ge 0\]</span></p></li>
+<li class="fragment"><p>And of course SVR can be kernelized as well</p></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 <div class="quarto-auto-generated-content">
 <p><img src="../Intro2SL_logo_white.jpg" class="slide-logo"></p>
 <div class="footer footer-default">
