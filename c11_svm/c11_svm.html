@@ -351,7 +351,9 @@
 <h2>Maximum margin classifier</h2>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>ביחידה הזאת נלמד על אלגוריתם נוסף שנוסח במקור עבור בעיות של קלאסיפיקציה בינארית: הספורט וקטור משינז, או SVM בקיצור.</p>
+<p>כמו אדאבוסט גם SVM הגיע מקהילת מדעי המחשב לבעיה ספציפית, והורחב לאחר מכן לבעיות כלליות יותר כמו רגרסיה, וכך נלמד אותו. אולם בניגוד לאדאבוסט בSVM אנחנו מגיעים בסופו של דבר לבעית אופטימיזציה שקצת קשה להסביר בדיוק כיצד פותרים אותה בלי כלים מאופטימיזציה קמורה או חקר ביצועים, לכן לא ניכנס לדרך הפתרון המדויקת. נטען עם זאת שהגענו לבעיה פשוטה יחסית באופטימיזציה שניתנת לפתרון באמצעות תוכנה סטנדרטית.</p>
+<p>כמו תמיד, אנחנו מתחילים עם הנחה, ולאט לאט מפירים אותה עד שנגיע לפרוצדורה הסופית.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -372,18 +374,19 @@
 <li>Suppose <span class="math inline">\(y \in \{-1, 1\}\)</span></li>
 <li>Suppose <span class="math inline">\(T = \{(x_1, y_1), \dots, (x_n, y_n)\}\)</span> can be separated by a hyperplane:</li>
 </ul>
-<div id="73aeeab5" class="cell" data-execution_count="1">
+<div id="1514df48" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c11_svm_files/figure-revealjs/cell-2-output-1.png" width="981" height="485"></p>
+<p><img data-src="c11_svm_files/figure-revealjs/cell-2-output-1.png" width="836" height="411"></p>
 </figure>
 </div>
 </div>
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>וההנחה שאנחנו מתחילים היא הנחה גדולה. אנחנו מתחילים כאמור עם Y בינארי שיכול להיות 1 או מינוס 1, ועם מדגם למידה בגודל n.</p>
+<p>וההנחה היא שהנתונים שלנו במרחב הX הם לינארלי ספרבל, כלומר ניתן למצוא קו או מישור או מישור-על שמפריד בין התצפיות שהן 1 לבין התצפיות שהן מינוס 1. זאת הנחה כמובן לא סבירה אלא אם המימד של X ממש גבוה. אנחנו עושים אותה במודע ולאחר מכן נאפשר בכל זאת חפיפה בין הקלאסים ואולי אפילו גבול לא לינארי.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -399,12 +402,12 @@
 </section>
 <section class="slide level2">
 
-<h3 id="separating-hyperplanes">Separating hyperplanes</h3>
+<h3 id="separating-hyperplanes-i">Separating hyperplanes (I)</h3>
 <ul>
 <li><span class="math inline">\(\beta_0, \beta_1, \dots, \beta_p\)</span> define a <span class="math inline">\(p\)</span>-dimensional plane for all points <span class="math inline">\(x \in \mathbb{R}^p\)</span> satisfying: <span class="math display">\[\beta_0 + \beta_1x_1 + \dots + \beta_px_p = \beta_0 + x^T\beta = 0\]</span></li>
-<li>We say <span class="math inline">\(\beta = (\beta_1, \dots, \beta_p)\)</span> is normal to the hyperplane</li>
+<li>We say <span class="math inline">\(\beta^* = (\beta_1, \dots, \beta_p) / \|\beta\|\)</span> is normal to the hyperplane</li>
 </ul>
-<div id="7f38cbbc" class="cell" data-execution_count="2">
+<div id="d3248c57" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -427,7 +430,10 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>אם אנחנו מדברים על מישור-על או הייפרפליין שמפריד, בואו ניזכר מה ההגדרה של מישור.</p>
+<p>ההגדרה של מישור היא באמצעות הנקודות שמקיימות את המשוואה הליניארית שיש לנו כאן: חותך בטא-אפס ועוד מקדמים כפול משתנים, כל זה שווה לאפס. ניתן לכתוב זאת גם באמצעות המכפלה הפנימית של וקטור המקדמים ללא החותך בטא בוקטור הקואורדינטות X. כלומר מישור הוא מעין לוח של כל הנקודות שמקיימות את המשוואה. כאן למשל מצויר מישור בדו-מימד שהוא בעצם קו, של כל הנקודות שמקיימות -4 + 2x1 + 3x2 = 0.</p>
+<p>ניזכר גם שוקטור שמאונך למישור, שיוצר איתו זווית של 90 מעלות והנורמה שלו 1, נקרא נורמל למישור. ואפשר לראות שמעצם ההגדרה של וקטור המקדמים בטא, בטא הוא וקטור נורמל למישור, הוא אורתוגונלי אליו, או יותר נכון בטא-כוכב שעבר נרמול. זה יהיה חשוב לנו תיכף. כלומר אפשר להגדיר מישור באמצעות וקטור בטא, ועוד חותך. מישור בטא זה מישור שאנכי לוקטור בטא, כשהחותך בטא אפס אומר לנו כמה להזיז אותו בכיוון בטא.</p>
+<p>מכל מקום, אם אפשר למצוא מישור כזה שמפריד בין תצפיות 1 ומינוס 1, מה יהיה כלל החלטה טבעי לחיזוי תצפית חדשה? אם התצפית מעל למישור, כלומר בטא-אפס ועוד X בטא גדול מאפס, אז נחזה 1. ואם התצפית מתחת למישור, כלומר קטן מאפס, נחזה מינוס 1. לשם אנחנו חותרים, זה אכן יהיה כלל ההחלטה שלנו עוד רגע.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -443,28 +449,44 @@
 </section>
 <section class="slide level2">
 
-<h3 id="separating-hyperplanes-1">Separating hyperplanes</h3>
+<h3 id="separating-hyperplanes-ii">Separating hyperplanes (II)</h3>
 <div>
 <ul>
 <li class="fragment"><p>In other words, a hyperplane is “separating” iff: <span class="math display">\[y_i \cdot (\beta_0 + x_i^T\beta) &gt; 0 \quad \forall i\]</span></p></li>
 <li class="fragment"><p>And a natural decision rule for separating hyperplanes: <span class="math display">\[\hat{f}(x_0) = \text{sign}\left[\hat{\beta}_0 + x_0^T\hat{\beta}\right]\]</span></p></li>
-<li class="fragment"><p>But <em>if</em> there exists a separating hyperplane, how many are there?</p></li>
 </ul>
 </div>
 <div class="fragment">
-<div id="ddef86e8" class="cell" data-execution_count="3">
+<div class="columns">
+<div class="column">
+<div class="callout callout-note callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<p>But <em>if</em> there exists a separating hyperplane, how many are there?</p>
+</div>
+</div>
+</div>
+</div><div class="column">
+<div id="a41a42da" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c11_svm_files/figure-revealjs/cell-4-output-1.png" width="279" height="282"></p>
+<p><img data-src="c11_svm_files/figure-revealjs/cell-4-output-1.png" width="327" height="319"></p>
 </figure>
+</div>
+</div>
 </div>
 </div>
 </div>
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>במילים אחרות, כרגע גם מצאנו הגדרה של מהו מישור מפריד, separating. מישור מפריד הוא מישור שעבור מדגם הלמידה שלנו, בכל נקודה (להדגים), אם היא 1 אז היא מעל המישור, ואם היא מינוס 1 אז היא מתחת למישור. ואת זה אנחנו יכולים לרשום בצורה קומפקטית ככה: המכפלה של Y במישור חייבת להיות גדולה מאפס לכל התצפיות.</p>
+<p>וכאמור אם נמצא מישור כזה, או אומדים לוקטור בטא ולחותך, זה בסוף יהיה כלל ההחלטה שלנו לכל תצפית חדשה X0: הסיין של הבדיקה הזאת האם הנקודה מעל או מתחת למישור.</p>
+<p>אז לפני שנמצא את המישור, צריך להכיר בבעיה של מה שהגדרנו: אם יש מישור כזה, הוא יחיד? לא, (להדגים) יש הרבה מישורים כאלה, למעשה יש אינסוף. ואז נשאל – איזה מישור הכי טוב למטרה שלנו.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -491,7 +513,7 @@
 <li>the minimum distance of training points to the hyperplane</li>
 </ul></li>
 </ul>
-<div id="fb3ed064" class="cell" data-execution_count="4">
+<div id="0db2b0e7" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -503,7 +525,10 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>בצורה אינטואיטיבית, נגיד, שהיינו רוצים את המישור, שהוא הכי רחוק מהתצפיות של מדגם הלמידה. כלומר לכל כיוון נרצה את המישור שהוא כמה שיותר באמצע, סביר להניח שזה כלל ההחלטה שיעבור הכללה הכי טובה לתצפיות שהמודל לא ראה.</p>
+<p>דרך אחרת להגיד אותו דבר, היא המישור שעושה מקסימום לרווח בין שני הקלאסים, למה שאנחנו קוראים מרג’ין. ולכן לקלסיפייר הנאיבי שנפתח קוראים מקסימום מרג’ין קלסיפייר.</p>
+<p>כאן למשל יש שני מישורים שמביאים לשני מרג’ינים, שניהם מפרידים לנו בין הקלאסים. המרג’ין השמאלי אינטואיטיבית נראה טוב יותר כי הוא פשוט עבה יותר, למעשה הוא המרג’ין המקסימלי שאפשר להגיע אליו עם מדגם הלמידה הזה.</p>
+<p>נשים לב עוד שלכל נקודה יש מרחק אנכי אל המישור. המרג’ין מוגדר על ידי הנקודות עם המרחק המינימלי למישור. ואנחנו רוצים לעשות מקסימום למרחק הזה, כלומר זאת בעית מקסימום למינימום מרחק.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -523,7 +548,7 @@
 <div>
 <ul>
 <li class="fragment"><p>So far we have:<br>
-<span class="math inline">\(\max_{\beta, \beta_0}\text{"minimum distance"} \quad s.t. \space y_i (\beta_0 + x_i^T\beta) &gt; 0 \space \forall i\)</span></p></li>
+<span class="math inline">\(\max_{\beta, \beta_0}\text{"minimum distance"} \quad s.t. \space y_i (\beta_0 + x_i^T\beta) &gt; 0 \quad \forall i\)</span></p></li>
 <li class="fragment"><p>The distance between any point <span class="math inline">\(x\)</span> to the hyperplane is: <span class="math inline">\(\frac{|\beta_0 + x^T\beta|}{\|\beta\|_2}\)</span></p>
 <ul>
 <li class="fragment">because this distance is the length of a vector proportional to the normal <span class="math inline">\(\beta\)</span>:</li>
@@ -531,7 +556,7 @@
 </ul>
 </div>
 <div class="fragment">
-<div id="9d46028c" class="cell" data-execution_count="5">
+<div id="81f1009b" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -543,7 +568,11 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>אז איך אנחנו מנסחים את הקריטריון הזה בצורה שגם נוכל להשיג אותו?</p>
+<p>הבנו שאנחנו רוצים את המקסימום של “מינימום מרחק”, הבנו שהפרמטרים שלנו הם מה שמגדיר את המישור עצמו, וקטור המקדמים של משוואת המישור, או הנורמל למישור ועוד חותך. והבנו שיש לנו אילוץ שנובע מההנחה שלנו, זה חייב להיות מישור מפריד, מה שמתבטא באילוץ שרשום כאן לכל תצפית i. כל שנשאר לנו זה לפרמל מה זה מינימום מרחק.</p>
+<p>אז אם אתם יודעים מלימודי המתמטיקה שלכם, יש לנו נוסחה של מרחק של כל נקודה למישור שמוגדר על-ידי וקטור המקדמים בטא: זה בעצם המכפלה הפנימית בין הנקודה לוקטור המקדמים, ועוד חותך, בערך מוחלט, חלקי הנורמה של וקטור המקדמים.</p>
+<p>אפשר להוכיח את זה אבל יש כאן משהו מאוד אינטואיטיבי: הנה נקודה X ואני רוצה לבודק מה המרחק האנכי שלה למישור נתון. אפשר לראות שהמרחק הזה הוא אורך של וקטור שהוא מקביל לוקטור בטא הנורמל. ולכן האורך פרופורציונלי לאורך וקטור בטא הנורמל. כדי להשיג את המקטע הזה אנחנו מטילים את הנקודה X על בטא, והטלה פירושה המכפלה הפנימית בין שני הוקטורים, שמופיעה בביטוי שלנו.</p>
+<p>בפרט, אם נדרוש שוקטור בטא יהיה בעל אורך 1, וקטור יחידה, אז המרחק של כל נקודה למישור הוא המכפלה של הקואורדינטות שלה בוקטור המקדמים של המישור ועוד חותך. אם זה שווה לאפס הנקודה מקיימת את משוואת המישור, היא על המישור, אם זה גדול מאפס היא מעליו, ואם זה קטן מאפס היא מתחתיו ואנחנו לוקחים את הערך המוחלט.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -562,9 +591,9 @@
 <h3 id="maximum-margin-criterion-1">Maximum margin criterion</h3>
 <div>
 <ul>
-<li class="fragment"><p>So for any <span class="math inline">\(M &gt; 0\)</span> a compact way of writing the criterion is: <span class="math display">\[\max_{\beta, \beta_0}M \quad s.t. \space \|\beta\| = 1 \text{ and } \quad y_i (\beta_0 + x_i^T\beta) \ge M \space \forall i\]</span></p></li>
+<li class="fragment"><p>So for any <span class="math inline">\(M &gt; 0\)</span> a compact way of writing the criterion is: <span class="math display">\[\max_{\beta, \beta_0}M \quad s.t. \space \|\beta\| = 1 \text{ and } \quad y_i (\beta_0 + x_i^T\beta) \ge M \quad \forall i\]</span></p></li>
 <li class="fragment"><p>All the points are at least a distance <span class="math inline">\(M\)</span> from the decision boundary defined by <span class="math inline">\(\beta, \beta_0\)</span>, and we seek <span class="math inline">\(\beta, \beta_0\)</span> that get the largest such <span class="math inline">\(M\)</span></p></li>
-<li class="fragment"><p>Equivalently if we insist on setting <span class="math inline">\(\|\beta\| = 1/M\)</span> we can write: <span class="math display">\[\min_{\beta, \beta_0}\|\beta\| \quad s.t. \space y_i (\beta_0 + x_i^T\beta) \ge 1 \space \forall i\]</span></p>
+<li class="fragment"><p>Equivalently if we insist on setting <span class="math inline">\(\|\beta\| = 1/M\)</span> we can write: <span class="math display">\[\min_{\beta, \beta_0}\|\beta\| \quad s.t. \space y_i (\beta_0 + x_i^T\beta) \ge 1 \quad \forall i\]</span></p>
 <ul>
 <li class="fragment">because <span class="math inline">\(M = 1/\|\beta\|\)</span> and maximizing <span class="math inline">\(M\)</span> is minimizing <span class="math inline">\(\|\beta\|\)</span></li>
 </ul></li>
@@ -573,7 +602,11 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>אז נסמן את המרחק הזה, את המרג’ין בM.</p>
+<p>דרך לסכם את כל מה שדרשנו עד עכשיו היא לעשות מקסימום על M, ככה שוקטור המקדמים שלנו יהיה וקטור יחידה, יהיה באמת נורמל למישור. ועבור כל תצפית i במדגם הלמידה, נחשב את המרחק שלה מהמישור עם הביטוי שמצאנו, ונדרוש שהמרחק הזה יהיה לפחות M. כלומר M הוא המרחק המינימלי. אבל מה זה מרחק, אם הנקודה מעל המישור הY שלה הוא 1, אז מכפילים את המרחק פי 1, אין בעיה והביטוי נשאר כפי שהוא, ואם היא מתחת למישור הY שלה הוא מינוס 1 ולכן ההכפלה בו מביאה אותנו גם כן למרחק חיובי.</p>
+<p>או במילים אחרות: כל הנקודות חייבות להיות במרחק לפחות M מהמישור שמוגדר על-ידי הנורמל בטא והחותך בטא-אפס, ואנחנו מחפשים בטא ובטא-אפס שיביאו למקסימום את המרחק הזה, את המרג’ין.</p>
+<p>נשים לב שאפשר היה עקרונית לקבע את הנורמה של בטא על כל ערך, ואם נחליט שהנורמה של בטא לא חייבת להיות 1 אלא 1 חלקי M, אפשר להיפטר גם מהפרמטר M בבעית האופטימיזציה שלנו. כעת כדי להגדיל את M כמה שיותר צריך להקטין את הנורמה של וקטור בטא כמה שיותר. וככה אנחנו גם נפטרים מM וגם הופכים את הבעיה שלנו לבעית מינימום.</p>
+<p>זאת הנקודה שבה הבטחתי שאנחנו עוצרים ולא נכנסים לדיון על אופטימיזציה, רק מצביעים על כך שאפשר לעשות מינימום לנורמה הריבועית (להדגים) ויש לנו בעית אופטימיזציה קמורה יחסית פשוטה: הפונקציה שלנו קמורה ואנחנו עושים מינימום, כלומר מובטח לנו שנמצא מינימום תחת ההנחה שלנו של ספרביליות, והאילוצים הם אי-שוויונות ליניאריים בבטא, אפשר לפתור את זה בכל אלגוריתם או תוכנה לאופטימיזציה סטנדרטית.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -593,7 +626,7 @@
 <div class="columns">
 <div class="column">
 <p>Back to the maximum margin classifier:</p>
-<div id="72a27ed0" class="cell" data-execution_count="6">
+<div id="14e5b4d1" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -606,7 +639,7 @@
 <div>
 <ul>
 <li class="fragment">The final classifier depends only on support vectors but was reached given all the training data</li>
-<li class="fragment">What could be advantages/disadvantages to a classifier that only depends on few observations?</li>
+<li class="fragment">Advantages/disadvantages to a classifier that only depends on few observations</li>
 <li class="fragment">What would logistic regression do?</li>
 <li class="fragment">What if there is no separable hyperplane?</li>
 <li class="fragment">And as usual: this is very specific to binary classification, can we generalize?</li>
@@ -616,7 +649,12 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>אם נסתכל שוב על המוטיבציה שלנו – אנחנו רוצים למצוא את המישור שממקסם את המרג’ין בין שני הקלאסים - רמזנו לזה כבר קודם אבל כעת אנחנו אומרים במפורש, ניתן לראות שהמרג’ין הזה ברגע שנמצא, הוא מושפע רק מקבוצה קטנה של תצפיות. אם הן יזוזו, גם המישור והמרג’ין יושפעו. אבל אם כל אחת מהתצפיות האחרות יזוזו? בתנאי שיישארו בצד הנכון של המישור ולא ייכנסו פנימה? לא תהיה לזה השפעה על המישור והמרג’ין. לכן הנקודות שבעצם מגדירות את המרג’ין הסופי נקראות נקודות או וקטורים של תמיכה support vectors. ומכאן השם של הבעיה הסופית שנלמד ששומרת על העקרון הזה, סאפורט וקטור מאשינז. למעשה, ניתן להגדיר את כל הבעיה בדרך של מציאת הנקודות שיהיו הסאפורט וקטורז למרג’ין המקסימלי.</p>
+<p>כמה הערות לסיום:</p>
+<p>קודם כל, חשוב להדגיש שאמנם החיזוי הסופי מושפע רק מהסאפורט וקטורז, ועוד נראה ביטוי מתמטי לזה. אבל זה לא שזרקנו את שאר המדגם, השתמשנו בו כדי להגיע אליהם, כמו שאמרתי אפשר לנסח את כל הבעיה כחיפוש על הנקודות, לא מציאת נורמל למישור.</p>
+<p>דבר שני, עם כל מה שלמדתם אתם כבר יכולים לתאר לכם מה יכולים להיות היתרונות והחסרונות בקלסיפייר כזה, שמבוסס רק על סט קטן של תצפיות: למשל הוא מושפע פחות מתצפיות חריגות. קראנו לזה מודל חסין או רובסטי מפני תצפיות חריגות. מצד שני אנחנו תיכף נראה שאמנם המודל לא מושפע מתצפיות שרחוקות מהמרג’ין, אבל הוא מאוד מושפע מתצפיות שקרובות למרג’ין. נזיז תצפית אחת מהסאפורט וקטורז בכיוון קצת לא צפוי והמודל יכול להשתנות בצורה גסה.</p>
+<p>שאלה חשובה שיש עליה הרבה מחקר היא מה בעצם ההבדל מרגרסיה לוגיסטית? הרי גם רגרסיה לוגיסטית אם הדאטא הוא ספרבילי אמור למצוא מישור מפריד דומה מאוד – וזה אכן מה שקורה, אם תריצו רגרסיה לוגיסטית על המדגם שכאן תקבלו משוואה שמאוד מזכירה את משוואת המישור שהמקסימום מרג’ין קלסיפייר מוצא. ולרגרסיה לוגיסטית יש גם פירוש הסתברותי, ופונקצית הפסד הסתברותית.</p>
+<p>שתי השאלות שנדון בהן כעת הן המתבקשות ביותר: אחת, מה עם הדאטא הוא לא ספרבילי? הרי אין מישור למצוא. והשנייה היא האם יש דרך להכליל את הרעיון היצירתי הזה מקלסיפיקציה בינארית לכמה קלאסים ולרגרסיה עם Y רציף.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -634,7 +672,7 @@
 <h2>Support vector classifier</h2>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>רילקסציה ראשונה לקריטריון שלנו – אנחנו רוצים שזה יעבוד גם במקרה שיש קצת חפיפה. כלומר לא נניח יותר שהדאטא הוא ספרבילי. זה יביא אותנו סוף סוף למודל שנקרא סאפורט וקטור קלסיפייר.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -651,7 +689,7 @@
 <section class="slide level2">
 
 <h3 id="not-just-the-non-separable-case">Not just the non-separable case</h3>
-<div id="b1b46a43" class="cell" data-execution_count="7">
+<div id="2f5c6c64" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -662,7 +700,7 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>כבר הזכרנו ונדגים את זה, שהבעיה היא לא רק שיש חפיפה ואין אפשרות למצוא מישור מפריד, כמו בדאטא בתרשים בצד ימין. הבעיה היא גם אם כן אפשר למצוא מישור מפריד אבל המרג’ין שנוצר הוא כל כך צר שזה נראה מאולץ. או במילים אחרות נוצר לנו מצב של אוברפיטינג, ואולי נרצה להתחשב קצת פחות בכל נקודה ונקודה. אני יוצר מצב כזה בדאטא בתרשים האמצעי, על-ידי הוספה של נקודה כחולה אחת ויחידה בצורה כזו. המודל משתנה בצורה דרסטית! איך קראנו לזה? מודל לא יציב, עם שונות מאוד גבוהה.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -696,7 +734,12 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>אז אנחנו נרשה לחלק מהתצפיות להיות גם בתוך המרג’ין.</p>
+<p>או אפילו: לתצפיות מסוימות להיות בצד הלא נכון של המישור!</p>
+<p>ואנחנו נעשה את זה באמצעות פרמטר C שיהיה תקציב לחריגות כאלה, מאוד מזכיר את מה שעשינו ברגרסיה עם רגולריזציה כמו רידג’ ולאסו.</p>
+<p>אנחנו עושים את זה עם אוסף של n פמרטרים לn תצפיות, שאנחנו קוראים להם משתני סלאק, מלשון to cut some slack. נסמן אותם בוקטור אפסילון.</p>
+<p>וכעת אנחנו עושים מקסימום על M המרחק המינימלי של התצפיות אל המישור, ככה שוקטור המקדמים בטא הוא בנורמה אחת כלומר הוא נורמל, והמרחק גדול או שווה לא לM אלא לM כפול קצת פחות מ1, כי הוא מוכפל פי 1 מינוס אפסילון i לכל תצפית. אנחנו כמובן גם חייבים לוודא שהאפסילונים הם חיוביים, וכאמור נחסום את הסכום שלהם באמצעות איזשהו פרמטר תקציב C שעכשיו אנחנו חייבים לספק, ותיכף נרחיב על זה. נשים לב גם שהמקסימום על המרג’ין הוא עכשיו גם על עוד וקטור של משתני סלאק אפסילון, כלומר נצטרך להגיע להחלטה כזאת לכל תצפית ותצפית.</p>
+<p>ולמרות הכל, בשורה התחתונה המודל שנוצר בסאפורט וקטור קלאסיפייר, הוא בעל צורה זהה למודל של מקסימום מרג’ין קלסיפייר: אנחנו בסופו של דבר חוזים 1 אם תצפית מעל המישור ומינוס 1 אם היא מתחת.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -724,7 +767,7 @@
 </ul></li>
 </ul>
 </div>
-<div id="0a4adb97" class="cell" data-execution_count="8">
+<div id="32507926" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -735,7 +778,15 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>אז בואו נדבר קצת על הסלאק וריאבלז האלה:</p>
+<p>בתרשים השמאלי, אין בהם צורך. כל התצפיות במרחק M לפחות, ולכן כל האפסילונים שווים אפס.</p>
+<p>בתרשים האמצעי אנחנו מאפשרים שתי הפרות: יש שתי נקודות שנמצאות בתוך המרג’ין, אחת כחולה וחת אדומה, כלומר יש שני אפסילונים חיוביים, והשאר אפס. יש לנו כאן דוגמא לדאטא שהוא ספרבילי אבל אם לא נאפשר קצת סלאק, נקבל את המרג’ין הצר והמאולץ שקיבלנו קודם, וכעת מתאפשר מרג’ין הרבה יותר יציב.</p>
+<p>בתרשים הימני שהוא כבר המקרה הלא-ספרבילי, יש לנו כמה משתני סלאק שהם גדולים מאפס. כאן יש לנו אפילו נקודות שהן בצד הלא נכון של המישור (להדגים). בשביל הנקודות האלה האפסילונים שנמצאו הם גדולים מ1, הם יוצאים מעבר לחצי המרג’ין M.</p>
+<p>אז נסכם, האפסילונים הם בסופו של דבר הכמות שבה התצפיות “מפירות” את המרג’ין:</p>
+<p>אם אפסילון שווה אפס, התצפית בצד הנכון של המרג’ין, אין צורך בסלאק.</p>
+<p>אם אפסילון גדול מאפס, היא בצד הלא נכון של המרג’ין. היא או עליו, או ממש מעבר למישור, היא בצד הלא נכון.</p>
+<p>אם אפסילון גדול מ1 אז בודאות התצפית בצד הלא נכון של המישור, אולי על המרג’ין, אולי אפילו מחוצה לו.</p>
+<p>והדרך שלנו לשלוט בכמה סלאק אנחנו מאפשרים היא דרך פרמטר C, אז נדבר עליו גם כן.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -762,7 +813,7 @@
 </ul></li>
 </ul>
 </div>
-<div id="bc52196f" class="cell" data-execution_count="9">
+<div id="04f7479e" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -785,7 +836,11 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>אם C הוא אפס, יש לנו אפס סבלנות להפרה של המרג’ין, כל האפסילונים יהיו אפס, בעצם אנחנו חוזרים למקסימום מרג’ין קלסיפייר.</p>
+<p>אם C גדול מאפס אנחנו כן מאפשרים סלאק, ויותר מזה C הוא חסם על מספר התצפיות שאנחנו מוכנים שיעברו את המישור, כי כל תצפית כזאת תקבל אפסילון יותר מ1.</p>
+<p>כאן יש לנו את אותו סט של נתונים שחוזר על עצמו עם C שונים. אפשר לראות כשC התקציב נורא קטן אין כמעט הקצאה להפרה של המרג’ין, מקבל מרג’ין צר מאוד שמתאים את עצמו מאוד לדאטא, עם מעט סאפורט וקטורז. מנגד, כשC גדול מאוד, מקבלים מרג’ין עבה, שפחות נצמד לדאטא, ויש למודל הרבה מאוד סאפורט וקטורז שמשפיעים עליו.</p>
+<p>אז איך נבחר איזה C לתת למודל? פשוט: נתייחס לC כאל היפרפרמטר, כאל איזה כפתור שאפשר לסובב וצריך לבדוק כמה לסובב אותו באמצעות שיטות שלמדנו כמו קרוס ולידיישן. וברור שכאן אנחנו רואים קשר מיידי לביאס-וריאנס טריידאוף. מומלץ לעצור רגע את ההקלטה ולחשוב לבד איך C משפיע על הטריידאוף.</p>
+<p>עצרתם? אוקי, אז כמו שאפשר לראות כאן ככל שC גדול יותר, המרג’ין גדול ויציב כי הוא מתחשב בהרבה סאפורט וקטורז, במילים אחרות השונות נמוכה. אבל, הביאס יכול לגדול כי המישור שמצאנו כבר לא מתאים את עצמו לקו המאוד ספציפי שמקבלים בין הקלאסים. מצד שני כשC קטן המרג’ין מאוד צר, כל שינוי במעט סאפורט וקטורז שיש לו יכול מאוד לערער אותו, כלומר שונות גבוהה. אבל הביאס קטן כי אנחנו מתקרבים לקו הספציפי שמתאים עצמו הכי לנתונים.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -803,13 +858,17 @@
 
 <h3 id="svc-equivalent-forms">SVC: equivalent forms</h3>
 <ul>
-<li><p>As with maximum margin classifier, if we insist on setting <span class="math inline">\(\|\beta\| = 1/M\)</span> we can write: <span class="math display">\[\min_{\beta, \beta_0, \epsilon}\|\beta\| \quad s.t. \space y_i (\beta_0 + x_i^T\beta) \ge 1-\epsilon_i, \quad \epsilon_i \ge 0, \quad \sum_{i = 1}^n \epsilon_i \le C\]</span></p></li>
-<li><p>In fact, it is more common to see the equivalent form: <span class="math display">\[\min_{\beta, \beta_0, \epsilon}\frac{1}{2}\|\beta\|^2 + C \sum_{i = 1}^n \epsilon_i \quad s.t. \space y_i (\beta_0 + x_i^T\beta) \ge 1-\epsilon_i, \quad \epsilon_i \ge 0\]</span></p></li>
+<li><p>As with maximum margin classifier, if we insist on setting <span class="math inline">\(\|\beta\| = 1/M\)</span> we can write: <span class="math display">\[\min_{\beta, \beta_0, \epsilon}\|\beta\| \quad s.t. \space y_i (\beta_0 + x_i^T\beta) \ge 1-\epsilon_i, \quad \epsilon_i \ge 0, \quad \sum_{i = 1}^n \epsilon_i \le C \quad \forall i\]</span></p></li>
+<li><p>In fact, it is more common to see the equivalent form: <span class="math display">\[\min_{\beta, \beta_0, \epsilon}\frac{1}{2}\|\beta\|^2 + C \sum_{i = 1}^n \epsilon_i \quad s.t. \space y_i (\beta_0 + x_i^T\beta) \ge 1-\epsilon_i, \quad \epsilon_i \ge 0 \quad \forall i\]</span></p></li>
 <li><p>In which case, notice the <span class="math inline">\(C\)</span> hyperparameter is now a <em>penalty</em> (this is also more similar to how sklearn sees it)</p></li>
 </ul>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>נסיים את הדיון בסאפורט וקטור קלסיפייר בזה שנזכיר שבדרך כלל אנחנו רואים צורה מעט שונה של הקריטריון.</p>
+<p>קודם כל גם כאן ניתן להיפטר מM עצמו, חצי העובי של המרג’ין, אם פשוט קובעים שהנורמה של וקטור המקדמים בטא היא 1 חלקי M. העניין הוא שבקריטריון בלי M קצת קשה להבין את התפקיד של הסלאק וריאבלז, האפסילונים.</p>
+<p>ולמעשה, הרבה פעמים תפגשו בכלל את הקריטריון של SVC בצורה כזאת: מינימום על הנורמה הריבועית של וקטור המקדמים בטא, כדי להפוך את הבעיה לקמורה, וC לא מופיע כפרמטר תקציב אלא כפרמטר עונש על סכום האפסילונים.</p>
+<p>זה חשוב להבין את זה כי ככה גם המימוש בsklearn, ככל שC גדול אנחנו מענישים יותר את הסלאק וריאבלז ונראה מרג’ינים צרים יותר, וככל שהוא קטן אנחנו מענישים פחות את הסכום שלהם, נראה הרבה הפרות של המרג’ינים שיהיו עבים יותר.</p>
+<p>עד כאן על סאפורט וקטור קלסיפיירז. ביחידה הבאה נוותר גם על דרישה הזאת שמישור מפריד בין הקלאסים, אלא כל יריעה אחרת, ונגיע לפרוצדורה הסופית שנקראת סאפורט וקטור מאשינז.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -827,7 +886,7 @@
 <h2>Support vector machines (SVM)</h2>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>אז מה הופך סאפורט וקטור קלסיפיירז לסאפורט וקטור מאשינז?</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -844,8 +903,8 @@
 <section class="slide level2">
 
 <h3 id="the-non-linear-case">The non-linear case</h3>
-<p>Recall the Bayes decision boundary example from our the Bias-Variance discussion:</p>
-<div id="3bbfb5b9" class="cell" data-execution_count="10">
+<p>Recall the Bayes decision boundary example from our Bias-Variance discussion:</p>
+<div id="4084c8b9" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -859,7 +918,9 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>למשל מה קורה אם אין מישור מפריד, עם או בלי סלאק, אבל כן יש יריעה מסוימת שמפרידה. במילים אחרות אם ההפרדה היא לא ליניארית.</p>
+<p>ראינו דוגמה כזאת ממש כשדיברנו על הטריידאוף בין ביאס ווריאנס בקלסיפיקציה, שם תיארנו לנו שיש איזו פונקצית הסתברות להיות בקלאס 1 לעומת הקלאס מינוס 1, והנחנו שהיא משתנה בצורה חלקה כזאת במרחב של X. מה סאפורט וקטור קלסיפייר יכול לעשות במקרה כזה? מעט מאוד.</p>
+<p>ולצערי דאטא אמיתי הרבה פעמים נראה ככה, עם תופעות לא-ליניאריות. אז אנחנו צריכים למצוא דרך להכליל את המתודה שלנו לעולם לא ליניארי.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -879,7 +940,7 @@
 <div>
 <ul>
 <li class="fragment"><p>Similar to polynomial regression we could add quadratic terms: <span class="math display">\[\max_{\beta^1, \beta^2, \beta_0, \epsilon}M \quad s.t. \\
-\|\beta^1\| + \|\beta^2\| = 1, \quad y_i (\beta_0 + x_i^T\beta^1 + \left(x^2_i\right)^T\beta^2) \ge M(1-\epsilon_i), \quad \epsilon_i \ge 0, \quad \sum_{i = 1}^n \epsilon_i \le C\]</span></p></li>
+\|\beta^1\|^2 + \|\beta^2\|^2 = 1, \quad y_i (\beta_0 + x_i^T\beta^1 + \left(x^2_i\right)^T\beta^2) \ge M(1-\epsilon_i), \quad \epsilon_i \ge 0, \quad \sum_{i = 1}^n \epsilon_i \le C\]</span></p></li>
 <li class="fragment"><p>What about cubic terms? What about interactions?</p></li>
 <li class="fragment"><p>Like in regression we could <em>expand</em> <span class="math inline">\(x_i\)</span> to any feature mapping <span class="math inline">\(h(x_i): \mathbb{R}^p \to \mathbb{R}^q\)</span> and continue as is</p></li>
 <li class="fragment"><p>But this becomes really high-dimensional, really fast.</p></li>
@@ -887,7 +948,11 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>כשדיברנו על רגרסיה והמודל הליניארי הצענו אפשרות קלה ממש, וזה להוסיף גורמים פולינימיאליים.</p>
+<p>כאן למשל, אני רושם את הבעיה שוב, רק שהפעם יש לי וקטור מקדמים בטא1 ועוד וקטור מקדמים בטא2 ששייך לכל הגורמים של X בריבוע. הנורמה של כל הוקטור צריכה להיות 1, וחוץ מזה אין שינוי. בעצם הגדלתי את המרחב של המישור שלי מp ל2p. אבל התוצאה תהיה כמו שנראה תיכף כלל החלטה לא-ליניארי במישור המקורי של האיקסים.</p>
+<p>ומה עם גורמים בשלישית, ומה עם אינטראקציות מסדר ראשון, מסדר שני וכולי?</p>
+<p>כמו ברגרסיה אפשר להרחיב את X לאיזשהו מיפוי h(X) ולהמשיך כרגיל.</p>
+<p>הבעיה היא למשל חישובית. בדרך כלל אם רוצים להתחשב למשל בכל האינטראקציות q נעשה גדול מאוד מהר מאוד, אולי אפילו יותר מכמות התצפיות. באופן מפתיע יש טריק שאפשר להפעיל שהוא אגב לא ייחודי למודל סאפורט וקטור, והוא מאפשר לנו לקבל את המודל בלי צורך לפרט ולחשב את כל הh(X) הארוך הזה.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -920,7 +985,11 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>הטריק שלנו נקרא הקרנל טריק. והוא שהופך סאפורט וקטור קלסיפייר לסאפורט וקטור מאשין. באופן כללי יש עולם שלם של שיטות קרנל שלא נלמד, מי שרוצה יכול לקחת קורסים מתקדמים יותר או לקרוא על זה עוד בספרים, זה מאוד שימושי.</p>
+<p>חוקרים הבחינו שבאופן מדהים אפשר לנסח את המודל שלנו לא בשפת המקדמים, בטא1 עד בטאp, אלא בשפת התצפיות, עם וקטור פרמטרים בגודל n שנסמן כאלפא.</p>
+<p>ניקח תצפית חדשה X0. האלפות שלנו לא מכפילות את התצפית עצמה אלא את המכפלה הפנימית של התצפית עם תצפית Xi. כלומר אפשר לכתוב את המודל כך (להדגים).</p>
+<p>וכאמור יש לנו פרמטר אלפא-איי לכל תצפית i, והנה עובדה מרתקת: אפשר להראות שבהכרח אלפא-איי גדול מאפס רק עבור אותן תצפיות שהן סאפורט וקטורז, שמגדירות את המרג’ין. אחרת, הוא אפס. כלומר בלי קשר לטריק הקרנל שתיכף נראה, המודל של סאפורט וקטור כולל צורה דואלית ברמת התצפיות שמראה ממש איך הוא תלוי רק בקבוצה מסוימת שלהן. כשבאה תצפית חדשה, מספיק לחשב את המכפלה הפנימית שלה עם כל אחד מהסאפורט וקטורז בלבד, להכפיל פי איזו משקולת אלפא-איי ולסכום. החיזוי של תצפית חדשה יקבע רק באמצעות היחס שלה לסאפורט וקטורז, התרומה של כל תצפית אחרת היא אפס.</p>
+<p>בחזרה לקרנל: אם ככה, זה אומר שעבור כל הרחבה של X ממימד q שהוא אולי גדול הרבה יותר, עדיין אפשר לרשום את הפתרון כקומבינציה של מכפלות פנימיות, פשוט המכפלות הפנימיות הן במרחב החדש הזה של h(X).</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -946,9 +1015,24 @@
 <div class="fragment">
 <p><span class="math inline">\(\langle h(x_i), h(x_0) \rangle = \begin{pmatrix}1 \\ \sqrt{2}x_{i1} \\ \sqrt{2}x_{i2} \\ x^2_{i1} \\ x^2_{i2} \\ \sqrt{2}x_{i1}x_{i2}\end{pmatrix}^T\begin{pmatrix}1 &amp; \sqrt{2}x_{01} &amp; \sqrt{2}x_{02} &amp; x^2_{01} &amp; x^2_{02} &amp; \sqrt{2}x_{01}x_{02}\end{pmatrix} = (1 + x_i^Tx_0)^2\)</span></p>
 </div>
+<div class="fragment">
+<div class="callout callout-note callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<p>Why is that helpful?</p>
+</div>
+</div>
+</div>
+</div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>בואו ניתן דוגמא: נניח שאני נמצא בעולם עם שני משתנים, דו-מימדי, וההרחבה שלי פולינומית ואכן כוללת חותך, את המשתנים עצמם, את המשתנים בריבוע, ואינטראקציה בין שני המשתנים. כלומר בסך הכל עברתי למרחב ממימד 6. נכון שאני מוסיף גורמים של שורש 2 אבל זה לא משנה דבר ותיכף נבין למה אני עושה את זה.</p>
+<p>איך נראית המכפלה הפנימית בין ההרחבה h של תצפית חדשה x0 לתצפית קיימת במדגם הלמידה x1? האמת שדי פשוט:</p>
+<p>אם תבצעו את המכפלה הפנימית ותסדרו את האיברים, תגלו שקיבלתם ביטוי קטן ופשוט בשפה המקורית של האיקסים: 1 ועוד המכפלה הפנימית של וקטור המשתנים המקורי X0 כפול Xi, כל זה בריבוע.</p>
+<p>במה זה עוזר לנו? זה עוזר לנו כי המכפלה הפנימית היא כל מה שאנחנו צריכים, וגילינו שאנחנו יכולים לעשות אותה במימד המקורי של X, המימד הנמוך יותר שבו צריך להכפיל שני וקטורים באורך 2, לא באורך 6.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -979,7 +1063,12 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>אז בואו נקרא לפונקציה הזאת קרנל, נסמן אותה כפונקציה K של שני וקטורים או שתי תצפיות במרחב המקורי של X.</p>
+<p>ואם נחזור למודל שלנו של המישור שמפריד בין הקלאסים במרחב של h אנחנו רואים שאפשר להציב את הקרנל הזה במקום המכפלה הפנימית של הhים ולקבל ביטוי פשוט יותר.</p>
+<p>אז מה הטריק?</p>
+<p>הטריק הוא שמאוד יכול להיות שאני לא צריך לחשב בכלל את h, ויותר מזה אני לא צריך לפרט אותה!</p>
+<p>במקום זה אני מפרט פונקצית קרנל כלשהי בין התצפיות, שעבור כל שתי תצפיות בRp אומרת לי כמה הן דומות בעצם.</p>
+<p>זה הרבה יותר קל לחשוב ככה, ובאמת יש כל מיני פונקצית קירבה בין תצפיות שמסתתרת מאחוריהן פיצ’ר מאפ h מאוד מאוד מעניינת, ממימד אולי מאוד גבוה, שמאפשרת מודל מאוד מאוד גמיש בלי לחשב אותה.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1023,7 +1112,7 @@
 <tr class="odd">
 <td>Gaussian/SE/RBF</td>
 <td><span class="math inline">\(\exp\left(-\gamma\|x_i - x_j\|^2\right)\)</span></td>
-<td>infintie feature mapping space!</td>
+<td>infinite feature mapping space!</td>
 </tr>
 <tr class="even">
 <td>Sigmoid</td>
@@ -1036,7 +1125,7 @@
 <div>
 <ul>
 <li class="fragment"><p>Each of these <em>implicitly</em> uses some mapping <span class="math inline">\(h(x)\)</span>, but always: <span class="math inline">\(K(x_i, x_j) = \langle h(x_i), h(x_j) \rangle\)</span></p></li>
-<li class="fragment"><p>On entire training set need to compute: <span class="math inline">\(K_{n \times n}\)</span> (kernel matrix) where: <span class="math inline">\(K_{ij} = K(x_i, x_j) = \langle h(x_i), h(x_j) \rangle\)</span></p></li>
+<li class="fragment"><p>On entire training set need to compute: <span class="math inline">\(K_{n \times n}\)</span> (kernel matrix) where <span class="math inline">\(K_{ij} = K(x_i, x_j) = \langle h(x_i), h(x_j) \rangle\)</span></p></li>
 </ul>
 </div>
 <div class="fragment">
@@ -1053,7 +1142,13 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>הנה כמה פונקציות כאלה או קרנלים כמו שנהוג לקרוא להם:</p>
+<p>לדוגמא הקרנל הליניארי – מידת הדמיון בין שתי תצפיות היא המכפלה הפנימית ביניהן. זה כמובן מחזיר אותנו למודל המקורי, לסאפורט וקטור קלסיפייר. ולמה שהמכפלה הפנימית בין זוג וקטורים תהיה מידה לקרבה ביניהם? כי זה בדיוק קוסינוס הזווית בין שני הוקטורים, עד כדי קבוע, למי שזוכרים.</p>
+<p>יש את הקרנל הפולינומיאלי שכרגע ראינו דוגמה שלו, באופן כללי אפשר להעלות את המכפלה הפנימית של האיקסים בחזקת d וזה מבטיח שלנו פיצ’ר מאפ h שכוללת את כל החזקות והאינטראקציות עד מקדם d כולל.</p>
+<p>קרנל מאוד פופולרי ושימושי הוא הקרנל הגאוזייני או סקוורד אקספוננשיאל, או RBF. כאן תשימו לב שככל שהתצפיות דומות המרחק ביניהן קטן ומקבלים אקספוננט בחזקת אפס במקסימום, 1. למה זה קרנל מאוד שימושי? כי הוא מאפשר גבולות החלטה מעוגלים, שמאחוריהם עומדת פיצ’ר מאפ h שהיא ממימד אינסופי! שלא צריך לפרט או לחשב! לא נוכיח את זה כאן כמובן.</p>
+<p>מכל מקום מובטח לכם שמאחורי כל אחד מהקרנלים האלה עומדת מכפלה פנימית של פיצ’ר מאפס שמחושבות רק באופן אימפליסיטי.</p>
+<p>והרבה פעמים אנחנו לא נדבר על פונקצית קרנל אלא על מטריצת קרנל או מטריצת גרם שמחושבת על כל מדגם הלמידה בגודל n על n.&nbsp;כל איבר ij במטריצה הוא הוא הקרנל בין תצפיות i וj.</p>
+<p>שאלה מתבקשת היא כמובן, מה אני יכול להשתמש בכל פונקצית דמיון שבא לי? והתשובה היא כמובן שלא. הרי כל איבר צריך להיות מכפלה של איזושהי פיצ’ר מאפ h. נגיד שקריטריון מספיק לקבוע שזה אכן כך הוא שK היא מטריצה סימטרית חיובית למחצה, ונשאיר לכם אולי בתרגיל לברר למה זה נכון.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1070,7 +1165,7 @@
 <section class="slide level2">
 
 <h3 id="support-vector-machines-svm-1">Support vector machines (SVM)</h3>
-<div id="ff61a1fb" class="cell" data-execution_count="11">
+<div id="6beed640" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1093,7 +1188,9 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>אז השילוב הזה של סאפורט וקטור קלאסיפיירז והטריק של קרנל הוא שמביא אותנו לסאפורט וקטור משינז.</p>
+<p>הנה הביצועים של המודל החזק הזה על הדאטא הקשה לקליספיקציה שהטריד אותנו. אפשר לראות שגם קרנל RBF וגם קרנל פולינמיאלי נגיד מדרגה 6, מצליחים במשהו לקלוט את גבול ההחלטה העקום והלא רציף הזה. הקרנל הRBF קצת יותר.</p>
+<p>ורק נזכיר שמודל כל כך חזק לא בא בלי מחיר לשלם. מחיר אחד למשל אתם רואים כאן, לכל קרנל נוספים פרמטרים שצריך לבחור, כנראה עם קרוס ולידיישן. בקרנל הRBF צריך לבחור את הרזולוציה גאמא, בקרנל הפולינומיאלי צריך לבחור את הדרגה d.&nbsp;ויותר מזה צריך לבחור את הקרנל עצמו. בדרך כלל הבחירה היא בין כמה קרנלים נפוצים יותר, אבל אתם כמה קרנלים פותחו עם השנים? עשרות.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1110,34 +1207,33 @@
 <section class="slide level2">
 
 <h3 id="example-saheart-data">Example: SAHeart data</h3>
-<div id="fb1ef08e" class="cell" data-execution_count="12">
+<div id="fa525ac9" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c11_svm_files/figure-revealjs/cell-13-output-1.png" width="674" height="523"></p>
+<p><img data-src="c11_svm_files/figure-revealjs/cell-13-output-1.png" width="455" height="449"></p>
 </figure>
 </div>
 </div>
 </div>
-<aside class="notes">
-<div style="direction:rtl; font-size:16px">
+<div class="fragment">
+<div class="callout callout-note callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
 <p>Notice to compute ROC SVM needs to output a probability or score.</p>
 <p>This is out of scope, but you could think of the distance of an observation to the hyperplane as a type of confidence.</p>
 </div>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
+</div>
+</div>
+</div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>מחיר נוסף שאנחנו משלמים עם מודל כל כך חזק הוא הסיכוי לאוברפיטינג. אפשר לראות את זה כאן כשאנחנו מפעילים SVM על נתונים אמיתיים, הנתונים שהצגנו על מדגם של פציינטים שחלקם קיבלו התקף לב וחלקם לא, ואנחנו רוצים לחזות על מדגם טסט, על פציינטים חדשים. כאן אני משווה על מדגם הטסט, על חולים שהמודל לא ראה, בין רגרסיה לוגיסטית לבין SVM עם קרנל ליניארי, קרנל פולינומיאלי מדרגה 2 וקרנל RBF. ואפשר לראות מהAUC גם שהקרנלים הכי פשוטים מגיעים לתוצאות הכי טובות, וגם שרגרסיה לוגיסטית מגיע בשורה התחתונה לביצועים דומים מאוד לSVM עם קרנל ליניארי שהוא בעצם SVC כמו שצפינו.</p>
+<p>חדי העין בטח שואלים את עצמם רגע, איך אני בכלל מצייר עקומת ROC למודל SVM, הוא הרי מחזיר חיזויים של 1 או מינוס 1, ואנחנו צריכים איזו הסתברות או לפחות איזשהו סקור כדי לצייר ROC, עם קטאופים שונים. אז זה כבר קצת מחוץ לסקופ שלנו, אבל יש דרך לחלץ סקור ואפילו הסתברות ממודל SVM, לכל הפחות ודאי אפשר להתייחס למרחק של כל תצפיות מהמישור שנוצר כאיזושהי מטריקה של קונפידנס. ככל שתצפית רחוקה יותר מהמישור, כך המודל בטוח לגביה שהיא מקלאס אחד ולא מאחר.</p>
+<p>ומה עם יותר מקלאס אחד? ומה עם רגרסיה? נגיד גם על זה כמה מילים בחלק האחרון של היחידה.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1155,7 +1251,7 @@
 <h2>SVM extensions</h2>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>ניגע כעת קצת בהרחבות של SVM ליותר משני קלאסים ולרגרסיה. ההרחבה של SVM ליותר משני קלאסים היא יחסית קלה ומתאימה לא רק לSVM אלא לכל מודל שיודע לעשות הפרדה לשני קלאסים בלבד. ההרחבה של SCM לרגרסיה היא מעט יותר מתוחכמת ולא נוכל להיכנס לכל הפרטים והדקויות, אבל בודאי תבינו כיצד היא מתבצעת.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1180,13 +1276,15 @@
 </ul></li>
 <li>One-versus-rest (OVR):
 <ul>
-<li>Run all <span class="math inline">\(K\)</span> models: class <span class="math inline">\(k\)</span> vs.&nbsp;remaining <span class="math inline">\(K - 1\)</span> classes</li>
-<li>Assign <span class="math inline">\(x_0\)</span> to class <span class="math inline">\(k\)</span> in which it gets the highest distance (confidence) from hyperplane <span class="math inline">\(|\beta_{0k} + x_0^T\hat{\beta_{k}}|\)</span></li>
+<li>Run all <span class="math inline">\(K\)</span> models: class <span class="math inline">\(k\)</span> (+1) vs.&nbsp;remaining <span class="math inline">\(K - 1\)</span> classes (-1)</li>
+<li>Assign <span class="math inline">\(x_0\)</span> to class <span class="math inline">\(k\)</span> in which it gets the highest distance (confidence) from hyperplane <span class="math inline">\(\beta_{0k} + x_0^T\hat{\beta_{k}}\)</span></li>
 </ul></li>
 </ul>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>אז איך מרחיבים SVM ליותר משני קלאסים – איך שמרחיבים כל מודל בינארי ליותר משני קלאסים.</p>
+<p>דרך אחת היא וואן-ורסוז-וואן או OVO. נריץ SVM להפרדה בין כל זוג קלאסים K וK טאג. סך הכל נריץ SVM K מעל 2 פעמים. וכשמגיעה תצפית חדשה נעבור אותה בכל המודלים ונסווג אותה אל הקלאס אליו היא שויכה הכי הרבה פעמים, לעומת הקלאסים האחרים.</p>
+<p>הדרך השניה היא וואן-ורסוז-רסט או OVR. נחלק את הדאטא לקלאס הk מול כל שאר התצפיות ונריץ SVM. נעשה את זה לכל קלאס וקלאס, בסך הכל נריץ SVM K פעמים. וכשמגיעה תצפית חדשה, נעביר אותה בכל המודלים, ונסווג אותה אל הקלאס שבמודל שלו היא הראתה הכי הרבה קונפידנס שהיא שייכת אליו, כלומר כמו שראינו הכוונה היא למודל עם המישור שממנו התצפית הכי רחוקה.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1203,11 +1301,11 @@
 <section class="slide level2">
 
 <h3 id="support-vector-regression-svr">Support vector regression (SVR)</h3>
-<div id="b727ec06" class="cell" data-execution_count="13">
+<div id="f5919179" class="cell" data-execution_count="13">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c11_svm_files/figure-revealjs/cell-14-output-1.png" width="659" height="503"></p>
+<p><img data-src="c11_svm_files/figure-revealjs/cell-14-output-1.png" width="659" height="429"></p>
 </figure>
 </div>
 </div>
@@ -1226,7 +1324,10 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>ומה עם רגרסיה? איך נבטא רעיון דומה של מישור שמבטא באמצעות איזשהו מרג’ין ממנו את הקשר הכי טוב בין משתנה מסביר X לY רציף?</p>
+<p>נתחיל בזה שמישור הוא בדיוק מה שאנחנו מחפשים תמיד ברגרסיה, למשל עם משתנה אחד מדובר בקו. ונגדיר שאנחנו רוצים מישור עם מרג’ין M סביבו (להדגים), שכל התצפיות נכנסות בו, בלוח הזה. זה מאוד הגיוני, כי ככל שהמרג’ין קטן יותר זה אומר שהפיזור סביב המישור קטן יותר וזו התאמה טובה יותר. ככל שהוא גדול יותר כך הפיזור גדול ואנחנו פחות בטוחים במודל, בדומה לרגרסיה.</p>
+<p>עכשיו זה כמובן קריטריון מחמיר מאוד ומושפע בקלות מתצפיות קיצוניות, ולכן גם כאן אנחנו עושים רילקסציה ומאפשרים משתני סלאק לתצפיות מסוימות, שיוצאות מהמרג’ין. אפשר להגדיר בדיוק כמו מקודם שיש לנו איזשהו תקציב C לגודל הסלאק או מספר התצפיות שאנחנו מוכנים שיצאו מהמרג’ין ולהמשיך בצורה דומה מאוד לSVM.</p>
+<p>עכשיו נאמר והשגנו את זה כמו בתרשים שלפנינו – אילו נקודות הן הסאפורט וקטורז, שרק בהן המודל הסופי בעצם תלוי? כאן אלה דווקא התצפיות מחוץ למרג’ין, שאם הן יזוזו המישור והמרג’ין יכולים מאוד להשתנות. זה קצת שונה מSVM אבל אם תחשבו על זה זה ממש אותו עקרון – על תצפיות שבתוך המרג’ין אנחנו לא משלמים כלום, העיקר שהן רחוקות עד כדי M מהמישור. אנחנו משלמים הרבה על התצפיות שמחוץ למרג’ין, לכן הן הסאפורט וקטורז.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1245,8 +1346,8 @@
 <h3 id="svr-criterion">SVR Criterion</h3>
 <div>
 <ul>
-<li class="fragment"><p>From maximum margin classifier: <span class="math inline">\(\max_{\beta, \beta_0}M \quad s.t. \space \|\beta\| = 1 \text{ and } \quad y_i (\beta_0 + x_i^T\beta) \ge M \space \forall i\)</span></p></li>
-<li class="fragment"><p>To “maximum margin regressor” (not really a thing): <span class="math inline">\(\max_{\beta, \beta_0}M \quad s.t. \space \|\beta\| = 1 \text{ and } \quad |y_i - (\beta_0 + x_i^T\beta)| \le M \space \forall i\)</span></p></li>
+<li class="fragment"><p>From maximum margin classifier: <span class="math inline">\(\max_{\beta, \beta_0}M \quad s.t. \space \|\beta\| = 1 \text{ and } \quad y_i (\beta_0 + x_i^T\beta) \ge M \quad \forall i\)</span></p></li>
+<li class="fragment"><p>To “maximum margin regressor” (not really a thing): <span class="math inline">\(\max_{\beta, \beta_0}M \quad s.t. \space \|\beta\| = 1 \text{ and } \quad |y_i - (\beta_0 + x_i^T\beta)| \le M \quad \forall i\)</span></p></li>
 <li class="fragment"><p>From SVC: <span class="math inline">\(\max_{\beta, \beta_0, \epsilon}M \quad s.t. \space \|\beta\| = 1, \quad y_i (\beta_0 + x_i^T\beta) \ge M(1-\epsilon_i), \quad \epsilon_i \ge 0, \quad \sum_{i = 1}^n \epsilon_i \le C\)</span></p></li>
 <li class="fragment"><p>To SVR: <span class="math inline">\(\max_{\beta, \beta_0, \epsilon}M \quad s.t. \space \|\beta\| = 1, \quad |y_i - (\beta_0 + x_i^T\beta)| \le M + \epsilon_i, \quad \epsilon_i \ge 0, \quad \sum_{i = 1}^n \epsilon_i \le C\)</span></p></li>
 <li class="fragment"><p>Though this is more common: <span class="math display">\[\min_{\beta, \beta_0, \epsilon}\frac{1}{2}\|\beta\|^2 + C \sum_{i = 1}^n \epsilon_i \quad s.t. \space |y_i - (\beta_0 + x_i^T\beta)| \le M + \epsilon_i, \quad \epsilon_i \ge 0\]</span></p></li>
@@ -1255,7 +1356,15 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>פורמלית אפשר בשקף אחד להראות את כל המסע שלנו בדרך לSVM רק ברגרסיה, המסע לSVR.</p>
+<p>בקלסיפיקציה היה לנו את הקריטריון המחמיר של מקסימום מרג’ין קלסיפייר.</p>
+<p>ברגרסיה אפשר לחשוב על קריטריון מקביל, להביא למקסימום את המרג’ין, כך שוקטור המקדמים הוא וקטור יחידה, ונדאג שכל תצפית רחוקה מהמישור, כלומר מהחיזוי שלה עד כדי המרג’ין M. שימו לב להבדל כאן בין קלסיפיקציה לרגרסיה.</p>
+<p>אחר-כך הרשינו קצת סלאק והגענו לקריטריון של סאפורט וקטור קלסיפייר.</p>
+<p>ואפשר לחשוב על קריטריון מקביל ברגרסיה: נרצה את המקסימום מרג’ין כך שכל תצפית רחוקה לא יותר מM מהחיזוי שלה, ונוסיף משתני סלאק גדולים מאפס, לחלק מהתצפיות אנחנו מרשים להיות רחוקות מעבר למרג’ין. ועל משתני הסלאק שולט פרמטר של תקציב C.</p>
+<p>בפועל, כמו בקלסיפיקציה תראו יותר בספרות קריטריון שנראה כך: מינימום על הנורמה של המקדמים בריבוע, כדי לעשות את זה בעיה קמורה, ועוד פרמטר פנאלטי על סכום משתני הסלאק. גם בעית אופטימיזציה שיש לה פתרונות סטנדרטיים. כאן, רק נשים לב שלא נפטרנו מפרמטר הM שמייצג את המרג’ין, נהוג לפרט גם אותו למשל במימוש של sklearn.</p>
+<p>וגם למודל של SVR ניתן לעשות קרנליזציה ולהתחשב בקרנלים שונים.</p>
+<p>נעצור כאן, כמו שאמרנו יש עוד הרבה יותר מה להגיד על SVR, ואפשר להראות שגם הוא וגם SVM עושים מינימום לפונקציות לוס מעניינות מאוד, מי שמעוניין בכך יכול לקרוא על כך עוד בספרים.</p>
+<p>עד כאן SVM, אחד המודלים האלגנטיים ביותר בלמידת מכונה שיודע גם לטפל בדאטא ממימד גדול מאוד ולכן גם היה אופנתי מאוד ככל שהנתונים נעשו גדולים ועד שהגיעו רשתות הנוירונים.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
