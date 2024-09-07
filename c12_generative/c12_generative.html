@@ -507,8 +507,8 @@
           display:block!important;
       }</style></aside>
 </section>
-<section id="detour-multivariate-gaussian-distribution" class="slide level2 title-slide center">
-<h2>Detour: multivariate Gaussian distribution</h2>
+<section id="detour-multivariate-gaussian" class="slide level2 title-slide center">
+<h2>Detour: multivariate Gaussian</h2>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 
@@ -579,7 +579,7 @@
 <section class="slide level2">
 
 <h3 id="lda-what-to-expect">LDA: What to expect</h3>
-<div id="6a61dd8c" class="cell" data-execution_count="1">
+<div id="852966df" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -690,8 +690,8 @@
 <ul>
 <li class="fragment">If we want to fit LDA to data, we need to estimate the parameters: <span class="math inline">\(\mu_1,\ldots,\mu_K,\; \Sigma,\; \pi_1,\ldots,\pi_K.\)</span></li>
 <li class="fragment">This is naturally done by maximum likelihood from the data: <span class="math display">\[\begin{eqnarray*}
-\hat{\pi}_k &amp;=&amp; \frac{ \sum_{i=1}^n \mathbb{I}\left\{ Y_i = k\right\}}{n} \;,\; \hat{\mu}_k = \frac{ \sum_{\mathbb{I}\left\{ Y_i = k\right\}}  x_i}{ \sum_{i=1}^n \mathbb{I}\left\{ Y_i = k\right\}}\\
-\hat{\Sigma}  &amp;=&amp; \frac{1}{n-K} \sum_{k=1}^K \sum_{\mathbb{I}\left\{ Y_i = k\right\}}  (x_i-\hat{\mu}_k) (x_i-\hat{\mu}_k)^T\;\;\mbox{(Unbiased estimate)}.
+\hat{\pi}_k &amp;=&amp; \frac{\sum_{i=1}^n \mathbb{I}\left[Y_i = k\right]}{n} \;,\; \hat{\mu}_k = \frac{\sum_{\mathbb{I}\left[Y_i = k\right]} x_i}{\sum_{i=1}^n \mathbb{I}\left[Y_i = k\right]}\\
+\hat{\Sigma} &amp;=&amp; \frac{1}{n-K} \sum_{k=1}^K \sum_{\mathbb{I}\left[Y_i = k\right]} (x_i-\hat{\mu}_k) (x_i-\hat{\mu}_k)^T
 \end{eqnarray*}\]</span></li>
 </ul>
 </div>
@@ -714,7 +714,7 @@
 <section class="slide level2">
 
 <h3 id="lda-example">LDA: Example</h3>
-<div id="4d06be60" class="cell" data-execution_count="2">
+<div id="a2279b90" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -741,6 +741,135 @@
 </section>
 <section id="quadratic-discriminant-analysis" class="slide level2 title-slide center">
 <h2>Quadratic Discriminant Analysis</h2>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="a-common-covariance">A common covariance?</h3>
+<div id="26c48bb1" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c12_generative_files/figure-revealjs/cell-4-output-1.png" width="427" height="429"></p>
+</figure>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="quadratic-linear-analysis-qda">Quadratic linear analysis (QDA)</h3>
+<div>
+<ul>
+<li class="fragment">Now assume: <span class="math inline">\(X | Y = k \sim \mathcal{N}(\mu_k,\)</span><span style="color:red;"><span class="math inline">\(\Sigma_k\)</span></span> <span class="math inline">\()\)</span></li>
+<li class="fragment">Decision rule stays the same:
+<ul>
+<li class="fragment">select class <span class="math inline">\(k\)</span> over class <span class="math inline">\(j\)</span> if <span class="math inline">\(\log\left[\pi_kf_k(x)\right] &gt; \log\left[\pi_jf_j(x)\right]\)</span></li>
+</ul></li>
+<li class="fragment"><span class="math inline">\(\log\left[\pi_kf_k(x)\right] = \log(\pi_k) + C -\frac{1}{2}(x - \mu_k)^T\)</span><span style="color:red;"><span class="math inline">\(\Sigma_k^{-1}\)</span></span><span class="math inline">\((x-\mu_k)\)</span> <span style="color:red;"><span class="math inline">\(-\frac{1}{2}\log(|\Sigma_k|)\)</span></span></li>
+</ul>
+</div>
+<div class="fragment">
+<p><span class="math display">\[\begin{align}
+  \delta_{k &gt; j}(x)&amp;: \\
+  &amp;-\frac{1}{2}x^T\left(\Sigma_k^{-1} - \Sigma_j^{-1}\right)x + x^T\left(\Sigma_k^{-1}\mu_k - \Sigma_j^{-1}\mu_j\right) \\
+  &amp;+ \left[-\frac{1}{2}\mu_k^T\Sigma^{-1}\mu_k +\frac{1}{2}\mu_j^T\Sigma^{-1}\mu_j + \log(\pi_k) - \log(\pi_j) + \frac{1}{2}\left(\log(|\Sigma_j| -\log(|\Sigma_k|)\right)\right]&gt; 0
+  \end{align}\]</span></p>
+</div>
+<div class="fragment">
+<div class="callout callout-note callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<p>What shape is <span class="math inline">\(\delta_{k &gt; j}(x)\)</span>?</p>
+</div>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="qda-estimation">QDA: Estimation</h3>
+<ul>
+<li>Estimate <span class="math inline">\(\mu_k, \pi_k\)</span> as in LDA and:
+<ul>
+<li><span class="math inline">\(\hat{\Sigma}_k  = \frac{1}{n_k-1} \sum_{\mathbb{I}\left[Y_i = k\right]}  (X_i-\hat{\mu}_k) (X_i-\hat{\mu}_k)^T\)</span></li>
+</ul></li>
+</ul>
+<div class="columns">
+<div class="column">
+<div class="fragment">
+<div id="8122d170" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c12_generative_files/figure-revealjs/cell-5-output-1.png" width="427" height="429"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div><div class="column">
+<div class="fragment">
+<div class="callout callout-note callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<p>How many params are estimated in QDA? LDA?</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 

@@ -131,7 +131,7 @@ And if we are so good at estimaing $f_k(x) = P(X = x|Y = k)$ why not generate mo
 
 ---
 
-## Detour: multivariate Gaussian distribution {.title-slide}
+## Detour: multivariate Gaussian {.title-slide}
 
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
@@ -278,8 +278,8 @@ What shape is $\delta_{k > j}(x)$?
 - If we want to fit LDA to data, we need to estimate the parameters: $\mu_1,\ldots,\mu_K,\; \Sigma,\; \pi_1,\ldots,\pi_K.$
 - This is naturally done by maximum likelihood from the data:
 $$\begin{eqnarray*}
-\hat{\pi}_k &=& \frac{ \sum_{i=1}^n \mathbb{I}\left\{ Y_i = k\right\}}{n} \;,\; \hat{\mu}_k = \frac{ \sum_{\mathbb{I}\left\{ Y_i = k\right\}}  x_i}{ \sum_{i=1}^n \mathbb{I}\left\{ Y_i = k\right\}}\\
-\hat{\Sigma}  &=& \frac{1}{n-K} \sum_{k=1}^K \sum_{\mathbb{I}\left\{ Y_i = k\right\}}  (x_i-\hat{\mu}_k) (x_i-\hat{\mu}_k)^T\;\;\mbox{(Unbiased estimate)}.
+\hat{\pi}_k &=& \frac{\sum_{i=1}^n \mathbb{I}\left[Y_i = k\right]}{n} \;,\; \hat{\mu}_k = \frac{\sum_{\mathbb{I}\left[Y_i = k\right]} x_i}{\sum_{i=1}^n \mathbb{I}\left[Y_i = k\right]}\\
+\hat{\Sigma} &=& \frac{1}{n-K} \sum_{k=1}^K \sum_{\mathbb{I}\left[Y_i = k\right]} (x_i-\hat{\mu}_k) (x_i-\hat{\mu}_k)^T
 \end{eqnarray*}$$
 :::
 
@@ -324,7 +324,6 @@ Y = np.hstack(Y)
 
 # Estimate class means and common covariance matrix from data
 estimated_means = [X[Y == i].mean(axis=0) for i in range(n_classes)]
-# estimated_cov = np.corrcoef(X.T) #np.cov(X.T) / np.diag(np.cov(X.T))  # Common covariance matrix
 
 K = n_classes
 n = n_samples * K
@@ -412,7 +411,6 @@ plt.xlabel('X1')
 plt.ylabel('X2')
 plt.grid(True)
 plt.show()
-
 ```
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
@@ -422,6 +420,207 @@ plt.show()
 ---
 
 ## Quadratic Discriminant Analysis {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### A common covariance?
+
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Parameters
+np.random.seed(42)
+n_samples = 100  # Number of samples per class
+n_classes = 2    # Number of classes (K=2)
+n_features = 2   # 2D feature space
+
+# Class means
+means = [np.array([2, 2]), np.array([4, 6])]
+
+# Different covariance matrices for each class
+covariances = [np.array([[1.2, 0.5], [0.5, 1.2]]),
+               np.array([[1.5, -0.7], [-0.7, 1.0]])]
+
+# Generate data for each class
+X = []
+Y = []
+for i, (mean, cov) in enumerate(zip(means, covariances)):
+    X_class = np.random.multivariate_normal(mean, cov, n_samples)
+    X.append(X_class)
+    Y.append(np.full(n_samples, i))
+
+# Stack the data
+X = np.vstack(X)
+Y = np.hstack(Y)
+
+# Plotting the observations with different markers and colors for each class
+colors = ['r', 'g', 'b']
+markers = ['o', 's', '^']
+
+plt.figure(figsize=(5, 5))
+for i in range(n_classes):
+    plt.scatter(X[Y == i][:, 0], X[Y == i][:, 1], 
+                color=colors[i], marker=markers[i], label=f'Class {i}', edgecolor='k')
+
+# Customize the plot
+plt.xlabel('X1')
+plt.ylabel('X2')
+plt.grid(True)
+plt.show()
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Quadratic linear analysis (QDA)
+
+::: {.incremental}
+- Now assume: $X | Y = k \sim \mathcal{N}(\mu_k,$[$\Sigma_k$]{style="color:red;"} $)$
+- Decision rule stays the same:
+  - select class $k$ over class $j$ if $\log\left[\pi_kf_k(x)\right] > \log\left[\pi_jf_j(x)\right]$
+- $\log\left[\pi_kf_k(x)\right] = \log(\pi_k) + C -\frac{1}{2}(x - \mu_k)^T$[$\Sigma_k^{-1}$]{style="color:red;"}$(x-\mu_k)$ [$-\frac{1}{2}\log(|\Sigma_k|)$]{style="color:red;"}
+:::
+
+::: {.fragment}
+$$\begin{align}
+  \delta_{k > j}(x)&: \\
+  &-\frac{1}{2}x^T\left(\Sigma_k^{-1} - \Sigma_j^{-1}\right)x + x^T\left(\Sigma_k^{-1}\mu_k - \Sigma_j^{-1}\mu_j\right) \\
+  &+ \left[-\frac{1}{2}\mu_k^T\Sigma^{-1}\mu_k +\frac{1}{2}\mu_j^T\Sigma^{-1}\mu_j + \log(\pi_k) - \log(\pi_j) + \frac{1}{2}\left(\log(|\Sigma_j| -\log(|\Sigma_k|)\right)\right]> 0
+  \end{align}$$
+:::
+
+::: {.fragment}
+::: {.callout-note}
+What shape is $\delta_{k > j}(x)$?
+:::
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### QDA: Estimation
+
+- Estimate $\mu_k, \pi_k$ as in LDA and:
+  - $\hat{\Sigma}_k  = \frac{1}{n_k-1} \sum_{\mathbb{I}\left[Y_i = k\right]}  (X_i-\hat{\mu}_k) (X_i-\hat{\mu}_k)^T$
+
+:::: {.columns}
+::: {.column}
+::: {.fragment}
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Parameters
+np.random.seed(42)
+n_samples = 100  # Number of samples per class
+n_classes = 2    # Number of classes (K=2)
+n_features = 2   # 2D feature space
+
+# Class means
+means = [np.array([2, 2]), np.array([4, 6])]
+
+# Different covariance matrices for each class
+covariances = [np.array([[1.2, 0.5], [0.5, 1.2]]),
+               np.array([[1.5, -0.7], [-0.7, 1.0]])]
+
+# Generate data for each class
+X = []
+Y = []
+for i, (mean, cov) in enumerate(zip(means, covariances)):
+    X_class = np.random.multivariate_normal(mean, cov, n_samples)
+    X.append(X_class)
+    Y.append(np.full(n_samples, i))
+
+# Stack the data
+X = np.vstack(X)
+Y = np.hstack(Y)
+
+# Estimate class means and covariances
+estimated_means = [X[Y == k].mean(axis=0) for k in range(n_classes)]
+estimated_covariances = [np.cov(X[Y == k].T) for k in range(n_classes)]
+class_priors = [np.mean(Y == k) for k in range(n_classes)]  # Priors \pi_k
+
+# Function to calculate the QDA discriminant between two classes
+def qda_decision_boundary(x, mu_k, mu_j, cov_inv_k, cov_inv_j, log_det_cov_k, log_det_cov_j, pi_k, pi_j):
+    diff_cov_inv = cov_inv_k - cov_inv_j
+    linear_term = cov_inv_k @ mu_k - cov_inv_j @ mu_j
+    constant_term = (
+        -0.5 * mu_k.T @ cov_inv_k @ mu_k 
+        + 0.5 * mu_j.T @ cov_inv_j @ mu_j
+        + np.log(pi_k) - np.log(pi_j)
+        + 0.5 * (log_det_cov_j - log_det_cov_k)
+    )
+    
+    # Compute quadratic decision function
+    return -0.5 * np.einsum('ij,ij->i', x @ diff_cov_inv, x) + x @ linear_term + constant_term
+
+# Create a grid of points over the feature space
+x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+xx, yy = np.meshgrid(np.linspace(x_min, x_max, 300), np.linspace(y_min, y_max, 300))
+grid = np.c_[xx.ravel(), yy.ravel()]
+
+# Plotting the observations with different markers and colors for each class
+colors = ['r', 'g', 'b']
+markers = ['o', 's', '^']
+
+plt.figure(figsize=(5, 5))
+for i in range(n_classes):
+    plt.scatter(X[Y == i][:, 0], X[Y == i][:, 1], 
+                color=colors[i], marker=markers[i], label=f'Class {i}', edgecolor='k')
+
+# Plot QDA decision boundaries between each pair of classes
+for k in range(n_classes):
+    for j in range(k + 1, n_classes):
+        # Compute inverse covariances and log determinant of covariances
+        cov_inv_k = np.linalg.inv(estimated_covariances[k])
+        cov_inv_j = np.linalg.inv(estimated_covariances[j])
+        log_det_cov_k = np.log(np.linalg.det(estimated_covariances[k]))
+        log_det_cov_j = np.log(np.linalg.det(estimated_covariances[j]))
+        
+        # Calculate QDA decision boundary values for the grid
+        decision_vals = qda_decision_boundary(grid, estimated_means[k], estimated_means[j], 
+                                              cov_inv_k, cov_inv_j, log_det_cov_k, log_det_cov_j, 
+                                              class_priors[k], class_priors[j])
+        
+        # Reshape the decision values and plot the contour for QDA boundary
+        decision_vals = decision_vals.reshape(xx.shape)
+        plt.contour(xx, yy, decision_vals, levels=[0], colors='k', linestyles='--')
+
+# Customize the plot
+plt.xlabel('X1')
+plt.ylabel('X2')
+plt.grid(True)
+plt.show()
+```
+:::
+:::
+::: {.column}
+::: {.fragment}
+::: {.callout-note}
+How many params are estimated in QDA? LDA?
+:::
+:::
+:::
+::::
 
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
