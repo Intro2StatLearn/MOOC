@@ -1,0 +1,447 @@
+---
+format:
+  revealjs:
+    slide-number: true
+    chalkboard: true
+    fig-width: 6
+    fig-asp: 0.618
+    template-partials:
+      - "../title-slide.html"
+css: "../slides_quarto.css"
+standalone: false
+include-in-header: "../header_quarto.html"
+logo: "../Intro2SL_logo_white.jpg"
+pagetitle: "Generative Models"
+callout-appearance: simple
+smaller: true
+execute:
+  eval: true
+  echo: true
+code-line-numbers: false
+code-block-border-left: true
+highlight-style: github
+footer: "[Intro to Statistical Learning](https://intro2statlearn.github.io/mooc/){target='_blank'}"
+---
+
+## {.logo-slide}
+
+## Introduction to Statistical Learning {.title-slide}
+
+### Generative Models - Class 12
+
+### Giora Simchoni
+
+#### `gsimchoni@gmail.com` and add `#intro2sl` in subject
+
+### Stat. and OR Department, TAU
+
+---
+
+## Intro. to Generative Models {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Generated images
+
+![Image generated using DALL·E by OpenAI with prompt "a realistic image of a dog and a cat hugging in front of the eiffel tower"](dalle_cat_dog_hugging.png){fig-align="center" height=400}
+
+::: {.fragment}
+How did we get here?
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Discriminative models
+
+- We are constanly trying to *model* $E(Y|X = x)$ (regression) or $P(Y|X = x)$ (Bayes classifier):
+
+::: {.fragment}
+- Linear:
+  - linear regression, ridge, lasso
+  - logistic regression
+  - SVC, SVR
+- Non-linear:
+  - KNN
+  - Trees, RF, Boosting
+  - SVM
+:::
+
+::: {.fragment}
+::: {.callout-note}
+Even our Bias-variance tradeoff analysis assumed a Fixed-$X$ scenario!
+:::
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Generative models
+
+But for classification: $$P(Y | X) = \frac{P(X, Y)}{P(X)}$$
+
+::: {.incremental}
+- [Generative]{style="color:red;"} models focus on modeling the joint distribution $P(X, Y)$, or more specifically:
+$$P(Y | X) = \frac{P(X, Y)}{P(X)} = \frac{P(Y)P(X|Y)}{P(X)} \propto P(Y)P(X|Y)$$
+
+- Focus on the mechanism which **generated** the data, not just the data
+
+- Especially useful when $n$ is low
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Generative models
+
+::: {.incremental}
+- Even more specifically, if $Y \in \{1, \dots, K\}$:
+$$P(Y = k|X = x) = \frac{P(Y = k)P(X = x|Y = k)}{P(X = x)} = \frac{\pi_k f_k(x)}{\sum_{l = 1}^K \pi_l f_l(x)}$$
+
+- We focus on estimating $\pi_k, f_k(x)$
+:::
+
+::: {.fragment}
+::: {.callout-note}
+And if we are so good at estimaing $f_k(x) = P(X = x|Y = k)$ why not generate more!
+:::
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+## Detour: multivariate Gaussian distribution {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+## Linear Discriminant Analysis {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Linear discriminant analysis (LDA)
+
+- Recall:
+$$P(Y = k|X = x) = \frac{P(Y = k)P(X = x|Y = k)}{P(X = x)} = \frac{\pi_k f_k(x)}{\sum_{l = 1}^K \pi_l f_l(x)}$$
+
+- $\hat{f}(x_0) = \arg\max_k \pi_k f_k(x)$
+
+::: {.incremental}
+- In LDA:
+  - $\pi_k$ are priors, or (spoiler): $\hat{\pi}_k = \frac{\sum_{i = 1}^n \mathbb{I}\left[Y_i = k\right]}{n}$
+  - $f_k(x)$ are multivariate Gaussian, or: $X | Y = k \sim \mathcal{N}(\mu_k, \Sigma)$
+  - Notice the covariance matrix $\Sigma$ is the same $\forall k$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### LDA: What to expect
+
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Parameters
+np.random.seed(42)
+n_samples = 100  # Number of samples per class
+n_features = 2   # 2D feature space
+n_classes = 3    # Number of classes (K=3)
+
+# Class means
+means = [np.array([2, 2]), np.array([6, 2]), np.array([4, 6])]
+
+# Common covariance matrix (same for all classes)
+cov_matrix = np.array([[1.0, 0.8], [0.8, 1.0]])
+
+# Generate data for each class
+X = []
+Y = []
+for i, mean in enumerate(means):
+    X_class = np.random.multivariate_normal(mean, cov_matrix, n_samples)
+    X.append(X_class)
+    Y.append(np.full(n_samples, i))
+
+# Stack the data
+X = np.vstack(X)
+Y = np.hstack(Y)
+
+# Plotting the observations with different markers and colors for each class
+colors = ['r', 'g', 'b']
+markers = ['o', 's', '^']
+
+plt.figure(figsize=(5, 5))
+for i in range(n_classes):
+    plt.scatter(X[Y == i][:, 0], X[Y == i][:, 1], 
+                color=colors[i], marker=markers[i], label=f'Class {i}', edgecolor='k')
+
+# Customize the plot
+plt.xlabel('X1')
+plt.ylabel('X2')
+plt.grid(True)
+plt.show()
+```
+
+::: {.fragment}
+::: {.callout-note}
+What do you expect the decision rule(s) to look like?
+:::
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### LDA: $k-j$ classes decision rule
+
+- See that: $P(Y = k|X = x) > P(Y = j|X = x) \Leftrightarrow \pi_kf_k(x) > \pi_jf_j(x) \Leftrightarrow \log\left[\pi_kf_k(x)\right] > \log\left[\pi_jf_j(x)\right]$
+
+::: {.incremental}
+- Assume $\pi_k, \mu_k, \Sigma$ known
+- $X | Y = k \sim \mathcal{N}(\mu_k, \Sigma) \Rightarrow f_k(x) = \frac{1}{(2\pi)^{p/2}|\Sigma|^{1/2}}\exp\left(-\frac{1}{2}(x - \mu_k)^T\Sigma^{-1}(x-\mu_k)\right)$
+- $\log\left[\pi_kf_k(x)\right] = \log(\pi_k) + \log(f_k(x)) = \log(\pi_k) + C -\frac{1}{2}(x - \mu_k)^T\Sigma^{-1}(x-\mu_k)$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### LDA: $k-j$ classes decision rule
+
+So, select class $k$ over class $j$ if $\log\left[\pi_kf_k(x)\right] > \log\left[\pi_jf_j(x)\right]$ means:
+
+::: {.fragment}
+$$\log(\pi_k) -\frac{1}{2}(x - \mu_k)^T\Sigma^{-1}(x-\mu_k) > \log(\pi_j) -\frac{1}{2}(x - \mu_j)^T\Sigma^{-1}(x-\mu_j)$$
+:::
+::: {.fragment}
+$$\delta_{k > j}(x): x^T\Sigma^{-1}(\mu_k - \mu_j) + \left[-\frac{1}{2}\mu_k^T\Sigma^{-1}\mu_k +\frac{1}{2}\mu_j^T\Sigma^{-1}\mu_j + \log(\pi_k) - \log(\pi_j)\right]> 0$$
+:::
+
+::: {.fragment}
+::: {.callout-note}
+What shape is $\delta_{k > j}(x)$?
+:::
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### LDA: Estimation
+
+::: {.incremental}
+- If we want to fit LDA to data, we need to estimate the parameters: $\mu_1,\ldots,\mu_K,\; \Sigma,\; \pi_1,\ldots,\pi_K.$
+- This is naturally done by maximum likelihood from the data:
+$$\begin{eqnarray*}
+\hat{\pi}_k &=& \frac{ \sum_{i=1}^n \mathbb{I}\left\{ Y_i = k\right\}}{n} \;,\; \hat{\mu}_k = \frac{ \sum_{\mathbb{I}\left\{ Y_i = k\right\}}  x_i}{ \sum_{i=1}^n \mathbb{I}\left\{ Y_i = k\right\}}\\
+\hat{\Sigma}  &=& \frac{1}{n-K} \sum_{k=1}^K \sum_{\mathbb{I}\left\{ Y_i = k\right\}}  (x_i-\hat{\mu}_k) (x_i-\hat{\mu}_k)^T\;\;\mbox{(Unbiased estimate)}.
+\end{eqnarray*}$$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### LDA: Example
+
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Parameters
+np.random.seed(42)
+n_samples = 100  # Number of samples per class
+n_features = 2   # 2D feature space
+n_classes = 3    # Number of classes (K=3)
+
+# True class means
+means = [np.array([2, 2]), np.array([6, 2]), np.array([4, 6])]
+
+# Common covariance matrix (same for all classes)
+cov_matrix = np.array([[1.0, 0.8], [0.8, 1.0]])
+
+# Generate data for each class
+X = []
+Y = []
+for i, mean in enumerate(means):
+    X_class = np.random.multivariate_normal(mean, cov_matrix, n_samples)
+    X.append(X_class)
+    Y.append(np.full(n_samples, i))
+
+# Stack the data
+X = np.vstack(X)
+Y = np.hstack(Y)
+
+# Estimate class means and common covariance matrix from data
+estimated_means = [X[Y == i].mean(axis=0) for i in range(n_classes)]
+# estimated_cov = np.corrcoef(X.T) #np.cov(X.T) / np.diag(np.cov(X.T))  # Common covariance matrix
+
+K = n_classes
+n = n_samples * K
+
+def cov_est(n, K, n_features, estimated_means): 
+  # Initialize covariance matrix
+  cov_matrix_estimated = np.zeros((n_features, n_features))
+
+  # Compute the unbiased covariance matrix
+  for k in range(K):
+      class_samples = X[Y == k]
+      mean_k = estimated_means[k]
+      # Compute (X_i - \hat{\mu}_k) for all i in class g_k
+      centered_class_samples = class_samples - mean_k
+      # Accumulate the covariance contributions for class g_k
+      cov_matrix_estimated += centered_class_samples.T @ centered_class_samples
+
+  # Final covariance matrix (unbiased estimator)
+  cov_matrix_estimated /= (n - K)
+  
+  return cov_matrix_estimated
+
+estimated_cov = cov_est(n, K, n_features, estimated_means)
+
+# Inverse of the estimated covariance matrix
+estimated_cov_inv = np.linalg.inv(estimated_cov)
+
+# Function to compute the slope and intercept for decision boundaries
+def compute_decision_boundary_params(mean1, mean2, cov_inv):
+    w = cov_inv @ (mean1 - mean2)
+    b = -0.5 * (mean1 @ cov_inv @ mean1 - mean2 @ cov_inv @ mean2)
+    return w, b
+
+# Plotting the observations with different markers and colors for each class
+colors = ['r', 'g', 'b']
+markers = ['o', 's', '^']
+
+plt.figure(figsize=(5, 5))
+plt.xlim(min(X[:, 0])-1, max(X[:, 0])+1)
+plt.ylim(min(X[:, 1])-1, max(X[:, 1])+1)
+
+for i in range(n_classes):
+    plt.scatter(X[Y == i][:, 0], X[Y == i][:, 1], 
+                color=colors[i], marker=markers[i], label=f'Class {i}', edgecolor='k')
+
+# Define the range of x-values for plotting the decision boundaries
+x_plot = np.linspace(min(X[:, 0])-1, max(X[:, 0])+1, 100)
+
+# Plot true decision boundaries (from true means and covariance matrix)
+true_intersections = []  # To store intersection points
+for i in range(n_classes):
+    for j in range(i+1, n_classes):
+        # Compute the parameters of the true decision boundary
+        w_true, b_true = compute_decision_boundary_params(means[i], means[j], np.linalg.inv(cov_matrix))
+        # Compute the y-values for the true decision boundary line
+        y_plot_true = -(w_true[0] * x_plot + b_true) / w_true[1]
+        plt.plot(x_plot, y_plot_true, 'k-', linewidth=2)
+
+        # Find the intersection of these two lines and store it
+        intersection_x = -(b_true) / w_true[0]  # Solve for x when y=0
+        intersection_y = -(w_true[0] * intersection_x + b_true) / w_true[1]  # Solve for y
+        true_intersections.append([intersection_x, intersection_y])
+
+# Find the centroid of the intersection points (approximate the middle)
+centroid = np.mean(true_intersections, axis=0)
+
+# Plot estimated decision boundaries (from estimated means and covariance matrix)
+for i in range(n_classes):
+    for j in range(i+1, n_classes):
+        # Compute the parameters of the estimated decision boundary
+        w_est, b_est = compute_decision_boundary_params(estimated_means[i], estimated_means[j], estimated_cov_inv)
+        # Compute the y-values for the estimated decision boundary line
+        y_plot_est = -(w_est[0] * x_plot + b_est) / w_est[1]
+
+        # Plot only up to the intersection point (centroid)
+        x_masked = x_plot#[x_plot <= centroid[0]]  # Limit x-values up to the centroid
+        y_masked = -(w_est[0] * x_masked + b_est) / w_est[1]
+        plt.plot(x_masked, y_masked, 'k--', linewidth=2)
+
+# Highlight the centroid where the lines meet
+# plt.scatter(centroid[0], centroid[1], color='black', marker='x', s=100, label='Intersection Point')
+
+# Customize the plot
+plt.xlabel('X1')
+plt.ylabel('X2')
+plt.grid(True)
+plt.show()
+
+```
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+## Quadratic Discriminant Analysis {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+## Naive Bayes {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+## Comparing classifiers {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
