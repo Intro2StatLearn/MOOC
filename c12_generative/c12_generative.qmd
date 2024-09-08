@@ -131,7 +131,147 @@ And if we are so good at estimaing $f_k(x) = P(X = x|Y = k)$ why not generate mo
 
 ---
 
-## Detour: multivariate Gaussian {.title-slide}
+## Detour: multivariate normal {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Univariate normal
+
+- $X \in \mathbb{R} \sim \mathcal{N}(\mu, \sigma^2) \Rightarrow E(X) = \mu; \quad V(X) = \sigma^2 > 0$
+- $f(x) = \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{1}{2\sigma^2}(x-\mu)^2\right)$
+- $F(x) = P(X \le x) = \int_{-\infty}^x f(x)dx = \Phi\left(\frac{x - \mu}{\sigma}\right)$
+
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import norm
+
+# Parameters for the normal distribution
+mu = 0   # mean
+sigma = 1  # standard deviation
+
+# Generate x values and corresponding f(x) values for the normal distribution
+x = np.linspace(mu - 4*sigma, mu + 4*sigma, 500)
+y = norm.pdf(x, mu, sigma)
+
+# Create the plot
+plt.figure(figsize=(4, 4))
+plt.plot(x, y, color='black')
+
+# # Plot the horizontal line for the 95% confidence interval
+# lower_bound = mu - 2*sigma
+# upper_bound = mu + 2*sigma
+# plt.hlines(0, lower_bound, upper_bound, color='black', linewidth=2)
+
+# # Draw vertical lines at the bounds of the interval
+# plt.vlines([lower_bound, upper_bound], ymin=0, ymax=norm.pdf([lower_bound, upper_bound], mu, sigma), color='black', linestyle='dashed')
+
+# Remove plot title and legend as per your preference
+plt.gca().set_title('')
+plt.gca().legend_ = None
+
+# Display the plot
+plt.xlabel('x')
+plt.ylabel('f(x)')
+plt.show()
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Bivariate normal
+
+::: {.incremental}
+- $X \in \mathbb{R}^2 \sim \mathcal{BVN}(\mathbf{\mu}, \mathbf{\Sigma}) \Rightarrow E(X) = \mu = \begin{pmatrix}\mu_1 \\ \mu_2\end{pmatrix}; \quad V(X) = \mathbf{\Sigma} = \begin{pmatrix}\sigma_1^2 & \rho\sigma_1\sigma_2 \\ \rho\sigma_1\sigma_2 & \sigma_2^2\end{pmatrix}$
+- $\Leftrightarrow X_1 \sim \mathcal{N}(\mu_1, \sigma_1^2), X_2 \sim \mathcal{N}(\mu_2, \sigma_2^2); \quad \rho = \text{Cor}(X_1, X_2) = \frac{\text{Cov}(X_1, X_2)}{\sigma_1\sigma_2}$
+- $f(x) = f(x_1, x_2) = \frac{1}{2\pi \sigma_1 \sigma_2 \sqrt{1 - \rho^2}} \exp\left( -\frac{1}{2(1 - \rho^2)} \left[ \frac{(x_1 - \mu_1)^2}{\sigma_1^2} + \frac{(x_2 - \mu_2)^2}{\sigma_2^2} - \frac{2\rho(x_1 - \mu_1)(x_2 - \mu_2)}{\sigma_1 \sigma_2} \right] \right)$
+- $F(x) = P(X_1 \le x_1, X_2 \le x_2) = \int_{-\infty}^{x_1}\int_{-\infty}^{x_2}f(x_1, x_2)dx_1 dx_2$
+:::
+
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import multivariate_normal
+
+# Parameters for the bivariate normal distribution
+mu = np.array([0, 0])  # Means of x1 and x2
+sigma1 = 1  # Standard deviation of x1
+sigma2 = 1  # Standard deviation of x2
+rho = 0.5  # Correlation coefficient
+
+# Covariance matrix
+cov = [[sigma1**2, rho*sigma1*sigma2], 
+       [rho*sigma1*sigma2, sigma2**2]]
+
+# Generate grid of x1 and x2 values
+x1 = np.linspace(-3, 3, 100)
+x2 = np.linspace(-3, 3, 100)
+X1, X2 = np.meshgrid(x1, x2)
+pos = np.dstack((X1, X2))
+
+# Bivariate normal distribution
+rv = multivariate_normal(mu, cov)
+Z = rv.pdf(pos)
+
+# Create the figure and two subplots side by side
+fig = plt.figure(figsize=(7.5, 3.3))
+
+# 3D plot (left)
+ax1 = fig.add_subplot(121, projection='3d')
+ax1.plot_surface(X1, X2, Z, cmap='viridis', edgecolor='none')
+ax1.set_xlabel('$x_1$')
+ax1.set_ylabel('$x_2$')
+ax1.set_zlabel('$f(x_1, x_2)$')
+# ax1.zaxis.set_rotate_label(False) 
+
+# Contour plot (right)
+ax2 = fig.add_subplot(122)
+contour_levels = [0.5 * np.max(Z), 0.8 * np.max(Z), 0.95 * np.max(Z), 0.99 * np.max(Z), 0.999 * np.max(Z)]
+ax2.contour(X1, X2, Z, levels=contour_levels, colors='black')
+ax2.set_xlim(-2, 2)
+ax2.set_ylim(-2, 2)
+ax2.set_xlabel('$x_1$')
+ax2.set_ylabel('$x_2$')
+ax2.yaxis.set_label_coords(-0.15, 0.35)
+ax2.grid(True)
+
+# Remove plot titles and legends as per your preference
+ax1.set_title('')
+ax2.set_title('')
+
+# Show the plots
+plt.tight_layout()
+plt.show()
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Multivariate normal
+
+::: {.incremental}
+- $X \in \mathbb{R}^p \sim \mathcal{MVN}(\mathbf{\mu}, \mathbf{\Sigma})$
+- $E(X) = \mu = \begin{pmatrix}\mu_1 \\ \vdots \\ \mu_p\end{pmatrix}; \quad V(X) = \mathbf{\Sigma} = \begin{pmatrix}\sigma_1^2 & \dots & \rho_{1,p}\sigma_1\sigma_p \\ \vdots & \ddots & \vdots \\ \rho_{1, p}\sigma_{1}\sigma_{p} & \dots & \sigma_p^2\end{pmatrix}$
+- $\Leftrightarrow X_1 \sim \mathcal{N}(\mu_1, \sigma_1^2), \dots, X_p \sim \mathcal{N}(\mu_p, \sigma_p^2); \quad \rho_{j,k} = \text{Cor}(X_j, X_k) = \frac{\text{Cov}(X_j, X_k)}{\sigma_j\sigma_k}$
+- $f(x) = f(x_1, \dots, x_p) = \frac{1}{(2\pi)^{p/2}|\Sigma|^{1/2}}\exp\left(-\frac{1}{2}(x - \mu)^T\Sigma^{-1}(x-\mu)\right)$
+:::
 
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
@@ -638,7 +778,164 @@ How many params are estimated in QDA? LDA?
 
 ---
 
+### Naive Bayes
+
+- Recall: $P(Y = k|X = x) = \frac{P(Y = k)P(X = x|Y = k)}{P(X = x)} = \frac{\pi_k f_k(x)}{\sum_{l = 1}^K \pi_l f_l(x)}$
+
+::: {.incremental}
+- In Naive Bayes:
+  - $\pi_k$ are priors, or: $\hat{\pi}_k = \frac{\sum_{i = 1}^n \mathbb{I}\left[Y_i = k\right]}{n}$
+  - Within the $k$-th class, the $p$ predictors are **independent**
+  - $f_k(x) = f_{k1}(x_1) \times f_{k2}(x_2) \times \dots \times f_{kp}(x_p)$
+    - $f_{kj}(x_j)$ for a continuous feature: $\mathcal{N}(\mu_{jk}, \sigma_{jk}^2)$, $Exp(\lambda_{jk})$, KDE, ...
+    - $f_{kj}(x_j)$ for a discrete feature: $\hat{f}_{kj}(x_j)=\begin{cases} 0.2 & \text{if $x_j = 1$} \\ 0.8 & \text{if $x_j = 2$} \end{cases}$
+:::
+
+::: {.fragment}
+::: {.callout-note}
+When is this naive assumption particularly useful?
+:::
+:::
+
+::: {.fragment}
+::: {.callout-note}
+How is Naive Bayes = LDA/QDA?
+:::
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
 ## Comparing classifiers {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Example: SAHeart data
+
+```{python}
+#| echo: false
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis, QuadraticDiscriminantAnalysis
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import roc_curve, auc
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+
+saheart = pd.read_table("../datasets/SAheart.data", header = 0, sep=',', index_col=0)
+
+saheart_X=pd.get_dummies(saheart.iloc[:, :9]).iloc[:, :9]
+saheart_y=saheart.iloc[:, 9]
+
+Xtr, Xte, Ytr, Yte = train_test_split(saheart_X, saheart_y, test_size=0.2, random_state=42)
+
+# Standardize the data for SVMs and Logistic Regression
+scaler = StandardScaler()
+Xtr = scaler.fit_transform(Xtr)
+Xte = scaler.transform(Xte)
+
+# Initialize the models
+log_reg = LogisticRegression()
+svc_linear = SVC(kernel='linear', probability=True)
+lda = LinearDiscriminantAnalysis()
+qda = QuadraticDiscriminantAnalysis()
+gnb = GaussianNB()
+
+# Train the models on the training data
+log_reg.fit(Xtr, Ytr)
+svc_linear.fit(Xtr, Ytr)
+lda.fit(Xtr, Ytr)
+qda.fit(Xtr, Ytr)
+gnb.fit(Xtr, Ytr)
+
+# Get predicted probabilities for the test set
+log_reg_probs = log_reg.predict_proba(Xte)[:, 1]
+svc_linear_probs = svc_linear.predict_proba(Xte)[:, 1]
+lda_probs = lda.predict_proba(Xte)[:, 1]
+qda_probs = qda.predict_proba(Xte)[:, 1]
+gnb_probs = gnb.predict_proba(Xte)[:, 1]
+
+# Compute ROC curves and AUCs
+fpr_log, tpr_log, _ = roc_curve(Yte, log_reg_probs)
+fpr_svc_linear, tpr_svc_linear, _ = roc_curve(Yte, svc_linear_probs)
+fpr_lda, tpr_lda, _ = roc_curve(Yte, lda_probs)
+fpr_qda, tpr_qda, _ = roc_curve(Yte, qda_probs)
+fpr_gnb, tpr_gnb, _ = roc_curve(Yte, gnb_probs)
+
+auc_log = auc(fpr_log, tpr_log)
+auc_svc_linear = auc(fpr_svc_linear, tpr_svc_linear)
+auc_lda = auc(fpr_lda, tpr_lda)
+auc_qda = auc(fpr_qda, tpr_qda)
+auc_gnb = auc(fpr_gnb, tpr_gnb)
+
+# Plot ROC curves
+plt.figure(figsize=(5, 5))
+plt.plot(fpr_log, tpr_log, label=f'Logistic Regression (AUC = {auc_log:.2f})')
+plt.plot(fpr_svc_linear, tpr_svc_linear, label=f'SVC (AUC = {auc_svc_linear:.2f})')
+plt.plot(fpr_lda, tpr_lda, label=f'LDA (AUC = {auc_lda:.2f})')
+plt.plot(fpr_qda, tpr_qda, label=f'QDA (AUC = {auc_qda:.2f})')
+plt.plot(fpr_gnb, tpr_gnb, label=f'NB (AUC = {auc_gnb:.2f})')
+
+# Plot settings
+plt.plot([0, 1], [0, 1], 'k--')  # Diagonal line (random classifier)
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('Test ROC Curves for Generative models and Logistic Regression')
+plt.legend(loc='lower right')
+plt.grid(True)
+plt.show()
+```
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### LDA vs. logistic regression
+
+::: {.incremental}
+- For $K = 2$ (though we can show this for any $K$), logistic regression:
+$$\text{logit}(P(Y = 1|X)) = \log\left(\frac{P(Y = 1|X)}{1 - P(Y = 1|X)}\right) = \log\left(\frac{P(Y = 1|X)}{P(Y = 0|X)}\right) = \beta_0 + x^T\beta$$
+- For $K = 2$ (though we can show this for any $K$), LDA:
+$$\begin{align}\log\left(\frac{P(Y = 1|X)}{P(Y = 0|X)}\right) &= \log\left(\frac{\pi_1 f_1(x)}{\pi_1 f_0(x)}\right) \\
+ &= x^T\Sigma^{-1}(\mu_1 - \mu_0) + \left[-\frac{1}{2}\mu_1^T\Sigma^{-1}\mu_1 +\frac{1}{2}\mu_0^T\Sigma^{-1}\mu_0 + \log(\pi_1) - \log(\pi_0)\right] \\
+ &= \alpha_0 + x^T\alpha\end{align}$$
+:::
+
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Similarly for all methods
+
+$\delta_{1 > 0}(x) = \log\left(\frac{P(Y = 1|X = x)}{P(Y = 0|X = x)}\right) =$
+
+| method          | type                             | $\delta_{1 > 0}(x)$                                        |
+|-----------------|-------------------------------------------|---------------------------------------------------|
+| LR              | discriminative, linear           | $\beta_0 + x^T\beta$                                       |
+| LDA             | generative, linear               | $\alpha_0 + x^T\alpha$                                     |
+| QDA             | generative, non-linear           | $\gamma_0 + x^T\gamma + x^T\Gamma x$                       |
+| NB              | generative, non-linear           | $\tau_0 + \sum_{j = 1}^p \tau_j(x)$                        |
 
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
