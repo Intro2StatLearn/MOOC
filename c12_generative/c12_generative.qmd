@@ -48,7 +48,14 @@ footer: "[Intro to Statistical Learning](https://intro2statlearn.github.io/mooc/
 
 ### Generated images
 
-![Image generated using DALL·E by OpenAI with prompt "a realistic image of a dog and a cat hugging in front of the eiffel tower"](dalle_cat_dog_hugging.png){fig-align="center" height=400}
+:::: {.columns}
+::: {.column}
+![*Face recognition using eigenfaces* by Turk \& Pentland (1991)](eigenface.png){fig-align="center" height=400}
+:::
+::: {.column}
+![Image generated using DALL·E by OpenAI with: "a realistic image of a dog and a cat hugging in front of the eiffel tower"](dalle_cat_dog_hugging.png){fig-align="center" height=400}
+:::
+::::
 
 ::: {.fragment}
 How did we get here?
