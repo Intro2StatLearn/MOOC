@@ -1,0 +1,662 @@
+---
+format:
+  revealjs:
+    slide-number: true
+    chalkboard: true
+    fig-width: 6
+    fig-asp: 0.618
+    template-partials:
+      - "../title-slide.html"
+css: "../slides_quarto.css"
+standalone: false
+include-in-header: "../header_quarto.html"
+logo: "../Intro2SL_logo_white.jpg"
+pagetitle: "Unsupervised Learning"
+callout-appearance: simple
+smaller: true
+execute:
+  eval: true
+  echo: true
+code-line-numbers: false
+code-block-border-left: true
+highlight-style: github
+footer: "[Intro to Statistical Learning](https://intro2statlearn.github.io/mooc/){target='_blank'}"
+---
+
+## {.logo-slide}
+
+## Introduction to Statistical Learning {.title-slide}
+
+### Unsupervised Learning - Class 13
+
+### Giora Simchoni
+
+#### `gsimchoni@gmail.com` and add `#intro2sl` in subject
+
+### Stat. and OR Department, TAU
+
+---
+
+## Intro. to Unsupervised Learning {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+נקדיש יחידה אחת ללמידה מסוג שונה. למידה בלתי מפוקחת, או unsupervised learning. מאחר שזה נושא חדש, בואו נדבר קצת על מה זה unsupervised learning ומה שונה ממנה לעומת הלמידה שעסקנו בה עד כה, שמסתבר שאפשר לקרוא לה supervised learning, כלומר למידה כן מפוקחת.
+:::
+:::
+
+---
+
+### From Supervised to Unsupervised
+
+- Recall: each observation is made of a vector $x \in \mathcal{X}$ (for example $x \in \mathbb{R}^p$) and a scalar $y$
+
+- Our goal is to build a model of the relationship between $x$ and $y$:
+$$y \approx f(x)$$
+
+- IID assumption: each pair $(x_i, y_i)$ is drawn indepednently from some distribution $P_{x,y}$
+
+- A modeling approach takes $(X, y)$ as input and outputs a *prediction model* $\hat{f}(x)$
+
+- In prediction: we get a new value $x_0$ and predict $\hat{y}_0 = \hat{f}(x_0)$. 
+
+- How good is our prediction? We typically define a loss function $L(y,\hat{y})$ and the quality of the model is $\mathbb{E}_{x_0,y_0}(L(y_0, \hat{y}_0))$
+
+::: {.fragment}
+What if there is no $y$?
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+בלמידה מסוג supervised, יש לנו וקטור X של p משתנים, וסקלאר Y. המטרה היא למדל את Y כפונקציה f של X. אנחנו מניחים שזוגות התצפיות X, Y שלנו מגיעים בלתי תלויים מאיזושהי התפלגות משותפת Pxy, ובונים מודל לחיזוי באמצעות נתוני מדגם הלמידה X, Y, מודל שנקרא f_hat. כשתגיע תצפית חדשה לחיזוי X0 נפעיל עליה את המודל הנלמד f_hat וזה יהיה החיזוי שלנו עבורה. ואיך אנחנו מכמתים את הביצועים של המודל שלנו? באידאל באמצעות איזושהי פונקצית הפסד L בין תצפיות Y האמיתיות והחזויות, כשאנחנו לוקחים תוחלת על תצפיות שהמודל לא ראה. בפועל אנחנו לא יודעים את ההתפלגות של התצפיות שהמודל לא ראה ואנחנו לוקחים את הממוצע האמפירי על מדגם הטסט.
+
+נשאלת השאלה, מה אם אין Y, המשתנה התלוי לחיזוי?
+:::
+:::
+
+---
+
+### Unsupervised Learning
+
+- Now: each observation is made of a vector $x \in \mathcal{X}$ (for example $x \in \mathbb{R}^p$)
+
+- IID assumption: each observation $x_i$ is drawn indepednently from some distribution $P_{x}$
+
+- Our goal is to *learn* distrubution $P_{x}$ (or properties of it)
+
+- "without a supervisor"
+
+::: {.incremental}
+- Example: [Clustering]{style="color:red;"} = Finding modes of $P_{x}$ with high density
+    - If we do find them, maybe $P_{x}$ can be represented by a mixture of simpler densities?
+- This isn't new, is it?
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+בלמידה לא מפוקחת יש לנו רק וקטור של משתנים X ממימד p. אנחנו עדיין מניחים שהתצפיות מגיעות בלתי תלויות מאיזו התפלגות לא-ידועה Px, והמטרה שלנו היא לא לאמוד איזושהי פונקציה או קשר אלא ממש את ההתפלגות הזאת, או תכונות שלה.
+
+לדוגמא, ניתוח אשכולות או קלאסטרינג -- היינו רוצים ללמוד איזורים בהתפלגות עם צפיפות גבוהה, או השכיחים של P_x. אם נמצא שP_x מתחלקת בבירור לכמה איזורים כאלה למשל, אולי ניתן לייצג אותה בעזרתם, ואז זה יפשט אותה, במקום להיות למשל פונקציה מורכבת בהרבה מימדים נוכל לחלק אותה לצירוף של כמה פונקציות פשוטות יותר.
+:::
+:::
+
+---
+
+### Cluster Analysis
+
+Group a set of observations into subsets, clusters, s.t. those within each cluster are more closely related to one another than observations assigned to different clusters
+
+::: {.fragment}
+What for?
+
+- EDA, Feature Engineering: interesting groups in the data
+- Segmentation: customers, products, distribution centers location, software
+- Hierarchy: diseases, evolution
+- Deduplication
+- Anomaly Detection
+:::
+
+::: {.fragment}
+Many, many algorithms:
+
+- Partition clustering: K-means
+- Hierarchical clustering: Agglomerative
+- Density-based clustering: DBSCAN
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+אז בואו נדבר בקלאסטרינג לא על צפיפות כמושג הסתברותי אלא כמושג אינטואיטיבי: אנחנו רוצים למצוא קלאסטרים, קבוצות, איזורים או גושים בדאטא שבהם התצפיות מאוד צפופות וקרובות אחת לשניה, לעומת המרחק ביניהן לתצפיות בקלאסטרים אחרים.
+
+למה שנרצה לעשות את זה? הנה רשימה חלקית:
+
+קודם כל ראינו שקלאסטרינג משמש אותו באקספלורטורי דאטא אנליסיס, איזושהי אנליזה רכה לנתונים שמסייעת להבין אותם, למצוא קבוצות מעניינות בדאטא. את הקבוצות האלה או ההשתייכות לקבוצות האלה אפשר לנצל אחר-כך כפיצ'רים מעניינים בבניית מודלים לחיזוי.
+
+מטרה אחת אפשר לתאר בגדול כסגמנטציה: אתר שמנסה לחלק את הגולשים שלו לכמה טיפוסים, כמה פרופילים. למשל כדי להקצות לכל פרופיל איש מכירות אחר שהפרופיל הזה יהיה המומחיות שלו. או אתר עם המון מוצרים כמו אמזון שרוצה לחסוך בעבודה הקשה של הרבה מומחים לאלקטרוניקה שהתפקיד שלהם הוא להגיד שפלאפון אייפון 5 ופלאפון אנדרואיד שייכים לאותה קטגוריה או מוצר, אולי אפשר לעשות את זה אוטומטית עם קלאסטרינג על פיצ'רים שמראים שאותם אנשים קונים את שני הפריטים האלה או שהם עשויים מאותם חומרים ועולים סכום דומה של כסף. אפשר לחשוב על חברת פיצה שנכנסת לעיר חדשה ושואלת את עצמה איפה למקום שלושה מרכזי הפצה שהיא מתכננת להקים, הכי משתלם למקם אותם באיזורים שונים שבכל אחד ה"צפיפות" בביקוש לפיצה תהיה גבוהה. גם בתוכנה אנחנו עושים קלאסטרינג, במיוחד לתוכנות גדולות ומסורבלות שנוצרו לפני שנים ולאט לאט התפתחו ונוצר צורך לפרק אותן לכמה מודולים, גם בשביל יעילות וגם כדי לחלק את האחריות של אנשי התוכנה להמשיך לפתח ולעשות מיינטננס לכל מודול בנפרד.
+
+בביולוגיה נהוג להשתמש הרבה בקלאסטרינג, למשל להסתכל על פיצ'רים של מחלות כמו תסמינים ולקבץ אותן לסוגים שונים, או לבנות היררכיה של מחלות, עץ.
+
+דוגמא אחרת יכולה להיות דידופליקציה, אם נחזור לאתר שמוכר הרבה פריטים, וכל מוכר נותן כותרת אחרת לפריט שלו, הרבה פעמים לא מדובר במוצר שונה אלא אותו מוצר בדיוק וצריך למחוק במערכות מוצרים חדשים לכאורה שהמערכת כבר אמורה להכיר, דופליקיישנז. דוגמא אחרונה כאן היא זיהוי תצפיות חריגות או אאוטליירז, או בשם המקובל anomaly detection. אם כל האייפונים התקבצו לקלאסטר מסוים ואייפון מסוים לא שייך לקלאסטר, יכול להיות שהוא אנומליה. יכול להיות שבכלל לא מדובר באייפון, למשל הפריט הוא רק כיסוי לאייפון, שהמוכר החליט להכניס לקטגוריה של אייפונים כדי להגדיל את החשיפה שלו.
+
+ויש המון סוגים של אלגוריתמים לקלאסטרינג. יש אלגוריתמים מסוג partition שמבוססים על חלוקה של המרחב לאיזורים שונים זה מזה ככל שניתן וצפופים בתוכם, דוגמא לזה אפשר לראות את KMeans. הרבה אלגוריתמים הם היררכיים, שזה אומר שהם מנסים ליצור חלוקה לקלאסטרים ממצב שכל תצפית היא קלאסטר בפני עצמה, ואנחנו לאט לאט מאחדים זוגות של תצפיות קרובות אחת לשניה, ועד למצב שהדאטא נמצא בקלאסטר אחד גדול. זהו אגלומורטיב קלאסטרינג. אלגוריתמים אחרים באמת חוזרים לרעיון שצריך לאמוד את הצפיפות הטבעית של הדאטא, לא להניח מראש כמה קלאסטרים יש בו ולא להניח שכל התצפיות מתחלקות אליהם, דוגמא לזה הוא הDBSCAN. נעסוק היום בKMeans וב-DBSCAN כמייצגים של המשפחות האלה וגם כי הם סופר-פופולריים בתעשייה.
+:::
+:::
+
+---
+
+### Unsupervised Learning Main Drawback
+
+- Unless there is "ground truth", no clear measure of success (as opposed to $\mathbb{E}_{x_0,y_0}(L(y_0, \hat{y}_0))$)
+
+- Many times involves scrutinizing results and interpretation
+
+- Not for the faint of heart
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+מילה אחרונה של אזהרה בכל הנוגע לתחום של unsupervised learning. אין בלמידה לא-מפוקחת קריטריון ברור להצלחה, בניגוד ללמידה מפוקחת שם יש לנו את ה"מפקח" את Y ואת הלוס L, שלאורם אנחנו מכווננים את המודל שלנו, אנחנו מודדים את עצמנו.
+
+הרבה פעמים כמו בדוגמא בשקף הקודם ההצלחה של מודל קלאסטרינג מערבת הרבה בחינה ידנית ושיפוט של הלקוח הסופי. הרבה בערך. ברור שלפעמים יש ground truth, ואנחנו מצפים מהקלאסטרים להיות בחפיפה עם קבוצות ידועות באוכלוסיה או בהתפלגות. ברור גם שפתרון קלאסטרינג על אותם נתונים שהצליח למצוא קבוצות יותר צפופות בתוכן ויותר רחוקות אחת מהשניה - הוא פתרון טוב יותר.
+
+אבל בשורה התחתונה יש הרבה יותר מקום לפרשנות, אין קריטריון מנצח - וכדאי להיות מוכנים מנטלית לזה כשניגשים לפרויקט קלאסטרינג.
+:::
+:::
+
+---
+
+## K-means Clustering {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+נדבר כעת על אלגוריתם KMeans, אולי המוכר ביותר בתחום, וגם יעיל יחסית ועובד טוב עם נתונים ממימד גבוה.
+:::
+:::
+
+---
+
+### How to evaluate a partition?
+
+- Assume $K$ clusters are given
+
+- $C(i) = k$ is some function assigning cluster $k \in \{1, \dots, K\}$ to observation $i \in \{1, \dots, n\}$
+
+- $d(x_i, x_j)$ is a distance metric for pair $i, j$, e.g. Euclidean
+
+- We wish to minimize the extent to which observations assigned to the same cluster tend to be close to one another
+
+::: {.incremental}
+- The "within cluster" scatter/loss:
+$$W(C) = \frac{1}{2}\sum_{k = 1}^K \sum_{C(i) = k} \sum_{C(j) = k} d(x_i, x_j)$$
+
+- equivalent to maximizing $B(C) = \frac{1}{2}\sum_{k = 1}^K \sum_{C(i) = k} \sum_{C(j) \neq k} d(x_i, x_j)$
+
+- Can we go over all possible $C(i)$ to find the global minimum?
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+נניח שיש לנו חלוקה נתונה. paritition. איך אנחנו עושים איבליואציה של חלוקה כזאת על הנתונים שלנו.
+
+נניח שאנחנו יודעים כבר את מספר הקלאסטרים בדאטא ומסמנים אותו בK, ונניח שיש לנו כבר כלל חלוקה C שמתאים לכל תצפית i בנתונים את הקלאסטר k שמתאים לה, מ1 עד K גדול.
+
+נניח כעת שצפיפות של נתונים או עד כמה זוג תצפיות קרובות אחת לשניה נמדוד באמצעות איזושהי מטריקת מרחק d, לדוגמא נתחיל עם מרחק אוקלידי.
+
+ואנחנו רוצים לבטא באמצעות איזושהי מטריקה את האינטואיציה שלנו שתצפיות באותו קלאסטר צריכות להיות צפופות ורחוקות מתצפיות בקלאסטרים אחרים.
+
+הרבה אלגוריתמים מסתכלים על המטריקה הבאה, הפיזור within cluster שנסמן בW(C), והוא סכום על כל זוגות התצפיות ששייכות לקלאסטר k של המרחקים ביניהן, וסכום על כל הקלאסטרים, מוכפל פי חצי כי אנחנו סופרים כל זוג ככה פעמיים.
+
+מאחר שהפיזור בין כל זוגות התצפיות בלי קשר לחלוקה לקלאסטרים נשאר זהה, אפשר להראות שלעשות מינימום לקריטריון שלנו אקוויולנטי ללעשות מקסימום לכמות המשלימה של between clusters סקאטר: סכום המרחקים בין כל זוגות התצפיות שנמצאות בקלאסטרים שונים. הרי סכום הכמות הזאת והכמות שלנו W(C) מסתכמם בפיזור כללי נאמר T(C).
+
+אז יש לנו מטריקה לעשות לה מינימום. אבל אפילו עם K נתון, נאמר שאנחנו רוצים לחלק את הדאטא ל4 קלאסטרים. האם אנחנו יכולים לעבור על כל החלוקות C(i) האפשריות כדי להגיע למינימום גלובלי? ברור שלא. יש לזה נוסחה שלא מופיעה כאן, אפשר לחשב למשל שלעבור על כל האפשרויות של חלוקת 20 תצפיות ל5 קלאסטרים אנחנו כבר מדברים על כמעט 750 מיליארד אפשרויות!
+:::
+:::
+
+---
+
+### Road to K-means
+
+- Euclidean distance: $d(x_i, x_j) = \sum_{m=1}^p (x_{im} - x_{jm})^2 = ||x_i - x_j||^2$
+
+- Can show that:
+$W(C) = \frac{1}{2}\sum_{k = 1}^K \sum_{C(i) = k} \sum_{C(j) = k} ||x_i - x_j||^2 = \sum_{k = 1}^K n_k \sum_{C(i) = k} ||x_i - \bar{x}_k||^2$
+
+- $\bar{x}_k \in \mathbb{R}^p$ being the mean in cluster $k$, and $n_k$ number of observations in cluster $k$
+
+::: {.incremental}
+- But for any set of observations $S$, which $m$ would minimize $\sum_{i \in S} ||x_i - m||^2$?
+
+- Thus, the final goal of K-means:
+$$\min\limits_{C, m_1, \dots, m_K} \sum_{k = 1}^K n_k \sum_{C(i) = k} ||x_i - m_k||^2$$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+אז Kmeans קודם כל מצמצם אותנו למרחק אוקלידי בלבד.
+
+תחת מרחק אוקלידי, מסתבר שאפשר לרשום את הקריטריון שלנו בצורה פשוטה יותר: בכל קלאסטר סכום המרחקים מהתצפיות אל ממוצע הקלאסטר, להכפיל במספר התצפיות בקלאסטר n_k, ולסכום על כל הקלאסטרים.
+
+אבל אנחנו יודעים כבר שאם נסתכל על קריטריון דומה, ונשאל מה הנקודה שמביאים למינימום את סכום המרחקים המרובעים ממנה -- נגיע לממוצע המדגם.
+
+לכן נהוג לרשום את הקריטריון של Kmeans בצורה כוללת יותר: למצוא את החלוקה ואת הנקודות של קלאסטרים שיביאו למינימום את סכום המרחקים המרובעים בתוך כל קלאסטר, על פני כל הקלאסטרים. צורת הרישום הזאת מסייעת לנסח את האלגוריתם של Kmeans.
+:::
+:::
+
+---
+
+### K-means
+
+0. Start with initial guess for $m_1, \dots, m_K$
+
+1. Assign each observation to the closest cluster mean. That is:
+$$C(i) = \arg\min\limits_{k = 1,\dots, K} ||x_i - m_k||^2$$
+
+2. Update means $m_1, \dots, m_K$. That is the centroids:
+$$m_k = \frac{\sum_{C(i) = k}x_i}{n_k}$$
+
+3. Repeat 1 and 2 until $C(i)$ doesn't change
+
+::: {.incremental}
+- Convergence is guaranteed (steps 1 and 2 can only reduce $W(C)$)
+
+- Global optimum is NOT guaranteed
+
+- Can try many different initial starting points
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+אז מהו האלגוריתם של Kmeans?
+
+K נתון, ואנחנו מתחילים עם איזשהו ניחוש התחלתי עבור הממוצעים m1 עד mk.
+
+כעת החלוקה C(i) של כל תצפית תהיה לפי הקלאסטר שהממוצע שלו הוא הקרוב אליה ביותר.
+
+לאחר החלוקה נעדכן את הממוצעים, בכל קלאסטר ניקח את הממוצע של התצפיות ששייכות אליו.
+
+ונחזור על צעדים 1 ו2 עד שהחלוקה לא משתנה או עד איזשהו קריטריון התכנסות, למשל אפשר לחשב את הלוס שלנו W(C) ולראות שהוא לא משתנה יותר מדי.
+
+מה הבעיה הראשונה באלגוריתם? אמנם התכנסות מובטחת, הצעדים שלנו יכולים רק להפחית את W(C), או לא לשנות אותו. אבל אין הבטחה למינימום גלובלי ואנחנו מאוד תלויים בבחירה הראשונית של הממוצעים שיכולה להיות אקראית.
+
+נהוג לכן בהרבה מימושים לבצע מספר פעמים Kmeans כל פעם מנקודת התחלה אקראית אחרת ולבחור את הפתרון עם הלוס המינימלי.
+:::
+:::
+
+---
+
+### K-means Demo: Initial Guess
+
+```{python}
+#| echo: false
+
+# inspired by https://jakevdp.github.io/PythonDataScienceHandbook/06.00-figure-code.html
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+from sklearn.datasets import make_blobs
+from sklearn.metrics import pairwise_distances_argmin
+
+X, y_true = make_blobs(n_samples=300, centers=4,
+                       cluster_std=0.60, random_state=0)
+
+rng = np.random.RandomState(42)
+centers = [0, 4] + rng.randn(4, 2)
+
+def draw_points(ax, c, factor=1):
+    ax.scatter(X[:, 0], X[:, 1], c=c, cmap='viridis',
+               s=50 * factor, alpha=0.3)
+    
+def draw_centers(ax, centers, factor=1, alpha=1.0):
+    ax.scatter(centers[:, 0], centers[:, 1],
+               c=np.arange(4), cmap='viridis', s=200 * factor,
+               alpha=alpha)
+    ax.scatter(centers[:, 0], centers[:, 1],
+               c='black', s=50 * factor, alpha=alpha)
+
+def make_ax(fig, gs):
+    ax = fig.add_subplot(gs)
+    ax.xaxis.set_major_formatter(plt.NullFormatter())
+    ax.yaxis.set_major_formatter(plt.NullFormatter())
+    return ax
+```
+
+```{python}
+#| echo: false
+
+fig = plt.figure(figsize=(4.55, 5))
+ax = fig.add_subplot()
+draw_points(ax, 'gray', factor=2)
+draw_centers(ax, centers, factor=2)
+plt.show()
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+בדוגמא שלפנינו ברור שיש 4 קלאסטרים, ואנחנו מתחילים עם 4 נקודות אקראיות כממוצעים, מאוד לא מתאימות לחלוקה.
+:::
+:::
+
+---
+
+### K-means Demo: Iteration 1
+
+```{python}
+#| echo: false
+
+fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
+
+# E-step
+y_pred = pairwise_distances_argmin(X, centers)
+draw_points(axes[0], y_pred)
+draw_centers(axes[0], centers)
+
+# M-step
+new_centers = np.array([X[y_pred == i].mean(0) for i in range(4)])
+draw_points(axes[1], y_pred)
+draw_centers(axes[1], centers, alpha=0.3)
+draw_centers(axes[1], new_centers)
+for i in range(4):
+    axes[1].annotate('', new_centers[i], centers[i],
+                    arrowprops=dict(arrowstyle='->', linewidth=1))
+    
+
+# Finish iteration
+centers = new_centers
+_ = axes[0].text(0.95, 0.95, "Assign", transform=axes[0].transAxes, ha='right', va='top', size=14)
+_ = axes[1].text(0.95, 0.95, "Update", transform=axes[1].transAxes, ha='right', va='top', size=14)
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+בצעד 1 אנחנו מחלקים כל תצפית לקלאסטר עם הממוצע הכי קרוב אליה במרחק אוקלידי, כאן זה אומר לצבוע אותן ב4 צבעים שונים.
+
+בצעד 2 אנחנו מעדכנים את הממוצעים, וכבר ניתן לראות איך כל ממוצע מייצג כבר איזור הרבה יותר צפוף באופן טבעי.
+:::
+:::
+
+---
+
+### K-means Demo: Iteration 2
+
+```{python}
+#| echo: false
+
+fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
+
+# E-step
+y_pred = pairwise_distances_argmin(X, centers)
+draw_points(axes[0], y_pred)
+draw_centers(axes[0], centers)
+
+# M-step
+new_centers = np.array([X[y_pred == i].mean(0) for i in range(4)])
+draw_points(axes[1], y_pred)
+draw_centers(axes[1], centers, alpha=0.3)
+draw_centers(axes[1], new_centers)
+for i in range(4):
+    axes[1].annotate('', new_centers[i], centers[i],
+                    arrowprops=dict(arrowstyle='->', linewidth=1))
+    
+
+# Finish iteration
+centers = new_centers
+_ = axes[0].text(0.95, 0.95, "Assign", transform=axes[0].transAxes, ha='right', va='top', size=14)
+_ = axes[1].text(0.95, 0.95, "Update", transform=axes[1].transAxes, ha='right', va='top', size=14)
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+ושוב אנחנו מחלקים את התצפיות לפי הקרבה שלהן לממוצע החדש.
+
+ושוב אנחנו מעדכנים את הממוצעים. כאן הם כבר זזים ממש מעט.
+:::
+:::
+
+---
+
+### K-means Demo: Iteration 3
+
+```{python}
+#| echo: false
+
+fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
+
+# E-step
+y_pred = pairwise_distances_argmin(X, centers)
+draw_points(axes[0], y_pred)
+draw_centers(axes[0], centers)
+
+# M-step
+new_centers = np.array([X[y_pred == i].mean(0) for i in range(4)])
+draw_points(axes[1], y_pred)
+draw_centers(axes[1], centers, alpha=0.3)
+draw_centers(axes[1], new_centers)
+for i in range(4):
+    axes[1].annotate('', new_centers[i], centers[i],
+                    arrowprops=dict(arrowstyle='->', linewidth=1))
+    
+
+# Finish iteration
+centers = new_centers
+_ = axes[0].text(0.95, 0.95, "Assign", transform=axes[0].transAxes, ha='right', va='top', size=14)
+_ = axes[1].text(0.95, 0.95, "Update", transform=axes[1].transAxes, ha='right', va='top', size=14)
+```
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+באיטרציה השלישית כבר בקושי אפשר לראות הבדל, הקלאסטרים כבר ברורים מאוד.
+:::
+:::
+
+---
+
+### Some issues with K-means
+
+::: {.incremental}
+- Need to always specify $K$!
+
+- How to choose $K$?
+
+- Prefers separable spherical clusters (Gaussian)
+  - Bad with unequal densities, unequal cluster sizes
+
+- No concept of outliers
+
+- Limited to Euclidean distance
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+
+:::
+:::
+
+---
+
+## Dimensionality Reduction {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Dimensionality Reduction 
+
+::: {.incremental}
+- We have $n$ observations in $p$ dimensions: $X_{n \times p}$
+- Why would we want to reduce the data dimensionality to $q \ll p$ dimensions?
+  - EDA:
+    - Identify important dimensions which summarize the data well
+    - Visualize the data (2-d or 3-d visualizations)
+  - Clustering after dimensionality reduction
+  - Speed-up/Improve/Enable machine-learning algorithms (PCR)
+  - Generative modeling - see later
+
+- Naive way: select $q$ out of the original $p$ dimensions (best seubset)
+
+- Less Naive way: Look for interesting "projections":
+  - linear/non-linear combinations of features
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### A non-standard motivation (I)
+
+::: {.incremental}
+- We are given:
+  - An [encoder]{style="color:red;"} $g(X) = Xw$, where $w \in \mathbb{R}^{p\times 1}$ is a vector with $\|w\|=1$
+  - A [decoder]{style="color:red;"} $f(u) = uw^T$, where $u \in \mathbb{R}^{n\times 1}$
+- The reconstructed matrix is therefore: $\hat{X} = f(g(X)) = (Xw)w^T = Xww^T$
+- Goal: find $w$ that minimizes the [reconstruction error]{style="color:red;"} $\|X - \hat{X}\|^2_F$
+  - $\|A\|^2_F$ is the squared Frobenius norm, the sum of squared elements of any real matrix $A$
+  - Also: $\|A\|^2_F = \text{Tr}(AA^T)$
+  - $w = \arg\min_{w: \|w\|=1}\text{Tr}((X - Xww^T)(X - Xww^T)^T)$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### A non-standard motivation (II)
+
+$$w = \arg\min_{w: \|w\|=1}\text{Tr}((X - Xww^T)(X - Xww^T)^T)$$
+
+::: {.fragment}
+$$\text{Tr}((X - Xww^T)(X - Xww^T)^T)$$
+:::
+::: {.fragment}
+$$= \text{Tr}((X - Xww^T)(X^T - ww^TX^T))$$
+:::
+::: {.fragment}
+$$= \text{Tr}(XX^T - Xww^TX^T - Xww^TX^T + Xww^Tww^TX^T)$$
+:::
+::: {.fragment}
+$$= \text{Tr}(XX^T - Xww^TX^T - Xww^TX^T + Xww^TX^T)$$
+:::
+::: {.fragment}
+$$= \text{Tr}(XX^T) - \text{Tr}(Xww^TX^T)$$
+:::
+::: {.fragment}
+<center>
+But: $\text{Tr}(Xww^TX^T) = \text{Tr}(w^TX^TXw) = w^TX^TXw$
+</center>
+:::
+
+::: {.fragment}
+$$\Rightarrow w = \arg\max_{w: \|w\|=1}w^TX^TXw$$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### PCA: the "standard" motivation
+
+::: {.incremental}
+- Goal: Find the $q$ direction(s) with the most dispersion
+- First direction: $w_1 = \arg\max_{w_1:\|w_1\| =1} \|Xw_1\|^2 = \arg\max_{w_1:\|w_1\| =1}w_1^TX^TXw_1$
+- Second direction: $w_2 = \arg\max_{\|w_2\| =1, w_2^Tw_1 = 0}w_2^TX^TXw_2$
+- Can keep going looking for new directions
+- Assuming $p < n$, up to $p$ principal directions can be found this way, stack them into a $p \times q$ "loadings" matrix $W$
+- Data with reduced dimensionality: $T_{n \times q} = X_{n \times p}W_{p \times q}$ taking only the first $q$ principal directions
+:::
+
+::: {.fragment}
+PCA solution also minimizes the reconstruction error of a linear encoder/decoder system!
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Eigendecomposition: Reminder
+
+::: {.fragment}
+A non-zero vector $\mathbf{v}$ is an eigenvector of a square $p \times p$ matrix $\mathbf{A}$ if it satisfies:
+$$\mathbf{A}\mathbf{v} = \lambda\mathbf{v},$$
+for some scalar $\lambda$.
+:::
+
+::: {.incremental}
+- Then $\lambda$ is called the eigenvalue corresponding to $\mathbf{v}$.
+
+- Geometrically speaking, the eigenvectors of $\mathbf{A}$ are the vectors that $\mathbf{A}$ merely elongates or shrinks, and the amount that they elongate/shrink by is the eigenvalue
+
+- An eigendecomposition of $\mathbf{A}$ is then: $\mathbf{A} = \mathbf{V}\mathbf{\Lambda}\mathbf{V}^{-1}$
+
+- where $\mathbf{V}$ is the square $p \times p$ matrix whose $j$-th column is the eigenvector $\mathbf{v}_j$ of $\mathbf{A}$, and $\mathbf{\Lambda}$ is the diagonal matrix whose diagonal elements are the corresponding eigenvalues, $\mathbf{\Lambda}_{jj} = \lambda_j$
+
+- If $\mathbf{A}$ is real and symmetric, $\mathbf{V}$ is orthogonal, $\mathbf{A} = \mathbf{V}\mathbf{\Lambda}\mathbf{V}^T$ and $\lambda_j$ are real scalars
+
+- If $\mathbf{A}$ is also positive semidefinite (PSD), then $\lambda_j \ge 0$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+ניזכר בבעיית הערכים העצמיים בקצרה. נרצה למצוא וקטור עצמי, eigenvector, למטריצה A ריבועית, מסדר p על p.
+
+כאשר המטריצה A כופלת וקטור כזה, הדבר שקול בעצם פשוט להכפלה של הוקטור הזה באיזשהו סקלר למדא. ולמדא הוא הערך העצמי.
+
+מבחינה גיאומטרית, נראה שכל מה שעשתה המטריצה A לוקטור v, זה פשוט לכווץ או להאריך אותו. ומסתבר שלמציאת וקטור כזה יש שימושים רבים.
+
+פירוק ערכים עצמיים של A הוא מכפלה של המטריצות V, למדא, V בהופכית.
+
+כשV היא מטריצה ריבועית p על p, שהעמודות שלה הם הוקטורים העצמיים, ולמדא היא מטריצה אלכסונית שעל האלכסון של נמצאים הלמדות, הערכים העצמיים.
+
+אם A היא מטריצה ממשית וסימטרית כמו שתיכף יהיה במקרה שלנו, V היא גם אורתוגונלית, וההופכי שלה הוא הטרנספוז של אז אפשר לרשום את הפירוק כך. יתרה מזאת, הערכים העצמיים שלה הם ממשיים.
+
+ואם המטריצה היא חיובית, פוזיטיב-סמידפיניט, כמו שתיכף יהיה במקרה שלנו - הערכים העצמיים הם אפילו אי-שליליים.
+:::
+:::
+
+---
+
+### Calculating Principal Components
+
+::: {.incremental}
+- Look again at the PCA problem: $w_1 = \arg\max_{w_1:\|w_1\| =1} \|Xw_1\|^2$
+
+- Using Lagrange multiplier $\lambda_1$: $\max_{w_1}{w_1^TX^TXw_1} + \lambda_1(1 - w_1^Tw_1)$
+
+- Take derivative with respect to $w_1$, compare to 0:
+$$2X^TXw_1 - 2\lambda_1w_1 = 0 \\
+X^TXw_1 = \lambda_1w_1$$
+
+- So $w_1$ must be an eigenvector of the square, real, PSD $X^TX$ matrix, and $\lambda_1$ its eigenvalue!
+
+- Which eigenvalue and eigenvector?
+
+- So we're looking for the set of $W_{p \times p}$ eigenvectors of $X^TX$ with their corresponding eigenvalues $\lambda_1, \dots, \lambda_p$ ordered from largest to smallest
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+אז מה הקשר לבעיה שלנו? נכתוב אותה שוב.
+
+אפשר לכתוב אותה כבעית אופטימיזציה, אם נשתמש בכופלי לגראנז'. אנחנו רוצים למקסם את הכמות v'X'Xv, עם אילוץ על v'v.
+
+אם נגזור את הכמות הזאת לפי הרכיבים בv, נקבל את הביטוי שלפנינו, נשווה אותו לאפס ונגיע למסקנה שאנחנו מחפשים וקטור v שיקיים את המשוואה הזאת. זאת בדיוק משוואה שמגדירה וקטור וערך עצמי של המטריצה X'X, מטריצת הקווריאנס של מדגם הנתונים!
+
+לכן v1 חייב להיות וקטור עצמי של מטריצת הקווריאנס, ולמדא1 הערך העצמי שלה. ומאחר שכל מטריצת קווריאנס היא ממשית, סימטרית וחיובית, למדא גם חייב להיות אי-שלילי.
+
+איזה וקטור עצמי וערך עצמי ניקח? אם נכפול את הביטוי כאן ב v טרנספוז מצד שמאל נראה שהפיזור עצמו שווה לערך העצמי, ואנחנו רוצים פיזור כמה שיותר גדול, לכן ניקח את הוקטור העצמי שמתאים לערך העצמי הגדול ביותר. זכרו שהם אי-שליליים!
+:::
+:::
+
+---

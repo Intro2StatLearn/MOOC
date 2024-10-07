@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="../libs/clipboard/clipboard.min.js"></script>
+<script src="../libs/quarto-html/tabby.min.js"></script>
+<script src="../libs/quarto-html/popper.min.js"></script>
+<script src="../libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
+<link href="../libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.4.554">
+
+  <title>Unsupervised Learning</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../libs/revealjs/dist/theme/quarto.css">
+  <link rel="stylesheet" href="../slides_quarto.css">
+  <link href="../libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="../libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="../libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+
+  .callout {
+    margin-top: 1em;
+    margin-bottom: 1em;  
+    border-radius: .25rem;
+  }
+
+  .callout.callout-style-simple { 
+    padding: 0em 0.5em;
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+    display: flex;
+  }
+
+  .callout.callout-style-default {
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+  }
+
+  .callout .callout-body-container {
+    flex-grow: 1;
+  }
+
+  .callout.callout-style-simple .callout-body {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-style-default .callout-body {
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-titled.callout-style-simple .callout-body {
+    margin-top: 0.2em;
+  }
+
+  .callout:not(.callout-titled) .callout-body {
+      display: flex;
+  }
+
+  .callout:not(.no-icon).callout-titled.callout-style-simple .callout-content {
+    padding-left: 1.6em;
+  }
+
+  .callout.callout-titled .callout-header {
+    padding-top: 0.2em;
+    margin-bottom: -0.2em;
+  }
+
+  .callout.callout-titled .callout-title  p {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+    
+  .callout.callout-titled.callout-style-simple .callout-content  p {
+    margin-top: 0;
+  }
+
+  .callout.callout-titled.callout-style-default .callout-content  p {
+    margin-top: 0.7em;
+  }
+
+  .callout.callout-style-simple div.callout-title {
+    border-bottom: none;
+    font-size: .9rem;
+    font-weight: 600;
+    opacity: 75%;
+  }
+
+  .callout.callout-style-default  div.callout-title {
+    border-bottom: none;
+    font-weight: 600;
+    opacity: 85%;
+    font-size: 0.9rem;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-default div.callout-content {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-simple .callout-icon::before {
+    height: 1rem;
+    width: 1rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+  }
+
+  .callout.callout-style-default .callout-icon::before {
+    height: 0.9rem;
+    width: 0.9rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 0.9rem 0.9rem;
+  }
+
+  .callout-title {
+    display: flex
+  }
+    
+  .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  .callout.no-icon::before {
+    display: none !important;
+  }
+
+  .callout.callout-titled .callout-body > .callout-content > :last-child {
+    padding-bottom: 0.5rem;
+    margin-bottom: 0;
+  }
+
+  .callout.callout-titled .callout-icon::before {
+    margin-top: .5rem;
+    padding-right: .5rem;
+  }
+
+  .callout:not(.callout-titled) .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  /* Callout Types */
+
+  div.callout-note {
+    border-left-color: #4582ec !important;
+  }
+
+  div.callout-note .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEU0lEQVRYCcVXTWhcVRQ+586kSUMMxkyaElstCto2SIhitS5Ek8xUKV2poatCcVHtUlFQk8mbaaziwpWgglJwVaquitBOfhQXFlqlzSJpFSpIYyXNjBNiTCck7x2/8/LeNDOZxDuEkgOXe++553zfefee+/OYLOXFk3+1LLrRdiO81yNqZ6K9cG0P3MeFaMIQjXssE8Z1JzLO9ls20MBZX7oG8w9GxB0goaPrW5aNMp1yOZIa7Wv6o2ykpLtmAPs/vrG14Z+6d4jpbSKuhdcSyq9wGMPXjonwmESXrriLzFGOdDBLB8Y6MNYBu0dRokSygMA/mrun8MGFN3behm6VVAwg4WR3i6FvYK1T7MHo9BK7ydH+1uurECoouk5MPRyVSBrBHMYwVobG2aOXM07sWrn5qgB60rc6mcwIDJtQrnrEr44kmy+UO9r0u9O5/YbkS9juQckLed3DyW2XV/qWBBB3ptvI8EUY3I9p/67OW+g967TNr3Sotn3IuVlfMLVnsBwH4fsnebJvyGm5GeIUA3jljERmrv49SizPYuq+z7c2H/jlGC+Ghhupn/hcapqmcudB9jwJ/3jvnvu6vu5lVzF1fXyZuZZ7U8nRmVzytvT+H3kilYvH09mLWrQdwFSsFEsxFVs5fK7A0g8gMZjbif4ACpKbjv7gNGaD8bUrlk8x+KRflttr22JEMRUbTUwwDQScyzPgedQHZT0xnx7ujw2jfVfExwYHwOsDTjLdJ2ebmeQIlJ7neo41s/DrsL3kl+W2lWvAga0tR3zueGr6GL78M3ifH0rGXrBC2aAR8uYcIA5gwV8zIE8onoh8u0Fca/ciF7j1uOzEnqcIm59sEXoGc0+z6+H45V1CvAvHcD7THztu669cnp+L0okAeIc6zjbM/24LgGM1gZk7jnRu1aQWoU9sfUOuhrmtaPIO3YY1KLLWZaEO5TKUbMY5zx8W9UJ6elpLwKXbsaZ4EFl7B4bMtDv0iRipKoDQT2sNQI9b1utXFdYisi+wzZ/ri/1m7QfDgEuvgUUEIJPq3DhX/5DWNqIXDOweC2wvIR90Oq3lDpdMIgD2r0dXvGdsEW5H6x6HLRJYU7C69VefO1x8Gde1ZFSJLfWS1jbCnhtOPxmpfv2LXOA2Xk2tvnwKKPFuZ/oRmwBwqRQDcKNeVQkYcOjtWVBuM/JuYw5b6isojIkYxyYAFn5K7ZBF10fea52y8QltAg6jnMqNHFBmGkQ1j+U43HMi2xMar1Nv0zGsf1s8nUsmUtPOOrbFIR8bHFDMB5zL13Gmr/kGlCkUzedTzzmzsaJXhYawnA3UmARpiYj5ooJZiUoxFRtK3X6pgNPv+IZVPcnwbOl6f+aBaO1CNvPW9n9LmCp01nuSaTRF2YxHqZ8DYQT6WsXT+RD6eUztwYLZ8rM+rcPxamv1VQzFUkzFXvkiVrySGQgJNvXHJAxiU3/NwiC03rSf05VBaPtu/Z7/B8Yn/w7eguloAAAAAElFTkSuQmCC');
+  }
+
+  div.callout-note.callout-style-default .callout-title {
+    background-color: #dae6fb
+  }
+
+  div.callout-important {
+    border-left-color: #d9534f !important;
+  }
+
+  div.callout-important .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEKklEQVRYCcVXTWhcVRS+575MJym48A+hSRFr00ySRQhURRfd2HYjk2SSTokuBCkU2o0LoSKKraKIBTcuFCoidGFD08nkBzdREbpQ1EDNIv8qSGMFUboImMSZd4/f9zJv8ibJMC8xJQfO3HPPPef7zrvvvnvviIkpC9nsw0UttFunbUhpFzFtarSd6WJkStVMw5xyVqYTvkwfzuf/5FgtkVoB0729j1rjXwThS7Vio+Mo6DNnvLfahoZ+i/o32lULuJ3NNiz7q6+pyAUkJaFF6JwaM2lUJlV0MlnQn5aTRbEu0SEqHUa0A4AdiGuB1kFXRfVyg5d87+Dg4DL6m2TLAub60ilj7A1Ec4odSAc8X95sHh7+ZRPCFo6Fnp7HfU/fBng/hi10CjCnWnJjsxvDNxWw0NfV6Rv5GgP3I3jGWXumdTD/3cbEOP2ZbOZp69yniG3FQ9z1jD7bnBu9Fc2tKGC2q+uAJOQHBDRiZX1x36o7fWBs7J9ownbtO+n0/qWkvW7UPIfc37WgT6ZGR++EOJyeQDSb9UB+DZ1G6DdLDzyS+b/kBCYGsYgJbSQHuThGKRcw5xdeQf8YdNHsc6ePXrlSYMBuSIAFTGAtQo+VuALo4BX83N190NWZWbynBjhOHsmNfFWLeL6v+ynsA58zDvvAC8j5PkbOcXCMg2PZFk3q8MjI7WAG/Dp9AwP7jdGBOOQkAvlFUB+irtm16I1Zw9YBcpGTGXYmk3kQIC/Cds55l+iMI3jqhjAuaoe+am2Jw5GT3Nbz3CkE12NavmzN5+erJW7046n/CH1RO/RVa8lBLozXk9uqykkGAyRXLWlLv5jyp4RFsG5vGVzpDLnIjTWgnRy2Rr+tDKvRc7Y8AyZq10jj8DqXdnIRNtFZb+t/ZRtXcDiVnzpqx8mPcDWxgARUqx0W1QB9MeUZiNrV4qP+Ehc+BpNgATsTX8ozYKL2NtFYAHc84fG7ndxUPr+AR/iQSns7uSUufAymwDOb2+NjK27lEFocm/EE2WpyIy/Hi66MWuMKJn8RvxIcj87IM5Vh9663ziW36kR0HNenXuxmfaD8JC7tfKbrhFr7LiZCrMjrzTeGx+PmkosrkNzW94ObzwocJ7A1HokLolY+AvkTiD/q1H0cN48c5EL8Crkttsa/AXQVDmutfyku0E7jShx49XqV3MFK8IryDhYVbj7Sj2P2eBxwcXoe8T8idsKKPRcnZw1b+slFTubwUwhktrfnAt7J++jwQtLZcm3sr9LQrjRzz6cfMv9aLvgmnAGvpoaGLxM4mAEaLV7iAzQ3oU0IvD5x9ix3yF2RAAuYAOO2f7PEFWCXZ4C9Pb2UsgDeVnFSpbFK7/IWu7TPTvBqzbGdCHOJQSxiEjt6IyZmxQyEJHv6xyQsYk//moVFsN2zP6fRImjfq7/n/wFDguUQFNEwugAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-important.callout-style-default .callout-title {
+    background-color: #f7dddc
+  }
+
+  div.callout-warning {
+    border-left-color: #f0ad4e !important;
+  }
+
+  div.callout-warning .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAETklEQVRYCeVWW2gcVRg+58yaTUnizqbipZeX4uWhBEniBaoUX1Ioze52t7sRq6APio9V9MEaoWlVsFasRq0gltaAPuxms8lu0gcviE/FFOstVbSIxgcv6SU7EZqmdc7v9+9mJtNks51NTUH84ed889/PP+cmxP+d5FIbMJmNbpREu4WUkiTtCicKny0l1pIKmBzovF2S+hIJHX8iEu3hZJ5lNZGqyRrGSIQpq15AzF28jgpeY6yk6GVdrfFqdrD6Iw+QlB8g0YS2g7dyQmXM/IDhBhT0UCiRf59lfqmmDvzRt6kByV/m4JjtzuaujMUM2c5Z2d6JdKrRb3K2q6mA+oYVz8JnDdKPmmNthzkAk/lN63sYPgevrguc72aZX/L9C6x09GYyxBgCX4NlvyGUHOKELlm5rXeR1kchuChJt4SSwyddZRXgvwMGvYo4QSlk3/zkHD8UHxwVJA6zjZZqP8v8kK8OWLnIZtLyCAJagYC4rTGW/9Pqj92N/c+LUaAj27movwbi19tk/whRCIE7Q9vyI6yvRpftAKVTdUjOW40X3h5OXsKCdmFcx0xlLJoSuQngnrJe7Kcjm4OMq9FlC7CMmScQANuNvjfP3PjGXDBaUQmbp296S5L4DrpbrHN1T87ZVEZVCzg1FF0Ft+dKrlLukI+/c9ENo+TvlTDbYFvuKPtQ9+l052rXrgKoWkDAFnvh0wTOmYn8R5f4k/jN/fZiCM1tQx9jQQ4ANhqG4hiL0qIFTGViG9DKB7GYzgubnpofgYRwO+DFjh0Zin2m4b/97EDkXkc+f6xYAPX0KK2I/7fUQuwzuwo/L3AkcjugPNixC8cHf0FyPjWlItmLxWw4Ou9YsQCr5fijMGoD/zpdRy95HRysyXA74MWOnscpO4j2y3HAVisw85hX5+AFBRSHt4ShfLFkIMXTqyKFc46xdzQM6XbAi702a7sy04J0+feReMFKp5q9esYLCqAZYw/k14E/xcLLsFElaornTuJB0svMuJINy8xkIYuL+xPAlWRceH6+HX7THJ0djLUom46zREu7tTkxwmf/FdOZ/sh6Q8qvEAiHpm4PJ4a/doJe0gH1t+aHRgCzOvBvJedEK5OFE5jpm4AGP2a8Dxe3gGJ/pAutug9Gp6he92CsSsWBaEcxGx0FHytmIpuqGkOpldqNYQK8cSoXvd+xLxXADw0kf6UkJNFtdo5MOgaLjiQOQHcn+A6h5NuL2s0qsC2LOM75PcF3yr5STuBSAcGG+meA14K/CI21HcS4LBT6tv0QAh8Dr5l93AhZzG5ZJ4VxAqdZUEl9z7WJ4aN+svMvwHHL21UKTd1mqvChH7/Za5xzXBBKrUcB0TQ+Ulgkfbi/H/YT5EptrGzsEK7tR1B7ln9BBwckYfMiuSqklSznIuoIIOM42MQO+QnduCoFCI0bpkzjCjddHPN/F+2Yu+sd9bKNpVwHhbS3LluK/0zgfwD0xYI5dXuzlQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-warning.callout-style-default .callout-title {
+    background-color: #fcefdc
+  }
+
+  div.callout-tip {
+    border-left-color: #02b875 !important;
+  }
+
+  div.callout-tip .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAADr0lEQVRYCe1XTWgTQRj9ZjZV8a9SPIkKgj8I1bMHsUWrqYLVg4Ue6v9BwZOxSYsIerFao7UiUryIqJcqgtpimhbBXoSCVxUFe9CTiogUrUp2Pt+3aUI2u5vdNh4dmMzOzHvvezuz8xNFM0mjnbXaNu1MvFWRXkXEyE6aYOYJpdW4IXuA4r0fo8qqSMDBU0v1HJUgVieAXxzCsdE/YJTdFcVIZQNMyhruOMJKXYFoLfIfIvVIMWdsrd+Rpd86ZmyzzjJmLStqRn0v8lzkb4rVIXvnpScOJuAn2ACC65FkPzEdEy4TPWRLJ2h7z4cArXzzaOdKlbOvKKX25Wl00jSnrwVxAg3o4dRxhO13RBSdNvH0xSARv3adTXbBdTf64IWO2vH0LT+cv4GR1DJt+DUItaQogeBX/chhbTBxEiZ6gftlDNXTrvT7co4ub5A6gp9HIcHvzTa46OS5fBeP87Qm0fQkr4FsYgVQ7Qg+ZayaDg9jhg1GkWj8RG6lkeSacrrHgDaxdoBiZPg+NXV/KifMuB6//JmYH4CntVEHy/keA6x4h4CU5oFy8GzrBS18cLJMXcljAKB6INjWsRcuZBWVaS3GDrqB7rdapVIeA+isQ57Eev9eCqzqOa81CY05VLd6SamW2wA2H3SiTbnbSxmzfp7WtKZkqy4mdyAlGx7ennghYf8voqp9cLSgKdqNfa6RdRsAAkPwRuJZNbpByn+RrJi1RXTwdi8RQF6ymDwGMAtZ6TVE+4uoKh+MYkcLsT0Hk8eAienbiGdjJHZTpmNjlbFJNKDVAp2fJlYju6IreQxQ08UJDNYdoLSl6AadO+fFuCQqVMB1NJwPm69T04Wv5WhfcWyfXQB+wXRs1pt+nCknRa0LVzSA/2B+a9+zQJadb7IyyV24YAxKp2Jqs3emZTuNnKxsah+uabKbMk7CbTgJx/zIgQYErIeTKRQ9yD9wxVof5YolPHqaWo7TD6tJlh7jQnK5z2n3+fGdggIOx2kaa2YI9QWarc5Ce1ipNWMKeSG4DysFF52KBmTNMmn5HqCFkwy34rDg05gDwgH3bBi+sgFhN/e8QvRn8kbamCOhgrZ9GJhFDgfcMHzFb6BAtjKpFhzTjwv1KCVuxHvCbsSiEz4CANnj84cwHdFXAbAOJ4LTSAawGWFn5tDhLMYz6nWeU2wJfIhmIJBefcd/A5FWQWGgrWzyORZ3Q6HuV+Jf0Bj+BTX69fm1zWgK7By1YTXchFDORywnfQ7GpzOo6S+qECrsx2ifVQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-tip.callout-style-default .callout-title {
+    background-color: #ccf1e3
+  }
+
+  div.callout-caution {
+    border-left-color: #fd7e14 !important;
+  }
+
+  div.callout-caution .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAACV0lEQVRYCdVWzWoUQRCuqp2ICBLJXgITZL1EfQDBW/bkzUMUD7klD+ATSHBEfAIfQO+iXsWDxJsHL96EHAwhgzlkg8nBg25XWb0zIb0zs9muYYWkoKeru+vn664fBqElyZNuyh167NXJ8Ut8McjbmEraKHkd7uAnAFku+VWdb3reSmRV8PKSLfZ0Gjn3a6Xlcq9YGb6tADjn+lUfTXtVmaZ1KwBIvFI11rRXlWlatwIAAv2asaa9mlB9wwygiDX26qaw1yYPzFXg2N1GgG0FMF8Oj+VIx7E/03lHx8UhvYyNZLN7BwSPgekXXLribw7w5/c8EF+DBK5idvDVYtEEwMeYefjjLAdEyQ3M9nfOkgnPTEkYU+sxMq0BxNR6jExrAI31H1rzvLEfRIdgcv1XEdj6QTQAS2wtstEALLG1yEZ3QhH6oDX7ExBSFEkFINXH98NTrme5IOaaA7kIfiu2L8A3qhH9zRbukdCqdsA98TdElyeMe5BI8Rs2xHRIsoTSSVFfCFCWGPn9XHb4cdobRIWABNf0add9jakDjQJpJ1bTXOJXnnRXHRf+dNL1ZV1MBRCXhMbaHqGI1JkKIL7+i8uffuP6wVQAzO7+qVEbF6NbS0LJureYcWXUUhH66nLR5rYmva+2tjRFtojkM2aD76HEGAD3tPtKM309FJg5j/K682ywcWJ3PASCcycH/22u+Bh7Aa0ehM2Fu4z0SAE81HF9RkB21c5bEn4Dzw+/qNOyXr3DCTQDMBOdhi4nAgiFDGCinIa2owCEChUwD8qzd03PG+qdW/4fDzjUMcE1ZpIAAAAASUVORK5CYII=');
+  }
+
+  div.callout-caution.callout-style-default .callout-title {
+    background-color: #ffe5d0
+  }
+
+  </style>
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  
+
+    <link rel="icon" href="../Intro2SL_logo.jpg" type="image/jpg"> 
+
+    <link rel="shortcut icon" href="../Intro2SL_logo.jpg" type="image/jpg">
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet" type="text/css">
+
+  </head>
+
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+
+<section id="section" class="slide level2 logo-slide">
+<h2></h2>
+</section>
+<section id="introduction-to-statistical-learning" class="slide level2 title-slide center">
+<h2>Introduction to Statistical Learning</h2>
+<h3 id="unsupervised-learning---class-13">Unsupervised Learning - Class 13</h3>
+<h3 id="giora-simchoni">Giora Simchoni</h3>
+<h4 id="gsimchonigmail.com-and-add-intro2sl-in-subject"><code>gsimchoni@gmail.com</code> and add <code>#intro2sl</code> in subject</h4>
+<h3 id="stat.-and-or-department-tau">Stat. and OR Department, TAU</h3>
+</section>
+<section id="intro.-to-unsupervised-learning" class="slide level2 title-slide center">
+<h2>Intro. to Unsupervised Learning</h2>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+<p>נקדיש יחידה אחת ללמידה מסוג שונה. למידה בלתי מפוקחת, או unsupervised learning. מאחר שזה נושא חדש, בואו נדבר קצת על מה זה unsupervised learning ומה שונה ממנה לעומת הלמידה שעסקנו בה עד כה, שמסתבר שאפשר לקרוא לה supervised learning, כלומר למידה כן מפוקחת.</p>
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="from-supervised-to-unsupervised">From Supervised to Unsupervised</h3>
+<ul>
+<li><p>Recall: each observation is made of a vector <span class="math inline">\(x \in \mathcal{X}\)</span> (for example <span class="math inline">\(x \in \mathbb{R}^p\)</span>) and a scalar <span class="math inline">\(y\)</span></p></li>
+<li><p>Our goal is to build a model of the relationship between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>: <span class="math display">\[y \approx f(x)\]</span></p></li>
+<li><p>IID assumption: each pair <span class="math inline">\((x_i, y_i)\)</span> is drawn indepednently from some distribution <span class="math inline">\(P_{x,y}\)</span></p></li>
+<li><p>A modeling approach takes <span class="math inline">\((X, y)\)</span> as input and outputs a <em>prediction model</em> <span class="math inline">\(\hat{f}(x)\)</span></p></li>
+<li><p>In prediction: we get a new value <span class="math inline">\(x_0\)</span> and predict <span class="math inline">\(\hat{y}_0 = \hat{f}(x_0)\)</span>.</p></li>
+<li><p>How good is our prediction? We typically define a loss function <span class="math inline">\(L(y,\hat{y})\)</span> and the quality of the model is <span class="math inline">\(\mathbb{E}_{x_0,y_0}(L(y_0, \hat{y}_0))\)</span></p></li>
+</ul>
+<div class="fragment">
+<p>What if there is no <span class="math inline">\(y\)</span>?</p>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+<p>בלמידה מסוג supervised, יש לנו וקטור X של p משתנים, וסקלאר Y. המטרה היא למדל את Y כפונקציה f של X. אנחנו מניחים שזוגות התצפיות X, Y שלנו מגיעים בלתי תלויים מאיזושהי התפלגות משותפת Pxy, ובונים מודל לחיזוי באמצעות נתוני מדגם הלמידה X, Y, מודל שנקרא f_hat. כשתגיע תצפית חדשה לחיזוי X0 נפעיל עליה את המודל הנלמד f_hat וזה יהיה החיזוי שלנו עבורה. ואיך אנחנו מכמתים את הביצועים של המודל שלנו? באידאל באמצעות איזושהי פונקצית הפסד L בין תצפיות Y האמיתיות והחזויות, כשאנחנו לוקחים תוחלת על תצפיות שהמודל לא ראה. בפועל אנחנו לא יודעים את ההתפלגות של התצפיות שהמודל לא ראה ואנחנו לוקחים את הממוצע האמפירי על מדגם הטסט.</p>
+<p>נשאלת השאלה, מה אם אין Y, המשתנה התלוי לחיזוי?</p>
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="unsupervised-learning">Unsupervised Learning</h3>
+<ul>
+<li><p>Now: each observation is made of a vector <span class="math inline">\(x \in \mathcal{X}\)</span> (for example <span class="math inline">\(x \in \mathbb{R}^p\)</span>)</p></li>
+<li><p>IID assumption: each observation <span class="math inline">\(x_i\)</span> is drawn indepednently from some distribution <span class="math inline">\(P_{x}\)</span></p></li>
+<li><p>Our goal is to <em>learn</em> distrubution <span class="math inline">\(P_{x}\)</span> (or properties of it)</p></li>
+<li><p>“without a supervisor”</p></li>
+</ul>
+<div>
+<ul>
+<li class="fragment">Example: <span style="color:red;">Clustering</span> = Finding modes of <span class="math inline">\(P_{x}\)</span> with high density
+<ul>
+<li class="fragment">If we do find them, maybe <span class="math inline">\(P_{x}\)</span> can be represented by a mixture of simpler densities?</li>
+</ul></li>
+<li class="fragment">This isn’t new, is it?</li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+<p>בלמידה לא מפוקחת יש לנו רק וקטור של משתנים X ממימד p.&nbsp;אנחנו עדיין מניחים שהתצפיות מגיעות בלתי תלויות מאיזו התפלגות לא-ידועה Px, והמטרה שלנו היא לא לאמוד איזושהי פונקציה או קשר אלא ממש את ההתפלגות הזאת, או תכונות שלה.</p>
+<p>לדוגמא, ניתוח אשכולות או קלאסטרינג – היינו רוצים ללמוד איזורים בהתפלגות עם צפיפות גבוהה, או השכיחים של P_x. אם נמצא שP_x מתחלקת בבירור לכמה איזורים כאלה למשל, אולי ניתן לייצג אותה בעזרתם, ואז זה יפשט אותה, במקום להיות למשל פונקציה מורכבת בהרבה מימדים נוכל לחלק אותה לצירוף של כמה פונקציות פשוטות יותר.</p>
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="cluster-analysis">Cluster Analysis</h3>
+<p>Group a set of observations into subsets, clusters, s.t. those within each cluster are more closely related to one another than observations assigned to different clusters</p>
+<div class="fragment">
+<p>What for?</p>
+<ul>
+<li>EDA, Feature Engineering: interesting groups in the data</li>
+<li>Segmentation: customers, products, distribution centers location, software</li>
+<li>Hierarchy: diseases, evolution</li>
+<li>Deduplication</li>
+<li>Anomaly Detection</li>
+</ul>
+</div>
+<div class="fragment">
+<p>Many, many algorithms:</p>
+<ul>
+<li>Partition clustering: K-means</li>
+<li>Hierarchical clustering: Agglomerative</li>
+<li>Density-based clustering: DBSCAN</li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+<p>אז בואו נדבר בקלאסטרינג לא על צפיפות כמושג הסתברותי אלא כמושג אינטואיטיבי: אנחנו רוצים למצוא קלאסטרים, קבוצות, איזורים או גושים בדאטא שבהם התצפיות מאוד צפופות וקרובות אחת לשניה, לעומת המרחק ביניהן לתצפיות בקלאסטרים אחרים.</p>
+<p>למה שנרצה לעשות את זה? הנה רשימה חלקית:</p>
+<p>קודם כל ראינו שקלאסטרינג משמש אותו באקספלורטורי דאטא אנליסיס, איזושהי אנליזה רכה לנתונים שמסייעת להבין אותם, למצוא קבוצות מעניינות בדאטא. את הקבוצות האלה או ההשתייכות לקבוצות האלה אפשר לנצל אחר-כך כפיצ’רים מעניינים בבניית מודלים לחיזוי.</p>
+<p>מטרה אחת אפשר לתאר בגדול כסגמנטציה: אתר שמנסה לחלק את הגולשים שלו לכמה טיפוסים, כמה פרופילים. למשל כדי להקצות לכל פרופיל איש מכירות אחר שהפרופיל הזה יהיה המומחיות שלו. או אתר עם המון מוצרים כמו אמזון שרוצה לחסוך בעבודה הקשה של הרבה מומחים לאלקטרוניקה שהתפקיד שלהם הוא להגיד שפלאפון אייפון 5 ופלאפון אנדרואיד שייכים לאותה קטגוריה או מוצר, אולי אפשר לעשות את זה אוטומטית עם קלאסטרינג על פיצ’רים שמראים שאותם אנשים קונים את שני הפריטים האלה או שהם עשויים מאותם חומרים ועולים סכום דומה של כסף. אפשר לחשוב על חברת פיצה שנכנסת לעיר חדשה ושואלת את עצמה איפה למקום שלושה מרכזי הפצה שהיא מתכננת להקים, הכי משתלם למקם אותם באיזורים שונים שבכל אחד ה”צפיפות” בביקוש לפיצה תהיה גבוהה. גם בתוכנה אנחנו עושים קלאסטרינג, במיוחד לתוכנות גדולות ומסורבלות שנוצרו לפני שנים ולאט לאט התפתחו ונוצר צורך לפרק אותן לכמה מודולים, גם בשביל יעילות וגם כדי לחלק את האחריות של אנשי התוכנה להמשיך לפתח ולעשות מיינטננס לכל מודול בנפרד.</p>
+<p>בביולוגיה נהוג להשתמש הרבה בקלאסטרינג, למשל להסתכל על פיצ’רים של מחלות כמו תסמינים ולקבץ אותן לסוגים שונים, או לבנות היררכיה של מחלות, עץ.</p>
+<p>דוגמא אחרת יכולה להיות דידופליקציה, אם נחזור לאתר שמוכר הרבה פריטים, וכל מוכר נותן כותרת אחרת לפריט שלו, הרבה פעמים לא מדובר במוצר שונה אלא אותו מוצר בדיוק וצריך למחוק במערכות מוצרים חדשים לכאורה שהמערכת כבר אמורה להכיר, דופליקיישנז. דוגמא אחרונה כאן היא זיהוי תצפיות חריגות או אאוטליירז, או בשם המקובל anomaly detection. אם כל האייפונים התקבצו לקלאסטר מסוים ואייפון מסוים לא שייך לקלאסטר, יכול להיות שהוא אנומליה. יכול להיות שבכלל לא מדובר באייפון, למשל הפריט הוא רק כיסוי לאייפון, שהמוכר החליט להכניס לקטגוריה של אייפונים כדי להגדיל את החשיפה שלו.</p>
+<p>ויש המון סוגים של אלגוריתמים לקלאסטרינג. יש אלגוריתמים מסוג partition שמבוססים על חלוקה של המרחב לאיזורים שונים זה מזה ככל שניתן וצפופים בתוכם, דוגמא לזה אפשר לראות את KMeans. הרבה אלגוריתמים הם היררכיים, שזה אומר שהם מנסים ליצור חלוקה לקלאסטרים ממצב שכל תצפית היא קלאסטר בפני עצמה, ואנחנו לאט לאט מאחדים זוגות של תצפיות קרובות אחת לשניה, ועד למצב שהדאטא נמצא בקלאסטר אחד גדול. זהו אגלומורטיב קלאסטרינג. אלגוריתמים אחרים באמת חוזרים לרעיון שצריך לאמוד את הצפיפות הטבעית של הדאטא, לא להניח מראש כמה קלאסטרים יש בו ולא להניח שכל התצפיות מתחלקות אליהם, דוגמא לזה הוא הDBSCAN. נעסוק היום בKMeans וב-DBSCAN כמייצגים של המשפחות האלה וגם כי הם סופר-פופולריים בתעשייה.</p>
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="unsupervised-learning-main-drawback">Unsupervised Learning Main Drawback</h3>
+<ul>
+<li><p>Unless there is “ground truth”, no clear measure of success (as opposed to <span class="math inline">\(\mathbb{E}_{x_0,y_0}(L(y_0, \hat{y}_0))\)</span>)</p></li>
+<li><p>Many times involves scrutinizing results and interpretation</p></li>
+<li><p>Not for the faint of heart</p></li>
+</ul>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+<p>מילה אחרונה של אזהרה בכל הנוגע לתחום של unsupervised learning. אין בלמידה לא-מפוקחת קריטריון ברור להצלחה, בניגוד ללמידה מפוקחת שם יש לנו את ה”מפקח” את Y ואת הלוס L, שלאורם אנחנו מכווננים את המודל שלנו, אנחנו מודדים את עצמנו.</p>
+<p>הרבה פעמים כמו בדוגמא בשקף הקודם ההצלחה של מודל קלאסטרינג מערבת הרבה בחינה ידנית ושיפוט של הלקוח הסופי. הרבה בערך. ברור שלפעמים יש ground truth, ואנחנו מצפים מהקלאסטרים להיות בחפיפה עם קבוצות ידועות באוכלוסיה או בהתפלגות. ברור גם שפתרון קלאסטרינג על אותם נתונים שהצליח למצוא קבוצות יותר צפופות בתוכן ויותר רחוקות אחת מהשניה - הוא פתרון טוב יותר.</p>
+<p>אבל בשורה התחתונה יש הרבה יותר מקום לפרשנות, אין קריטריון מנצח - וכדאי להיות מוכנים מנטלית לזה כשניגשים לפרויקט קלאסטרינג.</p>
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="k-means-clustering" class="slide level2 title-slide center">
+<h2>K-means Clustering</h2>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+<p>נדבר כעת על אלגוריתם KMeans, אולי המוכר ביותר בתחום, וגם יעיל יחסית ועובד טוב עם נתונים ממימד גבוה.</p>
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="how-to-evaluate-a-partition">How to evaluate a partition?</h3>
+<ul>
+<li><p>Assume <span class="math inline">\(K\)</span> clusters are given</p></li>
+<li><p><span class="math inline">\(C(i) = k\)</span> is some function assigning cluster <span class="math inline">\(k \in \{1, \dots, K\}\)</span> to observation <span class="math inline">\(i \in \{1, \dots, n\}\)</span></p></li>
+<li><p><span class="math inline">\(d(x_i, x_j)\)</span> is a distance metric for pair <span class="math inline">\(i, j\)</span>, e.g.&nbsp;Euclidean</p></li>
+<li><p>We wish to minimize the extent to which observations assigned to the same cluster tend to be close to one another</p></li>
+</ul>
+<div>
+<ul>
+<li class="fragment"><p>The “within cluster” scatter/loss: <span class="math display">\[W(C) = \frac{1}{2}\sum_{k = 1}^K \sum_{C(i) = k} \sum_{C(j) = k} d(x_i, x_j)\]</span></p></li>
+<li class="fragment"><p>equivalent to maximizing <span class="math inline">\(B(C) = \frac{1}{2}\sum_{k = 1}^K \sum_{C(i) = k} \sum_{C(j) \neq k} d(x_i, x_j)\)</span></p></li>
+<li class="fragment"><p>Can we go over all possible <span class="math inline">\(C(i)\)</span> to find the global minimum?</p></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+<p>נניח שיש לנו חלוקה נתונה. paritition. איך אנחנו עושים איבליואציה של חלוקה כזאת על הנתונים שלנו.</p>
+<p>נניח שאנחנו יודעים כבר את מספר הקלאסטרים בדאטא ומסמנים אותו בK, ונניח שיש לנו כבר כלל חלוקה C שמתאים לכל תצפית i בנתונים את הקלאסטר k שמתאים לה, מ1 עד K גדול.</p>
+<p>נניח כעת שצפיפות של נתונים או עד כמה זוג תצפיות קרובות אחת לשניה נמדוד באמצעות איזושהי מטריקת מרחק d, לדוגמא נתחיל עם מרחק אוקלידי.</p>
+<p>ואנחנו רוצים לבטא באמצעות איזושהי מטריקה את האינטואיציה שלנו שתצפיות באותו קלאסטר צריכות להיות צפופות ורחוקות מתצפיות בקלאסטרים אחרים.</p>
+<p>הרבה אלגוריתמים מסתכלים על המטריקה הבאה, הפיזור within cluster שנסמן בW(C), והוא סכום על כל זוגות התצפיות ששייכות לקלאסטר k של המרחקים ביניהן, וסכום על כל הקלאסטרים, מוכפל פי חצי כי אנחנו סופרים כל זוג ככה פעמיים.</p>
+<p>מאחר שהפיזור בין כל זוגות התצפיות בלי קשר לחלוקה לקלאסטרים נשאר זהה, אפשר להראות שלעשות מינימום לקריטריון שלנו אקוויולנטי ללעשות מקסימום לכמות המשלימה של between clusters סקאטר: סכום המרחקים בין כל זוגות התצפיות שנמצאות בקלאסטרים שונים. הרי סכום הכמות הזאת והכמות שלנו W(C) מסתכמם בפיזור כללי נאמר T(C).</p>
+<p>אז יש לנו מטריקה לעשות לה מינימום. אבל אפילו עם K נתון, נאמר שאנחנו רוצים לחלק את הדאטא ל4 קלאסטרים. האם אנחנו יכולים לעבור על כל החלוקות C(i) האפשריות כדי להגיע למינימום גלובלי? ברור שלא. יש לזה נוסחה שלא מופיעה כאן, אפשר לחשב למשל שלעבור על כל האפשרויות של חלוקת 20 תצפיות ל5 קלאסטרים אנחנו כבר מדברים על כמעט 750 מיליארד אפשרויות!</p>
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="road-to-k-means">Road to K-means</h3>
+<ul>
+<li><p>Euclidean distance: <span class="math inline">\(d(x_i, x_j) = \sum_{m=1}^p (x_{im} - x_{jm})^2 = ||x_i - x_j||^2\)</span></p></li>
+<li><p>Can show that: <span class="math inline">\(W(C) = \frac{1}{2}\sum_{k = 1}^K \sum_{C(i) = k} \sum_{C(j) = k} ||x_i - x_j||^2 = \sum_{k = 1}^K n_k \sum_{C(i) = k} ||x_i - \bar{x}_k||^2\)</span></p></li>
+<li><p><span class="math inline">\(\bar{x}_k \in \mathbb{R}^p\)</span> being the mean in cluster <span class="math inline">\(k\)</span>, and <span class="math inline">\(n_k\)</span> number of observations in cluster <span class="math inline">\(k\)</span></p></li>
+</ul>
+<div>
+<ul>
+<li class="fragment"><p>But for any set of observations <span class="math inline">\(S\)</span>, which <span class="math inline">\(m\)</span> would minimize <span class="math inline">\(\sum_{i \in S} ||x_i - m||^2\)</span>?</p></li>
+<li class="fragment"><p>Thus, the final goal of K-means: <span class="math display">\[\min\limits_{C, m_1, \dots, m_K} \sum_{k = 1}^K n_k \sum_{C(i) = k} ||x_i - m_k||^2\]</span></p></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+<p>אז Kmeans קודם כל מצמצם אותנו למרחק אוקלידי בלבד.</p>
+<p>תחת מרחק אוקלידי, מסתבר שאפשר לרשום את הקריטריון שלנו בצורה פשוטה יותר: בכל קלאסטר סכום המרחקים מהתצפיות אל ממוצע הקלאסטר, להכפיל במספר התצפיות בקלאסטר n_k, ולסכום על כל הקלאסטרים.</p>
+<p>אבל אנחנו יודעים כבר שאם נסתכל על קריטריון דומה, ונשאל מה הנקודה שמביאים למינימום את סכום המרחקים המרובעים ממנה – נגיע לממוצע המדגם.</p>
+<p>לכן נהוג לרשום את הקריטריון של Kmeans בצורה כוללת יותר: למצוא את החלוקה ואת הנקודות של קלאסטרים שיביאו למינימום את סכום המרחקים המרובעים בתוך כל קלאסטר, על פני כל הקלאסטרים. צורת הרישום הזאת מסייעת לנסח את האלגוריתם של Kmeans.</p>
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="k-means">K-means</h3>
+<ol start="0" type="1">
+<li><p>Start with initial guess for <span class="math inline">\(m_1, \dots, m_K\)</span></p></li>
+<li><p>Assign each observation to the closest cluster mean. That is: <span class="math display">\[C(i) = \arg\min\limits_{k = 1,\dots, K} ||x_i - m_k||^2\]</span></p></li>
+<li><p>Update means <span class="math inline">\(m_1, \dots, m_K\)</span>. That is the centroids: <span class="math display">\[m_k = \frac{\sum_{C(i) = k}x_i}{n_k}\]</span></p></li>
+<li><p>Repeat 1 and 2 until <span class="math inline">\(C(i)\)</span> doesn’t change</p></li>
+</ol>
+<div>
+<ul>
+<li class="fragment"><p>Convergence is guaranteed (steps 1 and 2 can only reduce <span class="math inline">\(W(C)\)</span>)</p></li>
+<li class="fragment"><p>Global optimum is NOT guaranteed</p></li>
+<li class="fragment"><p>Can try many different initial starting points</p></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+<p>אז מהו האלגוריתם של Kmeans?</p>
+<p>K נתון, ואנחנו מתחילים עם איזשהו ניחוש התחלתי עבור הממוצעים m1 עד mk.</p>
+<p>כעת החלוקה C(i) של כל תצפית תהיה לפי הקלאסטר שהממוצע שלו הוא הקרוב אליה ביותר.</p>
+<p>לאחר החלוקה נעדכן את הממוצעים, בכל קלאסטר ניקח את הממוצע של התצפיות ששייכות אליו.</p>
+<p>ונחזור על צעדים 1 ו2 עד שהחלוקה לא משתנה או עד איזשהו קריטריון התכנסות, למשל אפשר לחשב את הלוס שלנו W(C) ולראות שהוא לא משתנה יותר מדי.</p>
+<p>מה הבעיה הראשונה באלגוריתם? אמנם התכנסות מובטחת, הצעדים שלנו יכולים רק להפחית את W(C), או לא לשנות אותו. אבל אין הבטחה למינימום גלובלי ואנחנו מאוד תלויים בבחירה הראשונית של הממוצעים שיכולה להיות אקראית.</p>
+<p>נהוג לכן בהרבה מימושים לבצע מספר פעמים Kmeans כל פעם מנקודת התחלה אקראית אחרת ולבחור את הפתרון עם הלוס המינימלי.</p>
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="k-means-demo-initial-guess">K-means Demo: Initial Guess</h3>
+<div id="e2bc523a" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c13_unsupervised_files/figure-revealjs/cell-3-output-1.png" width="376" height="411"></p>
+</figure>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+<p>בדוגמא שלפנינו ברור שיש 4 קלאסטרים, ואנחנו מתחילים עם 4 נקודות אקראיות כממוצעים, מאוד לא מתאימות לחלוקה.</p>
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="k-means-demo-iteration-1">K-means Demo: Iteration 1</h3>
+<div id="043b1aa9" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c13_unsupervised_files/figure-revealjs/cell-4-output-1.png" width="781" height="411"></p>
+</figure>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+<p>בצעד 1 אנחנו מחלקים כל תצפית לקלאסטר עם הממוצע הכי קרוב אליה במרחק אוקלידי, כאן זה אומר לצבוע אותן ב4 צבעים שונים.</p>
+<p>בצעד 2 אנחנו מעדכנים את הממוצעים, וכבר ניתן לראות איך כל ממוצע מייצג כבר איזור הרבה יותר צפוף באופן טבעי.</p>
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="k-means-demo-iteration-2">K-means Demo: Iteration 2</h3>
+<div id="5a7aeab7" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c13_unsupervised_files/figure-revealjs/cell-5-output-1.png" width="781" height="411"></p>
+</figure>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+<p>ושוב אנחנו מחלקים את התצפיות לפי הקרבה שלהן לממוצע החדש.</p>
+<p>ושוב אנחנו מעדכנים את הממוצעים. כאן הם כבר זזים ממש מעט.</p>
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="k-means-demo-iteration-3">K-means Demo: Iteration 3</h3>
+<div id="ad822a75" class="cell" data-execution_count="5">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c13_unsupervised_files/figure-revealjs/cell-6-output-1.png" width="781" height="411"></p>
+</figure>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+<p>באיטרציה השלישית כבר בקושי אפשר לראות הבדל, הקלאסטרים כבר ברורים מאוד.</p>
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="some-issues-with-k-means">Some issues with K-means</h3>
+<div>
+<ul>
+<li class="fragment"><p>Need to always specify <span class="math inline">\(K\)</span>!</p></li>
+<li class="fragment"><p>How to choose <span class="math inline">\(K\)</span>?</p></li>
+<li class="fragment"><p>Prefers separable spherical clusters (Gaussian)</p>
+<ul>
+<li class="fragment">Bad with unequal densities, unequal cluster sizes</li>
+</ul></li>
+<li class="fragment"><p>No concept of outliers</p></li>
+<li class="fragment"><p>Limited to Euclidean distance</p></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="dimensionality-reduction" class="slide level2 title-slide center">
+<h2>Dimensionality Reduction</h2>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="dimensionality-reduction-1">Dimensionality Reduction</h3>
+<div>
+<ul>
+<li class="fragment"><p>We have <span class="math inline">\(n\)</span> observations in <span class="math inline">\(p\)</span> dimensions: <span class="math inline">\(X_{n \times p}\)</span></p></li>
+<li class="fragment"><p>Why would we want to reduce the data dimensionality to <span class="math inline">\(q \ll p\)</span> dimensions?</p>
+<ul>
+<li class="fragment">EDA:
+<ul>
+<li class="fragment">Identify important dimensions which summarize the data well</li>
+<li class="fragment">Visualize the data (2-d or 3-d visualizations)</li>
+</ul></li>
+<li class="fragment">Clustering after dimensionality reduction</li>
+<li class="fragment">Speed-up/Improve/Enable machine-learning algorithms (PCR)</li>
+<li class="fragment">Generative modeling - see later</li>
+</ul></li>
+<li class="fragment"><p>Naive way: select <span class="math inline">\(q\)</span> out of the original <span class="math inline">\(p\)</span> dimensions (best seubset)</p></li>
+<li class="fragment"><p>Less Naive way: Look for interesting “projections”:</p>
+<ul>
+<li class="fragment">linear/non-linear combinations of features</li>
+</ul></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="a-non-standard-motivation-i">A non-standard motivation (I)</h3>
+<div>
+<ul>
+<li class="fragment">We are given:
+<ul>
+<li class="fragment">An <span style="color:red;">encoder</span> <span class="math inline">\(g(X) = Xw\)</span>, where <span class="math inline">\(w \in \mathbb{R}^{p\times 1}\)</span> is a vector with <span class="math inline">\(\|w\|=1\)</span></li>
+<li class="fragment">A <span style="color:red;">decoder</span> <span class="math inline">\(f(u) = uw^T\)</span>, where <span class="math inline">\(u \in \mathbb{R}^{n\times 1}\)</span></li>
+</ul></li>
+<li class="fragment">The reconstructed matrix is therefore: <span class="math inline">\(\hat{X} = f(g(X)) = (Xw)w^T = Xww^T\)</span></li>
+<li class="fragment">Goal: find <span class="math inline">\(w\)</span> that minimizes the <span style="color:red;">reconstruction error</span> <span class="math inline">\(\|X - \hat{X}\|^2_F\)</span>
+<ul>
+<li class="fragment"><span class="math inline">\(\|A\|^2_F\)</span> is the squared Frobenius norm, the sum of squared elements of any real matrix <span class="math inline">\(A\)</span></li>
+<li class="fragment">Also: <span class="math inline">\(\|A\|^2_F = \text{Tr}(AA^T)\)</span></li>
+<li class="fragment"><span class="math inline">\(w = \arg\min_{w: \|w\|=1}\text{Tr}((X - Xww^T)(X - Xww^T)^T)\)</span></li>
+</ul></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="a-non-standard-motivation-ii">A non-standard motivation (II)</h3>
+<p><span class="math display">\[w = \arg\min_{w: \|w\|=1}\text{Tr}((X - Xww^T)(X - Xww^T)^T)\]</span></p>
+<div class="fragment">
+<p><span class="math display">\[\text{Tr}((X - Xww^T)(X - Xww^T)^T)\]</span></p>
+</div>
+<div class="fragment">
+<p><span class="math display">\[= \text{Tr}((X - Xww^T)(X^T - ww^TX^T))\]</span></p>
+</div>
+<div class="fragment">
+<p><span class="math display">\[= \text{Tr}(XX^T - Xww^TX^T - Xww^TX^T + Xww^Tww^TX^T)\]</span></p>
+</div>
+<div class="fragment">
+<p><span class="math display">\[= \text{Tr}(XX^T - Xww^TX^T - Xww^TX^T + Xww^TX^T)\]</span></p>
+</div>
+<div class="fragment">
+<p><span class="math display">\[= \text{Tr}(XX^T) - \text{Tr}(Xww^TX^T)\]</span></p>
+</div>
+<div class="fragment">
+<center>
+But: <span class="math inline">\(\text{Tr}(Xww^TX^T) = \text{Tr}(w^TX^TXw) = w^TX^TXw\)</span>
+</center>
+</div>
+<div class="fragment">
+<p><span class="math display">\[\Rightarrow w = \arg\max_{w: \|w\|=1}w^TX^TXw\]</span></p>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="pca-the-standard-motivation">PCA: the “standard” motivation</h3>
+<div>
+<ul>
+<li class="fragment">Goal: Find the <span class="math inline">\(q\)</span> direction(s) with the most dispersion</li>
+<li class="fragment">First direction: <span class="math inline">\(w_1 = \arg\max_{w_1:\|w_1\| =1} \|Xw_1\|^2 = \arg\max_{w_1:\|w_1\| =1}w_1^TX^TXw_1\)</span></li>
+<li class="fragment">Second direction: <span class="math inline">\(w_2 = \arg\max_{\|w_2\| =1, w_2^Tw_1 = 0}w_2^TX^TXw_2\)</span></li>
+<li class="fragment">Can keep going looking for new directions</li>
+<li class="fragment">Assuming <span class="math inline">\(p &lt; n\)</span>, up to <span class="math inline">\(p\)</span> principal directions can be found this way, stack them into a <span class="math inline">\(p \times q\)</span> “loadings” matrix <span class="math inline">\(W\)</span></li>
+<li class="fragment">Data with reduced dimensionality: <span class="math inline">\(T_{n \times q} = X_{n \times p}W_{p \times q}\)</span> taking only the first <span class="math inline">\(q\)</span> principal directions</li>
+</ul>
+</div>
+<div class="fragment">
+<p>PCA solution also minimizes the reconstruction error of a linear encoder/decoder system!</p>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="eigendecomposition-reminder">Eigendecomposition: Reminder</h3>
+<div class="fragment">
+<p>A non-zero vector <span class="math inline">\(\mathbf{v}\)</span> is an eigenvector of a square <span class="math inline">\(p \times p\)</span> matrix <span class="math inline">\(\mathbf{A}\)</span> if it satisfies: <span class="math display">\[\mathbf{A}\mathbf{v} = \lambda\mathbf{v},\]</span> for some scalar <span class="math inline">\(\lambda\)</span>.</p>
+</div>
+<div>
+<ul>
+<li class="fragment"><p>Then <span class="math inline">\(\lambda\)</span> is called the eigenvalue corresponding to <span class="math inline">\(\mathbf{v}\)</span>.</p></li>
+<li class="fragment"><p>Geometrically speaking, the eigenvectors of <span class="math inline">\(\mathbf{A}\)</span> are the vectors that <span class="math inline">\(\mathbf{A}\)</span> merely elongates or shrinks, and the amount that they elongate/shrink by is the eigenvalue</p></li>
+<li class="fragment"><p>An eigendecomposition of <span class="math inline">\(\mathbf{A}\)</span> is then: <span class="math inline">\(\mathbf{A} = \mathbf{V}\mathbf{\Lambda}\mathbf{V}^{-1}\)</span></p></li>
+<li class="fragment"><p>where <span class="math inline">\(\mathbf{V}\)</span> is the square <span class="math inline">\(p \times p\)</span> matrix whose <span class="math inline">\(j\)</span>-th column is the eigenvector <span class="math inline">\(\mathbf{v}_j\)</span> of <span class="math inline">\(\mathbf{A}\)</span>, and <span class="math inline">\(\mathbf{\Lambda}\)</span> is the diagonal matrix whose diagonal elements are the corresponding eigenvalues, <span class="math inline">\(\mathbf{\Lambda}_{jj} = \lambda_j\)</span></p></li>
+<li class="fragment"><p>If <span class="math inline">\(\mathbf{A}\)</span> is real and symmetric, <span class="math inline">\(\mathbf{V}\)</span> is orthogonal, <span class="math inline">\(\mathbf{A} = \mathbf{V}\mathbf{\Lambda}\mathbf{V}^T\)</span> and <span class="math inline">\(\lambda_j\)</span> are real scalars</p></li>
+<li class="fragment"><p>If <span class="math inline">\(\mathbf{A}\)</span> is also positive semidefinite (PSD), then <span class="math inline">\(\lambda_j \ge 0\)</span></p></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+<p>ניזכר בבעיית הערכים העצמיים בקצרה. נרצה למצוא וקטור עצמי, eigenvector, למטריצה A ריבועית, מסדר p על p.</p>
+<p>כאשר המטריצה A כופלת וקטור כזה, הדבר שקול בעצם פשוט להכפלה של הוקטור הזה באיזשהו סקלר למדא. ולמדא הוא הערך העצמי.</p>
+<p>מבחינה גיאומטרית, נראה שכל מה שעשתה המטריצה A לוקטור v, זה פשוט לכווץ או להאריך אותו. ומסתבר שלמציאת וקטור כזה יש שימושים רבים.</p>
+<p>פירוק ערכים עצמיים של A הוא מכפלה של המטריצות V, למדא, V בהופכית.</p>
+<p>כשV היא מטריצה ריבועית p על p, שהעמודות שלה הם הוקטורים העצמיים, ולמדא היא מטריצה אלכסונית שעל האלכסון של נמצאים הלמדות, הערכים העצמיים.</p>
+<p>אם A היא מטריצה ממשית וסימטרית כמו שתיכף יהיה במקרה שלנו, V היא גם אורתוגונלית, וההופכי שלה הוא הטרנספוז של אז אפשר לרשום את הפירוק כך. יתרה מזאת, הערכים העצמיים שלה הם ממשיים.</p>
+<p>ואם המטריצה היא חיובית, פוזיטיב-סמידפיניט, כמו שתיכף יהיה במקרה שלנו - הערכים העצמיים הם אפילו אי-שליליים.</p>
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="calculating-principal-components">Calculating Principal Components</h3>
+<div>
+<ul>
+<li class="fragment"><p>Look again at the PCA problem: <span class="math inline">\(w_1 = \arg\max_{w_1:\|w_1\| =1} \|Xw_1\|^2\)</span></p></li>
+<li class="fragment"><p>Using Lagrange multiplier <span class="math inline">\(\lambda_1\)</span>: <span class="math inline">\(\max_{w_1}{w_1^TX^TXw_1} + \lambda_1(1 - w_1^Tw_1)\)</span></p></li>
+<li class="fragment"><p>Take derivative with respect to <span class="math inline">\(w_1\)</span>, compare to 0: <span class="math display">\[2X^TXw_1 - 2\lambda_1w_1 = 0 \\
+X^TXw_1 = \lambda_1w_1\]</span></p></li>
+<li class="fragment"><p>So <span class="math inline">\(w_1\)</span> must be an eigenvector of the square, real, PSD <span class="math inline">\(X^TX\)</span> matrix, and <span class="math inline">\(\lambda_1\)</span> its eigenvalue!</p></li>
+<li class="fragment"><p>Which eigenvalue and eigenvector?</p></li>
+<li class="fragment"><p>So we’re looking for the set of <span class="math inline">\(W_{p \times p}\)</span> eigenvectors of <span class="math inline">\(X^TX\)</span> with their corresponding eigenvalues <span class="math inline">\(\lambda_1, \dots, \lambda_p\)</span> ordered from largest to smallest</p></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+<p>אז מה הקשר לבעיה שלנו? נכתוב אותה שוב.</p>
+<p>אפשר לכתוב אותה כבעית אופטימיזציה, אם נשתמש בכופלי לגראנז’. אנחנו רוצים למקסם את הכמות v’X’Xv, עם אילוץ על v’v.</p>
+<p>אם נגזור את הכמות הזאת לפי הרכיבים בv, נקבל את הביטוי שלפנינו, נשווה אותו לאפס ונגיע למסקנה שאנחנו מחפשים וקטור v שיקיים את המשוואה הזאת. זאת בדיוק משוואה שמגדירה וקטור וערך עצמי של המטריצה X’X, מטריצת הקווריאנס של מדגם הנתונים!</p>
+<p>לכן v1 חייב להיות וקטור עצמי של מטריצת הקווריאנס, ולמדא1 הערך העצמי שלה. ומאחר שכל מטריצת קווריאנס היא ממשית, סימטרית וחיובית, למדא גם חייב להיות אי-שלילי.</p>
+<p>איזה וקטור עצמי וערך עצמי ניקח? אם נכפול את הביטוי כאן ב v טרנספוז מצד שמאל נראה שהפיזור עצמו שווה לערך העצמי, ואנחנו רוצים פיזור כמה שיותר גדול, לכן ניקח את הוקטור העצמי שמתאים לערך העצמי הגדול ביותר. זכרו שהם אי-שליליים!</p>
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<div class="quarto-auto-generated-content">
+<p><img src="../Intro2SL_logo_white.jpg" class="slide-logo"></p>
+<div class="footer footer-default">
+<p><a href="https://intro2statlearn.github.io/mooc/" target="_blank">Intro to Statistical Learning</a></p>
+</div>
+</div>
+</section>
+    </div>
+  </div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="../libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../libs/revealjs/plugin/search/search.js"></script>
+  <script src="../libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'smaller': true,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+      const toggleBodyColorMode = (bsSheetEl) => {
+        const mode = bsSheetEl.getAttribute("data-mode");
+        const bodyEl = window.document.querySelector("body");
+        if (mode === "dark") {
+          bodyEl.classList.add("quarto-dark");
+          bodyEl.classList.remove("quarto-light");
+        } else {
+          bodyEl.classList.add("quarto-light");
+          bodyEl.classList.remove("quarto-dark");
+        }
+      }
+      const toggleBodyColorPrimary = () => {
+        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+        if (bsSheetEl) {
+          toggleBodyColorMode(bsSheetEl);
+        }
+      }
+      toggleBodyColorPrimary();  
+      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+      tabsets.forEach(function(tabset) {
+        const tabby = new Tabby('#' + tabset.id);
+      });
+      const isCodeAnnotation = (el) => {
+        for (const clz of el.classList) {
+          if (clz.startsWith('code-annotation-')) {                     
+            return true;
+          }
+        }
+        return false;
+      }
+      const clipboard = new window.ClipboardJS('.code-copy-button', {
+        text: function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+      });
+      clipboard.on('success', function(e) {
+        // button target
+        const button = e.trigger;
+        // don't keep focus
+        button.blur();
+        // flash "checked"
+        button.classList.add('code-copy-button-checked');
+        var currentTitle = button.getAttribute("title");
+        button.setAttribute("title", "Copied!");
+        let tooltip;
+        if (window.bootstrap) {
+          button.setAttribute("data-bs-toggle", "tooltip");
+          button.setAttribute("data-bs-placement", "left");
+          button.setAttribute("data-bs-title", "Copied!");
+          tooltip = new bootstrap.Tooltip(button, 
+            { trigger: "manual", 
+              customClass: "code-copy-button-tooltip",
+              offset: [0, -8]});
+          tooltip.show();    
+        }
+        setTimeout(function() {
+          if (tooltip) {
+            tooltip.hide();
+            button.removeAttribute("data-bs-title");
+            button.removeAttribute("data-bs-toggle");
+            button.removeAttribute("data-bs-placement");
+          }
+          button.setAttribute("title", currentTitle);
+          button.classList.remove('code-copy-button-checked');
+        }, 1000);
+        // clear code selection
+        e.clearSelection();
+      });
+        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+        var mailtoRegex = new RegExp(/^mailto:/);
+          var filterRegex = new RegExp('/' + window.location.host + '/');
+        var isInternal = (href) => {
+            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+        }
+        // Inspect non-navigation links and adorn them if external
+     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+        for (var i=0; i<links.length; i++) {
+          const link = links[i];
+          if (!isInternal(link.href)) {
+            // undo the damage that might have been done by quarto-nav.js in the case of
+            // links that we want to consider external
+            if (link.dataset.originalHref !== undefined) {
+              link.href = link.dataset.originalHref;
+            }
+          }
+        }
+      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+        const config = {
+          allowHTML: true,
+          maxWidth: 500,
+          delay: 100,
+          arrow: false,
+          appendTo: function(el) {
+              return el.closest('section.slide') || el.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start',
+        };
+        if (contentFn) {
+          config.content = contentFn;
+        }
+        if (onTriggerFn) {
+          config.onTrigger = onTriggerFn;
+        }
+        if (onUntriggerFn) {
+          config.onUntrigger = onUntriggerFn;
+        }
+          config['offset'] = [0,0];
+          config['maxWidth'] = 700;
+        window.tippy(el, config); 
+      }
+      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+      for (var i=0; i<noterefs.length; i++) {
+        const ref = noterefs[i];
+        tippyHover(ref, function() {
+          // use id or data attribute instead here
+          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+          try { href = new URL(href).hash; } catch {}
+          const id = href.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note) {
+            return note.innerHTML;
+          } else {
+            return "";
+          }
+        });
+      }
+      const findCites = (el) => {
+        const parentEl = el.parentElement;
+        if (parentEl) {
+          const cites = parentEl.dataset.cites;
+          if (cites) {
+            return {
+              el,
+              cites: cites.split(' ')
+            };
+          } else {
+            return findCites(el.parentElement)
+          }
+        } else {
+          return undefined;
+        }
+      };
+      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+      for (var i=0; i<bibliorefs.length; i++) {
+        const ref = bibliorefs[i];
+        const citeInfo = findCites(ref);
+        if (citeInfo) {
+          tippyHover(citeInfo.el, function() {
+            var popup = window.document.createElement('div');
+            citeInfo.cites.forEach(function(cite) {
+              var citeDiv = window.document.createElement('div');
+              citeDiv.classList.add('hanging-indent');
+              citeDiv.classList.add('csl-entry');
+              var biblioDiv = window.document.getElementById('ref-' + cite);
+              if (biblioDiv) {
+                citeDiv.innerHTML = biblioDiv.innerHTML;
+              }
+              popup.appendChild(citeDiv);
+            });
+            return popup.innerHTML;
+          });
+        }
+      }
+    });
+    </script>
+    
+
+</body></html>
