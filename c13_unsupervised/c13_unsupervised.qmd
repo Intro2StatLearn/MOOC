@@ -473,7 +473,7 @@ _ = axes[1].text(0.95, 0.95, "Update", transform=axes[1].transAxes, ha='right', 
 
 ---
 
-## Dimensionality Reduction {.title-slide}
+## PCA Dimensionality Reduction {.title-slide}
 
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
@@ -575,7 +575,7 @@ $$\Rightarrow w = \arg\max_{w: \|w\|=1}w^TX^TXw$$
 :::
 
 ::: {.fragment}
-PCA solution also minimizes the reconstruction error of a linear encoder/decoder system!
+But PCA solution also minimizes the reconstruction error of a linear encoder/decoder system!
 :::
 
 ::: {.notes}
@@ -642,7 +642,7 @@ X^TXw_1 = \lambda_1w_1$$
 
 - Which eigenvalue and eigenvector?
 
-- So we're looking for the set of $W_{p \times p}$ eigenvectors of $X^TX$ with their corresponding eigenvalues $\lambda_1, \dots, \lambda_p$ ordered from largest to smallest
+- So we're looking for the set of $W_{p \times q}$ eigenvectors $\mathbf{V}_q$ of $X^TX$ with their corresponding eigenvalues $\lambda_1, \dots, \lambda_q$ ordered from largest to smallest
 :::
 
 ::: {.notes}
@@ -660,3 +660,273 @@ X^TXw_1 = \lambda_1w_1$$
 :::
 
 ---
+
+## t-SNE Dimensionality Reduction {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### PCA Limitations
+
+- Linear mapping (encoder/decoder)
+- Squared reconstruction error: "punishes" more large differences in $\|X - \hat{X}\|^2_F$
+- Focus on preserving **global** structure
+- No probabilistic meaning?
+
+::: {.fragment}
+Enter **t-Distributed Stochastic Neighbor Embedding** (t-SNE):
+
+- Non-linear mapping
+- Focus on preserving **local** structure through pairwise similarites:
+  - close observations in high dimension should likely be close in low dimension
+  - distant observations in high dimension should likely be distant in low dimension
+- Specifically designed for visualization (2-D, 3-D)
+- Probabilistic meaning
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### t-SNE: How to define close/distant? (I)
+
+::: {.incremental}
+- In high dimension ($p$) with a Gaussian kernel:
+  - Let $\mathbf{x}_1, \dots, \mathbf{x}_n$ be the data rows (each $\mathbf{x}_i \in \mathbb{R}^p$)
+  - $p_{j|i} = \frac{\exp(-\|\mathbf{x}_i - \mathbf{x}_j\|^2 / 2\sigma^2_i)}{\sum_{k\neq i}\exp(-\|\mathbf{x}_i - \mathbf{x}_k\|^2 / 2\sigma^2_i)}$
+  - Set $p_{i|i} = 0$
+  - Notice that $p_{j|i} \in [0, 1]$ and $\sum_j p_{j|i} = 1$
+  - "Symmetrize": $p_{ij} = \frac{p_{j|i} + p_{i|j}}{2n}$ (makes sense if $p_i = \frac{1}{n} \space \forall i$)
+  - This $n \times n$ table is computed once
+  - How to get $\sigma_i$ not shown here, but:
+    - for observation $i$ in a dense area, want to be specific $\Rightarrow$ need small $\sigma_i$
+    - for observation $i$ in a sparse area, need large $\sigma_i$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### t-SNE: How to define close/distant? (II)
+
+::: {.incremental}
+- In low dimension ($q = 2, 3$) with a $t(1)$-distribution kernel:
+  - Define $\mathbf{y}_1, \dots, \mathbf{y}_n$ the low-dimensional mappings (each $\mathbf{y} \in \mathbb{R}^q$)
+  - If $Y \sim t(1)$, then: $f(y) = \frac{1}{\pi(1+y^2)}$ (also called Cauchy)
+  - Here, no need to go through conditional probs
+  - $q_{ij} = \frac{(1 + \|\mathbf{y}_i - \mathbf{y}_j\|^2)^{-1}}{\sum_{k}\sum_{k\neq l}(1 + \|\mathbf{y}_k - \mathbf{y}_l\|^2)^{-1}}$, and set $q_{ii} = 0 \space \forall i$
+  - Why $t(1)$? See the "crowding problem".
+:::
+
+::: {.fragment}
+
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import norm, t
+
+# Define the x range for plotting
+x = np.linspace(-5, 5, 1000)
+
+# Get the probability density function (PDF) values for N(0, 1) and t-distribution with 1 degree of freedom
+normal_pdf = norm.pdf(x, 0, 1)
+t_pdf = t.pdf(x, 1)
+
+# Plot both distributions
+plt.figure(figsize=(4, 3))
+plt.plot(x, normal_pdf, label="N(0, 1)", color='black', linewidth=2)
+plt.plot(x, t_pdf, label="t(1)", color='gray', linestyle='--', linewidth=2)
+
+# Customize the plot
+plt.ylabel("f(y)")
+plt.legend()
+plt.show()
+```
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### t-SNE: How to compare $p$ and $q$ distributions?
+
+::: {.incremental}
+- The Kullback-Leibler (KL) divergence is a distance metric from distribution $p$ to $q$:
+$$KL(p||q) = \sum_{i}\sum_{j}p_{ij} \log\frac{p_{ij}}{q_{ij}}$$
+:::
+
+::: {.fragment}
+```{python}
+#| echo: false
+#| fig-align: center
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Define two simple discrete distributions P and Q
+P = np.array([0.1, 0.2, 0.3, 0.25, 0.15])
+Q = np.array([0.2, 0.1, 0.25, 0.25, 0.2])
+
+# Define labels for the x-axis
+x = np.arange(len(P))
+
+# Plot the histograms
+plt.figure(figsize=(3.5, 2.5))
+plt.bar(x - 0.2, P, width=0.4, label="P", color='blue')
+plt.bar(x + 0.2, Q, width=0.4, label="Q", color='red')
+
+# Customize the plot
+plt.ylabel("Probability P/Q")
+plt.xticks(x, ['A', 'B', 'C', 'D', 'E'])  # Custom labels for categories
+plt.legend()
+plt.grid(True, axis='y')
+plt.show()
+```
+:::
+
+::: {.fragment}
+- At each iteration of t-SNE we walk a step down the gradient of $KL(p||q)$ with respect to every $\mathbf{y}_i$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### t-SNE: at high level
+
+1. Prepare $p_{ij}$ table with Gaussian kernel and $\sigma_1, \dots, \sigma_n$
+2. Sample initial low-dimensional mappings $Y^{(0)} = \mathbf{y}^{(0)}_1, \dots, \mathbf{y}^{(0)}_n$
+3. For $t = 1$ to $T$ do:
+  
+    i. Compute $q_{ij}$ with $t(1)$ kernel
+  
+    ii. Gradient step: $\mathbf{y}_i^{(t)} = \mathbf{y}_i^{(t - 1)} - \alpha \cdot \frac{\partial KL}{\partial \mathbf{y}_i}$
+
+::: {.incremental}
+- $\frac{\partial KL}{\partial \mathbf{y}_i} = 4 \sum_j (p_{ij} - q_{ij})(\mathbf{y}_i - \mathbf{y}_j)(1+ \|\mathbf{y}_i - \mathbf{y}_j\|^2)^{-1}$
+- Modifications exist for very large datasets, e.g. consider only local neighborhood for $i$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Example: MNIST dataset
+
+![](images/mnist_examples.png){fig-align="center" height=400}
+
+7000 X 10 hand-written digits ($n = 70000$) in 28 X 28 pixels ($p=784$)
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### PCA vs. t-SNE
+
+![](images/pca_vs_tsne_mnist.png)
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+## PCA as a Generative Model {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Probabilistic PCA (I)
+
+- It is not true that there is nothing "probabilistic" about PCA!
+
+::: {.incremental}
+- Suppose every data row $\mathbf{x}_i$ was generated by:
+$$\mathbf{x}_i = W\mathbf{u}_i + \mathbf{\mu} + \mathbf{\varepsilon}_i$$
+  - $\mathbf{u}_i \in \mathbb{R}^q$ is a latent vector from $\mathcal{N}(\mathbf{0}, I_q)$
+  - $W$ is a $p \times q$ loadings matrix
+  - $\mathbf{\mu} \in \mathbb{R}^p$ is a mean vector for $p$ features
+  - $\mathbf{\varepsilon}_i \in \mathbb{R}^p$ is random noise from $\mathcal{N}(\mathbf{0}, \sigma^2I_p)$
+:::
+::: {.fragment}
+$\Rightarrow \mathbf{x}_i \sim \mathcal{N}(\mathbf{\mu}, \Sigma)$, where: $\Sigma = WW^T + \sigma^2I_p$
+:::
+::: {.fragment}
+It's likelihood: $f(\mathbf{x}_i) = \frac{1}{(2\pi)^{p/2}|\Sigma|^{1/2}}\exp\left(-\frac{1}{2}(\mathbf{x}_i - \mu)^T\Sigma^{-1}(\mathbf{x}_i-\mu)\right)$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### Probabilistic PCA (II)
+
+::: {.incremental}
+- After some algebra, the log-likelihood of our entire data $X = \mathbf{x}_1, \dots, \mathbf{x}_n$:
+$$\ell(\mathbf{\mu}, W, \sigma^2|X) = -\frac{n}{2}\left[p\ln(2\pi) + \ln(\Sigma) + \text{Tr}(\Sigma^{-1}S)\right]$$
+  - where $S = \frac{1}{n}\sum_i (\mathbf{x}_i - \mu)(\mathbf{x}_i - \mu)^T$ is the covariance matrix of $X$
+- The maximum likelihood estimate (MLE) for $W$:
+$$W_{MLE} = \mathbf{V}_q(\mathbf{\Lambda}_q - \sigma^2I_q)^{1/2}\mathbf{R}$$
+  - where the columns of $\mathbf{V}_q$ are eigenvectors of $S$, with corresponding $q$ largest eigenvalues in the diagonal matrix $\mathbf{\Lambda}_q$, and $\mathbf{R}$ is a $q\times q$ arbitrary rotation matrix
+  - In the limit $\sigma^2 \to 0$ this solution is equivalent to PCA!
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::
+
+---
+
+### The many faces of PCA
+
+Why is this so important?
+
+::: {.incremental}
+- PCA as an eigenvalue problem to maximize dispersion
+- PCA as an SVD problem
+- PCA as an encoder/decoder problem to minimize reconstruction error
+- PCA as a generative model to maximize likelihood
+:::
+
+::: {.incremental}
+- Unsupervised learning can be used to generate new data: ![](images/eigenface.png){fig-align="center" height=200}
+- PCA is the ancestor of many generative models
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+:::
+:::

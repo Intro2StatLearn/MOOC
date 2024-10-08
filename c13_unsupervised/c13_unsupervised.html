@@ -631,7 +631,7 @@
 <section class="slide level2">
 
 <h3 id="k-means-demo-initial-guess">K-means Demo: Initial Guess</h3>
-<div id="e2bc523a" class="cell" data-execution_count="2">
+<div id="5ecc6396" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -659,7 +659,7 @@
 <section class="slide level2">
 
 <h3 id="k-means-demo-iteration-1">K-means Demo: Iteration 1</h3>
-<div id="043b1aa9" class="cell" data-execution_count="3">
+<div id="a75ef62f" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -688,7 +688,7 @@
 <section class="slide level2">
 
 <h3 id="k-means-demo-iteration-2">K-means Demo: Iteration 2</h3>
-<div id="5a7aeab7" class="cell" data-execution_count="4">
+<div id="f02c7c4e" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -717,7 +717,7 @@
 <section class="slide level2">
 
 <h3 id="k-means-demo-iteration-3">K-means Demo: Iteration 3</h3>
-<div id="ad822a75" class="cell" data-execution_count="5">
+<div id="0b879ac9" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -773,8 +773,8 @@
           display:block!important;
       }</style></aside>
 </section>
-<section id="dimensionality-reduction" class="slide level2 title-slide center">
-<h2>Dimensionality Reduction</h2>
+<section id="pca-dimensionality-reduction" class="slide level2 title-slide center">
+<h2>PCA Dimensionality Reduction</h2>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 
@@ -793,7 +793,7 @@
 </section>
 <section class="slide level2">
 
-<h3 id="dimensionality-reduction-1">Dimensionality Reduction</h3>
+<h3 id="dimensionality-reduction">Dimensionality Reduction</h3>
 <div>
 <ul>
 <li class="fragment"><p>We have <span class="math inline">\(n\)</span> observations in <span class="math inline">\(p\)</span> dimensions: <span class="math inline">\(X_{n \times p}\)</span></p></li>
@@ -923,7 +923,7 @@ But: <span class="math inline">\(\text{Tr}(Xww^TX^T) = \text{Tr}(w^TX^TXw) = w^T
 </ul>
 </div>
 <div class="fragment">
-<p>PCA solution also minimizes the reconstruction error of a linear encoder/decoder system!</p>
+<p>But PCA solution also minimizes the reconstruction error of a linear encoder/decoder system!</p>
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
@@ -990,7 +990,7 @@ But: <span class="math inline">\(\text{Tr}(Xww^TX^T) = \text{Tr}(w^TX^TXw) = w^T
 X^TXw_1 = \lambda_1w_1\]</span></p></li>
 <li class="fragment"><p>So <span class="math inline">\(w_1\)</span> must be an eigenvector of the square, real, PSD <span class="math inline">\(X^TX\)</span> matrix, and <span class="math inline">\(\lambda_1\)</span> its eigenvalue!</p></li>
 <li class="fragment"><p>Which eigenvalue and eigenvector?</p></li>
-<li class="fragment"><p>So we’re looking for the set of <span class="math inline">\(W_{p \times p}\)</span> eigenvectors of <span class="math inline">\(X^TX\)</span> with their corresponding eigenvalues <span class="math inline">\(\lambda_1, \dots, \lambda_p\)</span> ordered from largest to smallest</p></li>
+<li class="fragment"><p>So we’re looking for the set of <span class="math inline">\(W_{p \times q}\)</span> eigenvectors <span class="math inline">\(\mathbf{V}_q\)</span> of <span class="math inline">\(X^TX\)</span> with their corresponding eigenvalues <span class="math inline">\(\lambda_1, \dots, \lambda_q\)</span> ordered from largest to smallest</p></li>
 </ul>
 </div>
 <aside class="notes">
@@ -1013,8 +1013,382 @@ X^TXw_1 = \lambda_1w_1\]</span></p></li>
           display:block!important;
       }</style></aside>
 </section>
+<section id="t-sne-dimensionality-reduction" class="slide level2 title-slide center">
+<h2>t-SNE Dimensionality Reduction</h2>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
 <section class="slide level2">
 
+<h3 id="pca-limitations">PCA Limitations</h3>
+<ul>
+<li>Linear mapping (encoder/decoder)</li>
+<li>Squared reconstruction error: “punishes” more large differences in <span class="math inline">\(\|X - \hat{X}\|^2_F\)</span></li>
+<li>Focus on preserving <strong>global</strong> structure</li>
+<li>No probabilistic meaning?</li>
+</ul>
+<div class="fragment">
+<p>Enter <strong>t-Distributed Stochastic Neighbor Embedding</strong> (t-SNE):</p>
+<ul>
+<li>Non-linear mapping</li>
+<li>Focus on preserving <strong>local</strong> structure through pairwise similarites:
+<ul>
+<li>close observations in high dimension should likely be close in low dimension</li>
+<li>distant observations in high dimension should likely be distant in low dimension</li>
+</ul></li>
+<li>Specifically designed for visualization (2-D, 3-D)</li>
+<li>Probabilistic meaning</li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="t-sne-how-to-define-closedistant-i">t-SNE: How to define close/distant? (I)</h3>
+<div>
+<ul>
+<li class="fragment">In high dimension (<span class="math inline">\(p\)</span>) with a Gaussian kernel:
+<ul>
+<li class="fragment">Let <span class="math inline">\(\mathbf{x}_1, \dots, \mathbf{x}_n\)</span> be the data rows (each <span class="math inline">\(\mathbf{x}_i \in \mathbb{R}^p\)</span>)</li>
+<li class="fragment"><span class="math inline">\(p_{j|i} = \frac{\exp(-\|\mathbf{x}_i - \mathbf{x}_j\|^2 / 2\sigma^2_i)}{\sum_{k\neq i}\exp(-\|\mathbf{x}_i - \mathbf{x}_k\|^2 / 2\sigma^2_i)}\)</span></li>
+<li class="fragment">Set <span class="math inline">\(p_{i|i} = 0\)</span></li>
+<li class="fragment">Notice that <span class="math inline">\(p_{j|i} \in [0, 1]\)</span> and <span class="math inline">\(\sum_j p_{j|i} = 1\)</span></li>
+<li class="fragment">“Symmetrize”: <span class="math inline">\(p_{ij} = \frac{p_{j|i} + p_{i|j}}{2n}\)</span> (makes sense if <span class="math inline">\(p_i = \frac{1}{n} \space \forall i\)</span>)</li>
+<li class="fragment">This <span class="math inline">\(n \times n\)</span> table is computed once</li>
+<li class="fragment">How to get <span class="math inline">\(\sigma_i\)</span> not shown here, but:
+<ul>
+<li class="fragment">for observation <span class="math inline">\(i\)</span> in a dense area, want to be specific <span class="math inline">\(\Rightarrow\)</span> need small <span class="math inline">\(\sigma_i\)</span></li>
+<li class="fragment">for observation <span class="math inline">\(i\)</span> in a sparse area, need large <span class="math inline">\(\sigma_i\)</span></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="t-sne-how-to-define-closedistant-ii">t-SNE: How to define close/distant? (II)</h3>
+<div>
+<ul>
+<li class="fragment">In low dimension (<span class="math inline">\(q = 2, 3\)</span>) with a <span class="math inline">\(t(1)\)</span>-distribution kernel:
+<ul>
+<li class="fragment">Define <span class="math inline">\(\mathbf{y}_1, \dots, \mathbf{y}_n\)</span> the low-dimensional mappings (each <span class="math inline">\(\mathbf{y} \in \mathbb{R}^q\)</span>)</li>
+<li class="fragment">If <span class="math inline">\(Y \sim t(1)\)</span>, then: <span class="math inline">\(f(y) = \frac{1}{\pi(1+y^2)}\)</span> (also called Cauchy)</li>
+<li class="fragment">Here, no need to go through conditional probs</li>
+<li class="fragment"><span class="math inline">\(q_{ij} = \frac{(1 + \|\mathbf{y}_i - \mathbf{y}_j\|^2)^{-1}}{\sum_{k}\sum_{k\neq l}(1 + \|\mathbf{y}_k - \mathbf{y}_l\|^2)^{-1}}\)</span>, and set <span class="math inline">\(q_{ii} = 0 \space \forall i\)</span></li>
+<li class="fragment">Why <span class="math inline">\(t(1)\)</span>? See the “crowding problem”.</li>
+</ul></li>
+</ul>
+</div>
+<div class="fragment">
+<div id="8d7c4532" class="cell" data-execution_count="6">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c13_unsupervised_files/figure-revealjs/cell-7-output-1.png" width="366" height="263"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="t-sne-how-to-compare-p-and-q-distributions">t-SNE: How to compare <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span> distributions?</h3>
+<div>
+<ul>
+<li class="fragment">The Kullback-Leibler (KL) divergence is a distance metric from distribution <span class="math inline">\(p\)</span> to <span class="math inline">\(q\)</span>: <span class="math display">\[KL(p||q) = \sum_{i}\sum_{j}p_{ij} \log\frac{p_{ij}}{q_{ij}}\]</span></li>
+</ul>
+</div>
+<div class="fragment">
+<div id="2ba97dc1" class="cell" data-execution_count="7">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="c13_unsupervised_files/figure-revealjs/cell-8-output-1.png" class="quarto-figure quarto-figure-center" width="328" height="226"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="fragment">
+<ul>
+<li>At each iteration of t-SNE we walk a step down the gradient of <span class="math inline">\(KL(p||q)\)</span> with respect to every <span class="math inline">\(\mathbf{y}_i\)</span></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="t-sne-at-high-level">t-SNE: at high level</h3>
+<ol type="1">
+<li><p>Prepare <span class="math inline">\(p_{ij}\)</span> table with Gaussian kernel and <span class="math inline">\(\sigma_1, \dots, \sigma_n\)</span></p></li>
+<li><p>Sample initial low-dimensional mappings <span class="math inline">\(Y^{(0)} = \mathbf{y}^{(0)}_1, \dots, \mathbf{y}^{(0)}_n\)</span></p></li>
+<li><p>For <span class="math inline">\(t = 1\)</span> to <span class="math inline">\(T\)</span> do:</p>
+<ol type="i">
+<li><p>Compute <span class="math inline">\(q_{ij}\)</span> with <span class="math inline">\(t(1)\)</span> kernel</p></li>
+<li><p>Gradient step: <span class="math inline">\(\mathbf{y}_i^{(t)} = \mathbf{y}_i^{(t - 1)} - \alpha \cdot \frac{\partial KL}{\partial \mathbf{y}_i}\)</span></p></li>
+</ol></li>
+</ol>
+<div>
+<ul>
+<li class="fragment"><span class="math inline">\(\frac{\partial KL}{\partial \mathbf{y}_i} = 4 \sum_j (p_{ij} - q_{ij})(\mathbf{y}_i - \mathbf{y}_j)(1+ \|\mathbf{y}_i - \mathbf{y}_j\|^2)^{-1}\)</span></li>
+<li class="fragment">Modifications exist for very large datasets, e.g.&nbsp;consider only local neighborhood for <span class="math inline">\(i\)</span></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="example-mnist-dataset">Example: MNIST dataset</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/mnist_examples.png" class="quarto-figure quarto-figure-center" height="400"></p>
+</figure>
+</div>
+<p>7000 X 10 hand-written digits (<span class="math inline">\(n = 70000\)</span>) in 28 X 28 pixels (<span class="math inline">\(p=784\)</span>)</p>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="pca-vs.-t-sne">PCA vs.&nbsp;t-SNE</h3>
+
+<img data-src="images/pca_vs_tsne_mnist.png" class="r-stretch"><aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="pca-as-a-generative-model" class="slide level2 title-slide center">
+<h2>PCA as a Generative Model</h2>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="probabilistic-pca-i">Probabilistic PCA (I)</h3>
+<ul>
+<li>It is not true that there is nothing “probabilistic” about PCA!</li>
+</ul>
+<div>
+<ul>
+<li class="fragment">Suppose every data row <span class="math inline">\(\mathbf{x}_i\)</span> was generated by: <span class="math display">\[\mathbf{x}_i = W\mathbf{u}_i + \mathbf{\mu} + \mathbf{\varepsilon}_i\]</span>
+<ul>
+<li class="fragment"><span class="math inline">\(\mathbf{u}_i \in \mathbb{R}^q\)</span> is a latent vector from <span class="math inline">\(\mathcal{N}(\mathbf{0}, I_q)\)</span></li>
+<li class="fragment"><span class="math inline">\(W\)</span> is a <span class="math inline">\(p \times q\)</span> loadings matrix</li>
+<li class="fragment"><span class="math inline">\(\mathbf{\mu} \in \mathbb{R}^p\)</span> is a mean vector for <span class="math inline">\(p\)</span> features</li>
+<li class="fragment"><span class="math inline">\(\mathbf{\varepsilon}_i \in \mathbb{R}^p\)</span> is random noise from <span class="math inline">\(\mathcal{N}(\mathbf{0}, \sigma^2I_p)\)</span></li>
+</ul></li>
+</ul>
+</div>
+<div class="fragment">
+<p><span class="math inline">\(\Rightarrow \mathbf{x}_i \sim \mathcal{N}(\mathbf{\mu}, \Sigma)\)</span>, where: <span class="math inline">\(\Sigma = WW^T + \sigma^2I_p\)</span></p>
+</div>
+<div class="fragment">
+<p>It’s likelihood: <span class="math inline">\(f(\mathbf{x}_i) = \frac{1}{(2\pi)^{p/2}|\Sigma|^{1/2}}\exp\left(-\frac{1}{2}(\mathbf{x}_i - \mu)^T\Sigma^{-1}(\mathbf{x}_i-\mu)\right)\)</span></p>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="probabilistic-pca-ii">Probabilistic PCA (II)</h3>
+<div>
+<ul>
+<li class="fragment">After some algebra, the log-likelihood of our entire data <span class="math inline">\(X = \mathbf{x}_1, \dots, \mathbf{x}_n\)</span>: <span class="math display">\[\ell(\mathbf{\mu}, W, \sigma^2|X) = -\frac{n}{2}\left[p\ln(2\pi) + \ln(\Sigma) + \text{Tr}(\Sigma^{-1}S)\right]\]</span>
+<ul>
+<li class="fragment">where <span class="math inline">\(S = \frac{1}{n}\sum_i (\mathbf{x}_i - \mu)(\mathbf{x}_i - \mu)^T\)</span> is the covariance matrix of <span class="math inline">\(X\)</span></li>
+</ul></li>
+<li class="fragment">The maximum likelihood estimate (MLE) for <span class="math inline">\(W\)</span>: <span class="math display">\[W_{MLE} = \mathbf{V}_q(\mathbf{\Lambda}_q - \sigma^2I_q)^{1/2}\mathbf{R}\]</span>
+<ul>
+<li class="fragment">where the columns of <span class="math inline">\(\mathbf{V}_q\)</span> are eigenvectors of <span class="math inline">\(S\)</span>, with corresponding <span class="math inline">\(q\)</span> largest eigenvalues in the diagonal matrix <span class="math inline">\(\mathbf{\Lambda}_q\)</span>, and <span class="math inline">\(\mathbf{R}\)</span> is a <span class="math inline">\(q\times q\)</span> arbitrary rotation matrix</li>
+<li class="fragment">In the limit <span class="math inline">\(\sigma^2 \to 0\)</span> this solution is equivalent to PCA!</li>
+</ul></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="the-many-faces-of-pca">The many faces of PCA</h3>
+<p>Why is this so important?</p>
+<div>
+<ul>
+<li class="fragment">PCA as an eigenvalue problem to maximize dispersion</li>
+<li class="fragment">PCA as an SVD problem</li>
+<li class="fragment">PCA as an encoder/decoder problem to minimize reconstruction error</li>
+<li class="fragment">PCA as a generative model to maximize likelihood</li>
+</ul>
+</div>
+<div>
+<ul>
+<li class="fragment">Unsupervised learning can be used to generate new data: <img data-src="images/eigenface.png" class="quarto-figure quarto-figure-center" height="200"></li>
+<li class="fragment">PCA is the ancestor of many generative models</li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 <div class="quarto-auto-generated-content">
 <p><img src="../Intro2SL_logo_white.jpg" class="slide-logo"></p>
 <div class="footer footer-default">
