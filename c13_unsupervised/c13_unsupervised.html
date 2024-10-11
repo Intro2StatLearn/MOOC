@@ -351,7 +351,7 @@
 <h2>Intro. to Unsupervised Learning</h2>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-<p>נקדיש יחידה אחת ללמידה מסוג שונה. למידה בלתי מפוקחת, או unsupervised learning. מאחר שזה נושא חדש, בואו נדבר קצת על מה זה unsupervised learning ומה שונה ממנה לעומת הלמידה שעסקנו בה עד כה, שמסתבר שאפשר לקרוא לה supervised learning, כלומר למידה כן מפוקחת.</p>
+<p>את השיעור האחרון אנחנו בוחרים להקדיש ללמידה בלתי מפוקחת, כשהמטרה שלנו היא לא בהכרח לחזות איזשהו משתנה מוסבר Y, אלא לתאר את ההתפלגות של הנתונים עצמם. נדבר בקצרה על אלגוריתם Kmeans כדי לעשות קלאסטרינג, ואז נחזור לאלגוריתם PCA כדי לבצע הורדת מימד ונתאר אותו בפירוט יותר, וגם שיטה דומה שמבצעת הורדת מימד בצורה לא ליניארית - טיסני. אבל לפני זה נדבר באופן כללי מה זה למידה בלתי מפוקחת או unsupervised.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -411,83 +411,13 @@
 <ul>
 <li class="fragment">If we do find them, maybe <span class="math inline">\(P_{x}\)</span> can be represented by a mixture of simpler densities?</li>
 </ul></li>
-<li class="fragment">This isn’t new, is it?</li>
 </ul>
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 <p>בלמידה לא מפוקחת יש לנו רק וקטור של משתנים X ממימד p.&nbsp;אנחנו עדיין מניחים שהתצפיות מגיעות בלתי תלויות מאיזו התפלגות לא-ידועה Px, והמטרה שלנו היא לא לאמוד איזושהי פונקציה או קשר אלא ממש את ההתפלגות הזאת, או תכונות שלה.</p>
 <p>לדוגמא, ניתוח אשכולות או קלאסטרינג – היינו רוצים ללמוד איזורים בהתפלגות עם צפיפות גבוהה, או השכיחים של P_x. אם נמצא שP_x מתחלקת בבירור לכמה איזורים כאלה למשל, אולי ניתן לייצג אותה בעזרתם, ואז זה יפשט אותה, במקום להיות למשל פונקציה מורכבת בהרבה מימדים נוכל לחלק אותה לצירוף של כמה פונקציות פשוטות יותר.</p>
-</div>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section class="slide level2">
-
-<h3 id="cluster-analysis">Cluster Analysis</h3>
-<p>Group a set of observations into subsets, clusters, s.t. those within each cluster are more closely related to one another than observations assigned to different clusters</p>
-<div class="fragment">
-<p>What for?</p>
-<ul>
-<li>EDA, Feature Engineering: interesting groups in the data</li>
-<li>Segmentation: customers, products, distribution centers location, software</li>
-<li>Hierarchy: diseases, evolution</li>
-<li>Deduplication</li>
-<li>Anomaly Detection</li>
-</ul>
-</div>
-<div class="fragment">
-<p>Many, many algorithms:</p>
-<ul>
-<li>Partition clustering: K-means</li>
-<li>Hierarchical clustering: Agglomerative</li>
-<li>Density-based clustering: DBSCAN</li>
-</ul>
-</div>
-<aside class="notes">
-<div style="direction:rtl; font-size:16px">
-<p>אז בואו נדבר בקלאסטרינג לא על צפיפות כמושג הסתברותי אלא כמושג אינטואיטיבי: אנחנו רוצים למצוא קלאסטרים, קבוצות, איזורים או גושים בדאטא שבהם התצפיות מאוד צפופות וקרובות אחת לשניה, לעומת המרחק ביניהן לתצפיות בקלאסטרים אחרים.</p>
-<p>למה שנרצה לעשות את זה? הנה רשימה חלקית:</p>
-<p>קודם כל ראינו שקלאסטרינג משמש אותו באקספלורטורי דאטא אנליסיס, איזושהי אנליזה רכה לנתונים שמסייעת להבין אותם, למצוא קבוצות מעניינות בדאטא. את הקבוצות האלה או ההשתייכות לקבוצות האלה אפשר לנצל אחר-כך כפיצ’רים מעניינים בבניית מודלים לחיזוי.</p>
-<p>מטרה אחת אפשר לתאר בגדול כסגמנטציה: אתר שמנסה לחלק את הגולשים שלו לכמה טיפוסים, כמה פרופילים. למשל כדי להקצות לכל פרופיל איש מכירות אחר שהפרופיל הזה יהיה המומחיות שלו. או אתר עם המון מוצרים כמו אמזון שרוצה לחסוך בעבודה הקשה של הרבה מומחים לאלקטרוניקה שהתפקיד שלהם הוא להגיד שפלאפון אייפון 5 ופלאפון אנדרואיד שייכים לאותה קטגוריה או מוצר, אולי אפשר לעשות את זה אוטומטית עם קלאסטרינג על פיצ’רים שמראים שאותם אנשים קונים את שני הפריטים האלה או שהם עשויים מאותם חומרים ועולים סכום דומה של כסף. אפשר לחשוב על חברת פיצה שנכנסת לעיר חדשה ושואלת את עצמה איפה למקום שלושה מרכזי הפצה שהיא מתכננת להקים, הכי משתלם למקם אותם באיזורים שונים שבכל אחד ה”צפיפות” בביקוש לפיצה תהיה גבוהה. גם בתוכנה אנחנו עושים קלאסטרינג, במיוחד לתוכנות גדולות ומסורבלות שנוצרו לפני שנים ולאט לאט התפתחו ונוצר צורך לפרק אותן לכמה מודולים, גם בשביל יעילות וגם כדי לחלק את האחריות של אנשי התוכנה להמשיך לפתח ולעשות מיינטננס לכל מודול בנפרד.</p>
-<p>בביולוגיה נהוג להשתמש הרבה בקלאסטרינג, למשל להסתכל על פיצ’רים של מחלות כמו תסמינים ולקבץ אותן לסוגים שונים, או לבנות היררכיה של מחלות, עץ.</p>
-<p>דוגמא אחרת יכולה להיות דידופליקציה, אם נחזור לאתר שמוכר הרבה פריטים, וכל מוכר נותן כותרת אחרת לפריט שלו, הרבה פעמים לא מדובר במוצר שונה אלא אותו מוצר בדיוק וצריך למחוק במערכות מוצרים חדשים לכאורה שהמערכת כבר אמורה להכיר, דופליקיישנז. דוגמא אחרונה כאן היא זיהוי תצפיות חריגות או אאוטליירז, או בשם המקובל anomaly detection. אם כל האייפונים התקבצו לקלאסטר מסוים ואייפון מסוים לא שייך לקלאסטר, יכול להיות שהוא אנומליה. יכול להיות שבכלל לא מדובר באייפון, למשל הפריט הוא רק כיסוי לאייפון, שהמוכר החליט להכניס לקטגוריה של אייפונים כדי להגדיל את החשיפה שלו.</p>
-<p>ויש המון סוגים של אלגוריתמים לקלאסטרינג. יש אלגוריתמים מסוג partition שמבוססים על חלוקה של המרחב לאיזורים שונים זה מזה ככל שניתן וצפופים בתוכם, דוגמא לזה אפשר לראות את KMeans. הרבה אלגוריתמים הם היררכיים, שזה אומר שהם מנסים ליצור חלוקה לקלאסטרים ממצב שכל תצפית היא קלאסטר בפני עצמה, ואנחנו לאט לאט מאחדים זוגות של תצפיות קרובות אחת לשניה, ועד למצב שהדאטא נמצא בקלאסטר אחד גדול. זהו אגלומורטיב קלאסטרינג. אלגוריתמים אחרים באמת חוזרים לרעיון שצריך לאמוד את הצפיפות הטבעית של הדאטא, לא להניח מראש כמה קלאסטרים יש בו ולא להניח שכל התצפיות מתחלקות אליהם, דוגמא לזה הוא הDBSCAN. נעסוק היום בKMeans וב-DBSCAN כמייצגים של המשפחות האלה וגם כי הם סופר-פופולריים בתעשייה.</p>
-</div>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section class="slide level2">
-
-<h3 id="unsupervised-learning-main-drawback">Unsupervised Learning Main Drawback</h3>
-<ul>
-<li><p>Unless there is “ground truth”, no clear measure of success (as opposed to <span class="math inline">\(\mathbb{E}_{x_0,y_0}(L(y_0, \hat{y}_0))\)</span>)</p></li>
-<li><p>Many times involves scrutinizing results and interpretation</p></li>
-<li><p>Not for the faint of heart</p></li>
-</ul>
-<aside class="notes">
-<div style="direction:rtl; font-size:16px">
-<p>מילה אחרונה של אזהרה בכל הנוגע לתחום של unsupervised learning. אין בלמידה לא-מפוקחת קריטריון ברור להצלחה, בניגוד ללמידה מפוקחת שם יש לנו את ה”מפקח” את Y ואת הלוס L, שלאורם אנחנו מכווננים את המודל שלנו, אנחנו מודדים את עצמנו.</p>
-<p>הרבה פעמים כמו בדוגמא בשקף הקודם ההצלחה של מודל קלאסטרינג מערבת הרבה בחינה ידנית ושיפוט של הלקוח הסופי. הרבה בערך. ברור שלפעמים יש ground truth, ואנחנו מצפים מהקלאסטרים להיות בחפיפה עם קבוצות ידועות באוכלוסיה או בהתפלגות. ברור גם שפתרון קלאסטרינג על אותם נתונים שהצליח למצוא קבוצות יותר צפופות בתוכן ויותר רחוקות אחת מהשניה - הוא פתרון טוב יותר.</p>
-<p>אבל בשורה התחתונה יש הרבה יותר מקום לפרשנות, אין קריטריון מנצח - וכדאי להיות מוכנים מנטלית לזה כשניגשים לפרויקט קלאסטרינג.</p>
+<p>יש המון שיטות לבצע קלאסטרינג, נראה עכשיו נציג בולט אחד שלהן, שנקרא Kmeans clustering.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -505,7 +435,7 @@
 <h2>K-means Clustering</h2>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-<p>נדבר כעת על אלגוריתם KMeans, אולי המוכר ביותר בתחום, וגם יעיל יחסית ועובד טוב עם נתונים ממימד גבוה.</p>
+<p>נדבר כעת על אלגוריתם KMeans, אולי המוכר ביותר בתחום של קלאסטרינג, וגם יעיל יחסית ועובד טוב עם נתונים ממימד גבוה.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -542,7 +472,7 @@
 <p>נניח כעת שצפיפות של נתונים או עד כמה זוג תצפיות קרובות אחת לשניה נמדוד באמצעות איזושהי מטריקת מרחק d, לדוגמא נתחיל עם מרחק אוקלידי.</p>
 <p>ואנחנו רוצים לבטא באמצעות איזושהי מטריקה את האינטואיציה שלנו שתצפיות באותו קלאסטר צריכות להיות צפופות ורחוקות מתצפיות בקלאסטרים אחרים.</p>
 <p>הרבה אלגוריתמים מסתכלים על המטריקה הבאה, הפיזור within cluster שנסמן בW(C), והוא סכום על כל זוגות התצפיות ששייכות לקלאסטר k של המרחקים ביניהן, וסכום על כל הקלאסטרים, מוכפל פי חצי כי אנחנו סופרים כל זוג ככה פעמיים.</p>
-<p>מאחר שהפיזור בין כל זוגות התצפיות בלי קשר לחלוקה לקלאסטרים נשאר זהה, אפשר להראות שלעשות מינימום לקריטריון שלנו אקוויולנטי ללעשות מקסימום לכמות המשלימה של between clusters סקאטר: סכום המרחקים בין כל זוגות התצפיות שנמצאות בקלאסטרים שונים. הרי סכום הכמות הזאת והכמות שלנו W(C) מסתכמם בפיזור כללי נאמר T(C).</p>
+<p>מאחר שהפיזור בין כל זוגות התצפיות בלי קשר לחלוקה לקלאסטרים נשאר זהה, אפשר להראות שלעשות מינימום לקריטריון שלנו אקוויולנטי ללעשות מקסימום לכמות המשלימה של between clusters סקאטר: סכום המרחקים בין כל זוגות התצפיות שנמצאות בקלאסטרים שונים. הרי סכום הכמות הזאת והכמות שלנו W(C) מסתכם בפיזור כללי נאמר T(C).</p>
 <p>אז יש לנו מטריקה לעשות לה מינימום. אבל אפילו עם K נתון, נאמר שאנחנו רוצים לחלק את הדאטא ל4 קלאסטרים. האם אנחנו יכולים לעבור על כל החלוקות C(i) האפשריות כדי להגיע למינימום גלובלי? ברור שלא. יש לזה נוסחה שלא מופיעה כאן, אפשר לחשב למשל שלעבור על כל האפשרויות של חלוקת 20 תצפיות ל5 קלאסטרים אנחנו כבר מדברים על כמעט 750 מיליארד אפשרויות!</p>
 </div>
 <style type="text/css">
@@ -631,7 +561,7 @@
 <section class="slide level2">
 
 <h3 id="k-means-demo-initial-guess">K-means Demo: Initial Guess</h3>
-<div id="5ecc6396" class="cell" data-execution_count="2">
+<div id="4fb58f8c" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -659,7 +589,7 @@
 <section class="slide level2">
 
 <h3 id="k-means-demo-iteration-1">K-means Demo: Iteration 1</h3>
-<div id="a75ef62f" class="cell" data-execution_count="3">
+<div id="9adfe591" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -688,7 +618,7 @@
 <section class="slide level2">
 
 <h3 id="k-means-demo-iteration-2">K-means Demo: Iteration 2</h3>
-<div id="f02c7c4e" class="cell" data-execution_count="4">
+<div id="be2136d3" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -717,7 +647,7 @@
 <section class="slide level2">
 
 <h3 id="k-means-demo-iteration-3">K-means Demo: Iteration 3</h3>
-<div id="0b879ac9" class="cell" data-execution_count="5">
+<div id="91e8e0e9" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -747,6 +677,7 @@
 <h3 id="some-issues-with-k-means">Some issues with K-means</h3>
 <div>
 <ul>
+<li class="fragment"><p>Limited to Euclidean distance</p></li>
 <li class="fragment"><p>Need to always specify <span class="math inline">\(K\)</span>!</p></li>
 <li class="fragment"><p>How to choose <span class="math inline">\(K\)</span>?</p></li>
 <li class="fragment"><p>Prefers separable spherical clusters (Gaussian)</p>
@@ -754,12 +685,16 @@
 <li class="fragment">Bad with unequal densities, unequal cluster sizes</li>
 </ul></li>
 <li class="fragment"><p>No concept of outliers</p></li>
-<li class="fragment"><p>Limited to Euclidean distance</p></li>
 </ul>
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>כבר תוך כדי הדיון אפשר היה להבחין בכמה בעיות של Kmeans, למשל שאין גרנטי למינימום גלובלי על המטריקה W(c).</p>
+<p>מגבלה אחרת היא שכל הפיתוח שלנו התבסס על מרחק אוקלידי, אין אפשרות לעשות פלאג-אין בKmeans לפונקצית מרחק אחרת, שאולי היא מתאימה יותר, למשל אם המשתנים שלנו הם קטגוריאליים.</p>
+<p>אבל אולי מגבלה בולטת יותר היא העובדה שצריך לספק לאלגוריתם את K, לדעת מראש כמה קלאסטרים יש בדאטא.</p>
+<p>ואם ככה זה אומר שצריך לדעת איך לבחור את K, כשהבעיה היא שברור שככל שK גדול המטריקה של סכום הריבועים within-cluster יורדת. עד המצב הקיצוני שבו K = n ואז כל תצפית היא קלאסטר בפני עצמו והמטריקה תהיה אפס. אז כאן יש כל מיני סטטיסטים ויש את השיטה הישנה והטובה של לצייר את W(c) כנגד ערכי K שונים, פשוט לבצע את האלגוריתם נאמר על 5 פולדים ועבור ערכי K שונים, ולראות אם עבור ערך K מסוים כבר אפקטיבית אין ירידה, לראות אם יש איזשהו מרפק בגרף. אם יש כזה אפשר לבחור בK בו יש מרפק.</p>
+<p>הבעיה האחרת של Kmeans היא שהוא מאוד טוב בחלוקות יפות לקלאסטרים מעוגלים, יפים, שווי גודל, כאילו כל אחד מהמשתנים בX הגיע מהתפלגות נורמלית. הוא מבצע הרבה פחות טוב על קלאסטרים עם גדלים שונים, עם צפיפות שונה.</p>
+<p>עוד דבר בKmeans שחייב להיות ברור לנו זה שאין לו מושג בילט-אין של אאוטליירז. Kmeans יחזיר תשובה לכל תצפית, גם אם ברור לנו בעין שהיא לא שייכת לאף אחד מהקלאסטרים. כאן לKmeans יש הרבה מתחרים מצוינים שלהם דווקא יש קונספט של אאוטלייר, כמו DBSCAN, שכן יכול להחזיר תשובה כזאת לתצפית - לא מצאתי אף קלאסטר.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -773,11 +708,11 @@
           display:block!important;
       }</style></aside>
 </section>
-<section id="pca-dimensionality-reduction" class="slide level2 title-slide center">
-<h2>PCA Dimensionality Reduction</h2>
+<section id="dimensionality-reduction" class="slide level2 title-slide center">
+<h2>Dimensionality Reduction</h2>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>ביתר השיעור נדבר על הורדת מימד. נתחיל בPCA, שהיא השיטה המוכרת ביותר וליניארית, ונעבור אחר כך לטיסני, שהיא שיטה לא ליניארית. PCA היא שיטה כל כך מוכרת שאפילו בקורס שלנו נתקלנו בה כשדיברנו עליה בהקשר של למידה כן מפוקחת. שם רצינו להוריד מימד לנתונים לפני ביצוע רגרסיה ליניארית על הנתונים במימד הקטן יותר, וקראנו לזה PCR. נראה עכשיו איך מגיעים לפתרון של PCA, אבל לפני זה נזכיר שוב בשביל מה להוריד מימד.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -793,7 +728,7 @@
 </section>
 <section class="slide level2">
 
-<h3 id="dimensionality-reduction">Dimensionality Reduction</h3>
+<h3 id="dimensionality-reduction-1">Dimensionality Reduction</h3>
 <div>
 <ul>
 <li class="fragment"><p>We have <span class="math inline">\(n\)</span> observations in <span class="math inline">\(p\)</span> dimensions: <span class="math inline">\(X_{n \times p}\)</span></p></li>
@@ -801,14 +736,14 @@
 <ul>
 <li class="fragment">EDA:
 <ul>
-<li class="fragment">Identify important dimensions which summarize the data well</li>
 <li class="fragment">Visualize the data (2-d or 3-d visualizations)</li>
+<li class="fragment">Identify important dimensions which summarize the data well</li>
 </ul></li>
-<li class="fragment">Clustering after dimensionality reduction</li>
 <li class="fragment">Speed-up/Improve/Enable machine-learning algorithms (PCR)</li>
+<li class="fragment">Clustering after dimensionality reduction</li>
 <li class="fragment">Generative modeling - see later</li>
 </ul></li>
-<li class="fragment"><p>Naive way: select <span class="math inline">\(q\)</span> out of the original <span class="math inline">\(p\)</span> dimensions (best seubset)</p></li>
+<li class="fragment"><p>Naive way: select <span class="math inline">\(q\)</span> out of the original <span class="math inline">\(p\)</span> dimensions (best subset)</p></li>
 <li class="fragment"><p>Less Naive way: Look for interesting “projections”:</p>
 <ul>
 <li class="fragment">linear/non-linear combinations of features</li>
@@ -817,7 +752,13 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>יש לנו מטריצת נתונים עם n שורות ו-p עמודות. p בדרך כלל גדול מאוד נאמר לפחות 10 משתנים, ולפעמים אלפי ואפילו מיליון משתנים בדאטה מודרני כמו למשל בגנטיקה.</p>
+<p>אנחנו רוצים להוריד מימד מp לq, כשq הרבה יותר קטן.</p>
+<p>מטרה ראשונה היא אקספלורטורי דאטא אנליסיס, או EDA. החל מויזואליציה של הנתונים, שלא אפשרית כשp הוא מאוד גדול, ועד התבוננות על פתרון PCA עצמו לראות אם יש צירופים של המשתנים שממצים את הדאטא היטב. פסיכולוגים למשל מבצעים הרבה פעמים PCA על שאלוני אישיות כדי לזהות קונסטרקטים או תמות בתשובות של אנשים.</p>
+<p>סיבה אחרת להורדת מימד היא כדי לבצע אלגוריתמים של למידה על הדאטא ממימד נמוך. זה יכול להיות בתקווה לשפר את הביצועים של המודל, כמו שראינו בPCR. זה יכול להיות כי במימד הנוכחי האלגוריתם לא יכול בכלל לפעול.</p>
+<p>סיבה אחרת שקצת קשה אולי לראות כרגע, היא שימוש במודל שהרצנו להורדת מימד להעלאה בחזרה של המימד, כדי ליצור דאטא חדש. נגענו בזה כשדיברנו על מודלים גנרטיביים, שמתעניינים בהתפלגות של Y בהינתן הנתונים X. נתעניין בגישה הזאת גם כאן בסוף היחידה.</p>
+<p>אז איך להוריד מימד? עשינו את זה כבר. בגישה הנאיבית יותר פשוט בחרנו או ידנית או על פי קריטריון מסוים תת-קבוצה, למשל ברגרסיה של משתנים “חשובים”.</p>
+<p>שיטה פחות נאיבית היא להשאיר את כל המשתנים, אבל לאחד אותם על ידי כמה פונקציות לכדי כמה אאוטפוטים בודדים חשובים. אני מדבר על הטלה או פרוג’קשן של הדאטא למימד נמוך יותר, והטלה כזאת יכולה להיות ליניארית או לא-ליניארית. נתחיל בהטלה ליניארית.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -838,13 +779,13 @@
 <ul>
 <li class="fragment">We are given:
 <ul>
-<li class="fragment">An <span style="color:red;">encoder</span> <span class="math inline">\(g(X) = Xw\)</span>, where <span class="math inline">\(w \in \mathbb{R}^{p\times 1}\)</span> is a vector with <span class="math inline">\(\|w\|=1\)</span></li>
-<li class="fragment">A <span style="color:red;">decoder</span> <span class="math inline">\(f(u) = uw^T\)</span>, where <span class="math inline">\(u \in \mathbb{R}^{n\times 1}\)</span></li>
+<li class="fragment">An <span style="color:red;">encoder</span> <span class="math inline">\(g(X) = Xw\)</span>, where <span class="math inline">\(w \in \mathbb{R}^{p \times 1}\)</span> is a vector with <span class="math inline">\(\|w\|=1\)</span></li>
+<li class="fragment">A <span style="color:red;">decoder</span> <span class="math inline">\(f(u) = uw^T\)</span>, where <span class="math inline">\(u \in \mathbb{R}^{n \times 1}\)</span></li>
 </ul></li>
 <li class="fragment">The reconstructed matrix is therefore: <span class="math inline">\(\hat{X} = f(g(X)) = (Xw)w^T = Xww^T\)</span></li>
 <li class="fragment">Goal: find <span class="math inline">\(w\)</span> that minimizes the <span style="color:red;">reconstruction error</span> <span class="math inline">\(\|X - \hat{X}\|^2_F\)</span>
 <ul>
-<li class="fragment"><span class="math inline">\(\|A\|^2_F\)</span> is the squared Frobenius norm, the sum of squared elements of any real matrix <span class="math inline">\(A\)</span></li>
+<li class="fragment"><span class="math inline">\(\|A\|^2_F = \sum_{i = 1}^m \sum_{j = 1}^n = a_{ij}^2\)</span> is the squared Frobenius norm, the sum of squared elements of any real matrix <span class="math inline">\(A\)</span></li>
 <li class="fragment">Also: <span class="math inline">\(\|A\|^2_F = \text{Tr}(AA^T)\)</span></li>
 <li class="fragment"><span class="math inline">\(w = \arg\min_{w: \|w\|=1}\text{Tr}((X - Xww^T)(X - Xww^T)^T)\)</span></li>
 </ul></li>
@@ -852,7 +793,12 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>נתחיל בגישה קצת לא סטנדרטית לבעיה של הורדת מימד. נניח שיש לנו מקודד לנתונים שלנו, פונקציה g שמורידה את הנתונים שלנו ממימד p למימד 1. נניח אפילו שהפונקציה הזאת ליניארית, כלומר היא פשוט לוקחת את הדאטא שלנו עם פי פיצ’רים ומכפילה אותו בוקטור עם נורמה 1 שנקרא לו w. למקודד הזה אנחנו קוראים אנקודר.</p>
+<p>לעומתו יש לנו את הדקודר, שהוא פונקציה f, שמחזירה את הנתונים שלנו שהם עכשיו במימד 1, בחזרה למימד p.&nbsp;ובואו נדרוש שהיא עושה את זה בעזרת אותו וקטור w, הפעם נכפיל פי הטרנספוז של w.</p>
+<p>את התוצאה של להפעיל את האנקודר ואז את הדקודר, שהיא שוב מטריצה עם n שורות וp עמודות, אפשר לכנות כאקס-האט. היא בעצם שווה ללהכפיל את X פי w ואז פי w טרנספוז. עכשיו מה זאת הורדת מימד איכותית? קריטריון סביר הוא שהמטריצה המשוחזרת אקס-האט תהיה לא יותר מדי רחוקה מאקס המקורית. אם אתם רוצים אפשר ממש להתייחס לזה כבעיה של הצפנה. אם הצלחנו למצוא וקטור w שאנחנו יכולים לייצג באמצעותו את הנתונים שלנו ממימד הרבה יותר נמוך, ומתי שאנחנו רוצים לחלץ את הנתונים המקוריים באמצעות הכפלה חזרה פי w טרנספוז - זאת הצפנה מעולה.</p>
+<p>דרך להגדיר מה זה שהמטריצה אקס-האט לא תהיה רחוקה מאקס, היא באמצעות שגיאת השחזור, ריקונסטרקן ארור, שמוגדרת באמצעות נורמת פרוביניוס.</p>
+<p>נורמת פרוביניוס על כל מטריצה ממשית A היא פשוט סכום האלמנטים של A בריבוע. כלומר במקרה שלנו זה יהיה סכום השאריות הריבועיות בין כל אלמנט מאקס לאלמנט אקס-האט. ומסתבר, שאפשר גם לחשב את הנורמה עם הטרייס של המטריצה כפול עצמה בטרנספוז.</p>
+<p>כלומר קריטריון סופי שלנו הוא בעצם למצוא וקטור w עם נורמה 1 שתביא למינימום את הטרייס, של המרחק בין איקס לאיקס-האט, הביטוי שרשום כאן.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -895,7 +841,33 @@ But: <span class="math inline">\(\text{Tr}(Xww^TX^T) = \text{Tr}(w^TX^TXw) = w^T
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>נפתח את הביטוי הזה.</p>
+<p>נפעיל את הטרנפוז.</p>
+<p>נפתח את הסוגריים.</p>
+<p>עכשיו האילוץ שהנורמה של w צריכה להיות 1, בעצם אומר שw’w חייב להיות 1, ואנחנו מקבלים את הביטוי הנוכחי.</p>
+<p>נכנס איברים דומים, ונפריד את הטרייס לטרייס על XX’ וטרייס על Xww’X’.</p>
+<p>עכשיו שימו לב, הביטוי עם איקס בלבד תלוי רק בנתונים שלנו, ולא בw שאנחנו מחפשים. הוא איזשהו קבוע, סקלר.</p>
+<p>הביטוי השני מעניין הרבה יותר: קודם כל לטרייס יש תכונה מעגלית, Tr(ABC) = Tr(CAB) אם המכפלה אפשרית. זה אומר שאני יכול לכפול את הביטוי שבפנים מצד שמאל כפול X טרנספוז וכפול w טרנספוז. עכשיו מה יש לנו בביטוי הזה? נרשום את המימדים.</p>
+<p>יש לנו כאן סקלר! מספר. וטרייס של מספר הוא המספר עצמו: w’X’Xw. המספר הזה מופיע עם מינוס לפניו, זאת אומרת שלמספר עצמו אנחנו רוצים לעשות מקסימום.</p>
+<p>ואם נסכם הכל, אנחנו רוצים למצוא וקטור w עם נורמה 1 לעשות עליו הטלה, שמביא למקסימום את הביטוי שמופיע לפנינו. זה בדיוק הקריטריון למצוא את וקטור ההטלה הראשון של PCA!</p>
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="pca-dimensionality-reduction" class="slide level2 title-slide center">
+<h2>PCA Dimensionality Reduction</h2>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+<p>איך מגיעים לPCA בדרך כלל?</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -915,6 +887,7 @@ But: <span class="math inline">\(\text{Tr}(Xww^TX^T) = \text{Tr}(w^TX^TXw) = w^T
 <div>
 <ul>
 <li class="fragment">Goal: Find the <span class="math inline">\(q\)</span> direction(s) with the most dispersion</li>
+<li class="fragment">Center <span class="math inline">\(X\)</span>’s columns</li>
 <li class="fragment">First direction: <span class="math inline">\(w_1 = \arg\max_{w_1:\|w_1\| =1} \|Xw_1\|^2 = \arg\max_{w_1:\|w_1\| =1}w_1^TX^TXw_1\)</span></li>
 <li class="fragment">Second direction: <span class="math inline">\(w_2 = \arg\max_{\|w_2\| =1, w_2^Tw_1 = 0}w_2^TX^TXw_2\)</span></li>
 <li class="fragment">Can keep going looking for new directions</li>
@@ -927,7 +900,14 @@ But: <span class="math inline">\(\text{Tr}(Xww^TX^T) = \text{Tr}(w^TX^TXw) = w^T
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>בדרך כלל מדברים על מציאת q כיוונים להטיל עליהם את הדאטא, כך שנשמר את מירב הפיזור הטבעי של הדאטא.</p>
+<p>אנחנו מחסרים מכל עמודה של X את הממוצע שלה, אם הפיזור שונה מאוד כדאי גם לחלק בסטיית התקן.</p>
+<p>אנחנו רוצים למצוא את וקטור ההטלה w הראשון שימקסם את הפיזור של ההטלה, כלומר את הנורמה הריבועית של X כפול w, שזה בדיוק הקריטריון שלנו.</p>
+<p>כדי למצוא את הכיוון הבא, נדרוש וקטור w2 שממקסם את פיזור ההטלה, כך שהוא אורתוגונלי לw1.</p>
+<p>וכן הלאה וכן הלאה.</p>
+<p>בהנחה שיש לנו מטריצת דאטא אופיינית שבה מספר הפיצ’רים p עדיין קטן ממספר התצפיות n, אפשר למצוא עד p כיוונים כאלה. המטרה היא כמובן למצוא הרבה פחות מp, כל אחד מסביר עוד קצת מהשונות, וביחד השאיפה שיסבירו כמה שקרוב ל100 אחוז מהשונות. ברגע שהשגנו q כיוונים כאלה ניתן לצרף אותם למטריצת W שנקראת גם מטריצת לודינגז.</p>
+<p>והדאטא הסופי שלנו ממימד נמוך נסמן כT. יש בT עכשיו n שורות על q עמודות, ו-q אמור להיות קטן. על הדאטא הזה כמו שלמדנו אפשר לבצע רגרסיה, אפשר לעשות ויזואליזציה. אפשר גם להסתכל על הW עצמו ולראות את המשקולת לכל פיצ’ר בכל אחת מהעמודות ולראות אולי יש כאן קונסטרקט מעניין.</p>
+<p>מה שיפה הוא שלפני רגע הראינו שW יכול להיות תוצר של קריטריון לכאורה לא קשור בכלל, מתוך התייחסות להורדת מימד כמערכת של קידוד ופענוח, אנקודר ודיקודר.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -959,7 +939,7 @@ But: <span class="math inline">\(\text{Tr}(Xww^TX^T) = \text{Tr}(w^TX^TXw) = w^T
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-<p>ניזכר בבעיית הערכים העצמיים בקצרה. נרצה למצוא וקטור עצמי, eigenvector, למטריצה A ריבועית, מסדר p על p.</p>
+<p>אז יש לנו בעיית מינימום, לא חשוב איך הגענו אליה. איך פותרים אותה? ניזכר בבעיית הערכים העצמיים בקצרה. נרצה למצוא וקטור עצמי, eigenvector, למטריצה A ריבועית, מסדר p על p.</p>
 <p>כאשר המטריצה A כופלת וקטור כזה, הדבר שקול בעצם פשוט להכפלה של הוקטור הזה באיזשהו סקלר למדא. ולמדא הוא הערך העצמי.</p>
 <p>מבחינה גיאומטרית, נראה שכל מה שעשתה המטריצה A לוקטור v, זה פשוט לכווץ או להאריך אותו. ומסתבר שלמציאת וקטור כזה יש שימושים רבים.</p>
 <p>פירוק ערכים עצמיים של A הוא מכפלה של המטריצות V, למדא, V בהופכית.</p>
@@ -1000,6 +980,8 @@ X^TXw_1 = \lambda_1w_1\]</span></p></li>
 <p>אם נגזור את הכמות הזאת לפי הרכיבים בv, נקבל את הביטוי שלפנינו, נשווה אותו לאפס ונגיע למסקנה שאנחנו מחפשים וקטור v שיקיים את המשוואה הזאת. זאת בדיוק משוואה שמגדירה וקטור וערך עצמי של המטריצה X’X, מטריצת הקווריאנס של מדגם הנתונים!</p>
 <p>לכן v1 חייב להיות וקטור עצמי של מטריצת הקווריאנס, ולמדא1 הערך העצמי שלה. ומאחר שכל מטריצת קווריאנס היא ממשית, סימטרית וחיובית, למדא גם חייב להיות אי-שלילי.</p>
 <p>איזה וקטור עצמי וערך עצמי ניקח? אם נכפול את הביטוי כאן ב v טרנספוז מצד שמאל נראה שהפיזור עצמו שווה לערך העצמי, ואנחנו רוצים פיזור כמה שיותר גדול, לכן ניקח את הוקטור העצמי שמתאים לערך העצמי הגדול ביותר. זכרו שהם אי-שליליים!</p>
+<p>במילים אחרות הפתרון של PCA, הW הזה שאנחנו מחפשים הוא בדיוק הסט של וקטורים עצמיים של X’X, ששייכים לערכים העצמיים הכי גדולים.</p>
+<p>נזכיר רק שלמרות התוצאה היפה הזאת, זה לא איך שהמחשב פותר את בעיית הPCA, מחשב בדרך כלל יפתור את בעיית הPCA דרך פירוק הSVD, שאפשר לעשות גם למטריצות גדולות מאוד, בקירוב. על כך תוכלו ללמוד בקורסים אחרים, אנחנו נסתפק בינתיים בזה.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1055,7 +1037,9 @@ X^TXw_1 = \lambda_1w_1\]</span></p></li>
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-
+<p>יש הרבה ביקורות על PCA שהביאו חוקרים לפתח שיטות אחרות. ראינו שPCA הוא בהגדרה שיטה ליניארית. אולי אנקודר ודיקודר גמישים יותר ולא-ליניאריים יכולים להביא לקריטריון טוב יותר? ואם כבר מדברים על קריטריון, כמו ברגרסיה ראינו שהקריטריון של PCA מביא למינימום שגיאה ריבועית. שגיאה ריבועית זו בחירה אחת, אולי בחירות אחרות יביאו לתוצאות טובות יותר, הרי ידוע למשל ששגיאה ריבועית מענישה יותר שגיאות גדולות, כלומר גם אם אנחנו עובדים עם נתונים שעברו סטנדרטיזציה, PCA מאוד מושפע מתצפיות חריגות. ביקורת נוספת היא שבכלל כל ההסתכלות של PCA היא גלובלית, בצורה שקצת מזכירה רגרסיה. אולי אם נאפשר פונקציה אחרת לכל שורה של הנתונים, או התיחסות לוקאלית נקבל תוצאות טובות יותר? והביקורת האחרונה היא לא נכונה. במשך הרבה שנים היה נהוג לומר שPCA הוא רק בעיית אופטימיזציה אלגברית, כמו שראינו שאפשר לראות ברגרסיה ליניארית. ואין לה איזשהו פרוש סטטיסטי, בניגוד לרגרסיה ליניארית. כלומר אין כאן מודל עם הנחה של התפלגות שפתרון PCA הוא המודל הטוב ביותר שמתאים לנתונים שלנו. נראה תיכף שזה התגלה כלא נכון.</p>
+<p>מכל מקום, כל הבעיות האלה הביאו חוקרים לנסח אלגוריתם קצת שונה להורדת מימד, ספציפית למטרה של ויזאליזציה של נתונים: הt-distributed stochastic neighbor embedding, או הטיסני בקיצור. אנחנו נראה שהמיפוי או האמבדינג למימד נמוך יותר הוא כבר לא ליניארי, שהפוקוס הוא לא על איזשהו אנקודר/דיקודר גלובליים להורדת מימד, אלא משהו הרבה יותר לוקאלי, המטרה של השיטה היא לדאוג שכל זוג תצפיות שדומה זו לזו במימד המקורי הגבוה, יהיה גם קרוב במימד הנמוך או בהסתברות גבוהה, ולהיפך: זוג רחוק יהיה רחוק בממד הנמוך.</p>
+<p>בנוסף לזה טיסני יוסיף לנו משמעות הסתברותית בצורה מיידית מזו של PCA.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1114,7 +1098,7 @@ X^TXw_1 = \lambda_1w_1\]</span></p></li>
 <li class="fragment">In low dimension (<span class="math inline">\(q = 2, 3\)</span>) with a <span class="math inline">\(t(1)\)</span>-distribution kernel:
 <ul>
 <li class="fragment">Define <span class="math inline">\(\mathbf{y}_1, \dots, \mathbf{y}_n\)</span> the low-dimensional mappings (each <span class="math inline">\(\mathbf{y} \in \mathbb{R}^q\)</span>)</li>
-<li class="fragment">If <span class="math inline">\(Y \sim t(1)\)</span>, then: <span class="math inline">\(f(y) = \frac{1}{\pi(1+y^2)}\)</span> (also called Cauchy)</li>
+<li class="fragment">If <span class="math inline">\(Z \sim t(1)\)</span>, then: <span class="math inline">\(f(z) = \frac{1}{\pi(1+z^2)}\)</span> (also called Cauchy)</li>
 <li class="fragment">Here, no need to go through conditional probs</li>
 <li class="fragment"><span class="math inline">\(q_{ij} = \frac{(1 + \|\mathbf{y}_i - \mathbf{y}_j\|^2)^{-1}}{\sum_{k}\sum_{k\neq l}(1 + \|\mathbf{y}_k - \mathbf{y}_l\|^2)^{-1}}\)</span>, and set <span class="math inline">\(q_{ii} = 0 \space \forall i\)</span></li>
 <li class="fragment">Why <span class="math inline">\(t(1)\)</span>? See the “crowding problem”.</li>
@@ -1122,7 +1106,7 @@ X^TXw_1 = \lambda_1w_1\]</span></p></li>
 </ul>
 </div>
 <div class="fragment">
-<div id="8d7c4532" class="cell" data-execution_count="6">
+<div id="d4c16ef1" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1157,7 +1141,7 @@ X^TXw_1 = \lambda_1w_1\]</span></p></li>
 </ul>
 </div>
 <div class="fragment">
-<div id="2ba97dc1" class="cell" data-execution_count="7">
+<div id="322c2dd3" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -1230,7 +1214,7 @@ X^TXw_1 = \lambda_1w_1\]</span></p></li>
 <p><img data-src="images/mnist_examples.png" class="quarto-figure quarto-figure-center" height="400"></p>
 </figure>
 </div>
-<p>7000 X 10 hand-written digits (<span class="math inline">\(n = 70000\)</span>) in 28 X 28 pixels (<span class="math inline">\(p=784\)</span>)</p>
+<p>7000 X 10 digits (<span class="math inline">\(n = 70000\)</span>), hand-written, in 28 X 28 pixels (<span class="math inline">\(p=784\)</span>)</p>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 
