@@ -303,6 +303,152 @@ plt.show()
 
 ---
 
+## Detour: Maximum likelihood estimation (MLE) {.title-slide}
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+לפני שנמשיך אנחנו עושים איזה דיטור קצר כדי להבין מושג חשוב מאוד: אמידת נראות מקסימלית. מקסימום לייקליהוד אסטימיישן. נראות, היא הקריטריון המקובל להתאמת מודלים סטטיסטיים. בלי להבין מה זה הקריטריון הזה של נראות ולמה צריך למקסם אותו, די קשה להבין את ההסתכלות ההסתברותית על רגרסיה ליניארית שנראה בהמשך, שמוסיפה לנו כל כך הרבה.
+:::
+:::
+
+---
+
+### Example: Coin Toss
+
+::: {.incremental}
+- Suppose I get a coin, its result is $X_i$, where $P(X_i = H) = p$
+- How can I estimate $p$?
+- I toss the coin $n = 5$ times: $\{H, H, T, T, H\}$
+- What is the probability of getting $3H$ and $2T$?
+  - For $p = 0.2 \rightarrow P(3H, 2T) = {5\choose3} \cdot 0.2^3 \cdot 0.8^2 \approx 0.05$
+  - For $p = 0.3 \rightarrow P(3H, 2T) = {5\choose3} \cdot 0.3^3 \cdot 0.7^2 \approx 0.13$
+- So simple, let's calculate for any $p$ and choose $\hat{p} = \arg\max_p P(3H, 2T)$
+:::
+
+::: {.fragment}
+
+```{python}
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.special import comb
+
+# Likelihood function
+def likelihood(p, k, n):
+    return comb(n, k) * (p**k) * ((1 - p)**(n - k))
+
+# Parameters for the coin toss experiment
+k = 3  # number of heads
+n = 5  # total coin tosses
+
+# Values of p from 0 to 1
+p_values = np.linspace(0, 1, 100)
+
+# Calculate likelihood for each value of p
+likelihood_values = [likelihood(p, k, n) for p in p_values]
+
+# Plot the likelihood function
+plt.figure(figsize=(3.5, 2.5))
+plt.plot(p_values, likelihood_values, color='black')
+
+# Add a vertical line at the MLE (p = 0.6)
+plt.axvline(x=0.6, color='black', linestyle='dotted')
+
+# Set plot labels and show
+plt.xlabel('p')
+plt.ylabel('P(3H, 2T)')
+plt.show()
+```
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+נתחיל בדוגמא של הטלת מטבע. אני מקבל מטבע שנסמן את התוצאה של ההטלה שלו בX, ואנחנו מניחים שיש סיכוי קבוע להטלה של ראש או הדז, p.
+
+איך אפשר לאמוד את הפרמטר p? אני בטוח שיש לכולם תשובה אינטואיטיבית לזה, אנחנו נפרמל את זה קצת.
+
+בואו נזרוק את המטבע למשל 5 פעמים. ונניח שאלה התוצאות שמתקבלות, כשכנראה אין חשיבות לסדר: קיבלנו 3 פעמים הדז ופעמיים טיילז.
+
+מה הסיכוי לקבל תוצאה כזאת?
+
+אני לא יודע, כי אני לא יודע את p. אני כן יכול להציב ערכים.
+
+לדוגמא אם p = 0.2, מדובר בהסתברות בינומית רגילה, לבחור 3 מקומות להדז מתוך 5, כפול הסיכוי להדז בחזקת 3, כפול הסיכוי לטיילז בחזקת 2.
+
+ואם p = 0.3, אז יוצא ביטוי אחר. בכל מקרה ברור שאם הסיכוי לקבל את המדגם שקיבלתי תחת ההנחה שp = 0.3 גדול יותר מהסיכוי לקבל את המדגם תחת ההנחה שp = 0.2, נראה הערך 0.3 סביר יותר.
+
+אז למה לעצור כאן, אפשר לחשב את הסיכוי של המדגם שלנו לכל ערך של p ולבחור באומד p-hat שימקסם את ההסתברות הזאת.
+
+וזה בדיוק מה שאנחנו עושים בגרף הבא, אנחנו משרטטים את הסיכוי לקבל את המדגם שלנו, של שלושה הדז ושני טיילז, כנגד p. וכבר סימנו את הp שמביא את הקריטריון הזה למקסימום. אלה שהשתמשו באינטואיציה שלהם לא יופתעו לראות שהp הטוב ביותר הוא 0.6, שזה 3 הצלחות מתוך 5 ניסיונות. אבל זאת דוגמא ממש פשוטה. נכליל אותה, לקריטריון הזה נקרא הנראות, או הלייקליהוד, והאומד שלנו ייקרא אומד נראות מקסימלית.
+:::
+:::
+
+---
+
+### Maximum likelihood estimation (MLE) (I)
+
+::: {.incremental}
+- First Generalization:
+  - $X_i \sim Bernoulli(p)$, $n$ tosses, got $k$ Heads
+  - $\text{Likelihood}(p) = L(p|x_1, \dots, x_n) = P(x_1, \dots, x_n) = {n \choose k}p^{k}(1-p)^{n -k}$
+  - Goal: $\hat{p} = \arg\max_p{L(p|x_1, \dots, x_n)}$
+  - Not surprising: $\hat{p} = \frac{k}{n}$
+  - Notice with: $\text{Log-Likelihood}(p) = \ell(p|x_1, \dots, x_n) = \log P(x_1, \dots, x_n) = k\log p + (n -k)\log(1-p)$
+    - we get the same $\hat{p} = \frac{k}{p}$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+אז הכללה ראשונה היא לסיפור כללי יותר. תוצאת ההטלה מתפלגת ברנולי עם איזשהו סיכוי p, אנחנו רוצים לאמוד אותו. אנחנו לוקחים מדגם של n הטלות ומקבלים בשורה התחתונה k פעמים הדז.
+
+ההסתברות של המדגם שלנו היא ההסתברות של תוצאה בינומית שרשומה כאן, ונגדיר שהיא פונקציה של p שנקרא לה נראות, לייקליהוד. מסמנים בדרך כלל עם L גדולה כפונקציה של p בהינתן המדגם שהתקבל. זה בעצם ההסתברות לקבל את המדגם כפונקציה של p.
+
+המטרה היא לעשות מקסימיזציה לפונקציה הזאת, והאומד שלנו p-hat יהיה הערך שיביא אותה למקסימום, לכן זה נקרא אמידת נראות מקסימלית.
+
+במקרה שלנו, אם נגזור את הביטוי, נשווה לאפס, ונחפש נקודות קיצון, נקבל ביטוי סגור לנקודת המקסימום: k חלקי n. שזה בעצם ממוצע המדגם אם היינו מסמנים את הדז כ1 וטיילז כ0, בדוגמא שלנו זה יצא 3/5 ואמרנו שזה לא מפתיע.
+
+ונשים לב, שאם היינו בוחרים לעשות לוג על הקריטריון, ולעבוד עם לוג הנראות, שמסומן בדרך כלל עם l קטנה, היינו מגיעים לביטוי פשוט יותר, ועדיין מקבלים אותו אומד נראות מקסימלית. הסיבה היא שלוג היא פונקציה מונוטונית עולה של הנראות.
+:::
+:::
+
+---
+
+### Maximum likelihood estimation (MLE) (II)
+
+::: {.incremental}
+- Second generalization, when $X_1, \dots, X_n \sim P_\theta$ iid
+  - $\text{Likelihood}(\theta) = L(\theta|x) = P_\theta(x_1, \dots, x_n) = \prod_{i = 1}^n P_\theta(X_i = x_i)$
+  - Goal: $\hat{\theta} = \arg\max_\theta{L(\theta|x)}$
+  - $\hat{\theta}$ is the MLE, not always a closed solution
+  - Usually easier: $\text{Log-Likelihood}(\theta) = \ell(\theta|x) = \log P_\theta(x_1, \dots, x_n) = \sum_{i = 1}^n \log P_\theta(X_i = x_i)$
+- For a continuous $X \sim f_\theta(x)$:
+  - $L(\theta|x) = \prod_{i = 1}^n f_\theta(x_i)$
+  - $\ell(\theta|x) = \sum_{i = 1}^n \log f_\theta(x_i)$
+:::
+
+::: {.notes}
+::: {style="direction:rtl; font-size:16px"}
+באופן כללי אפילו יותר אפשר לדבר על מדגם של משתנה מקרי X שמתפלג כל התפלגות שתלויה בפרמטר אחד או יותר שנקרא להם תטא. ואנחנו בדרך כלל עובדים עם מדגם iid כלומר תצפיות שמתפלגות בצורה זהה ובלתי תלויה אחת בשניה.
+
+הנראות היא פונקציה של תטא שמקובל לסמן בL גדולה של תטא בהינתן הנתונים או תוצאת המדגם. ואם הוא iid זה פשוט מכפלת ההסתברויות.
+
+והמטרה היא למצוא אנ"מ, אומד נראות מקסימלית שיביא למקסימום את הנראות.
+
+במקרה של התפלגות ברנולי יש פתרון סגור, אבל הגישה הזאת נכונה גם למקרים הרבה יותר מסובכים, ואין תמיד פתרון סגור ואז משתמשים בשיטות נומריות.
+
+ובאופן כללי, הרבה פעמים עוברים דרך לוג הנראות כי הוא מביא לביטוי פשוט יותר, מכפלת ההסתברויות הופכת להיות סכום הלוג של ההסתברויות.
+
+ואם המשתנה X הוא רציף, פשוט נעבוד דרך הצפיפויות:
+
+הנראות תהיה מכפלת הצפיפויות, ולוג הנראות יהיה סכום הלוג של הצפיפויות.
+
+זהו לגבי הדיטור שלנו. חשוב להזכיר אם אנחנו כבר מבקרים כאן, אמידת נראות מקסימלית היא נושא כבד בסטטיסטיקה, אפשר להראות שלאומד נראות מקסימלית יש כל מיני תכונות מאוד מושכות, אפשר להשוות בינו לבין אומדים אחרים -- אם זה מעניין אתכם בהחלט מומלץ להרחיב את הדעת עם קורסים אחרים. ועכשיו בחזרה לרגרסיה ליניארית.
+:::
+:::
+
+---
+
 ## Probabilistic view of linear regression {.title-slide}
 
 ::: {.notes}

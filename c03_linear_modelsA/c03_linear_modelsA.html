@@ -434,7 +434,7 @@
 <section class="slide level2">
 
 <h3 id="from-line-to-rss-surface">From line to RSS surface</h3>
-<div id="15ca06cf" class="cell" data-execution_count="1">
+<div id="70b94b61" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -498,7 +498,7 @@
 <section class="slide level2">
 
 <h3 id="average-of-many-ols-lines">Average of many OLS lines</h3>
-<div id="a6818bdd" class="cell" data-execution_count="2">
+<div id="a7fba4a7" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -510,6 +510,155 @@
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 <p>בסימולציה שלפנינו אפשר לראות את שני הקווים המדוברים: קו הרגרסיה האמיתי של האוכלוסיה בירוק, על-פי הקו הזה נדגמו 100 נקודות. וקו הריבועים הפחותים באדום, שנאמד אך ורק מתוך הנקודות. אפשר לראות שהם דומים. בתרשים הימני אנחנו חוזרים על התרגיל עוד 10 פעמים, כל פעם דוגמים 100 תצפיות אחרות ואומדים את קו הריבועים הפחותים. אם נחזור על זה הרבה פעמים או אם נדגום המון תצפיות, אנחנו אמורים לקבל בממוצע את קו הרגרסיה האמיתי של האוכלוסיה.</p>
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="detour-maximum-likelihood-estimation-mle" class="slide level2 title-slide center">
+<h2>Detour: Maximum likelihood estimation (MLE)</h2>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+<p>לפני שנמשיך אנחנו עושים איזה דיטור קצר כדי להבין מושג חשוב מאוד: אמידת נראות מקסימלית. מקסימום לייקליהוד אסטימיישן. נראות, היא הקריטריון המקובל להתאמת מודלים סטטיסטיים. בלי להבין מה זה הקריטריון הזה של נראות ולמה צריך למקסם אותו, די קשה להבין את ההסתכלות ההסתברותית על רגרסיה ליניארית שנראה בהמשך, שמוסיפה לנו כל כך הרבה.</p>
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="example-coin-toss">Example: Coin Toss</h3>
+<div>
+<ul>
+<li class="fragment">Suppose I get a coin, its result is <span class="math inline">\(X_i\)</span>, where <span class="math inline">\(P(X_i = H) = p\)</span></li>
+<li class="fragment">How can I estimate <span class="math inline">\(p\)</span>?</li>
+<li class="fragment">I toss the coin <span class="math inline">\(n = 5\)</span> times: <span class="math inline">\(\{H, H, T, T, H\}\)</span></li>
+<li class="fragment">What is the probability of getting <span class="math inline">\(3H\)</span> and <span class="math inline">\(2T\)</span>?
+<ul>
+<li class="fragment">For <span class="math inline">\(p = 0.2 \rightarrow P(3H, 2T) = {5\choose3} \cdot 0.2^3 \cdot 0.8^2 \approx 0.05\)</span></li>
+<li class="fragment">For <span class="math inline">\(p = 0.3 \rightarrow P(3H, 2T) = {5\choose3} \cdot 0.3^3 \cdot 0.7^2 \approx 0.13\)</span></li>
+</ul></li>
+<li class="fragment">So simple, let’s calculate for any <span class="math inline">\(p\)</span> and choose <span class="math inline">\(\hat{p} = \arg\max_p P(3H, 2T)\)</span></li>
+</ul>
+</div>
+<div class="fragment">
+<div id="06cd8c7e" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c03_linear_modelsA_files/figure-revealjs/cell-4-output-1.png" width="328" height="245"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+<p>נתחיל בדוגמא של הטלת מטבע. אני מקבל מטבע שנסמן את התוצאה של ההטלה שלו בX, ואנחנו מניחים שיש סיכוי קבוע להטלה של ראש או הדז, p.</p>
+<p>איך אפשר לאמוד את הפרמטר p? אני בטוח שיש לכולם תשובה אינטואיטיבית לזה, אנחנו נפרמל את זה קצת.</p>
+<p>בואו נזרוק את המטבע למשל 5 פעמים. ונניח שאלה התוצאות שמתקבלות, כשכנראה אין חשיבות לסדר: קיבלנו 3 פעמים הדז ופעמיים טיילז.</p>
+<p>מה הסיכוי לקבל תוצאה כזאת?</p>
+<p>אני לא יודע, כי אני לא יודע את p.&nbsp;אני כן יכול להציב ערכים.</p>
+<p>לדוגמא אם p = 0.2, מדובר בהסתברות בינומית רגילה, לבחור 3 מקומות להדז מתוך 5, כפול הסיכוי להדז בחזקת 3, כפול הסיכוי לטיילז בחזקת 2.</p>
+<p>ואם p = 0.3, אז יוצא ביטוי אחר. בכל מקרה ברור שאם הסיכוי לקבל את המדגם שקיבלתי תחת ההנחה שp = 0.3 גדול יותר מהסיכוי לקבל את המדגם תחת ההנחה שp = 0.2, נראה הערך 0.3 סביר יותר.</p>
+<p>אז למה לעצור כאן, אפשר לחשב את הסיכוי של המדגם שלנו לכל ערך של p ולבחור באומד p-hat שימקסם את ההסתברות הזאת.</p>
+<p>וזה בדיוק מה שאנחנו עושים בגרף הבא, אנחנו משרטטים את הסיכוי לקבל את המדגם שלנו, של שלושה הדז ושני טיילז, כנגד p.&nbsp;וכבר סימנו את הp שמביא את הקריטריון הזה למקסימום. אלה שהשתמשו באינטואיציה שלהם לא יופתעו לראות שהp הטוב ביותר הוא 0.6, שזה 3 הצלחות מתוך 5 ניסיונות. אבל זאת דוגמא ממש פשוטה. נכליל אותה, לקריטריון הזה נקרא הנראות, או הלייקליהוד, והאומד שלנו ייקרא אומד נראות מקסימלית.</p>
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="maximum-likelihood-estimation-mle-i">Maximum likelihood estimation (MLE) (I)</h3>
+<div>
+<ul>
+<li class="fragment">First Generalization:
+<ul>
+<li class="fragment"><span class="math inline">\(X_i \sim Bernoulli(p)\)</span>, <span class="math inline">\(n\)</span> tosses, got <span class="math inline">\(k\)</span> Heads</li>
+<li class="fragment"><span class="math inline">\(\text{Likelihood}(p) = L(p|x_1, \dots, x_n) = P(x_1, \dots, x_n) = {n \choose k}p^{k}(1-p)^{n -k}\)</span></li>
+<li class="fragment">Goal: <span class="math inline">\(\hat{p} = \arg\max_p{L(p|x_1, \dots, x_n)}\)</span></li>
+<li class="fragment">Not surprising: <span class="math inline">\(\hat{p} = \frac{k}{n}\)</span></li>
+<li class="fragment">Notice with: <span class="math inline">\(\text{Log-Likelihood}(p) = \ell(p|x_1, \dots, x_n) = \log P(x_1, \dots, x_n) = k\log p + (n -k)\log(1-p)\)</span>
+<ul>
+<li class="fragment">we get the same <span class="math inline">\(\hat{p} = \frac{k}{p}\)</span></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+<p>אז הכללה ראשונה היא לסיפור כללי יותר. תוצאת ההטלה מתפלגת ברנולי עם איזשהו סיכוי p, אנחנו רוצים לאמוד אותו. אנחנו לוקחים מדגם של n הטלות ומקבלים בשורה התחתונה k פעמים הדז.</p>
+<p>ההסתברות של המדגם שלנו היא ההסתברות של תוצאה בינומית שרשומה כאן, ונגדיר שהיא פונקציה של p שנקרא לה נראות, לייקליהוד. מסמנים בדרך כלל עם L גדולה כפונקציה של p בהינתן המדגם שהתקבל. זה בעצם ההסתברות לקבל את המדגם כפונקציה של p.</p>
+<p>המטרה היא לעשות מקסימיזציה לפונקציה הזאת, והאומד שלנו p-hat יהיה הערך שיביא אותה למקסימום, לכן זה נקרא אמידת נראות מקסימלית.</p>
+<p>במקרה שלנו, אם נגזור את הביטוי, נשווה לאפס, ונחפש נקודות קיצון, נקבל ביטוי סגור לנקודת המקסימום: k חלקי n.&nbsp;שזה בעצם ממוצע המדגם אם היינו מסמנים את הדז כ1 וטיילז כ0, בדוגמא שלנו זה יצא 3/5 ואמרנו שזה לא מפתיע.</p>
+<p>ונשים לב, שאם היינו בוחרים לעשות לוג על הקריטריון, ולעבוד עם לוג הנראות, שמסומן בדרך כלל עם l קטנה, היינו מגיעים לביטוי פשוט יותר, ועדיין מקבלים אותו אומד נראות מקסימלית. הסיבה היא שלוג היא פונקציה מונוטונית עולה של הנראות.</p>
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="maximum-likelihood-estimation-mle-ii">Maximum likelihood estimation (MLE) (II)</h3>
+<div>
+<ul>
+<li class="fragment">Second generalization, when <span class="math inline">\(X_1, \dots, X_n \sim P_\theta\)</span> iid
+<ul>
+<li class="fragment"><span class="math inline">\(\text{Likelihood}(\theta) = L(\theta|x) = P_\theta(x_1, \dots, x_n) = \prod_{i = 1}^n P_\theta(X_i = x_i)\)</span></li>
+<li class="fragment">Goal: <span class="math inline">\(\hat{\theta} = \arg\max_\theta{L(\theta|x)}\)</span></li>
+<li class="fragment"><span class="math inline">\(\hat{\theta}\)</span> is the MLE, not always a closed solution</li>
+<li class="fragment">Usually easier: <span class="math inline">\(\text{Log-Likelihood}(\theta) = \ell(\theta|x) = \log P_\theta(x_1, \dots, x_n) = \sum_{i = 1}^n \log P_\theta(X_i = x_i)\)</span></li>
+</ul></li>
+<li class="fragment">For a continuous <span class="math inline">\(X \sim f_\theta(x)\)</span>:
+<ul>
+<li class="fragment"><span class="math inline">\(L(\theta|x) = \prod_{i = 1}^n f_\theta(x_i)\)</span></li>
+<li class="fragment"><span class="math inline">\(\ell(\theta|x) = \sum_{i = 1}^n \log f_\theta(x_i)\)</span></li>
+</ul></li>
+</ul>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+<p>באופן כללי אפילו יותר אפשר לדבר על מדגם של משתנה מקרי X שמתפלג כל התפלגות שתלויה בפרמטר אחד או יותר שנקרא להם תטא. ואנחנו בדרך כלל עובדים עם מדגם iid כלומר תצפיות שמתפלגות בצורה זהה ובלתי תלויה אחת בשניה.</p>
+<p>הנראות היא פונקציה של תטא שמקובל לסמן בL גדולה של תטא בהינתן הנתונים או תוצאת המדגם. ואם הוא iid זה פשוט מכפלת ההסתברויות.</p>
+<p>והמטרה היא למצוא אנ”מ, אומד נראות מקסימלית שיביא למקסימום את הנראות.</p>
+<p>במקרה של התפלגות ברנולי יש פתרון סגור, אבל הגישה הזאת נכונה גם למקרים הרבה יותר מסובכים, ואין תמיד פתרון סגור ואז משתמשים בשיטות נומריות.</p>
+<p>ובאופן כללי, הרבה פעמים עוברים דרך לוג הנראות כי הוא מביא לביטוי פשוט יותר, מכפלת ההסתברויות הופכת להיות סכום הלוג של ההסתברויות.</p>
+<p>ואם המשתנה X הוא רציף, פשוט נעבוד דרך הצפיפויות:</p>
+<p>הנראות תהיה מכפלת הצפיפויות, ולוג הנראות יהיה סכום הלוג של הצפיפויות.</p>
+<p>זהו לגבי הדיטור שלנו. חשוב להזכיר אם אנחנו כבר מבקרים כאן, אמידת נראות מקסימלית היא נושא כבד בסטטיסטיקה, אפשר להראות שלאומד נראות מקסימלית יש כל מיני תכונות מאוד מושכות, אפשר להשוות בינו לבין אומדים אחרים – אם זה מעניין אתכם בהחלט מומלץ להרחיב את הדעת עם קורסים אחרים. ועכשיו בחזרה לרגרסיה ליניארית.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -557,8 +706,8 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-<p>עד כה לא הנחנו אף הנחה הסתברותית. לא הזכרנו משתנים מקריים, בטח לא התפלגות נורמלית. זה חשוב להבין שפתרון הרגרסיה שראינו הוא פתרון עם הצדקה מתמטית בלי שום הצדקה סטטיסטית. ומסתבר שעם נרצה הצדקה סטטיסטית כזאת נגיע לפתרון זהה, אבל נרוויח עוד כמה דברים בדרך.</p>
-<p>אז נוסיף למודל שלנו משתנה מקרי אפסילון, משתנה רעש. כלומר אנחנו מניחים שיש פונקציה ליניארית קבועה של Y כנגד X והסיבר שהתצפיות לא יושבות בדיוק על הקו הזה היא שעבור כל אחת נוסף איזשהו רעש טבעי שמזיז אותה קצת למעלה או למטה מהקו. בנוסף נניח שהאפסילונים הם בלתי תלויים ומתפלגים זהה או IID. נזכיר שוב שניתן להכליל גם למצב שתוספות הרעש הזה אינן בלתי-תלויות, אלא תלויות למשל בX. אבל נתחיל במודל הפשוט הזה, ונניח עוד שהרעש מתפלג נורמלית עם תוחלת אפס ושונות סיגמא בריבוע, פרמטר לא ידוע בדרך כלל שנצטרך לאמוד.</p>
+<p>עד כה לא הנחנו אף הנחה הסתברותית. לא הזכרנו משתנים מקריים, בטח לא התפלגות נורמלית. זה חשוב להבין שפתרון הרגרסיה שראינו הוא פתרון עם הצדקה מתמטית בלי שום הצדקה סטטיסטית. ומסתבר שאם נרצה הצדקה סטטיסטית כזאת נגיע לפתרון זהה, אבל נרוויח עוד כמה דברים בדרך.</p>
+<p>אז נוסיף למודל שלנו משתנה מקרי אפסילון, משתנה רעש. כלומר אנחנו מניחים שיש פונקציה ליניארית קבועה של Y כנגד X והסיבה שהתצפיות לא יושבות בדיוק על הקו הזה היא שעבור כל אחת נוסף איזשהו רעש טבעי שמזיז אותה קצת למעלה או למטה מהקו. בנוסף נניח שהאפסילונים הם בלתי תלויים ומתפלגים זהה או IID. נזכיר שוב שניתן להכליל גם למצב שתוספות הרעש הזה אינן בלתי-תלויות, אלא תלויות למשל בX. אבל נתחיל במודל הפשוט הזה, ונניח עוד שהרעש מתפלג נורמלית עם תוחלת אפס ושונות סיגמא בריבוע, פרמטר לא ידוע בדרך כלל שנצטרך לאמוד.</p>
 <p>אז כאמור המשתנה המסביר X והרעש אפסילון בלתי תלויים, וכעת יש לנו מודל הסתברותי מדויק וברור, והקריטריון הטבעי לאמוד את הפרמטרים שלו הוא למקסם את הנראות, הלייקליהוד, או לוג הנראות, כי יש לו צורה פשוטה יותר בדרך כלל.</p>
 </div>
 <style type="text/css">
@@ -589,7 +738,7 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-<p>אז כאמור X הוא לא משתנה מקרי תחת מודל הרגרסיה, רק אפסילון הרעש משתנה מקרי. יוצא מזה שY הוא טרנספורמציה ליניארית של משתנה מקרי, ולכן הוא בעצמו משתנה מקרי שמתפלג נורמלית, עם תוחלת שהיא קו הרגרסיה האמיתי, ושנות סיגמה בריבוע.</p>
+<p>אז כאמור X הוא לא משתנה מקרי תחת מודל הרגרסיה, רק אפסילון הרעש משתנה מקרי. יוצא מזה שY הוא טרנספורמציה ליניארית של משתנה מקרי, ולכן הוא בעצמו משתנה מקרי שמתפלג נורמלית, עם תוחלת שהיא קו הרגרסיה האמיתי, ושונות סיגמה בריבוע.</p>
 <p>מהי פונקצית הנראות? פונקצית הנראות היא פונקציה של הפרמטרים שאנחנו צריכים לאמוד, בהינתן מדגם הנתונים. ההגדרה שלה עבור משתנה רציף היא הצפיפות המשותפת של המדגם, ואם התצפיות בלתי תלויות מדובר במכפלת הצפיפויות. מכפלת הצפיפויות היא מכפלת הצפיפויות הנורמליות של Y, ואפשר לפשט אם זוכרים שמכפלת האקספוננטים היא אקספוננט בחזקת הסכום. את הביטוי הזה נרצה להביא למקסימום כפונקציה של הבטאות וסיגמא בריבוע.</p>
 <p>אבל נוח יותר לקחת לוג ולהביא למקסימום את לוג הנראות. וכשלוקחים לוג, מתקבל איזשהו קבוע שלא חשוב לנו כי הוא לא פונקציה של הפרמטרים, ביטוי שתלוי רק בסיגמא בריבוע, אבל הבטאות משחקות תפקיד רק בביטוי השלישי, שמזכיר באופן חשוד את הRSS. המסקנה היא שלגבי הבטאות, להביא למינימום את הRSS או להביא למקסימום את לוג הנראות – זה בדיוק אותו דבר! כלומר באמצעות ההנחות הסטטיסטיות שהוספנו, אנחנו מקבלים בדיוק את אותם אומדים בטא-האט, ועד לנקודה זו לא השתנה שום דבר.</p>
 <p>מה כן השתנה? השינוי העיקרי הוא שהאומדים שלנו, בטא-אפס-האט ובטא-אחת-האט הם כעת משתנים מקריים, שניתן לבצע עליהם הסקה סטטיסטית. נראה את זה תיכף, אבל קודם כל נדבר על רגרסיה ליניארית מרובה, מה קורה כשיש P משתנים מסבירים?</p>
@@ -663,11 +812,11 @@
 <section class="slide level2">
 
 <h3 id="from-line-to-hyperplane">From line to (hyper)plane</h3>
-<div id="b7935eff" class="cell" data-execution_count="3">
+<div id="c215e63a" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c03_linear_modelsA_files/figure-revealjs/cell-4-output-1.png" width="570" height="537"></p>
+<p><img data-src="c03_linear_modelsA_files/figure-revealjs/cell-5-output-1.png" width="570" height="537"></p>
 </figure>
 </div>
 </div>
@@ -861,11 +1010,11 @@
 <section class="slide level2">
 
 <h3 id="se-vs.-x-spread">SE vs.&nbsp;<span class="math inline">\(x\)</span> spread</h3>
-<div id="60c5afd3" class="cell" data-execution_count="4">
+<div id="48512c07" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c03_linear_modelsA_files/figure-revealjs/cell-5-output-1.png" width="1142" height="470"></p>
+<p><img data-src="c03_linear_modelsA_files/figure-revealjs/cell-6-output-1.png" width="1142" height="470"></p>
 </figure>
 </div>
 </div>
@@ -951,8 +1100,8 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-<p>נתחיל ברגרסיה פשוטה עם משתנה אחד, שם השאלה הטבעית היא מה השורה התחתונה המשתנה קשור לY, משפע עליו, או לא.</p>
-<p>זה מתרגם לבדיקת השערות פשוטה על מקדם השיפוע. אם הוא אפס אין למשתנה X קשר עם Y, ורק אם הוא שונה מאפס קו הרגרסיה יהיה עם טרנד חיובי או שלילי ונסיק שיש השפעה לX.</p>
+<p>נתחיל ברגרסיה פשוטה עם משתנה אחד, שם השאלה הטבעית היא מה השורה התחתונה המשתנה קשור לY, משפע עליו, או לא. כמו תמיד, יש כאן אלמנט של ספק תמיד, והשאלה היא האם השתכנענו מעל לספק סביר שהמשתנה משפיע על Y. אנחנו תמיד לוקחים בחשבון את האפשרות שאנחנו טועים.</p>
+<p>זה מתרגם לבדיקת השערות פשוטה על מקדם השיפוע. אם הוא אפס אין למשתנה X קשר עם Y, ורק אם הוא שונה מאפס קו הרגרסיה יהיה עם טרנד חיובי או שלילי ונסיק שיש השפעה לX, מעל לספק סביר.</p>
 <p>להדגים: אז יש כאן משתנה מקרי שמתפלג תחת השערת האפס נורמלית עם תוחלת אפס ושונות SE בריבוע. אם אנחנו מחסרים את התוחלת ומחלקים בטעות התקן שאיננה ידועה אז אנחנו מחליפים אותו באומד, הסטטיסטי הזה מתפלג טי עם n פחות 2 דרגות חופש.</p>
 <p>מדובר בהשערה דו-צדדית, אז אפשר לחשב עבורה פי-ווליו דו-צדדי. אם t אובזרווד הוא חיובי אז אנחנו רוצים את הסיכוי להיות גדול כמוהו או יותר ועוד הסיכוי להיות קטן כמו מינוס t אוברזווד או יותר. באופן כללי נרשום את זה כך.</p>
 <p>אפשר לא להסתפק גם בתשובה בינארית לשאלה אלא ממש לתת רווח סמך לשיפוע, לדוגמא רווח סמך ברמת ביטחון שיכלול את השיפוע האמיתי בסיכוי 95 אחוז, והוא בערך האומדן שקיבלנו פלוס מינוס פעמיים טעות התקן הנאמדת.</p>
@@ -1004,15 +1153,15 @@
 <section class="slide level2">
 
 <h3 id="example-with-statsmodels">Example with <code>statsmodels</code></h3>
-<div id="159493e0" class="cell" data-execution_count="5">
+<div id="2c9ddc63" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-stdout">
 <pre><code>                            OLS Regression Results                            
 ==============================================================================
 Dep. Variable:                 Income   R-squared:                       0.934
 Model:                            OLS   Adj. R-squared:                  0.929
 Method:                 Least Squares   F-statistic:                     191.4
-Date:                Thu, 25 Jul 2024   Prob (F-statistic):           1.13e-16
-Time:                        09:29:12   Log-Likelihood:                -100.15
+Date:                Sun, 13 Oct 2024   Prob (F-statistic):           1.13e-16
+Time:                        10:43:45   Log-Likelihood:                -100.15
 No. Observations:                  30   AIC:                             206.3
 Df Residuals:                      27   BIC:                             210.5
 Df Model:                           2                                         
@@ -1087,7 +1236,7 @@ Notes:
 <p>הדרך לבצע את זה היא להריץ עוד רגרסיה על המודל הקטן יותר עם P-Q משתנים, ולקבל סכום ריבועים של שאריות שנסמן בRSS0. שימו-לב שככל שנוסיף משתנים הRSS יכול רק להיות קטן יותר. כלומר הRSS במודל המקורי הגדול הוא בטוח קטן יותר. אם הוא קטן מספיק לעומת RSS0, שחושב על מודל ללא הQ משתנים שאנחנו בוחנים, אז נגיד שלפחות אחד מהם חשוב. מכמתים את זה שוב עם סטטיסטי שמתפלג F עם דרגות חופש מעט שונות. כדי שהוא יהיה גדול צריך שהמודל הרווי, עם כל הP משתנים יביא לRSS קטן מספיק.</p>
 <p>ואם Q = 1, כלומר אנחנו בודקים האם להכניס או לא משתנה ספציפי מעבר לשאר המשתנים שנמצאים במודל, מסתבר שהערך שנקבל הוא בעצם ערך הטי בריבוע שהיינו מקבלים, עבור מבחן טי פשוט אם להכניס את המשתנה הזה לרגרסיה או לא, בהינתן כל המשתנים האחרים. שימו-לב זה חשוב, ברגרסיה עם משתנה אחד אין משתנים אחרים ולכן השאלה הזאת כלל לא עולה. ההשערה הזאת בודקת האם מעבר למה שתורמים המשתנים האחרים ברגרסיה המשתנה הבודד הנידון מוסיף איזשהו אפקט על Y. מכל מקום אלה הם ערכי הטי והP-values ורווחי הסמך שראינו בפלט הרגרסיה לכל משתנה בנפרד.</p>
 <p>ועכשיו אנחנו רוצים לחזור אחורה ולשאול למה צריך מבחני F. למשל לגבי ההשערה הכוללת של האם לפחות אחד מהמשתנים המסבירים משפיע על Y, אם יש לנו דרך לבצע בדיקת השערות עבור משתנה אחד, אפשר למשל לבדוק השערות לכל אחד מP המשתנים, ואם לפחות אחד מהם יגיע למובהקות סטטיסטית, לקבוע שכן, יש קשר בין המשתנים בX לבין Y.</p>
-<p>זה לא רעיון טוב, מסתבר, במיוחד במודל עם הרבה משתנים, בגלל בעיה מפורסמת שנקראת בעיית ההשוואות המרובות. כל אחד מהמשתנים ייבדק מול טעות מסוג ראשון של נאמר 5 אחוז, אבל הסיכוי שלפחות אחד מהם נראה מובהק סטטיסטית כשהוא לא, הוא כבר גדול הרבה יותר. הוא 1 פחות 95 אחוז בחזקת P. עבור שני משתנים זה כבר כמעט 10 אחוז, עבור 100 משתנים זה כבר סיכוי של 100 אחוז לראות משתנה מובהק סטטיסטית למרות שאין אף משתנה בעל קשר לY. אז אנחנו צריכים קודם בדיקת השערות עם טעות מסוג ראשון של 5 אחוז שתקבע האם בכלל להסתכל במבחני הT עבור המקדמים השונים.</p>
+<p>זה לא רעיון טוב, מסתבר, במיוחד במודל עם הרבה משתנים. סיבה אחת היא שיכול להיות שהמשתנים כן מתואמים ביניהם, ורק כשלוקחים את כולם או קבוצה מהם אפשר לראות השפעה מצרפית על המשתנה התלוי, השפעה שלא נראה אותה אם נבדוק אותם אחד אחד. סיבה אחרת היא בעיה מפורסמת שנקראת בעיית ההשוואות המרובות. כל אחד מהמשתנים ייבדק מול טעות מסוג ראשון של נאמר 5 אחוז, אבל הסיכוי שלפחות אחד מהם נראה מובהק סטטיסטית כשהוא לא, הוא כבר גדול הרבה יותר. הוא 1 פחות 95 אחוז בחזקת P. עבור שני משתנים זה כבר כמעט 10 אחוז, עבור 100 משתנים זה כבר סיכוי של 100 אחוז לראות משתנה מובהק סטטיסטית למרות שאין אף משתנה בעל קשר לY. אז אנחנו צריכים קודם בדיקת השערות עם טעות מסוג ראשון של 5 אחוז שתקבע האם בכלל להסתכל במבחני הT עבור המקדמים השונים.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1123,11 +1272,11 @@ Notes:
 
 <h3 id="model-fit-plotting">Model Fit: plotting</h3>
 <p>When <span class="math inline">\(p\)</span> is low - draw!</p>
-<div id="ed2e7f29" class="cell" data-execution_count="6">
+<div id="df4b67be" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c03_linear_modelsA_files/figure-revealjs/cell-7-output-1.png" width="876" height="398"></p>
+<p><img data-src="c03_linear_modelsA_files/figure-revealjs/cell-8-output-1.png" width="876" height="398"></p>
 </figure>
 </div>
 </div>
@@ -1151,11 +1300,11 @@ Notes:
 <section class="slide level2">
 
 <h3 id="model-fit-residuals-plots">Model fit: residuals plots</h3>
-<div id="c7ac2cdf" class="cell" data-execution_count="7">
+<div id="5ff396cb" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c03_linear_modelsA_files/figure-revealjs/cell-8-output-1.png" width="972" height="429"></p>
+<p><img data-src="c03_linear_modelsA_files/figure-revealjs/cell-9-output-1.png" width="972" height="429"></p>
 </figure>
 </div>
 </div>
@@ -1182,11 +1331,11 @@ Notes:
 <h3 id="model-fit-r-squared">Model Fit: <span class="math inline">\(R\)</span> squared</h3>
 <p>Measure of “explained variance”:</p>
 <p><span class="math inline">\(R^2 = 1 - \frac{\sum_{i = 1}^n (y_i - X\hat{\beta})^2}{\sum_{i = 1}^n (y_i - \bar{y})^2} = 1 - \frac{RSS}{TSS} = 1 - \frac{(y - X\hat{\beta})'(y - X\hat{\beta})}{(y - X\hat{\beta^*_0})'(y - X\hat{\beta^*_0})}\)</span></p>
-<div id="f0f9e831" class="cell" data-execution_count="8">
+<div id="36a61f34" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c03_linear_modelsA_files/figure-revealjs/cell-9-output-1.png" width="597" height="360"></p>
+<p><img data-src="c03_linear_modelsA_files/figure-revealjs/cell-10-output-1.png" width="597" height="360"></p>
 </figure>
 </div>
 </div>
