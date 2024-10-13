@@ -706,7 +706,7 @@ $= \int_{x,\varepsilon} [f(x) + \varepsilon(x) - \hat{f}(x)]^2 g(x, \varepsilon)
 $= \int_x \int_{\varepsilon|x} [f(x) + \varepsilon(x) - \hat{f}(x)]^2 h(\varepsilon|x) d(\varepsilon|x) k(x) dx$
 :::
 ::: {.fragment}
-$= \int_x \left[[f(x) - \hat{f}(x)]^2 + 2\int_{\varepsilon|x} \varepsilon(x)[f(x) - \hat{f}(x)]h(\varepsilon|x)d(\varepsilon|x) + \int_{\varepsilon|x} \varepsilon(x)^2 g(\varepsilon|x)d(\varepsilon|x)\right]k(x)dx$
+$= \int_x \left[[f(x) - \hat{f}(x)]^2 + 2\int_{\varepsilon|x} \varepsilon(x)[f(x) - \hat{f}(x)]h(\varepsilon|x)d(\varepsilon|x) + \int_{\varepsilon|x} \varepsilon(x)^2 h(\varepsilon|x)d(\varepsilon|x)\right]k(x)dx$
 :::
 ::: {.fragment}
 $=\int_x [f(x) - \hat{f}(x)]^2k(x)dx + \int_x \sigma^2(x)k(x)dx$
