@@ -518,7 +518,7 @@
 <section class="slide level2">
 
 <h3 id="interactions">Interactions</h3>
-<div id="f5549b55" class="cell" data-execution_count="1">
+<div id="77bfbdeb" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -550,7 +550,7 @@
 <section class="slide level2">
 
 <h3 id="interactions-residuals-plots">Interactions: residuals plots</h3>
-<div id="de56fcdf" class="cell" data-execution_count="2">
+<div id="42b409cf" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -582,7 +582,7 @@
 <section class="slide level2">
 
 <h3 id="interactions-adding-an-interaction-term">Interactions: adding an interaction term</h3>
-<div id="6d4e40ab" class="cell" data-execution_count="3">
+<div id="7c1c6dfd" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -626,7 +626,7 @@
 <section class="slide level2">
 
 <h3 id="non-linear-relations">Non-linear relations</h3>
-<div id="f4e399d7" class="cell" data-execution_count="4">
+<div id="df4ab0ff" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -658,7 +658,7 @@
 <section class="slide level2">
 
 <h3 id="plynomial-regression-beware-1">Plynomial regression: Beware 1</h3>
-<div id="5725cba6" class="cell" data-execution_count="5">
+<div id="c634bda5" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -687,7 +687,7 @@
 
 <h3 id="plynomial-regression-beware-1-1">Plynomial regression: Beware 1</h3>
 <p>Quadratic:</p>
-<div id="047e8821" class="cell" data-execution_count="6">
+<div id="0d51f92c" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display" data-execution_count="6">
 <div>
 <table class="simpletable" data-quarto-postprocess="true">
@@ -734,7 +734,7 @@
 </div>
 </div>
 <p>Cubic:</p>
-<div id="1532d32f" class="cell" data-execution_count="7">
+<div id="e1f5d539" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display" data-execution_count="7">
 <div>
 <table class="simpletable" data-quarto-postprocess="true">
@@ -808,7 +808,7 @@
 <section class="slide level2">
 
 <h3 id="plynomial-regression-beware-2">Plynomial regression: Beware 2</h3>
-<div id="c905e3bc" class="cell" data-execution_count="8">
+<div id="3a0953fe" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -856,7 +856,7 @@
 <section class="slide level2">
 
 <h3 id="why-not-significant">Why “not significant”?</h3>
-<div id="ef3b58d9" class="cell" data-execution_count="9">
+<div id="80a30501" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -865,7 +865,7 @@
 </div>
 </div>
 </div>
-<div id="1f4265f2" class="cell" data-execution_count="10">
+<div id="3149d43d" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-stdout">
 <pre><code>==============================================================================
                  coef    std err          t      P&gt;|t|      [0.025      0.975]
@@ -963,7 +963,7 @@ X2             0.8772      1.144      0.767      0.445      -1.393       3.147
 <section class="slide level2">
 
 <h3 id="high-leverage-and-outlier-observations-1">High-leverage and Outlier observations</h3>
-<div id="112f644f" class="cell" data-execution_count="11">
+<div id="5c8e7825" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -978,6 +978,7 @@ X2             0.8772      1.144      0.767      0.445      -1.393       3.147
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 <p>האמת היא שכבר יש לנו דוגמא מוכנה, ברגרסיה של צריכת דלק של מכוניות כפונקציה של כוח סוס. אם תחשבו את אינדקס הH, תראו שהלברג’ של התצפית האחרונה מצד ימין עם הכי הרבה כוח סוס, הוא ממש חריג. רואים את זה בדרך כלל בגרף של שאריות מול לברג’. אנחנו רואים תצפית עם לברג’ גבוה שיש לה גם ערך Y קטן מאוד, כדאי לחשוד בה, ומעניין לראות איך היה נראה המודל בלעדיה.</p>
+<p>מאוד חשוב להדגיש שאני לא אומר מייד להוריד אותה, ואנחנו בטח לא עושים את זה כדי “לשפר תוצאות”. יש גאיידליינז ומטריקות מתי ראוי להוריד תצפית מהנתונים ואנחנו שואפים לא לעשות את זה. אם המדגם קטן אז באמת מעניין לראות איך מתנהג המודל כשמסירים אותה ואז להחליט. ובכל מקרה יש תחום שלם בסטטיסטיקה ששואף לא להוריד תצפיות מהמודל אלא פשוט לאפשר מודל גמיש יותר וחסין להשפעה של תצפיות כאלה, זה נקרא סטטיסטיקה רובסטית או חסינה.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -994,7 +995,7 @@ X2             0.8772      1.144      0.767      0.445      -1.393       3.147
 <section class="slide level2">
 
 <h4 id="excluding-high-leverage-outlier">Excluding high-leverage + outlier</h4>
-<div id="88fc33fe" class="cell" data-execution_count="12">
+<div id="b82ba6f1" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1152,7 +1153,7 @@ X2             0.8772      1.144      0.767      0.445      -1.393       3.147
 <p><span class="math display">\[P(y=1|x) = \text{sigmoid}(x^T\beta) = \frac{\exp(x^T\beta)}{1+\exp(x^T\beta)} \quad\quad P(y=0|x) = 1- P(y=1|x) = \frac{1}{1+\exp(x^T\beta)}\]</span></p>
 </div>
 <div class="fragment">
-<div id="67899999" class="cell" data-execution_count="13">
+<div id="4098f4ab" class="cell" data-execution_count="13">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1216,7 +1217,7 @@ X2             0.8772      1.144      0.767      0.445      -1.393       3.147
 <section class="slide level2">
 
 <h3 id="logistic-regression-likelihood">Logistic Regression Likelihood</h3>
-<div id="40a3aa04" class="cell" data-execution_count="14">
+<div id="32f8cd30" class="cell" data-execution_count="14">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1295,7 +1296,7 @@ X2             0.8772      1.144      0.767      0.445      -1.393       3.147
 <section class="slide level2">
 
 <h3 id="example-south-african-hearth-disease-data">Example: South African Hearth Disease Data</h3>
-<div id="17a1861f" class="cell" data-execution_count="15">
+<div id="2935ea6e" class="cell" data-execution_count="15">
 <div class="cell-output cell-output-stdout">
 <pre><code>           sbp  tobacco   ldl  adiposity  famhist  typea  obesity  alcohol  \
 row.names                                                                    
@@ -1339,7 +1340,7 @@ no. of obs in test y: 93</code></pre>
 <section class="slide level2">
 
 <h3 id="saheart-lr-with-statsomdels">SAHeart: LR with <code>statsomdels</code></h3>
-<div id="09430171" class="cell" data-execution_count="16">
+<div id="71e2c769" class="cell" data-execution_count="16">
 <div class="cell-output cell-output-stdout">
 <pre><code>Optimization terminated successfully.
          Current function value: 0.513971
@@ -1349,8 +1350,8 @@ no. of obs in test y: 93</code></pre>
 Dep. Variable:                    chd   No. Observations:                  369
 Model:                          Logit   Df Residuals:                      359
 Method:                           MLE   Df Model:                            9
-Date:                Mon, 24 Jun 2024   Pseudo R-squ.:                  0.1994
-Time:                        14:54:29   Log-Likelihood:                -189.66
+Date:                Sun, 13 Oct 2024   Pseudo R-squ.:                  0.1994
+Time:                        15:48:55   Log-Likelihood:                -189.66
 converged:                       True   LL-Null:                       -236.90
 Covariance Type:            nonrobust   LLR p-value:                 2.041e-16
 ==================================================================================
@@ -1389,7 +1390,7 @@ famhist_Absent    -0.8135      0.255     -3.191      0.001      -1.313      -0.3
 <section class="slide level2">
 
 <h3 id="saheart-lr-test-performance">SAHeart: LR Test Performance</h3>
-<div id="5583abd8" class="cell" data-execution_count="17">
+<div id="a3c34e6e" class="cell" data-execution_count="17">
 <div class="cell-output cell-output-display" data-execution_count="17">
 <div>
 <div>
@@ -1434,7 +1435,7 @@ famhist_Absent    -0.8135      0.255     -3.191      0.001      -1.313      -0.3
 </div>
 </div>
 <div class="fragment">
-<div id="abeba3eb" class="cell" data-execution_count="18">
+<div id="b97f743a" class="cell" data-execution_count="18">
 <div class="cell-output cell-output-stdout">
 <pre><code>Accuracy:  0.76, Misclassification loss:  0.24</code></pre>
 </div>
@@ -1539,6 +1540,7 @@ famhist_Absent    -0.8135      0.255     -3.191      0.001      -1.313      -0.3
 <p>אם המציאות היא חולה והמודל חזה חולה, זה true positive או TP. אם המציאות היא חולה והמודל חזה לא-חולה, כלומר בריא, זה false negative או FN.</p>
 <p>באופן דומה מגדירים false positive וtrue negative.</p>
 <p>ומי שצריך להגדיר את זה עם נוסחאות יותר פורמליות, אפשר להגדיר את כל הכמויות האלה עם y וy_hat בצורה כזאת.</p>
+<p>זה זמן טוב אגב גם לעצור ולהגיד שלא תמיד ברור בבעיות שלא קשורות במחלות מה זה פוזיטיב ומה זה נגטיב. הרבה מהטרמינולוגיה באמת הגיעה ממחקר קליני על תרופות ומחלות שבו פוזיטיב זה מי שחולה במחלה או נושא איזשהו גן למחלה, הרבה פעמים הקלאס הנדיר יותר, ונגטיב זה מי שבריא. אבל מה אם אתם מנסים לבנות מודל שיבדיל בין תמונות של חתולים לכלבים? אז המושגים של פוזיטיב ונגטיב הם קצת יותר שרירותיים ומה שחשוב זה לבחור באחד ולהיות עקביים.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1624,7 +1626,7 @@ famhist_Absent    -0.8135      0.255     -3.191      0.001      -1.313      -0.3
 </section>
 <section class="slide level2">
 
-<div id="0ec05725" class="cell" data-execution_count="19">
+<div id="31edf5d3" class="cell" data-execution_count="19">
 <div class="cell-output cell-output-display" data-execution_count="19">
 <div>
 <div>
@@ -1669,7 +1671,7 @@ famhist_Absent    -0.8135      0.255     -3.191      0.001      -1.313      -0.3
 </div>
 </div>
 <div class="fragment">
-<div id="2f2cefbf" class="cell" data-execution_count="20">
+<div id="3e58b1ef" class="cell" data-execution_count="20">
 <div class="cell-output cell-output-stdout">
 <pre><code>              precision    recall  f1-score   support
 
@@ -1785,7 +1787,7 @@ weighted avg       0.76      0.76      0.76        93
 </section>
 <section class="slide level2">
 
-<div id="9133ee6d" class="cell" data-execution_count="21">
+<div id="8634f790" class="cell" data-execution_count="21">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
