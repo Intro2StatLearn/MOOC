@@ -377,8 +377,8 @@ The [Bayes decision boundary]{style="color:red;"} is where $P(Y = 1 | X) = 0.5$
 $E_Y(I(y \neq \hat{y})| X) = P(Y = 1 | X) \cdot I(\hat{y} = 0) + P(Y = 0 | X) \cdot I(\hat{y} = 1)$
 
 ::: {.incremental}
-  - Suppose $P(Y = 1 | X) = 0.7$, between $\hat{y} \in \{0, 1\}$ --> choose $\hat{y} = 1$ to minimize $E_Y(I(y \neq \hat{y})| X)$
-  - Suppose $P(Y = 1 | X) = 0.3$, between $\hat{y} \in \{0, 1\}$ -->choose $\hat{y} = 0$ to minimize $E_Y(I(y \neq \hat{y})| X)$
+  - Suppose $P(Y = 1 | X) = 0.7$, between $\hat{y} \in \{0, 1\} \Rightarrow$ choose $\hat{y} = 1$ to minimize $E_Y(I(y \neq \hat{y})| X)$
+  - Suppose $P(Y = 1 | X) = 0.3$, between $\hat{y} \in \{0, 1\} \Rightarrow$ choose $\hat{y} = 0$ to minimize $E_Y(I(y \neq \hat{y})| X)$
 - Put differently the Bayes classifier $\hat{f}(x) = \arg\max_j P(Y = j | X = x)$ minimizes expected error rate!
 :::
 
