@@ -478,7 +478,7 @@
 <p>אז כאן אנחנו מתייחסים למדגם הלמידה שלנו כמשתנה מקרי ולY0 כמשתנה מקרי, אבל לX0 כנתון. כלומר אנחנו מפרקים את הטעות הריבועית אם נראה כל מיני מדגמי למידה אחרים וכל מיני ערכי Y0 אחרים לתצפית הX0 הנתונה הזאת.</p>
 <p>באופן יותר כללי נרשום זאת כך, עבור איזשהו הפסד L, הסתכלנו על תוחלת מותנית, תוחלת ההפסד ביחס לT ו-Y0 בהינתן X0.</p>
 <p>אבל באופן אינטואיטיבי, רבים היו מגדירים את הטעות שהם מעוניינים בה, כתוחלת שולית, על הכל, כלומר גם על המדגם שראינו, וגם על תצפיות חדשות. או במילים אחרות תוחלת של X על התוחלת המותנית שהסתכלנו עליה. נסמן את התוחלת הזאת בErr, ונקרא לה האקספקטד פרדיקשן ארור. שמות אחרים יכולים להיות ג’נ’רליזיישן ארור, טעות ההכללה או האקספקטד טסט ארור.</p>
-<p>אפשר לרשום את הטעות הזאת, את התוחלת הזאת כתוחלת שלמה של תוחלת מותנית אחרת: התוחלת המותנית בהינתן מדגם הלמידה, הזוגות של X ו-Y שמהם למדנו. ואז התוחלת היא רק על תצפיות חדשות X0 וY0. והטעות שלנו היא התוחלת על-פני כל מדגמי הלמידה. נסמן את התוחלת המותנית החדשה כErrT, ואם נחשוב עליה קצת - אולי היא זאת שבכלל מעניין אותנו לאמוד! הרי במציאות אני לא מקבל עוד ועוד מדגמי למידה ומעניין אותי איך מבצע המודל שלי על פני הרבה מדגמי למידה. לא! אני מקבל מדגם למידה אחד ומעניין אותי לדעת את הביצועים של המודל בהינתן המדגם הזה, לכל תצפית חדשה שתבוא.</p>
+<p>אפשר לרשום את הטעות הזאת, את התוחלת הזאת כתוחלת שלמה של תוחלת מותנית אחרת: התוחלת המותנית בהינתן מדגם הלמידה, הזוגות של X ו-Y שמהם למדנו. ואז התוחלת היא רק על תצפיות חדשות X0 וY0. והטעות שלנו היא התוחלת על-פני כל מדגמי הלמידה. נסמן את התוחלת המותנית החדשה כErrT, ואם נחשוב עליה קצת - אולי היא זאת שבכלל מעניין אותנו לאמוד! הרי במציאות אני לא מקבל עוד ועוד מדגמי למידה ומעניין אותי איך מבצע המודל שלי על פני הרבה מדגמי למידה. לא! אני מקבל מדגם למידה אחד ובהנחה שהמדגם שלי טוב, כלומר מייצג, ואין שיפט בדאטא שהמודל ייבחן עליו, מעניין אותי לדעת את הביצועים של המודל בהינתן המדגם הזה, לכל תצפית חדשה שתבוא.</p>
 <p>זאת באמת טעות שמעניין להעריך אבל קשה להעריך אותה. בפועל נראה שהרבה יותר קל לאמוד את הטעות דווקא השולית, תוחלת ההפסד על פני הרבה מדגמי למידה והרבה תצפיות חדשות.</p>
 </div>
 <style type="text/css">
@@ -498,8 +498,8 @@
 <h3 id="what-epe-is-for">What EPE is for?</h3>
 <div class="fragment">
 <ol type="1">
-<li><span style="color:red;">Model Selection</span>: select between a set of models (e.g.&nbsp;one with 5 parameters and the other with 6 parameters) the one with lowest error</li>
-<li><span style="color:red;">Model Assessment</span>: know how accurate the model would be, estimate the error itself</li>
+<li><span style="color:red;">Model Selection</span>: select between a set of models (e.g.&nbsp;one with 5 parameters and the other with 6 parameters) the one with lowest prediction error</li>
+<li><span style="color:red;">Model Assessment</span>: know how accurate the model would be, estimate the prediction error itself</li>
 </ol>
 </div>
 <aside class="notes">
@@ -584,7 +584,7 @@
 <section class="slide level2">
 
 <h3 id="data-splitting-train-validation-test">Data splitting: Train-Validation-Test</h3>
-<div id="67a63759" class="cell" data-execution_count="1">
+<div id="8c62a33d" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -646,6 +646,7 @@
 <li class="fragment">Lose half the data? Only if we are rich in data</li>
 <li class="fragment">Model assessment highly variable</li>
 </ul></li>
+<li class="fragment">Additional assumption rarely mentioned</li>
 </ul>
 </div>
 <aside class="notes">
@@ -656,6 +657,7 @@
 <p>כאמור, אין הוראה ברורה כמה אחוזים בדיוק לתקצב כל אחד מהספליטים, זה תלוי בגודל המדגם הנתון ובמורכבות היחס F בין X לY שאנחנו מנסים להעריך. אם הוא פשוט סביר שלא צריך המון דאטא לאמן אותו, ואם הוא מורכב צריך כמה שיותר מהדאטא לאמן אותו.</p>
 <p>אז זאת הגישה הקלאסית, אבל יש לה שתי בעיות עיקריות: אחת, היא אנחנו מאמנים את כל המודלים המועמדים על 50-60 אחוז מהתצפיות, זה שימוש לא יעיל בנתונים שאפשרי רק אם יש לנו הרבה מהם.</p>
 <p>והבעיה השניה היא שאמנם האומד לשגיאת החיזוי חסר הטיה אבל יש לו שונות גבוהה, אנחנו מבססים את האמידה שלנו בכל זאת על סט נתונים אחד ויחיד, אפילו שהוא נדגם מקרית, ובמיוחד עם מודלים מודרנים של למידה סטטיסטית, לא מסוגלים לתת שום אומד לשגיאה, לאיזו סטיית תקן לאומד הסופי הזה של ביצועי המודל.</p>
+<p>והערה אחרונה שלא מדוברת הרבה, ונרחיב עליה יותר עוד שני שיעורים: התוצאה על ה test היא אומד בלתי מוטה לביצועי המודל בעולם האמיתי. אבל כדי שזה יהיה נכון, אנחנו חייבים להניח שהעולם שממנו למדנו אינו משתנה עם הזמן או ליתר דיוק שהתפלגות המדגם שניתן לנו מתאימה להתפלגות העולם.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -672,7 +674,7 @@
 <section class="slide level2">
 
 <h3 id="single-split-need-2nd-opinion">Single split: need 2nd opinion</h3>
-<div id="cd222ed7" class="cell" data-execution_count="2">
+<div id="bbc00d85" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -718,7 +720,7 @@
 <section class="slide level2">
 
 <h3 id="k-fold-cross-validation"><span class="math inline">\(K\)</span>-fold Cross Validation</h3>
-<div id="5810a7fd" class="cell" data-execution_count="3">
+<div id="12d77a8e" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -808,7 +810,7 @@
 <section class="slide level2">
 
 <h3 id="what-does-cv-error-estimate">What does CV error estimate?</h3>
-<div id="64bef403" class="cell" data-execution_count="4">
+<div id="02615a6c" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -837,7 +839,7 @@
 <section class="slide level2">
 
 <h3 id="can-k-fold-cv-be-biased">Can <span class="math inline">\(K\)</span>-fold CV be biased?</h3>
-<div id="26e798cc" class="cell" data-execution_count="5">
+<div id="68ab4f14" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1049,7 +1051,7 @@
 <section class="slide level2">
 
 <h3 id="use-pipelines">Use <code>Pipeline</code>s</h3>
-<div id="8aa73183" class="cell" data-execution_count="6">
+<div id="f3e9a24e" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> KFold, GridSearchCV</span>
 <span id="cb1-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
 <span id="cb1-3"><a href="" aria-hidden="true" tabindex="-1"></a></span>
