@@ -464,22 +464,22 @@
 
 <h3 id="empirical-risk-minimization-erm">Empirical Risk Minimization (ERM)</h3>
 <ul>
-<li><span class="math inline">\(\overline{err}\)</span> is termed the <span style="color:red;">empirical risk</span>:</li>
+<li><span class="math inline">\(\overline{err}\)</span> is termed the <span style="color:red;">empirical risk</span>, a.k.a the training error:</li>
 </ul>
 <p><span class="math display">\[\overline{err}_T(h) = \frac{1}{n}\sum_{i=1}^{n} L(y_i, h(x_i)) = \frac{1}{n}\sum_{i=1}^{n} \mathbb{1}\left[f(x_i) \neq h(x_i)\right]\]</span></p>
 <div>
 <ul>
 <li class="fragment"><p>A method which outputs <span class="math inline">\(h_T\)</span> by minimizing <span class="math inline">\(\overline{err}_T(h)\)</span> is called empirical risk minimization <span style="color:red;">ERM</span></p></li>
-<li class="fragment"><p>From <span style="color:red;">Realizability</span>: <span class="math inline">\(\overline{err}_T(h_T) = 0\)</span></p></li>
+<li class="fragment"><p>If <span class="math inline">\(f,h \in \mathcal{H}\)</span>, from <span style="color:red;">Realizability</span>: <span class="math inline">\(\overline{err}_T(h_T) = 0\)</span></p></li>
 <li class="fragment"><p>Can we <em>always</em> find <span class="math inline">\(h\)</span> for which <span class="math inline">\(Err_{P_X, f}(h) = 0\)</span> via ERM (= by minimizing <span class="math inline">\(\overline{err}_T(h)\)</span>)?</p></li>
 <li class="fragment"><p>Counter-example:</p></li>
 </ul>
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-<p>ניתן קודם שם למה זה אומר ללמוד ממדגם הלמידה. אם הסיכון הוא התוחלת על פני כל האיקסים האפשריים, נסמן בארר עם קו למעלה כמו שעשינו את הסיכון האמפירי שמחושב על מדגם הלמידה, שמחושב על מדגם ספציפי T ועבור מודל ספציפי h. במקרה של סיכון אפס-אחת מדובר בשיעור החיזוי השגוי על תצפיות מדגם הלמידה, מתוך n תצפיות.</p>
+<p>ניתן קודם שם למה זה אומר ללמוד ממדגם הלמידה. אם הסיכון הוא התוחלת על פני כל האיקסים האפשריים, נסמן בארר עם קו למעלה כמו שעשינו את הסיכון האמפירי שמחושב על מדגם הלמידה, שמחושב על מדגם ספציפי T ועבור מודל ספציפי h. במקרה של סיכון אפס-אחת מדובר בשיעור החיזוי השגוי על תצפיות מדגם הלמידה, מתוך n תצפיות. אנחנו קראנו לזה בעבר הטריינינג ארור.</p>
 <p>פרדיגמה שלומדת איזשהו hT על-ידי הבאה למינימום של הכמות הזאת נקראת אמפיריקל ריסק מינימיזיישן, או ERM בקיצור.</p>
-<p>עכשיו נשים לב לפרט עדין וחשוב: מהנחת הריאלייזביליטי, שאומרת שעבור כל X מתאים רק Y ספציפי, האם זה מאתגר למצוא מודל שיגיע לאמפיריקל ריסק אפס? בודאי שלא. תחת הנחת הריאלייזביליטי, אנחנו תמיד יכולים לאפס (!) את האמפיריקל ריסק, כי אין רעש, אין תצפיות שלפעמים הY שלהן אחת ולפעמים אפס. אני רק אזכיר שעד כאן חשדנו מאוד ממצב כזה שקראנו לו אוברפיטינג, ונשאלת השאלה:</p>
+<p>עכשיו נשים לב לפרט עדין וחשוב: נניח שהמודל האמיתי f והמודל שERM מחפש h באים מאותו מרחב H שעוד נדבר עליו – כלומר ERM מחפש במרחב הנכון – מהנחת הריאלייזביליטי, שאומרת שעבור כל X מתאים רק Y ספציפי, האם זה מאתגר למצוא מודל שיגיע לאמפיריקל ריסק אפס? בודאי שלא. תחת הנחת הריאלייזביליטי, אנחנו תמיד יכולים לאפס (!) את האמפיריקל ריסק אם אנחנו מחפשים במרחב הנכון, כי אין רעש, אין תצפיות שלפעמים הY שלהן אחת ולפעמים אפס. אני רק אזכיר שעד כאן חשדנו מאוד ממצב כזה שקראנו לו אוברפיטינג, ונשאלת השאלה:</p>
 <p>מה זה למידות? האם אפשר לצפות להביא את שגיאת החיזוי, על פני נתונים שלא ראינו, לאפס, אם אנחנו מסתכלים רק על החלון הזה של מדגם למידה, כלומר לומדים עם ERM? זאת יכולה להיות ההגדרה של למידות?</p>
 <p>כל מה שצריך זה להביא דוגמא נגדית כדי להראות שזה לא יכול להתקיים תמיד. בדוגמא הפשוטה ביותר אפשר להניח שכל מרחב האיקסים כולל רק שתי אפשרויות, X1 וX2. ההסתברות PX על המרחב הזה היא לקבל את X2 באיזשהו סיכוי קטן אפסילון, ואת X1 בסיכוי 1 פחות אפסילון. נניח גם שהמיפוי האמיתי f מביא את X1 לY = 0 ואת X2 לY = 1. מה זה אומר להיכשל במצב כל כך פשוט? מספיק אף פעם לא לראות בכלל את X2 כדי להיכשל, להגיע למודל שאומר שעבור כל האיקסים וואי שווה 0, האפשרות היחידה שאנחנו מכירים. האם יש סיכוי שאף פעם לא נראה את X2 וניכשל? בודאי. הסיכוי הזה הוא 1 פחות אפסילון בחזקת n.&nbsp;שמתנהג כמו כמו אקספוננט בחזקת מינוס אפסילון n.&nbsp;והגודל הזה לא בהכרח שואף לאפס ככל שn גדל, אם אפסילון קטן מאוד, הרבה יותר קטן מ1 חלקי n הוא לא ישאף לאפס.</p>
 <p>כלומר יש סיכוי סביר שנקבל פשוט מדגם רע, שמביא את האמפיריקל ריסק לאפס אבל מביא לשגיאת חיזוי של אפסילון בהכרח על נתונים שהוא לא ראה. והשורה התחתונה היא שלהביא את שגיאת החיזוי לאפס היא קריטריון מחמיר מדי ללמידות, חייבים להוסיף פה איזשהו מימד הסתברותי. אנחנו צריכים להבין שתמיד יש סיכוי למדגם גרוע, ושגם מדגם טוב במרכאות לא בהכרח מביא לשגיאה אפס על נתונים שהמודל לא ראה.</p>
@@ -620,7 +620,7 @@
 <h3 id="use-prior-knowledge">Use Prior Knowledge</h3>
 <div>
 <ul>
-<li class="fragment">Assume <span class="math inline">\(f \subset \mathcal{H}\)</span>, where <span class="math inline">\(\mathcal{H}\)</span> is a <span style="color:red;">finite hypothesis class</span></li>
+<li class="fragment">Assume <span class="math inline">\(f \in \mathcal{H}\)</span>, where <span class="math inline">\(\mathcal{H}\)</span> is a <span style="color:red;">finite hypothesis class</span></li>
 <li class="fragment">Example: “logistic regression” (not really)
 <ul>
 <li class="fragment">intercept and slope <span class="math inline">\(\beta_0, \beta_1\)</span>, each can take <span class="math inline">\(1K\)</span> possibilities <span class="math inline">\(\to |\mathcal{H}| = 1M\)</span></li>
@@ -642,13 +642,13 @@
 </div>
 </div>
 </div>
-<div class="fragment">
+<div>
 <ul>
-<li>Example: “logistic regression” (not really)
+<li class="fragment">Example: “logistic regression” (not really), for <span class="math inline">\(\delta = \varepsilon = 0.01\)</span>:
 <ul>
-<li>For <span class="math inline">\(\delta = \varepsilon = 0.01 \to n \geq 800\)</span> guarantees PAC correct</li>
-<li>w.p. <span class="math inline">\(0.99\)</span> <span class="math inline">\(Err_{P_X, f}(ERM_\mathcal{H}(T)) \leq 0.01\)</span></li>
+<li class="fragment"><span class="math inline">\(\Rightarrow n \geq 800\)</span> guarantees PAC correct: w.p. <span class="math inline">\(0.99\)</span> <span class="math inline">\(Err_{P_X, f}(ERM_\mathcal{H}(T)) \leq 0.01\)</span></li>
 </ul></li>
+<li class="fragment">Important: this says nothing about how to find <span class="math inline">\(ERM_\mathcal{H}\)</span> or about its efficency</li>
 </ul>
 </div>
 <aside class="notes">
@@ -658,6 +658,7 @@
 <p>הלומד או האלגוריתם מודע למרחב הזה, שם הוא מחפש, זה חלק מהאינפוט, והERM מביא למינימום את השגיאה על מדגם הלמידה, רק במרחב הזה, נסמן את זה כERM H.</p>
 <p>והנה משפט די מדהים: תחת כל ההנחות שהיו לנו עד עכשיו, בתוספת ההנחה שמרחב ההשערות H הוא סופי, ישנו חסם תחתון על מספר התצפיות במדגם הלמידה, כך שאם נעבור אותו, מובטח לנו הקריטריון של פאק. בסיכוי לפחות 1 פחות למדא, שגיאת החיזוי, ההכללה על תצפיות שהמודל לא ראה, תהיה עד אפסילון. בפרט זה אומר שמרחבים סופיים, עם הנחת הריאלייזביליטי, ניתנים ללמידת PAC, כשמספר התצפיות הדרוש מתנהג כמו לוג של גודל המרחב.</p>
 <p>אם נחזור לדוגמא של רגרסיה לוגיסטית במרכאות, עם חותך ושיפוע, ונבקש למדא ואפסילון של 0.01 ונציב את גודל המרחב שלנו בחסם התחתון של המשפט, נגיע לזה שאנחנו צריכים לפחות 800 תצפיות במדגם הלמידה כדי להשיג את קריטריון פאק, כלומר בסיכוי לפחות 99 אחוז להיות טועים, בתוחלת, על תצפיות שלא ראינו לכל היותר באחוז אחד.</p>
+<p>ועוד דגש חשוב לפני ההוכחה: שימו לב שהמשפט לא אומר איך למצוא את האלגוריתם הזה, ולא מבטיח שום גבר על הסיבוכיות או היעילות שלו באופן כללי. כלומר הכל בתנאי שמצאנו אלגוריתם ERM שאפשר לעבוד איתו.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -677,7 +678,7 @@
 <div>
 <ul>
 <li class="fragment"><p>We want to prove that if <span class="math inline">\(n \geq \frac{\log(|\mathcal{H}| / \delta)}{\varepsilon}\)</span>: <span class="math display">\[P_X\left[T: Err_{P_X, f}(ERM_\mathcal{H}(T)) &gt; \varepsilon\right] \leq \delta\]</span></p></li>
-<li class="fragment"><p>Let <span class="math inline">\(\mathcal{H}_B\)</span> be the set of “bad” hypotheses: <span class="math inline">\(\mathcal{H}_B = \{h \in \mathcal{H}: Err_{P_X, f}(h_S) &gt; \varepsilon\}\)</span></p></li>
+<li class="fragment"><p>Let <span class="math inline">\(\mathcal{H}_B\)</span> be the set of “bad” hypotheses: <span class="math inline">\(\mathcal{H}_B = \{h \in \mathcal{H}: Err_{P_X, f}(h) &gt; \varepsilon\}\)</span></p></li>
 <li class="fragment"><p>Let <span class="math inline">\(M\)</span> be the set of “misleading” samples: <span class="math inline">\(\{T: \text{ there is } h \in \mathcal{H}_B \text{ for which } \overline{err}_T(h) = 0\}\)</span> (why?)</p></li>
 </ul>
 </div>
@@ -715,7 +716,7 @@
 <p><span class="math inline">\(\begin{aligned}
 P_X\left[T: Err_{P_X, f}(ERM_\mathcal{H}(T)) &gt; \varepsilon\right] &amp;\leq P_X\left[M\right] \\
 &amp;= P_X\left[ \bigcup_{h \in \mathcal{H}_B} \{T:  \overline{err}_T(h) = 0\} \right] \\
-&amp;\leq \sum_{h \in \mathcal{H}_B} P_X\left[ T:  \overline{err}_T(h) = 0 \right] \\
+&amp;\leq \sum_{h \in \mathcal{H}_B} P_X\left[ T:  \overline{err}_T(h) = 0 \right] \quad \text{(union bound)}\\
 &amp;= \sum_{h \in \mathcal{H}_B}\prod_{i = 1}^n P_X\left[x_i: h(x_i) = f(x_i)\right] \\
 &amp;= \sum_{h \in \mathcal{H}_B}\prod_{i = 1}^n \left[1 - Err_{P_X, f}(h)\right] \\
 &amp;\leq |\mathcal{H}_B|(1 - \varepsilon)^n \\
@@ -736,7 +737,30 @@ P_X\left[T: Err_{P_X, f}(ERM_\mathcal{H}(T)) &gt; \varepsilon\right] &amp;\leq P
 <p>עכשיו אני חוסם את מספר המודלים הגרועים בגודל של כל מחלקת המודלים, הגודל של H. וגם אנחנו משתמשים שוב בעובדה ש1 פחות אפסילון בחזקת n מתנהג כאקספוננט בחזקת מינוס אפסילון כפול n.</p>
 <p>והדבר הזה היינו רוצים שיהיה קטן או שווה לדלתא, זאת הדרישה המקורית.</p>
 <p>יש כאן אי-שוויון די פשוט, מעברים אגפים, לוקחים לוג, ומקבלים בדיוק את החסם התחתון על n מהמשפט.</p>
-<p>ועדיין אנחנו לא לגמרי מרוצים. גם אנחנו יודעים שעולם הלמידה מורכב מעוד בעיות חוץ מקלסיפיקציה בינארית, גם אנחנו מתקשים להאמין להנחת הריאלייזביליטי, האם אנחנו מצופים להאמין שתמיד תמיד, שתי מהנדסות עם אותו ניסיון, אותו גיל, השכלה, תפקיד ואפילו אותו מקום עבודה יקבלו אותו שכר? לבסוף יש לנו גם אישיו עם העובדה שמגבילים אותנו למרחבים סופיים של השערות, הרי אפילו ברגרסיה ליניארית פשוטה כל אחד מהמקדמים יכול להיות על פני כל הישר הממשי, שהוא מרחב אינסופי של אפשרויות.</p>
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h3 id="do-we-believe-realizability">Do we believe realizability?</h3>
+<div class="fragment">
+<p><img data-src="error_decomposition.png"></p>
+</div>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+<p>ועדיין אנחנו לא לגמרי מרוצים. גם אנחנו יודעים שעולם הלמידה מורכב מעוד בעיות חוץ מקלסיפיקציה בינארית, גם יש לנו אישיו עם העובדה שמגבילים אותנו למרחבים סופיים של השערות, הרי אפילו ברגרסיה ליניארית פשוטה כל אחד מהמקדמים יכול להיות על פני כל הישר הממשי, שהוא מרחב אינסופי של אפשרויות. אבל אולי הכי אקוטי, אנחנו מתקשים להאמין להנחת הריאלייזביליטי, האם אנחנו מצופים להאמין שתמיד תמיד, שתי מהנדסות עם אותו ניסיון, אותו גיל, השכלה, תפקיד ואפילו אותו מקום עבודה יקבלו אותו שכר?</p>
+<p>המודל שאנחנו רגילים לראות לדוגמא עם פירוק ביאס-וריאנס, הוא יותר משהו מהסגנון שאנחנו רואים בסכמה הזאת. הפונקציה האמיתית f קודם כל לא חייבת להיות במרחב שבו אנחנו מחפשים את המודל h. היא יכולה להיות מחוצה לו. עכשיו אם היא מחוצה לו, זה כבר אומר שיש איזה מודל אופטימלי שניתן להשיג בתוך מרחב H שמגביל אותנו, ובין השניים יש איזושהי שגיאת קירוב או ביאס. וגם אם אנחנו מחפשים דווקא בתוך מרחב H, אנחנו מובלים על-ידי המדגם שלנו אל מודל hT, כשטי מגיע מהמדגם למידה הספציפי שלנו, טריינינג. למה המודל שהמדגם הספציפי שלנו יהיה רחוק מהמודל האופטימלי שאפשר להגיע אליו במרחב H? שגיאת אמידה, או: שונות. המהדרין יוסיפו כאן אפילו עוד h עם סימון alg מלשון אלגוריתם, כלומר יוסיפו בחשבון שגם האלגוריתם עצמו שבחרנו כדי לעשות מינימום לשגיאה יוסיף רעש. לבסוף, אנחנו גם סקפטים שיש פונקציה f אמיתית שמתאימה לכל ערך X את ערך הY שלו, או שאנחנו רוצים לקחת בחשבון שאין לנו את היכולת לאמוד אותה כל כך ספציפי, כלומר שגם סביב f האמיתית יש איזשהו רעש שלא נצליח למדל. לרעש הזה קראנו האירדוסיבל ארור, ברגרסיה סימנו אותו כסיגמה בריבוע.</p>
+<p>אז היינו רוצים לראות מושג של למידות או לרנביליטי קצת פחות נוקשה, שמאפשר לדבר בדיוק במושגים האלה, וזה מה שנראה בחלק הבא.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -754,7 +778,7 @@ P_X\left[T: Err_{P_X, f}(ERM_\mathcal{H}(T)) &gt; \varepsilon\right] &amp;\leq P
 <h2>Agnostic PAC Learning</h2>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-<p>בחלק הזה נעשה כמה רילסקציות לטפל בחלק מהבעיות שהעלינו, בניסיון להביא את כל התיאוריה הזאת למטה, לאדמה, לטיפול בבעיות דאטא אמיתיות ריאליסטיות. בראש ובראשונה ניפטר מהנחת הריאלייזביליטי, ונדרוש קריטריון פחות מחמיר מפאק, קריטריון זה נקרא פאק אגנוסטי, מייד נראה אגנוסטי למה.</p>
+<p>בחלק הזה נעשה כמה רילקסציות לטפל בחלק מהבעיות שהעלינו, בניסיון להביא את כל התיאוריה הזאת למטה, לאדמה, לטיפול בבעיות דאטא אמיתיות ריאליסטיות. בראש ובראשונה ניפטר מהנחת הריאלייזביליטי, ונדרוש קריטריון פחות מחמיר מפאק, קריטריון זה נקרא פאק אגנוסטי, מייד נראה אגנוסטי למה.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -965,7 +989,7 @@ P_X\left[T: Err_{P_X, f}(ERM_\mathcal{H}(T)) &gt; \varepsilon\right] &amp;\leq P
 <p>אוקי, עדיין לא גמרנו, אם תיזכרו בהגדרה של מה זה למידות פאק אגנוסטי זה כולל גם איזשהו אלגוריתם להשיג את המודל הזה שמביא לשגיאה קטנה, והטענה היא שאלגוריתם כזה הוא בדיוק אלגוריתם שעושה מינימיזציה לשגיאה של מדגם הלמידה, מה שסימנו כERMH.</p>
 <p>ספציפית, הטענה אומרת שמספיק שמדגם הלמידה טי הוא חצי-אפסילון מייצג, אז מובטח שERMH משיג את הקריטריון האפרוקסימטלי של פאק, שהשגיאה האמיתית של המודל שנלמד מERM, בתוחלת, על פני נתונים שלא ראינו, היא שווה לשגיאה הטובה ביותר שאפשר להשיג על מחלקה H עד כדי אפסילון.</p>
 <p>נוכיח את זה בזריזות, אף על פי שזה נשמע די הגיוני:</p>
-<p>על פי ההגדרה של מדגם חצי-אפסילון מייצג השגיאה האמיתית של המודל הספציפי שקיבלנו hT, קטנה או שווה לשגיאת מדגם הלמידה של הלומד הספציפי הזה ועוד חצי אפסילון. אבל איך הגענו למודל הספציפי הזה? עשינו מינימום לשגיאת מדגם הלמידה, כלומר שגיאת מדגם הלמידה היא קטנה או שווה לשגיאה של כל לומד H על מדגם הלמידה הספציפי הזה. ושוב בחזרה לשגיאה האמיתית, התוחלת, בגלל ההגדרה של מדגם חצי-אפסילון מייצג היא רחוקה עד כדי חצי אפסילון מהשגיאה האמיתית. חצי אפסילון ועוד חצי אפסילון זה אפסילון ומקבלים את האי-שוויון הרצוי, השגיאה האמיתית על הלומד הספציפי שנלמד מERM היא קטנה או שווה לשגיאה האמיתית לכל לומד, ועוד אפסילון.</p>
+<p>על פי ההגדרה של מדגם חצי-אפסילון מייצג, השגיאה האמיתית של המודל הספציפי שקיבלנו hT, קטנה או שווה לשגיאת מדגם הלמידה של הלומד הספציפי הזה ועוד חצי אפסילון. אבל איך הגענו למודל הספציפי הזה? עשינו מינימום לשגיאת מדגם הלמידה, כלומר שגיאת מדגם הלמידה היא קטנה או שווה לשגיאה של כל לומד H על מדגם הלמידה הספציפי הזה. ושוב בחזרה לשגיאה האמיתית, התוחלת, בגלל ההגדרה של מדגם חצי-אפסילון מייצג היא רחוקה עד כדי חצי אפסילון מהשגיאה האמיתית. חצי אפסילון ועוד חצי אפסילון זה אפסילון ומקבלים את האי-שוויון הרצוי, השגיאה האמיתית על הלומד הספציפי שנלמד מERM היא קטנה או שווה לשגיאה האמיתית לכל לומד, ועוד אפסילון.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1064,7 +1088,7 @@ P_X\left[T: Err_{P_X, f}(ERM_\mathcal{H}(T)) &gt; \varepsilon\right] &amp;\leq P
 <ul>
 <li>Let <span class="math inline">\(X_1, \dots, X_n\)</span> in <span class="math inline">\([a, b]\)</span> i.i.d RVs with <span class="math inline">\(\mathbb{E}(X_i) = \mu\)</span>, then for any <span class="math inline">\(\varepsilon &gt; 0\)</span>: <span class="math display">\[P\left[|\bar{X} - \mu| &gt; \varepsilon\right] \leq 2\exp\left(-2n\varepsilon^2/(b - a)^2\right)\]</span></li>
 </ul></li>
-<li>So the loss can be bounded in any <span class="math inline">\([a, b]\)</span></li>
+<li>So the loss can be bounded in any range</li>
 </ul>
 </div>
 <aside class="notes">
