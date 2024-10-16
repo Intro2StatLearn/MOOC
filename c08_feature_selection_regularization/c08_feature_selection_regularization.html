@@ -486,11 +486,11 @@
 <section class="slide level2">
 
 <h3 id="best-subset-selection-1">Best subset selection</h3>
-<div id="83c3d269" class="cell" data-execution_count="1">
+<div id="dde9df90" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c08_feature_selection_regularization_files/figure-revealjs/cell-2-output-1.png" width="799" height="449"></p>
+<p><img data-src="c08_feature_selection_regularization_files/figure-revealjs/cell-2-output-1.png" width="821" height="449"></p>
 </figure>
 </div>
 </div>
@@ -510,7 +510,7 @@
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 <p>בואו נראה דוגמא של הרצת רגרסיה בסט סאבסט על נתוני אשראי. בדוגמה שלנו יש p = 11 משתנים כמו הכנסה, מגבלה על החשבון, האם בעל החשבון הוא סטודנט וכולי. ואנחנו מנסים לחזות את היתרה של בעל החשבון.</p>
-<p>על ציר האיקס אנחנו רואים את k בכל שלב של האלגוריתם. בהתחלה k = 0 כלומר אנחנו עובדים רק עם חותך. ואז k = 1 ואנחנו מתאימים 11 מודלים עם משתנה אחד, כל נקודה כאן היא הRSS של אחד המודלים האלה. וכך ממשיכים עד המודל האחרון בו מכניסים את כל המשתנים.</p>
+<p>על ציר האיקס אנחנו רואים את k בכל שלב של האלגוריתם. בהתחלה k = 0 כלומר אנחנו עובדים רק עם חותך. ואז k = 1 ואנחנו מתאימים 11 מודלים עם משתנה אחד, כל נקודה כאן היא הלוג של הRSS של אחד המודלים האלה. וכך ממשיכים עד המודל האחרון בו מכניסים את כל המשתנים.</p>
 <p>עבור כל k אפשר לראות את המודל הנבחר שמשיג את הRSS הנמוך ביותר, הקו האדום מחבר ביניהם. באופן לא מפתיע הקו האדום יכול רק לרדת, את זה ראינו בשיעורים קודמים, הוספת משתנים לרגרסיה יכולה רק לשפר את הRSS.</p>
 <p>לכן כשאנחנו באים לבחור באיזה מודל סופי להשתמש אנחנו יכולים לעשות קרוס ולידציה עם המודלים הנבחרים או להשתמש למשל בקריטריון הCp שמוסיף עונש לRSS שגדל ככל שמספר המשתנים עולה. כאן אפשר לראות שהמודל שהביא למינימום את הCp הוא המודל עם 6 משתנים, גם אם לא רואים את זה מהגרף. נזכיר שזה המודל עם 6 משתנים הטוב ביותר מכל האפשרויות למודלים עם 6 משתנים.</p>
 <p>אז כמה מודלים הרצנו כאן? כל המודלים האפשריים, 2 בחזקת 11, שזה קצת יותר מאלפיים מודלים! ברור מייד שהגישה הזאת לא סבירה עבור p גדול הרבה יותר מ10, וגם אז עבור גדלי מדגם לא גדולים מדי.</p>
@@ -560,11 +560,11 @@
 <section class="slide level2">
 
 <h3 id="forward-stepwise-selection-1">Forward stepwise selection</h3>
-<div id="56166ab9" class="cell" data-execution_count="2">
+<div id="e250e732" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c08_feature_selection_regularization_files/figure-revealjs/cell-3-output-1.png" width="799" height="449"></p>
+<p><img data-src="c08_feature_selection_regularization_files/figure-revealjs/cell-3-output-1.png" width="821" height="449"></p>
 </figure>
 </div>
 </div>
@@ -812,7 +812,7 @@
 <ul>
 <li class="fragment">Numerical stability:
 <ul>
-<li class="fragment">If <span class="math inline">\(X\)</span>’s columns are correlated, <span class="math inline">\(X'X\)</span> is ill-conditioned and its inverse is unstable, variance of <span class="math inline">\(\hat{\beta}\)</span> is high – but <span class="math inline">\(X'X + \lambda I_p\)</span> improves on this</li>
+<li class="fragment">If <span class="math inline">\(X\)</span>’s columns are highly correlated, <span class="math inline">\(X'X\)</span> is ill-conditioned and its inverse is unstable, variance of <span class="math inline">\(\hat{\beta}\)</span> is high – but <span class="math inline">\(X'X + \lambda I_p\)</span> improves on this</li>
 </ul></li>
 <li class="fragment">Feasibility:
 <ul>
@@ -847,8 +847,8 @@
 </section>
 <section class="slide level2">
 
-<h3 id="choosing-lambda">Choosing <span class="math inline">\(\lambda\)</span></h3>
-<div id="f69ca2a0" class="cell" data-execution_count="3">
+<h3 id="choosing-the-lambda-hyperparameter">Choosing the <span class="math inline">\(\lambda\)</span> <span style="color:red;">hyperparameter</span></h3>
+<div id="21c74370" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -860,8 +860,8 @@
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 <p>נראה את רגרסיית רידג’ בפעולה על הנתונים שלנו ועל הדרך נדגים גם איך בוחרים את הפרמטר למדא.</p>
-<p>הפרמטר למדא הוא מה שקרוי היפרפרמטר, צריך לבחור אותו באמצעות בדיקה של אפשרויות שונות, בדרך כלל עם קרוס ולידיישן, ולראות איזו מהן נותנת את שגיאת החיזוי הטובה ביותר על מדגמים שהמודל לא ראה. כאן אנחנו בודקים את זה עם קרוס ולידיישן עם חמישה פולדים ומדווחים את ממוצע הMSE על הטריין ועל הטסט. אנחנו רואים כאן כמה דברים:</p>
-<p>שבאופן צפוי השגיאה על הטריין נמוכה יותר מאשר השגיאה על הטסט. שהפרמטר למדא הטוב ביותר שמביא למינימום את השגיאה על הטסט הוא קצת פחות מ10 בחזקת 0 כלומר קצת פחות מ1. והכי חשוב, אנחונ רואים שאם אנחנו משווים לשגיאה של רגרסיה ליניארית רגילה, OLS, שהיא לא תלויה בלמדא בכלל כמובן ומופיעה כאן במקווקו, עבור הלמדא הנכון רידג’ אכן מצליח להגיע לירידה בMSE ניכרת.</p>
+<p>הפרמטר למדא הוא מה שקרוי היפרפרמטר. זה פרמטר שלא ניתן ללמוד ממדגם הלמידה, אלא צריך לבחור אותו באמצעות בדיקה של אפשרויות שונות, בדרך כלל עם קרוס ולידיישן, ולראות איזו מהן נותנת את שגיאת החיזוי הטובה ביותר על מדגמים שהמודל לא ראה. כאן אנחנו בודקים את זה עם קרוס ולידיישן עם חמישה פולדים ומדווחים את ממוצע הMSE על הטריין ועל הטסט.</p>
+<p>אנחנו רואים כאן כמה דברים: שבאופן צפוי השגיאה על הטריין נמוכה יותר מאשר השגיאה על הטסט. שהפרמטר למדא הטוב ביותר שמביא למינימום את השגיאה על הטסט הוא קצת פחות מ10 בחזקת 0 כלומר קצת פחות מ1. והכי חשוב, אנחונ רואים שאם אנחנו משווים לשגיאה של רגרסיה ליניארית רגילה, OLS, שהיא לא תלויה בלמדא בכלל כמובן ומופיעה כאן במקווקו, עבור הלמדא הנכון רידג’ אכן מצליח להגיע לירידה בMSE ניכרת.</p>
 <p>מצד ימין, אנחנו מראים איך נראים המקדמים הנאמדים של 11 המשתנים שלנו, בהתאם ללמדא. כשהלמדא הוא אפסי, אין ענישה בכלל כל אומדני המקדמים והם מקבלים את הערכים שהם היו מקבלים ברגרסיה רגילה. באופן צפוי, ככל שלמדא גדול יותר, העונש על הנורמה של וקטור בטא גדול יותר והאילוץ חמור יותר ומאפשר פחות ופחות חופש למודל והמקדמים הנאמדים נעשים קטנים יותר, הם מתכווצים לכיוון אפס. לתופעה כזאת של כיווץ אנחנו קוראים שרינקג’, אפשר לראות שהיא עשויה מאוד לסייע להקטין את שגיאת החיזוי ונדבר עליה עוד בהמשך.</p>
 </div>
 <style type="text/css">
@@ -926,7 +926,7 @@
 <section class="slide level2">
 
 <h3 id="the-lasso-path">The Lasso Path</h3>
-<div id="2080c6ec" class="cell" data-execution_count="4">
+<div id="4792fa0e" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -968,7 +968,7 @@
 <li>But also, surprisingly:</li>
 </ul>
 <div class="fragment">
-<div id="0927c40d" class="cell" data-execution_count="5">
+<div id="dbe2efb2" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1055,7 +1055,7 @@
 <section class="slide level2">
 
 <h3 id="seeing-shrinkage-and-sparsity-i">Seeing Shrinkage and Sparsity (I)</h3>
-<div id="a9672846" class="cell" data-execution_count="6">
+<div id="a50dc8f4" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1113,7 +1113,7 @@
 </tbody>
 </table>
 <div class="fragment">
-<div id="35a84326" class="cell" data-execution_count="7">
+<div id="f021fe98" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1250,7 +1250,7 @@
 <section class="slide level2">
 
 <h3 id="ridge-and-lasso-priors">Ridge and Lasso priors</h3>
-<div id="e913fae3" class="cell" data-execution_count="8">
+<div id="adfde4b3" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1298,7 +1298,7 @@
 
 <h3 id="recall-pca">Recall: PCA</h3>
 <p>PCA will find the best direction to project the data on, while preserving the maximum “information”:</p>
-<div id="f7e747fb" class="cell" data-execution_count="9">
+<div id="3efba6f6" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1406,7 +1406,7 @@
 <section class="slide level2">
 
 <h3 id="pca-regression-pcr-1">PCA regression (PCR)</h3>
-<div id="defdc027" class="cell" data-execution_count="10">
+<div id="3c048417" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure>

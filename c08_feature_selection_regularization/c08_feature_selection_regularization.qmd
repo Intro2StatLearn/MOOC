@@ -217,13 +217,13 @@ best_k = rss_plus_penalty.index(min_rss_plus_penalty)
 plt.figure(figsize=(10, 5))
 for k in range(X.shape[1] + 1):
     k_rss = rss_df[rss_df['k'] == k]
-    plt.scatter(k_rss['k'], k_rss['RSS'], color='blue', label='All models' if k == 0 else "")
+    plt.scatter(k_rss['k'], np.log(k_rss['RSS']), color='blue', label='All models' if k == 0 else "")
 best_rss_df = pd.DataFrame(best_models, columns=['k', 'RSS', 'Features'])
-plt.plot(best_rss_df['k'], best_rss_df['RSS'], color='red', label='Best models')
-plt.plot(best_rss_df['k'], rss_plus_penalty, color='green', linestyle='dashed', label='Best models + Cp penalty')
+plt.plot(best_rss_df['k'], np.log(best_rss_df['RSS']), color='red', label='Best models')
+plt.plot(best_rss_df['k'], np.log(rss_plus_penalty), color='green', linestyle='dashed', label='Best models + Cp penalty')
 plt.axvline(x=best_k, color='orange', linestyle='dashed', label='Best Cp model')
 plt.xlabel('Number of predictors (k)')
-plt.ylabel('RSS')
+plt.ylabel('log(RSS)')
 plt.title('RSS for Best Subset Selection')
 plt.legend()
 plt.show()
@@ -239,7 +239,7 @@ How many models are run?
 ::: {style="direction:rtl; font-size:16px"}
 בואו נראה דוגמא של הרצת רגרסיה בסט סאבסט על נתוני אשראי. בדוגמה שלנו יש p = 11 משתנים כמו הכנסה, מגבלה על החשבון, האם בעל החשבון הוא סטודנט וכולי. ואנחנו מנסים לחזות את היתרה של בעל החשבון.
 
-על ציר האיקס אנחנו רואים את k בכל שלב של האלגוריתם. בהתחלה k = 0 כלומר אנחנו עובדים רק עם חותך. ואז k = 1 ואנחנו מתאימים 11 מודלים עם משתנה אחד, כל נקודה כאן היא הRSS של אחד המודלים האלה. וכך ממשיכים עד המודל האחרון בו מכניסים את כל המשתנים.
+על ציר האיקס אנחנו רואים את k בכל שלב של האלגוריתם. בהתחלה k = 0 כלומר אנחנו עובדים רק עם חותך. ואז k = 1 ואנחנו מתאימים 11 מודלים עם משתנה אחד, כל נקודה כאן היא הלוג של הRSS של אחד המודלים האלה. וכך ממשיכים עד המודל האחרון בו מכניסים את כל המשתנים.
 
 עבור כל k אפשר לראות את המודל הנבחר שמשיג את הRSS הנמוך ביותר, הקו האדום מחבר ביניהם. באופן לא מפתיע הקו האדום יכול רק לרדת, את זה ראינו בשיעורים קודמים, הוספת משתנים לרגרסיה יכולה רק לשפר את הRSS.
 
@@ -354,13 +354,13 @@ best_k = rss_plus_penalty.index(min_rss_plus_penalty)
 plt.figure(figsize=(10, 5))
 for k in range(X.shape[1] + 1):
     k_rss = rss_df[rss_df['k'] == k]
-    plt.scatter(k_rss['k'], k_rss['RSS'], color='blue', label='All models' if k == 0 else "")
+    plt.scatter(k_rss['k'], np.log(k_rss['RSS']), color='blue', label='All models' if k == 0 else "")
 best_rss_df = pd.DataFrame(best_models, columns=['k', 'RSS', 'Features'])
-plt.plot(best_rss_df['k'], best_rss_df['RSS'], color='red', label='Best models')
-plt.plot(best_rss_df['k'], rss_plus_penalty, color='green', linestyle='dashed', label='Best models + Cp penalty')
+plt.plot(best_rss_df['k'], np.log(best_rss_df['RSS']), color='red', label='Best models')
+plt.plot(best_rss_df['k'], np.log(rss_plus_penalty), color='green', linestyle='dashed', label='Best models + Cp penalty')
 plt.axvline(x=best_k, color='orange', linestyle='dashed', label='Best Cp model')
 plt.xlabel('Number of predictors (k)')
-plt.ylabel('RSS')
+plt.ylabel('log(RSS)')
 plt.title('RSS for Forward Stepwise Selection')
 plt.legend()
 plt.show()
@@ -525,7 +525,7 @@ $$\hat{\beta}(\lambda) = (X'X + \lambda I_p)^{-1}X'y$$
 
 ::: {.incremental}
 - Numerical stability:
-  - If $X$'s columns are correlated, $X'X$ is ill-conditioned and its inverse is unstable, variance of $\hat{\beta}$ is high -- but $X'X + \lambda I_p$ improves on this
+  - If $X$'s columns are highly correlated, $X'X$ is ill-conditioned and its inverse is unstable, variance of $\hat{\beta}$ is high -- but $X'X + \lambda I_p$ improves on this
 - Feasibility:
   - If $X$'s columns are linearly dependent $X'X$ is not invertible but $X'X + \lambda I_p$ is!
   - If $p > n$ -- same!
@@ -549,7 +549,7 @@ $$\hat{\beta}(\lambda) = (X'X + \lambda I_p)^{-1}X'y$$
 
 ---
 
-### Choosing $\lambda$
+### Choosing the $\lambda$ [hyperparameter]{style="color:red;"}
 
 ```{python}
 #| echo: false
@@ -673,8 +673,9 @@ plt.show()
 ::: {style="direction:rtl; font-size:16px"}
 נראה את רגרסיית רידג' בפעולה על הנתונים שלנו ועל הדרך נדגים גם איך בוחרים את הפרמטר למדא.
 
-הפרמטר למדא הוא מה שקרוי היפרפרמטר, צריך לבחור אותו באמצעות בדיקה של אפשרויות שונות, בדרך כלל עם קרוס ולידיישן, ולראות איזו מהן נותנת את שגיאת החיזוי הטובה ביותר על מדגמים שהמודל לא ראה. כאן אנחנו בודקים את זה עם קרוס ולידיישן עם חמישה פולדים ומדווחים את ממוצע הMSE על הטריין ועל הטסט. אנחנו רואים כאן כמה דברים:
+הפרמטר למדא הוא מה שקרוי היפרפרמטר. זה פרמטר שלא ניתן ללמוד ממדגם הלמידה, אלא צריך לבחור אותו באמצעות בדיקה של אפשרויות שונות, בדרך כלל עם קרוס ולידיישן, ולראות איזו מהן נותנת את שגיאת החיזוי הטובה ביותר על מדגמים שהמודל לא ראה. כאן אנחנו בודקים את זה עם קרוס ולידיישן עם חמישה פולדים ומדווחים את ממוצע הMSE על הטריין ועל הטסט. 
 
+אנחנו רואים כאן כמה דברים:
 שבאופן צפוי השגיאה על הטריין נמוכה יותר מאשר השגיאה על הטסט. שהפרמטר למדא הטוב ביותר שמביא למינימום את השגיאה על הטסט הוא קצת פחות מ10 בחזקת 0 כלומר קצת פחות מ1. והכי חשוב, אנחונ רואים שאם אנחנו משווים לשגיאה של רגרסיה ליניארית רגילה, OLS, שהיא לא תלויה בלמדא בכלל כמובן ומופיעה כאן במקווקו, עבור הלמדא הנכון רידג' אכן מצליח להגיע לירידה בMSE ניכרת.
 
 מצד ימין, אנחנו מראים איך נראים המקדמים הנאמדים של 11 המשתנים שלנו, בהתאם ללמדא. כשהלמדא הוא אפסי, אין ענישה בכלל כל אומדני המקדמים והם מקבלים את הערכים שהם היו מקבלים ברגרסיה רגילה. באופן צפוי, ככל שלמדא גדול יותר, העונש על הנורמה של וקטור בטא גדול יותר והאילוץ חמור יותר ומאפשר פחות ופחות חופש למודל והמקדמים הנאמדים נעשים קטנים יותר, הם מתכווצים לכיוון אפס. לתופעה כזאת של כיווץ אנחנו קוראים שרינקג', אפשר לראות שהיא עשויה מאוד לסייע להקטין את שגיאת החיזוי ונדבר עליה עוד בהמשך.
