@@ -419,7 +419,7 @@
 <li>Initialize observations weights <span class="math inline">\(w_i = 1/n\)</span> for <span class="math inline">\(i = 1, \dots, n\)</span></li>
 <li>For <span class="math inline">\(m  = 1\)</span> to <span class="math inline">\(M\)</span>:
 <ol type="a">
-<li>Fit classifier <span class="math inline">\(G_m(x)\)</span> to the training data using weights* <span class="math inline">\(w_i\)</span></li>
+<li>Fit classifier <span class="math inline">\(G_m(x)\)</span> to the training data using <strong>weights</strong> <span class="math inline">\(w_i\)</span></li>
 <li>Compute weighted classification error: <span class="math display">\[err_m = \frac{\sum_{i = 1}^n w_i\mathbb{I}\left[y_i \neq G_m(x_i)\right]}{\sum_{i = 1}^n w_i}\]</span></li>
 <li>Compute coefficient <span class="math inline">\(\alpha_m = \ln\left[\frac{1-err_m}{err_m}\right]\)</span></li>
 <li>Update weights: <span class="math inline">\(w_i \leftarrow w_i \cdot \exp\left[\alpha_m \cdot \mathbb{I}\left[y_i \neq G_m(x_i)\right]\right]\)</span></li>
@@ -433,7 +433,7 @@
 <i class="callout-icon"></i>
 </div>
 <div class="callout-content">
-<p>*What does it mean training a classification tree with weighted data?</p>
+<p>What does it mean training a classification tree with weighted data?</p>
 </div>
 </div>
 </div>
@@ -442,13 +442,13 @@
 <div style="direction:rtl; font-size:16px">
 <p>ככה נראה אלגוריתם האדאבוסט הרשמי, לא להיבהל, הוא דוקא די פשוט.</p>
 <p>אנחנו מתחילים עם משקולות שוות לכל התצפיות, אם יש n תצפיות זה יוצר 1 חלקי n.</p>
-<p>ועכשיו בכל איטרציה, אנחנו מגדלים עץ על התצפיות שלנו במשקול הנוכחי w_i.</p>
-<p>אנחנו מחשבים את השגיאה הממושקלת הנוכחית, כלומר סוכמים את כל השגיאות וכופלים כל אחת במשקל שלה, ומחלקים בסך המשקולות.</p>
+<p>ועכשיו בכל איטרציה, אנחנו מגדלים עץ על התצפיות שלנו במשקול הנוכחי w_i. תיכף נדבר על מה זה אומר, לגדל עץ עם משקולות על התצפיות, לא נתקלנו בזה קודם.</p>
+<p>מכל מקום, אנחנו מחשבים את השגיאה הממושקלת הנוכחית, כלומר סוכמים את כל השגיאות וכופלים כל אחת במשקל שלה, ומחלקים בסך המשקולות.</p>
 <p>המשקולת לכל הקלסיפייר אלפא-אם מחושבת עכשיו והיא שווה לביטוי שרשום כאן שמבוסס על שגיא הממושקלת ארר.</p>
 <p>והשלב האחרון באיטרציה, עדכון המשקולות לאיטרציה הבאה: המשקולת של כל תצפית תוכפל באקספוננט בחזקת אלפא-אם אם הקלסיפייר הנוכחי עשה טעות על התצפית הזאת, וכפול אקספוננט בחזקת אפס אחרת, כלומר כפול 1 – אם צדקנו המשקולת תישאר כפי שהיא.</p>
 <p>נשים לב למה זה הגיוני – אם טעינו, הכפלה פי אקספוננט בחזקת אלפא, תגדיל את המשקולת, וככה באיטרציה הבאה הקלסיפייר שלנו יצטרך לעבוד קשה יותר כדי לסווג אותה נכון, בניגוד לתצפיות עם משקולות קטנות. עוד דבר שנשים לב שעצים עם שגיאה ארר מאוד קטנה יקבלו משקולות אלפא-אם מאוד גדולות, ועצים עם שגיאה מאוד גדולה יקבלו משקולת אלפא-אם מאוד נמוכה.</p>
 <p>בכל אופן האאוטפוט של של אדאבוסט הוא מה שרצינו, ממוצע משוקלל של וויק קלסיפיירים, שאנחנו מפעילים עליו פונקצית סיין כדי לקבל חיזוי סופי של 1 ומינוס 1.</p>
-<p>רק נקודה קטנה שהרבה פעמים שוכחים - הקלסיפייר שלנו חייב לדעת לטפל נכון בתצפיות ממושקלות. למשל איך מגדלים עץ עם משקולות על התצפיות? אז אם זה עץ רגרסיה, הלוס שאנחנו עושים עליו מינימום בכל פיצול הוא הRSS, אבל אנחנו לוקחים RSS ממושקל.</p>
+<p>נחזור רגע לעניין המשקול - הקלסיפייר שלנו חייב לדעת לטפל נכון בתצפיות ממושקלות. למשל איך מגדלים עץ עם משקולות על התצפיות? אז אם זה עץ רגרסיה, הלוס שאנחנו עושים עליו מינימום בכל פיצול הוא הRSS, אבל אנחנו לוקחים RSS ממושקל.</p>
 <p>ואם זה עץ קלסיפיקציה, אז הלוס שלנו הוא למשל מדד הג’יני, ואנחנו צריכים לחשב בכל צומת את אחוז התצפיות שהן פלוס או מינוס אחת, אז במקום לחשב אותן בצורה הרגילה נחשב את סכום משקולות התצפיות שהן אחת חלקי סכום המשקולות של התצפיות בצומת.</p>
 <p>מכל מקום, כעת ברור למה קוראים לאלגוריתם אדאבוסט. הוא לוקח קלסיפייר חלש יחסית, ועושה לו בוסט, בצורה אדאפטיבית. בחלק הבא נראה שבצורה הזאת יש לנו הבטחה, שאנחנו יכולים להוריד את השגיאה על מדגם הלמידה להיות קטנה כרצוננו, כתלות במספר האיטרציות ובפרמטר השגיאה גאמא שאנחנו יכולים להבטיח לכל וויק קלסיפייר. קטנה כרצוננו זה אומר אפילו אפס.</p>
 </div>
@@ -485,7 +485,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-with-tree-stumps">AdaBoost with Tree Stumps</h3>
-<div id="96c02efb" class="cell" data-execution_count="1">
+<div id="6447f739" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -528,7 +528,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-1">AdaBoost: iteration 1</h3>
-<div id="f0b513bc" class="cell" data-execution_count="2">
+<div id="4ef30c0c" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -559,7 +559,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-2">AdaBoost: iteration 2</h3>
-<div id="e0aae067" class="cell" data-execution_count="3">
+<div id="813e9275" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -590,7 +590,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-3">AdaBoost: iteration 3</h3>
-<div id="71d30d42" class="cell" data-execution_count="4">
+<div id="1171b75a" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -618,7 +618,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-4">AdaBoost: iteration 4</h3>
-<div id="3aa1c12c" class="cell" data-execution_count="5">
+<div id="e6cf7254" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -646,7 +646,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-5">AdaBoost: iteration 5</h3>
-<div id="02336686" class="cell" data-execution_count="6">
+<div id="2764a44c" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -679,7 +679,7 @@
 <p><span class="math inline">\(= \text{sign}\left[1.386G_1(x) + 1.466G_2(x) + 0.934G_3(x) + 1.299G_4(x) + 1.126G_5(x)\right]\)</span></p>
 </div>
 <div class="fragment">
-<div id="e99b14a0" class="cell" data-execution_count="7">
+<div id="4607ff62" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -904,7 +904,7 @@
 </ul>
 </div>
 <div class="fragment">
-<div id="9623e5c6" class="cell" data-execution_count="8">
+<div id="fc1817c3" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1115,7 +1115,7 @@
 <h3 id="classification-losses">Classification losses</h3>
 <div class="columns">
 <div class="column">
-<div id="fedaa282" class="cell" data-execution_count="9">
+<div id="224a2969" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1249,8 +1249,8 @@
 <div style="direction:rtl; font-size:16px">
 <p>באופן ספציפי, נתמקד בעצים ונרצה לעשות להם בוסטינג. נרצה שהחיזוי שלנו יהיה סכום חיזויים של עצים או סכום ממושקל שאני רגע משמיט רק בשביל הקיצור. ולמה דווקא עצים? בגלל כל היתרונות שלהם שראינו בשיעור הקודם, עצים מטפלים בלי בעיה בסוגי משתנים מגוונים בלי הכנה נוספת, הם יודעים לטפל בתצפיות חסרות, הם לא-ליניאריים מצד אחד אבל לא גמישים מדי מצד שני, ומצד שני החיזוי שלהם בשורה התחתונה הוא לא מאוד טוב, שזה בדיוק מה שאנחנו רוצים בלומד חלש.</p>
 <p>נזכור מהו עץ רגרסיה בשורה התחתונה. עץ רגרסיה הוא בעצם חלוקה של הדאטא לJ שכונות Rj, שבכל שכונה אנחנו חוזים מספר יחיד גאמא J.</p>
-<p>כלומר כל עץ ניתן לרשום בעצמו כמודל אדיטיבי שהחיזוי שלו הוא סכום על כל השכונות, שיחפש לאיזו שכונה התצפית שייכת ויחזה עבורה גאמא J. וכאן אנחנו מתייחסים למודל הזה כמודל פרמטרי לכל דבר, לכל עץ יש פרמטרים תטא שמה הם? השכונות, והמספר שמתאים לכל שכונה, גאמא.</p>
-<p>זה חשוב להבין את זה כי תיכף נזריק את התהליך הזה של בניית עץ אל תוך האלגוריתם פורוורד סטייג’וויז שלנו. לבנות עץ רגרסיה עם לוס ריבועי זה פשוט למצוא את הפרמטרים תטא הכי טובים, למצוא את השכונות והחיזויים הכי טובים כדי לעשות מינימום לשגיאה ריבועית.</p>
+<p>כלומר כל עץ בעומק קבוע ניתן לרשום בעצמו כמודל אדיטיבי שהחיזוי שלו הוא סכום על כל השכונות, שיחפש לאיזו שכונה התצפית שייכת ויחזה עבורה גאמא J. וכאן אנחנו מתייחסים למודל הזה כמודל פרמטרי לכל דבר, לכל עץ עם מספר שכונות קבוע J יש פרמטרים תטא שמה הם? השכונות עצמן, והמספר שמתאים לכל שכונה, גאמא.</p>
+<p>זה חשוב להבין את זה כי תיכף נזריק את התהליך הזה של בניית עץ אל תוך האלגוריתם פורוורד סטייג’וויז שלנו. לבנות עץ רגרסיה עם עומק קבוע עם לוס ריבועי זה פשוט למצוא את הפרמטרים תטא הכי טובים, למצוא את השכונות והחיזויים הכי טובים כדי לעשות מינימום לשגיאה ריבועית.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1318,7 +1318,7 @@
 <h3 id="what-about-more-robust-losses">What about more <span style="color:red;">robust</span> losses?</h3>
 <div class="columns">
 <div class="column">
-<div id="07b01fd0" class="cell" data-execution_count="10">
+<div id="64dc3b71" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1383,7 +1383,7 @@
 
 <h3 id="gradient-descent-algorithms">Gradient descent algorithms</h3>
 <p>Minimize a function <span class="math inline">\(J(\theta)\)</span> by moving in the opposite direction of the gradient: <span class="math display">\[\hat\theta_{i+1} = \hat\theta_i - \varepsilon \frac{\partial J(\theta)}{\partial \theta}\]</span></p>
-<div id="6268edec" class="cell" data-execution_count="11">
+<div id="d439f9f5" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1598,7 +1598,7 @@
 <section class="slide level2">
 
 <h3 id="example-credit-data">Example: credit data</h3>
-<div id="f990c8e9" class="cell" data-execution_count="12">
+<div id="3cf54eb7" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
