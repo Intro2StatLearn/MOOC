@@ -80,11 +80,9 @@ How did we get here?
 - Linear:
   - linear regression, ridge, lasso
   - logistic regression
-  - SVC, SVR
 - Non-linear:
   - KNN
   - Trees, RF, Boosting
-  - SVM
 :::
 
 ::: {.fragment}
@@ -99,7 +97,7 @@ Even our Bias-variance tradeoff analysis assumed a Fixed-$X$ scenario!
 
 אם אלה מודלים ליניאריים, דיברנו על רגרסיה ליניארית כשY רציף, רגרסית רידג', לאסו. אם זה קלסיפיקציה דיברנו על רגרסיה לוגיסטית או סאפורט וקטור קלסיפייר.
 
-אם אלה מודלים לא לינאריים, דיברנו על KNN לקלסיפיקציה ולרגרסיה, על עצי החלטה ואנסמבלים שלהם כמו בוסטינג ורנדום פורסט ועל SVM.
+אם אלה מודלים לא לינאריים, דיברנו על KNN לקלסיפיקציה ולרגרסיה, על עצי החלטה ואנסמבלים שלהם כמו בוסטינג ורנדום פורסט.
 
 כולם כולם, מניחים שX נתון, הוא קבוע, ומנסים למדל את התוחלת המותנית של Y, רציף או בדיד, על הנתונים האלה. מתוך הנחה, או תקווה, שנתונים שהמודל לא ראה דומים לX שלנו.
 
@@ -119,16 +117,16 @@ $$P(Y | X) = \frac{P(X, Y)}{P(X)} = \frac{P(Y)P(X|Y)}{P(X)} \propto P(Y)P(X|Y)$$
 
 - Focus on the mechanism which **generated** the data, not just the data
 
-- Especially useful when $n$ is low
+- Especially useful when $n$ is small
 :::
 
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
 באופן יותר פורמלי, לקלסיפיקציה, אם מעניין אותנו ההסתברות של Y בהינתן X, משפט בייז אומר לנו שהיא שווה להסתברות המשותפת של X וY, חלקי ההסתברות השולית של X.
 
-מודלים גנרטיביים, עושים שיפט לפוקוס בדיוק לאלמנט הזה, ההתפלגות המשותפת של X הנתונים ושל המשתנה התלוי Y. ונרחיב: ההסתברות המשותפת של X ושל Y שווה להסתברות השולית או האפריורית של Y, כפול ההסתברות של X בהינתן שראיתי את Y. ומאחר שתיכף נרצה את ההסתברות הזאת לכל מיני Yים, אנחנו נראה שהמכנה הוא זהה לכולם וניתן הדגש בעיקר למונה. אם אנחנו נצליח למדל היטב את שתי ההסתברויות האלה, האפריורית שY שווה לקלאס מסוים והתפלגות הנתונים בקרב התצפיות עם הקלאס הזה, זה אומר שהצלחנו למדל היטב את המטרה ההתחלתית שלנו, הבייס קלסיפייר. גישה שונה לגמרי:
+מודלים גנרטיביים, עושים שיפט לפוקוס בדיוק לאלמנט הזה, ההתפלגות המשותפת של X הנתונים ושל המשתנה התלוי Y. ונרחיב: ההסתברות המשותפת של X ושל Y שווה להסתברות השולית או האפריורית של Y, כפול ההסתברות של X בהינתן שראיתי את Y. ומאחר שתיכף נרצה את ההסתברות הזאת לכל מיני Yים, אנחנו נראה שהמכנה הוא זהה לכולם וניתן הדגש בעיקר למונה. הכי הרבה מידע נקבל אם נצליח למדל את ההתפלגות המשותפת, אבל אם נצליח למדל היטב את שתי ההסתברויות האלה, האפריורית שY שווה לקלאס מסוים והתפלגות הנתונים בקרב התצפיות עם הקלאס הזה, זה אומר שהצלחנו למדל היטב את המטרה ההתחלתית שלנו, ההתפלגות המשותפת, ולבסוף הבייס קלסיפייר. 
 
-לתת פוקוס על המנגנון שמג'נרט את הדאטא, שיוצר אותו, לא רק על הדאטא כנתון, כקבוע.
+גישה שונה לגמרי: לתת פוקוס על המנגנון שמג'נרט את הדאטא, שיוצר אותו, לא רק על הדאטא כנתון, כקבוע.
 
 אנחנו נראה, שהדבר יעיל במיוחד כשהדאטא הוא מועט בכל קלאס.
 :::
@@ -136,7 +134,7 @@ $$P(Y | X) = \frac{P(X, Y)}{P(X)} = \frac{P(Y)P(X|Y)}{P(X)} \propto P(Y)P(X|Y)$$
 
 ---
 
-### Generative models
+### Classification using generative models
 
 ::: {.incremental}
 - Even more specifically, if $Y \in \{1, \dots, K\}$:
@@ -386,7 +384,7 @@ $$P(Y = k|X = x) = \frac{P(Y = k)P(X = x|Y = k)}{P(X = x)} = \frac{\pi_k f_k(x)}
 
 אבל חשוב יותר, אנחנו מניחים שכל אחת ההתפלגויות של כל קלאס f_k, היא התפלגות נורמלית, עם פרמטרים משלה. או X, וקטור של p משתנים בהינתן הקלאס הK, מתפלג רב נורמלית עם וקטור תוחלות משלו מיו-קיי, ומטריצת שונות סיגמה, כמו שלמדנו.
 
-שימו לב, שבLDA אין אינדיקטור K ליד סיגמה, כלומר אנחנו מניחים מטריצת שונויות משותפת לכל הקלאסים.
+שימו לב, שבLDA אין אינדיקס K ליד סיגמה, כלומר אנחנו מניחים מטריצת שונויות משותפת לכל הקלאסים.
 
 האם אלה הנחות ריאליות? בודאי שלא תמיד, למשל אם אחד המשתנים בוקטור הוא בדיד -- איך הוא יכול להיות נורמלי? בפועל אנחנו רואים שLDA די רובסטי לעומת הפרות של ההנחה החזקה הזאת. מכל מקום חשוב להגיד שבעצם פירטתי לכם את כל המודל, השורה התחתונה רשומה כאן, רק חסר לנו לאמוד את K ההתפלגויות על כל הפרמטרים שלהם, את הפרופורציות pi_k, והחיזוי לכל תצפית יהיה הקלאס שעבורו המכפלה pi_kf_k היא המקסימלית.
 :::
@@ -583,22 +581,22 @@ K = n_classes
 n = n_samples * K
 
 def cov_est(n, K, n_features, estimated_means): 
-  # Initialize covariance matrix
-  cov_matrix_estimated = np.zeros((n_features, n_features))
+    # Initialize covariance matrix
+    cov_matrix_estimated = np.zeros((n_features, n_features))
 
-  # Compute the unbiased covariance matrix
-  for k in range(K):
-      class_samples = X[Y == k]
-      mean_k = estimated_means[k]
-      # Compute (X_i - \hat{\mu}_k) for all i in class g_k
-      centered_class_samples = class_samples - mean_k
-      # Accumulate the covariance contributions for class g_k
-      cov_matrix_estimated += centered_class_samples.T @ centered_class_samples
+    # Compute the unbiased covariance matrix
+    for k in range(K):
+        class_samples = X[Y == k]
+        mean_k = estimated_means[k]
+        # Compute (X_i - \hat{\mu}_k) for all i in class g_k
+        centered_class_samples = class_samples - mean_k
+        # Accumulate the covariance contributions for class g_k
+        cov_matrix_estimated += centered_class_samples.T @ centered_class_samples
 
-  # Final covariance matrix (unbiased estimator)
-  cov_matrix_estimated /= (n - K)
-  
-  return cov_matrix_estimated
+    # Final covariance matrix (unbiased estimator)
+    cov_matrix_estimated /= (n - K)
+    
+    return cov_matrix_estimated
 
 estimated_cov = cov_est(n, K, n_features, estimated_means)
 
@@ -615,55 +613,45 @@ def compute_decision_boundary_params(mean1, mean2, cov_inv):
 colors = ['r', 'g', 'b']
 markers = ['o', 's', '^']
 
-plt.figure(figsize=(5, 5))
-plt.xlim(min(X[:, 0])-1, max(X[:, 0])+1)
-plt.ylim(min(X[:, 1])-1, max(X[:, 1])+1)
-
-for i in range(n_classes):
-    plt.scatter(X[Y == i][:, 0], X[Y == i][:, 1], 
-                color=colors[i], marker=markers[i], label=f'Class {i}', edgecolor='k')
-
 # Define the range of x-values for plotting the decision boundaries
 x_plot = np.linspace(min(X[:, 0])-1, max(X[:, 0])+1, 100)
 
-# Plot true decision boundaries (from true means and covariance matrix)
-true_intersections = []  # To store intersection points
+# Create 2x2 grid for subplots
+fig, axs = plt.subplots(2, 2, figsize=(6, 6))
+
+# 1st plot: Just the data points
+axs[0, 0].set_xlim(min(X[:, 0])-1, max(X[:, 0])+1)
+axs[0, 0].set_ylim(min(X[:, 1])-1, max(X[:, 1])+1)
 for i in range(n_classes):
-    for j in range(i+1, n_classes):
-        # Compute the parameters of the true decision boundary
-        w_true, b_true = compute_decision_boundary_params(means[i], means[j], np.linalg.inv(cov_matrix))
-        # Compute the y-values for the true decision boundary line
-        y_plot_true = -(w_true[0] * x_plot + b_true) / w_true[1]
-        plt.plot(x_plot, y_plot_true, 'k-', linewidth=2)
+    axs[0, 0].scatter(X[Y == i][:, 0], X[Y == i][:, 1], 
+                      color=colors[i], marker=markers[i], edgecolor='k')
+    axs[0, 0].grid(True)
 
-        # Find the intersection of these two lines and store it
-        intersection_x = -(b_true) / w_true[0]  # Solve for x when y=0
-        intersection_y = -(w_true[0] * intersection_x + b_true) / w_true[1]  # Solve for y
-        true_intersections.append([intersection_x, intersection_y])
+# Now for the next 3 plots, plot each class pair and their boundaries
 
-# Find the centroid of the intersection points (approximate the middle)
-centroid = np.mean(true_intersections, axis=0)
+class_pairs = [(0, 1), (0, 2), (1, 2)]  # All pairs of classes
+for idx, (i, j) in enumerate(class_pairs):
+    ax = axs[(idx + 1) // 2, (idx + 1) % 2]
+    ax.set_xlim(min(X[:, 0])-1, max(X[:, 0])+1)
+    ax.set_ylim(min(X[:, 1])-1, max(X[:, 1])+1)
+    
+    # Scatter plot for both classes
+    ax.scatter(X[Y == i][:, 0], X[Y == i][:, 1], color=colors[i], marker=markers[i], edgecolor='k')
+    ax.scatter(X[Y == j][:, 0], X[Y == j][:, 1], color=colors[j], marker=markers[j], edgecolor='k')
+    ax.grid(True)
+    
+    # True decision boundary
+    w_true, b_true = compute_decision_boundary_params(means[i], means[j], np.linalg.inv(cov_matrix))
+    y_plot_true = -(w_true[0] * x_plot + b_true) / w_true[1]
+    ax.plot(x_plot, y_plot_true, 'k-', linewidth=2)
 
-# Plot estimated decision boundaries (from estimated means and covariance matrix)
-for i in range(n_classes):
-    for j in range(i+1, n_classes):
-        # Compute the parameters of the estimated decision boundary
-        w_est, b_est = compute_decision_boundary_params(estimated_means[i], estimated_means[j], estimated_cov_inv)
-        # Compute the y-values for the estimated decision boundary line
-        y_plot_est = -(w_est[0] * x_plot + b_est) / w_est[1]
+    # Estimated decision boundary
+    w_est, b_est = compute_decision_boundary_params(estimated_means[i], estimated_means[j], estimated_cov_inv)
+    y_plot_est = -(w_est[0] * x_plot + b_est) / w_est[1]
+    ax.plot(x_plot, y_plot_est, 'k--', linewidth=2)
 
-        # Plot only up to the intersection point (centroid)
-        x_masked = x_plot#[x_plot <= centroid[0]]  # Limit x-values up to the centroid
-        y_masked = -(w_est[0] * x_masked + b_est) / w_est[1]
-        plt.plot(x_masked, y_masked, 'k--', linewidth=2)
-
-# Highlight the centroid where the lines meet
-# plt.scatter(centroid[0], centroid[1], color='black', marker='x', s=100, label='Intersection Point')
-
-# Customize the plot
-plt.xlabel('X1')
-plt.ylabel('X2')
-plt.grid(True)
+# Customize the overall plot
+plt.tight_layout()
 plt.show()
 ```
 ::: {.notes}
@@ -737,6 +725,8 @@ plt.show()
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
 אז הנה דוגמא פשוטה של שני קלאסים ושוב אנחנו בשני משתנים, כשברור שהנחה של מטריצת קווריאנס זהה או פיזור זהה לשני הקלאסים, היא לא הנחה סבירה. בקלאס האדום נראה שיש מתאם מעט חיובי בין האיקסים, בקלאס הירוק נראה שיש מתאם שלילי, כשX2 עולה X1 יורד. יותר מזה, יש משהו קצת חשוד בקו הפרדה ליניארי בין שני הקלאסים, אם כבר היינו מצפים לקו קצת מעוגל (להדגים) משהו כזה. אנחנו נראה שכשאנחנו לא מניחים פיזור זהה בין הקלאסים, זה בדיוק מה שמתקבל.
+
+חשוב להדגיש שזאת לא דוגמה צעצוע, ככה מתנהגים נתונים אמיתיים. אפילו בהשוואה בין חולים ובריאים, על משתנה אחד כמו לחץ דם, ונניח אפילו שהוא מתפלג נורמלית (להדגים). אז הוא גבוה יותר אצל החולים, אבל זה סביר שתהיה לו אותה שונות? לא כל כך, אוכלוסיית הבריאים כנראה מגוונת יותר, ובקרב אוכלוסיית החולים הריכוז סביב לחץ דם גבוה קטן יותר, יש כאן אולי גם אפקט תקרה, לחץ דם סיסטולי לכיוון 180, זה כבר בדרך של התקף לב. זאת דוגמא שממחישה למה לא נרצה להניח פיזור זהה בין הקלאסים.
 :::
 :::
 

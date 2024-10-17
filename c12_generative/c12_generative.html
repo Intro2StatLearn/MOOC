@@ -417,13 +417,11 @@
 <ul>
 <li>linear regression, ridge, lasso</li>
 <li>logistic regression</li>
-<li>SVC, SVR</li>
 </ul></li>
 <li>Non-linear:
 <ul>
 <li>KNN</li>
 <li>Trees, RF, Boosting</li>
-<li>SVM</li>
 </ul></li>
 </ul>
 </div>
@@ -443,7 +441,7 @@
 <div style="direction:rtl; font-size:16px">
 <p>למודלים שלמדנו עד היום אפשר לקרוא מודלים דיסקרימינטיביים. אם זה ברגרסיה, הם מנסים למדל את התוחלת המותנית של Y בהינתן הנתונים X. אם זה בקלסיפיקציה, אפשר לפרט יותר ולהגיד שהם מנסים למדל את ההסתברות שY שווה לאיזשהו קלאס בהינתן הנתונים X. כלומר הם מנסים להבחין, טו דיסקרימינייט, בין קלאסים שונים. ואם תיזכרו בתחילת הקורס עשינו את זה כי הבנו שבמובן מסוים אם נדע למדל את ההסתברות המותנית הזאת ונדע איך להביא אותה למקסימום זה קריטריון אופטימלי שנקרא בייס קלסיפייר, לעשות קלסיפיקציה טובה.</p>
 <p>אם אלה מודלים ליניאריים, דיברנו על רגרסיה ליניארית כשY רציף, רגרסית רידג’, לאסו. אם זה קלסיפיקציה דיברנו על רגרסיה לוגיסטית או סאפורט וקטור קלסיפייר.</p>
-<p>אם אלה מודלים לא לינאריים, דיברנו על KNN לקלסיפיקציה ולרגרסיה, על עצי החלטה ואנסמבלים שלהם כמו בוסטינג ורנדום פורסט ועל SVM.</p>
+<p>אם אלה מודלים לא לינאריים, דיברנו על KNN לקלסיפיקציה ולרגרסיה, על עצי החלטה ואנסמבלים שלהם כמו בוסטינג ורנדום פורסט.</p>
 <p>כולם כולם, מניחים שX נתון, הוא קבוע, ומנסים למדל את התוחלת המותנית של Y, רציף או בדיד, על הנתונים האלה. מתוך הנחה, או תקווה, שנתונים שהמודל לא ראה דומים לX שלנו.</p>
 <p>אפילו בדיון שלנו על הביאס-וריאנס טריידאוף, הפיתוחים שלנו היו יחסים פשוטים והניחו שX המדגם למידה שלנו הוא נתון. על מה לא נתנו דגש? לא נתנו דגש על ההתפלגות של הנתונים עצמם, של X!</p>
 </div>
@@ -467,14 +465,14 @@
 <ul>
 <li class="fragment"><p><span style="color:red;">Generative</span> models focus on modeling the joint distribution <span class="math inline">\(P(X, Y)\)</span>, or more specifically: <span class="math display">\[P(Y | X) = \frac{P(X, Y)}{P(X)} = \frac{P(Y)P(X|Y)}{P(X)} \propto P(Y)P(X|Y)\]</span></p></li>
 <li class="fragment"><p>Focus on the mechanism which <strong>generated</strong> the data, not just the data</p></li>
-<li class="fragment"><p>Especially useful when <span class="math inline">\(n\)</span> is low</p></li>
+<li class="fragment"><p>Especially useful when <span class="math inline">\(n\)</span> is small</p></li>
 </ul>
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 <p>באופן יותר פורמלי, לקלסיפיקציה, אם מעניין אותנו ההסתברות של Y בהינתן X, משפט בייז אומר לנו שהיא שווה להסתברות המשותפת של X וY, חלקי ההסתברות השולית של X.</p>
-<p>מודלים גנרטיביים, עושים שיפט לפוקוס בדיוק לאלמנט הזה, ההתפלגות המשותפת של X הנתונים ושל המשתנה התלוי Y. ונרחיב: ההסתברות המשותפת של X ושל Y שווה להסתברות השולית או האפריורית של Y, כפול ההסתברות של X בהינתן שראיתי את Y. ומאחר שתיכף נרצה את ההסתברות הזאת לכל מיני Yים, אנחנו נראה שהמכנה הוא זהה לכולם וניתן הדגש בעיקר למונה. אם אנחנו נצליח למדל היטב את שתי ההסתברויות האלה, האפריורית שY שווה לקלאס מסוים והתפלגות הנתונים בקרב התצפיות עם הקלאס הזה, זה אומר שהצלחנו למדל היטב את המטרה ההתחלתית שלנו, הבייס קלסיפייר. גישה שונה לגמרי:</p>
-<p>לתת פוקוס על המנגנון שמג’נרט את הדאטא, שיוצר אותו, לא רק על הדאטא כנתון, כקבוע.</p>
+<p>מודלים גנרטיביים, עושים שיפט לפוקוס בדיוק לאלמנט הזה, ההתפלגות המשותפת של X הנתונים ושל המשתנה התלוי Y. ונרחיב: ההסתברות המשותפת של X ושל Y שווה להסתברות השולית או האפריורית של Y, כפול ההסתברות של X בהינתן שראיתי את Y. ומאחר שתיכף נרצה את ההסתברות הזאת לכל מיני Yים, אנחנו נראה שהמכנה הוא זהה לכולם וניתן הדגש בעיקר למונה. הכי הרבה מידע נקבל אם נצליח למדל את ההתפלגות המשותפת, אבל אם נצליח למדל היטב את שתי ההסתברויות האלה, האפריורית שY שווה לקלאס מסוים והתפלגות הנתונים בקרב התצפיות עם הקלאס הזה, זה אומר שהצלחנו למדל היטב את המטרה ההתחלתית שלנו, ההתפלגות המשותפת, ולבסוף הבייס קלסיפייר.</p>
+<p>גישה שונה לגמרי: לתת פוקוס על המנגנון שמג’נרט את הדאטא, שיוצר אותו, לא רק על הדאטא כנתון, כקבוע.</p>
 <p>אנחנו נראה, שהדבר יעיל במיוחד כשהדאטא הוא מועט בכל קלאס.</p>
 </div>
 <style type="text/css">
@@ -491,7 +489,7 @@
 </section>
 <section class="slide level2">
 
-<h3 id="generative-models-1">Generative models</h3>
+<h3 id="classification-using-generative-models">Classification using generative models</h3>
 <div>
 <ul>
 <li class="fragment"><p>Even more specifically, if <span class="math inline">\(Y \in \{1, \dots, K\}\)</span>: <span class="math display">\[P(Y = k|X = x) = \frac{P(Y = k)P(X = x|Y = k)}{P(X = x)} = \frac{\pi_k f_k(x)}{\sum_{l = 1}^K \pi_l f_l(x)}\]</span></p></li>
@@ -556,7 +554,7 @@
 <li><span class="math inline">\(f(x) = \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{1}{2\sigma^2}(x-\mu)^2\right)\)</span></li>
 <li><span class="math inline">\(F(x) = P(X \le x) = \int_{-\infty}^x f(x)dx = \Phi\left(\frac{x - \mu}{\sigma}\right)\)</span></li>
 </ul>
-<div id="804136e9" class="cell" data-execution_count="1">
+<div id="728d194e" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -595,7 +593,7 @@
 <li class="fragment"><span class="math inline">\(F(x) = P(X_1 \le x_1, X_2 \le x_2) = \int_{-\infty}^{x_2}\int_{-\infty}^{x_1}f(x_1, x_2)dx_1 dx_2\)</span></li>
 </ul>
 </div>
-<div id="07900a14" class="cell" data-execution_count="2">
+<div id="783f583f" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -710,7 +708,7 @@
 <p>אז מה ייחודי לLDA:</p>
 <p>קודם כל את ההסתברויות האפריוריות לכל קלאס אנחנו נאמוד בצורה הכי פשוטה, כל אחת מהן תהיה פשוט השכיחות של הקלאס בנתונים.</p>
 <p>אבל חשוב יותר, אנחנו מניחים שכל אחת ההתפלגויות של כל קלאס f_k, היא התפלגות נורמלית, עם פרמטרים משלה. או X, וקטור של p משתנים בהינתן הקלאס הK, מתפלג רב נורמלית עם וקטור תוחלות משלו מיו-קיי, ומטריצת שונות סיגמה, כמו שלמדנו.</p>
-<p>שימו לב, שבLDA אין אינדיקטור K ליד סיגמה, כלומר אנחנו מניחים מטריצת שונויות משותפת לכל הקלאסים.</p>
+<p>שימו לב, שבLDA אין אינדיקס K ליד סיגמה, כלומר אנחנו מניחים מטריצת שונויות משותפת לכל הקלאסים.</p>
 <p>האם אלה הנחות ריאליות? בודאי שלא תמיד, למשל אם אחד המשתנים בוקטור הוא בדיד – איך הוא יכול להיות נורמלי? בפועל אנחנו רואים שLDA די רובסטי לעומת הפרות של ההנחה החזקה הזאת. מכל מקום חשוב להגיד שבעצם פירטתי לכם את כל המודל, השורה התחתונה רשומה כאן, רק חסר לנו לאמוד את K ההתפלגויות על כל הפרמטרים שלהם, את הפרופורציות pi_k, והחיזוי לכל תצפית יהיה הקלאס שעבורו המכפלה pi_kf_k היא המקסימלית.</p>
 </div>
 <style type="text/css">
@@ -728,7 +726,7 @@
 <section class="slide level2">
 
 <h3 id="lda-what-to-expect">LDA: What to expect</h3>
-<div id="547bd8c9" class="cell" data-execution_count="3">
+<div id="cd714a9c" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -876,11 +874,11 @@
 <section class="slide level2">
 
 <h3 id="lda-example">LDA: Example</h3>
-<div id="c24737ed" class="cell" data-execution_count="4">
+<div id="02987d20" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c12_generative_files/figure-revealjs/cell-5-output-1.png" width="427" height="429"></p>
+<p><img data-src="c12_generative_files/figure-revealjs/cell-5-output-1.png" width="559" height="566"></p>
 </figure>
 </div>
 </div>
@@ -923,7 +921,7 @@
 <section class="slide level2">
 
 <h3 id="a-common-covariance">A common covariance?</h3>
-<div id="1e98e94a" class="cell" data-execution_count="5">
+<div id="bc23217b" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -935,6 +933,7 @@
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 <p>אז הנה דוגמא פשוטה של שני קלאסים ושוב אנחנו בשני משתנים, כשברור שהנחה של מטריצת קווריאנס זהה או פיזור זהה לשני הקלאסים, היא לא הנחה סבירה. בקלאס האדום נראה שיש מתאם מעט חיובי בין האיקסים, בקלאס הירוק נראה שיש מתאם שלילי, כשX2 עולה X1 יורד. יותר מזה, יש משהו קצת חשוד בקו הפרדה ליניארי בין שני הקלאסים, אם כבר היינו מצפים לקו קצת מעוגל (להדגים) משהו כזה. אנחנו נראה שכשאנחנו לא מניחים פיזור זהה בין הקלאסים, זה בדיוק מה שמתקבל.</p>
+<p>חשוב להדגיש שזאת לא דוגמה צעצוע, ככה מתנהגים נתונים אמיתיים. אפילו בהשוואה בין חולים ובריאים, על משתנה אחד כמו לחץ דם, ונניח אפילו שהוא מתפלג נורמלית (להדגים). אז הוא גבוה יותר אצל החולים, אבל זה סביר שתהיה לו אותה שונות? לא כל כך, אוכלוסיית הבריאים כנראה מגוונת יותר, ובקרב אוכלוסיית החולים הריכוז סביב לחץ דם גבוה קטן יותר, יש כאן אולי גם אפקט תקרה, לחץ דם סיסטולי לכיוון 180, זה כבר בדרך של התקף לב. זאת דוגמא שממחישה למה לא נרצה להניח פיזור זהה בין הקלאסים.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1014,7 +1013,7 @@
 <div class="columns">
 <div class="column">
 <div class="fragment">
-<div id="5aa58b79" class="cell" data-execution_count="6">
+<div id="4290c25d" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1168,7 +1167,7 @@
 <section class="slide level2">
 
 <h3 id="example-saheart-data">Example: SAHeart data</h3>
-<div id="7aa3f0c8" class="cell" data-execution_count="7">
+<div id="92b0280a" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
