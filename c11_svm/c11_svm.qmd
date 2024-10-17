@@ -54,7 +54,7 @@ footer: "[Intro to Statistical Learning](https://intro2statlearn.github.io/mooc/
 ### A big assumption
 
 - Suppose $y \in \{-1, 1\}$
-- Suppose $T = \{(x_1, y_1), \dots, (x_n, y_n)\}$ can be separated by a hyperplane:
+- Suppose the classes can be separated by a hyperplane, e.g. for data $T = \{(x_1, y_1), \dots, (x_n, y_n)\}$:
 
 ```{python}
 #| echo: false
@@ -414,7 +414,7 @@ $$\min_{\beta, \beta_0}\|\beta\| \quad s.t. \space y_i (\beta_0 + x_i^T\beta) \g
 
   - because $M = 1/\|\beta\|$ and maximizing $M$ is minimizing $\|\beta\|$
 
-- This is a convex optimization problem (quadratic criterion, linear inequality constraints), many efficient solvers exist
+- This is a convex optimization problem (quadratic criterion if we write $\|\beta\|^2$, linear inequality constraints), many efficient solvers exist
 :::
 
 ::: {.notes}
