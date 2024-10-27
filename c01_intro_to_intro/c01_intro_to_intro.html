@@ -575,7 +575,7 @@
 <section class="slide level2">
 
 <h3 id="supervised-learning-wage-prediction">Supervised Learning: wage prediction</h3>
-<div id="ea1dc845" class="cell" data-execution_count="1">
+<div id="70669a92" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -792,7 +792,7 @@
 </ul>
 <div>
 <ul>
-<li class="fragment">Splines – smooth piecewise polynomials.</li>
+<li class="fragment">Splines – smooth piecewise polynomials: <span class="math inline">\(\min_{g} \sum_i {(y_i - g(x_i))^2 + \lambda\int g''(t)^2dt}\)</span></li>
 <li class="fragment">Why do we need the smoothness for?</li>
 <li class="fragment">If we remove the smoothness assumption then what is the <em>best</em> <span class="math inline">\(f(x)\)</span>? Is it a good choice?</li>
 </ul>
@@ -803,7 +803,7 @@
 <p>דוגמא אחת של מודל א-פרמטרי אפשר לראות בשיטת השכנים הקרובים, KNN שנדבר עליה בשיעור הבא בהקשר של קלסיפיקציה בכלל.</p>
 <p>דוגמא פחות מוכרת, שמכלילה במובן מסוים את המודל הליניארי, היא ספליינים.</p>
 <p>(להסביר על הלוח)</p>
-<p>בספליינים אנחנו נרצה לתאר את f כפונקציה שמחברת בין נקודות Y על-ידי פונקציות חלקות כמו פולינומים, שנפגשות זו עם זו, כמה שקרוב יותר לנתונים. נרצה פונקציות כמה שיותר חלקות, וכדי להשיג את החלקות הזאת נוסיף “עונש” למדא על הנגזרת השניה של הפונקציות האלה, כי הנגזרת השניה היא מדד טוב לכמה הפונקציה חלקה. ככל שהנגזרת השניה קטנה יותר, קצב ההשתנות של הפונקציה קטן יותר והיא חלקה יותר. אז עונש למדא גדול יביא אותנו לפונקציות מאוד חלקות אולי אפילו חלקות מדי ומוגבלות שאין להן הרבה חופש לזוז, ולהיפך עונש למדא קטן.</p>
+<p>בספליינים אנחנו נרצה לתאר את f כפונקציה שמחברת בין נקודות Y על-ידי פונקציות חלקות כמו פולינומים, שנפגשות זו עם זו, כמה שקרוב יותר לנתונים. נרצה פונקציות כמה שיותר חלקות, וכדי להשיג את החלקות הזאת נוסיף “עונש” למדא על הנגזרת השניה של הפונקציות האלה, כי הנגזרת השניה היא מדד טוב לכמה הפונקציה חלקה. ככל שהנגזרת השניה קטנה יותר, קצב ההשתנות של הפונקציה קטן יותר והיא חלקה יותר. אז עונש למדא גדול יביא אותנו לפונקציות מאוד חלקות אולי אפילו חלקות מדי ומוגבלות שאין להן הרבה חופש לזוז, ולהיפך עונש למדא קטן יביא אותנו לפונקציה שמסוגלת להיות מאוד מאוד גלית, ואולי גלית מדי, בצורה קצת מלאכותית.</p>
 <p>למה אנחנו רוצים חלקות? כי אנחנו מניחים שf היא פונקציה שמשתנה לאט, שהנוף הזה של f בהינתן הפיצ’רים בX הוא לא חד ומקוטע אלא נוף יפה של “גבעות ועמקים”. ומה יקרה אם נוותר על האילוץ של החלקות או אפילו נקטין את הפרמטר של למדא מאוד? שום דבר לא יגביל את המודל שלנו למצוא את הפולינומים שפשוט עוברים דרך הנקודות! אם נניח שכן נדרוש איזו רציפות זה ממש יכול להיראות קו מקוטע שיעבור בין כל זוג נקודות. וזה כנראה לא רעיון טוב, ותיכף נראה את זה בפועל.</p>
 <p>מכל מקום ספליינים הם דוגמא מעולה למודל א-פרמטרי שנקבע אך ורק מהדאטא, גם אם בפועל הוא מורכב מקבוצה של פולינומים.</p>
 </div>
@@ -822,7 +822,7 @@
 <section class="slide level2">
 
 <h3 id="from-linear-regression-to-splines">From Linear Regression to Splines</h3>
-<div id="5fdfd6a9" class="cell" data-execution_count="2">
+<div id="863c00c1" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1057,7 +1057,7 @@
 <section class="slide level2">
 
 <h3 id="why-do-we-prefer-simple-models-1">Why do we prefer simple models?</h3>
-<div id="4b5a091f" class="cell" data-execution_count="3">
+<div id="afd4e54c" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
