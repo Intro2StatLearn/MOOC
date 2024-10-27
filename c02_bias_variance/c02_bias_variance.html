@@ -582,7 +582,7 @@
 </section>
 <section class="slide level2">
 
-<div id="7dde8722" class="cell" data-execution_count="2">
+<div id="81a4423e" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1" data-code-line-numbers="|1-7|9|10-12|13|14|15-16|18-20|"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a>ntr <span class="op">=</span> <span class="dv">50</span></span>
 <span id="cb1-2"><a href=""></a>p <span class="op">=</span> <span class="dv">20</span></span>
 <span id="cb1-3"><a href=""></a>sigma_sq <span class="op">=</span> <span class="dv">1000</span></span>
@@ -628,7 +628,7 @@
 </section>
 <section class="slide level2">
 
-<div id="3a67c60a" class="cell" data-execution_count="3">
+<div id="574f8d05" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a>plt.plot(<span class="bu">range</span>(<span class="dv">1</span>, p <span class="op">+</span> <span class="dv">1</span>), pred_err, color<span class="op">=</span><span class="st">'green'</span>, lw<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">'prediction error'</span> )</span>
 <span id="cb2-2"><a href="" aria-hidden="true" tabindex="-1"></a>plt.plot([<span class="dv">1</span>, p <span class="op">+</span> <span class="dv">1</span>], [sigma_sq, sigma_sq], color<span class="op">=</span><span class="st">'black'</span>, lw<span class="op">=</span><span class="dv">1</span>, label<span class="op">=</span><span class="st">'$E(A^2)$:irreducible error'</span>)</span>
 <span id="cb2-3"><a href="" aria-hidden="true" tabindex="-1"></a>plt.plot(<span class="bu">range</span>(<span class="dv">1</span>, p <span class="op">+</span> <span class="dv">1</span>), pred_bias, color<span class="op">=</span><span class="st">'red'</span>, lw<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">'$E(B^2)$:prediction bias squared'</span>)</span>
@@ -723,7 +723,7 @@
 
 <h3 id="bayes-decision-boundary">Bayes decision boundary</h3>
 <p>Assume the conditional probability <span class="math inline">\(P(Y = 1 | X)\)</span> is a nice, slowly changing function of <span class="math inline">\(X\)</span>:</p>
-<div id="5fddf0f4" class="cell" data-execution_count="4">
+<div id="002ac3e7" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -812,7 +812,7 @@
 <section class="slide level2">
 
 <h3 id="the-bayes-classifier-is-purely-theoretical">The Bayes classifier is purely theoretical!</h3>
-<div id="11c2c5f7" class="cell" data-execution_count="5">
+<div id="1f799b9b" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -925,7 +925,7 @@
 <section class="slide level2">
 
 <h3 id="knn-vs.-bayes-classifier">KNN vs.&nbsp;Bayes classifier</h3>
-<div id="4b280e11" class="cell" data-execution_count="6">
+<div id="1e8fcceb" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -956,7 +956,7 @@
 <section class="slide level2">
 
 <h3 id="knn-and-bias-variance-tradeoff">KNN and bias-variance tradeoff</h3>
-<div id="7219abe8" class="cell" data-execution_count="7">
+<div id="a7e4f013" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1000,7 +1000,7 @@
 <section class="slide level2">
 
 <h3 id="how-to-choose-k">How to choose <span class="math inline">\(K\)</span>?</h3>
-<div id="bf80058b" class="cell" data-execution_count="8">
+<div id="a3ed7b31" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1021,7 +1021,7 @@
 <p>ברוב המקרים אנחנו נשתמש באסטרטגיה של חלוקת הדאטה לטריין ולטסט כמו כאן, ונבחר את הK שמביא למינימום את טעות החיזוי על מדגם הטסט. במקרה הזה אנחנו חוזרים על הניסוי התיאורטי שמייצר את הנתונים שרצינו מספר פעמים, מחלקים את הדאטא לטריין וטסט, לומדים על הטריין, מחשבים מיסקלסיפיקיישן על הטסט, וממצעים.</p>
 <p>כאן אפשר לראות את טעות החיזוי כפונקציה של 1 חלקי K, כי אנחנו רגילים לראות את הגרף הזה שנע ממודל מאוד פשוט ולא מורכב, ועד מודל מאוד גמיש ומורכב מדי, כלומר אנחנו רוצים לראות את K יורד. שני דברים שאנחנו מצפים לראות בגרף החיזוי של KNN ומתקיימים כאן:</p>
 <p>הארור של מדגם הלמידה, לא הטסט, עבור K = 1 יורד לאפס! כי עבור כל תצפית נחזה את הקלאס שלה עצמה. מה שממחיש את הבעייתיות בהסתכלות על מדגם הלמידה.</p>
-<p>ועוד תופעה שצפינו, KNN במיטבו מתקרב לטעות החיזוי של הבייס קלסיפיר שמסומנת כאן בקו שחור מקווקוו, אבל לא מצליחה לרדת ממנו. זו טעות אירדוסיבל. בכל מקרה כאן נראה שהK הטוב ביותר הוא בסביבות 30, עבורו היינו מקבלים טעות חיזוי של כ-25 אחוזים.</p>
+<p>ועוד תופעה שצפינו, KNN במיטבו מתקרב לטעות החיזוי של הבייס קלסיפיר שמסומנת כאן בקו שחור מקווקוו, אבל לא מצליח לרדת ממנה. זו טעות אירדוסיבל. בכל מקרה כאן נראה שהK הטוב ביותר הוא בסביבות 30, עבורו היינו מקבלים טעות חיזוי של כ-25 אחוזים.</p>
 <p>עד כאן שני השיעורים הראשונים שלנו שעוסקים במושגים כלליים של למידה כמו טעות חיזוי, ביאס-וריאנס ואוברפיטינג. בשיעורים הבאים נתמקד במודל הליניארי, אולי מודל הלמידה הישן ביותר והנחקר ביותר בספרות, מודל שצריך לשמש כבייסליין בכל פרויקט של למידה סטטיסטית מנתונים.</p>
 </div>
 <style type="text/css">
