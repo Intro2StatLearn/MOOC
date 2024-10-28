@@ -351,7 +351,7 @@
 <h2>Simple linear regression</h2>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-<p>בשיעור זה נעסוק ברגרסיה ליניארית, אחד המודלים הותיקים והנחקרים ביותר בספרות. חשוב להדגיש כי רגרסיה ליניארית זה נושא שאפשר להקדיש לו גם סמסטר שלם ואפילו שניים ושלושה, נושא שנכתבו עליו אינספור ספרים עבי קרס, ולא נוכל להתעמק בכל ניואנס. נתמקד בדברים החשובים לנו בקורס.</p>
+<p>בשיעור זה נעסוק ברגרסיה ליניארית, אחד המודלים הותיקים והנחקרים ביותר בספרות. חשוב להדגיש כי רגרסיה ליניארית זה נושא שאפשר להקדיש לו גם סמסטר שלם ואפילו שניים ושלושה, נושא שנכתבו עליו אינספור ספרים עבי כרס, ולא נוכל להתעמק בכל ניואנס. נתמקד בדברים החשובים לנו בקורס.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -434,7 +434,7 @@
 <section class="slide level2">
 
 <h3 id="from-line-to-rss-surface">From line to RSS surface</h3>
-<div id="628e33f4" class="cell" data-execution_count="1">
+<div id="28ec380c" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -447,7 +447,7 @@
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 <p>אז כאמור ככה נראות התצפיות שלנו, כל נקודה היא תצפית עם קואורדינטה X וקואורדינטה Y, נראה שיש יחס ליניארי עולה בין X לY ולכן המודל הליניארי מתאים.</p>
-<p>אנחנו מחשבים לכל תצפית את השארית של מקו רגרסיה אדום שאנחנו משיגים באמצעות חיפוש על הבטאות, ומחשבים את סכום המרחקים הריבועיים. בתרשימים האחרים ניתן לראות איך נראה קריטריון הRSS כפונקציה של הבטאות, באמצעות קונטור-פלוט או באמצעות תרשים תלת-מימדי. בכל מקרה הבטאות שנבחר הן הבטאות שמביאות למינימום את הRSS, וזה מתבטא בקו הרגרסיה האדום.</p>
+<p>אנחנו מחשבים לכל תצפית את השארית שלה מקו רגרסיה אדום שאנחנו משיגים באמצעות חיפוש על הבטאות, ומחשבים את סכום המרחקים הריבועיים. בתרשימים האחרים ניתן לראות איך נראה קריטריון הRSS כפונקציה של הבטאות, באמצעות קונטור-פלוט או באמצעות תרשים תלת-מימדי. בכל מקרה הבטאות שנבחר הן הבטאות שמביאות למינימום את הRSS, וזה מתבטא בקו הרגרסיה האדום.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -479,8 +479,8 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-<p>במקרה של רגרסיה ליניארית פשוטה, אין צורך באמת “לחפש”, הRSS הוא פונקציה פשוטה וקמורה. אם גוזרים אותו לפי בטא-אפס ולפי בטא-אחת מתקבלים הביטויים הסגורים האלה. בטא-אחת-האט הוא פשוט הקווריאנס במדגם בין X לY מחולק בשונות המדגם של X. ובטא-אפס-האט מתקבל מהצבת בטא-אחת-האט וממוצעי המדגם של X ושל Y בקו הרגרסיה.</p>
-<p>זה קו הליסט סקוורז, או הOLS, והוא הקו האומד הטוב ביותר לקו הרגרסיה של האוכלוסיה, תחת ההנחות. הטוב יותר כלומר מביא למינימום את קריטריון הRSS. כשנוסיף את ההיבט ההסתברותי לרגרסיה ליניארית נוכל להוכיח שהקו הזה הוא גם אומד בלתי-מוטה לקו הרגרסיה של האוכלוסיה, כרגע רק נגיד שאם ניקח מדגם עצום, ואז ממוצעי המדגמים הם כבר לא ממוצעים אלא תוחלות, אנחנו צריכים לקבל את קו הרגרסיה האמיתי, של האוכלוסיה.</p>
+<p>במקרה של רגרסיה ליניארית פשוטה, אין צורך באמת “לחפש”, הRSS הוא פונקציה פשוטה וקמורה. אם גוזרים אותו לפי בטא-אפס ולפי בטא-אחת ומשווים לאפס, מתקבלים הביטויים הסגורים האלה. בטא-אחת-האט הוא פשוט הקווריאנס במדגם בין X לY מחולק בשונות המדגם של X. ובטא-אפס-האט מתקבל מהצבת בטא-אחת-האט וממוצעי המדגם של X ושל Y בקו הרגרסיה.</p>
+<p>זה קו הליסט סקוורז, או הOLS, והוא הקו האומד הטוב ביותר לקו הרגרסיה של האוכלוסיה, תחת ההנחות. הטוב ביותר כלומר מביא למינימום את קריטריון הRSS. כשנוסיף את ההיבט ההסתברותי לרגרסיה ליניארית נוכל להוכיח שהקו הזה הוא גם אומד בלתי-מוטה לקו הרגרסיה של האוכלוסיה, כרגע רק נגיד שאם ניקח מדגם עצום, ואז ממוצעי המדגמים הם כבר לא ממוצעים אלא תוחלות, אנחנו צריכים לקבל את קו הרגרסיה האמיתי, של האוכלוסיה.</p>
 <p>מכל מקום, ברגע שמתקבלים האומדים למקדמי הרגרסיה כאמור קל לתת חיזוי לכל תצפית, לפי הנוסחה.</p>
 </div>
 <style type="text/css">
@@ -498,7 +498,7 @@
 <section class="slide level2">
 
 <h3 id="average-of-many-ols-lines">Average of many OLS lines</h3>
-<div id="c9c7e4dd" class="cell" data-execution_count="2">
+<div id="00f6871d" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -558,7 +558,7 @@
 </ul>
 </div>
 <div class="fragment">
-<div id="54107af2" class="cell" data-execution_count="3">
+<div id="3cb4e104" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -576,7 +576,7 @@
 <p>מה הסיכוי לקבל תוצאה כזאת?</p>
 <p>אני לא יודע, כי אני לא יודע את p.&nbsp;אני כן יכול להציב ערכים.</p>
 <p>לדוגמא אם p = 0.2, מדובר בהסתברות בינומית רגילה, לבחור 3 מקומות להדז מתוך 5, כפול הסיכוי להדז בחזקת 3, כפול הסיכוי לטיילז בחזקת 2.</p>
-<p>ואם p = 0.3, אז יוצא ביטוי אחר. בכל מקרה ברור שאם הסיכוי לקבל את המדגם שקיבלתי תחת ההנחה שp = 0.3 גדול יותר מהסיכוי לקבל את המדגם תחת ההנחה שp = 0.2, נראה הערך 0.3 סביר יותר.</p>
+<p>ואם p = 0.3, אז יוצא ביטוי אחר. בכל מקרה ברור שאם הסיכוי לקבל את המדגם שקיבלתי תחת ההנחה שp = 0.3 גדול יותר מהסיכוי לקבל את המדגם תחת ההנחה שp = 0.2, נראה שהערך 0.3 סביר יותר.</p>
 <p>אז למה לעצור כאן, אפשר לחשב את הסיכוי של המדגם שלנו לכל ערך של p ולבחור באומד p-hat שימקסם את ההסתברות הזאת.</p>
 <p>וזה בדיוק מה שאנחנו עושים בגרף הבא, אנחנו משרטטים את הסיכוי לקבל את המדגם שלנו, של שלושה הדז ושני טיילז, כנגד p.&nbsp;וכבר סימנו את הp שמביא את הקריטריון הזה למקסימום. אלה שהשתמשו באינטואיציה שלהם לא יופתעו לראות שהp הטוב ביותר הוא 0.6, שזה 3 הצלחות מתוך 5 ניסיונות. אבל זאת דוגמא ממש פשוטה. נכליל אותה, לקריטריון הזה נקרא הנראות, או הלייקליהוד, והאומד שלנו ייקרא אומד נראות מקסימלית.</p>
 </div>
@@ -613,7 +613,7 @@
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 <p>אז הכללה ראשונה היא לסיפור כללי יותר. תוצאת ההטלה מתפלגת ברנולי עם איזשהו סיכוי p, אנחנו רוצים לאמוד אותו. אנחנו לוקחים מדגם של n הטלות ומקבלים בשורה התחתונה k פעמים הדז.</p>
-<p>ההסתברות של המדגם שלנו היא ההסתברות של תוצאה בינומית שרשומה כאן, ונגדיר שהיא פונקציה של p שנקרא לה נראות, לייקליהוד. מסמנים בדרך כלל עם L גדולה כפונקציה של p בהינתן המדגם שהתקבל. זה בעצם ההסתברות לקבל את המדגם כפונקציה של p.</p>
+<p>ההסתברות של המדגם שלנו היא ההסתברות של תוצאה בינומית שרשומה כאן, ונגדיר שהיא פונקציה של p שנקרא לה נראות, לייקליהוד. מסמנים בדרך כלל עם L גדולה כפונקציה של p בהינתן המדגם שהתקבל. זה בעצם ההסתברות לקבל את המדגם.</p>
 <p>המטרה היא לעשות מקסימיזציה לפונקציה הזאת, והאומד שלנו p-hat יהיה הערך שיביא אותה למקסימום, לכן זה נקרא אמידת נראות מקסימלית.</p>
 <p>במקרה שלנו, אם נגזור את הביטוי, נשווה לאפס, ונחפש נקודות קיצון, נקבל ביטוי סגור לנקודת המקסימום: k חלקי n.&nbsp;שזה בעצם ממוצע המדגם אם היינו מסמנים את הדז כ1 וטיילז כ0, בדוגמא שלנו זה יצא 3/5 ואמרנו שזה לא מפתיע.</p>
 <p>ונשים לב, שאם היינו בוחרים לעשות לוג על הקריטריון, ולעבוד עם לוג הנראות, שמסומן בדרך כלל עם l קטנה, היינו מגיעים לביטוי פשוט יותר, ועדיין מקבלים אותו אומד נראות מקסימלית. הסיבה היא שלוג היא פונקציה מונוטונית עולה של הנראות.</p>
@@ -635,7 +635,7 @@
 <h3 id="maximum-likelihood-estimation-mle-ii">Maximum likelihood estimation (MLE) (II)</h3>
 <div>
 <ul>
-<li class="fragment">Second generalization, when <span class="math inline">\(X_1, \dots, X_n \sim P_\theta\)</span> iid
+<li class="fragment">Second generalization, when <span class="math inline">\(X_1, \dots, X_n \sim P_\theta\)</span> i.i.d
 <ul>
 <li class="fragment"><span class="math inline">\(\text{Likelihood}(\theta) = L(\theta|x) = P_\theta(x_1, \dots, x_n) = \prod_{i = 1}^n P_\theta(X_i = x_i)\)</span></li>
 <li class="fragment">Goal: <span class="math inline">\(\hat{\theta} = \arg\max_\theta{L(\theta|x)}\)</span></li>
@@ -727,7 +727,7 @@
 <h3 id="simple-linear-regression-maximum-likelihood">Simple linear regression maximum likelihood</h3>
 <div class="fragment">
 <p>Since the errors are normal and the model is linear we get:</p>
-<p><span class="math inline">\(y_i = \beta_0 + \beta_1x_i + \varepsilon_i  \to y_i \sim \mathcal{N}(\beta_0 + \beta_1x_i, \sigma^2) \to\)</span></p>
+<p><span class="math inline">\(y_i = \beta_0 + \beta_1x_i + \varepsilon_i  \Rightarrow y_i \sim \mathcal{N}(\beta_0 + \beta_1x_i, \sigma^2) \Rightarrow\)</span></p>
 </div>
 <div class="fragment">
 <p><span class="math display">\[L(\beta, \sigma^2 | x, y) = \prod_{i = 1}^n f(y_i) = \prod_{i = 1}^n \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left[-\frac{(y_i - \beta_0 - \beta_1x_i)^2}{2\sigma^2}\right]\]</span> <span class="math display">\[= (2\pi\sigma^2)^{-\frac{n}{2}}\exp\left[-\frac{1}{2\sigma^2}\sum_{i = 1}^n(y_i - \beta_0 - \beta_1x_i)^2\right]\]</span></p>
@@ -738,7 +738,7 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-<p>אז כאמור X הוא לא משתנה מקרי תחת מודל הרגרסיה, רק אפסילון הרעש משתנה מקרי. יוצא מזה שY הוא טרנספורמציה ליניארית של משתנה מקרי, ולכן הוא בעצמו משתנה מקרי שמתפלג נורמלית, עם תוחלת שהיא קו הרגרסיה האמיתי, ושונות סיגמה בריבוע.</p>
+<p>נשים לב ש X הוא לא משתנה מקרי תחת מודל הרגרסיה, רק אפסילון הרעש משתנה מקרי. יוצא מזה שY הוא טרנספורמציה ליניארית של משתנה מקרי, ולכן הוא בעצמו משתנה מקרי שמתפלג נורמלית, עם תוחלת שהיא קו הרגרסיה האמיתי, ושונות סיגמה בריבוע.</p>
 <p>מהי פונקצית הנראות? פונקצית הנראות היא פונקציה של הפרמטרים שאנחנו צריכים לאמוד, בהינתן מדגם הנתונים. ההגדרה שלה עבור משתנה רציף היא הצפיפות המשותפת של המדגם, ואם התצפיות בלתי תלויות מדובר במכפלת הצפיפויות. מכפלת הצפיפויות היא מכפלת הצפיפויות הנורמליות של Y, ואפשר לפשט אם זוכרים שמכפלת האקספוננטים היא אקספוננט בחזקת הסכום. את הביטוי הזה נרצה להביא למקסימום כפונקציה של הבטאות וסיגמא בריבוע.</p>
 <p>אבל נוח יותר לקחת לוג ולהביא למקסימום את לוג הנראות. וכשלוקחים לוג, מתקבל איזשהו קבוע שלא חשוב לנו כי הוא לא פונקציה של הפרמטרים, ביטוי שתלוי רק בסיגמא בריבוע, אבל הבטאות משחקות תפקיד רק בביטוי השלישי, שמזכיר באופן חשוד את הRSS. המסקנה היא שלגבי הבטאות, להביא למינימום את הRSS או להביא למקסימום את לוג הנראות – זה בדיוק אותו דבר! כלומר באמצעות ההנחות הסטטיסטיות שהוספנו, אנחנו מקבלים בדיוק את אותם אומדים בטא-האט, ועד לנקודה זו לא השתנה שום דבר.</p>
 <p>מה כן השתנה? השינוי העיקרי הוא שהאומדים שלנו, בטא-אפס-האט ובטא-אחת-האט הם כעת משתנים מקריים, שניתן לבצע עליהם הסקה סטטיסטית. נראה את זה תיכף, אבל קודם כל נדבר על רגרסיה ליניארית מרובה, מה קורה כשיש P משתנים מסבירים?</p>
@@ -777,7 +777,7 @@
 
 <h3 id="from-simple-to-multiple-regression">From simple to multiple regression</h3>
 <p><br><br></p>
-<p><span class="math inline">\(y_i = \beta_0 + \beta_1x_{i1} + \dots + \beta_px_{ip} + \varepsilon_i \to y_i = x_i'\beta + \varepsilon_i\)</span>, <span class="math inline">\(\varepsilon_i \sim \mathcal{N}(0, \sigma^2)\)</span></p>
+<p><span class="math inline">\(y_i = \beta_0 + \beta_1x_{i1} + \dots + \beta_px_{ip} + \varepsilon_i \Rightarrow y_i = x_i^T\beta + \varepsilon_i\)</span>, <span class="math inline">\(\varepsilon_i \sim \mathcal{N}(0, \sigma^2)\)</span></p>
 <div class="fragment">
 <p>Or even more concisely:</p>
 <p><span class="math inline">\(y = \begin{pmatrix}y_{1} \\ \vdots \\ y_{n}\end{pmatrix}\)</span>, <span class="math inline">\(X = \begin{pmatrix}
@@ -789,13 +789,13 @@
 \end{pmatrix}\)</span>, <span class="math inline">\(\beta = \begin{pmatrix}\beta_0 \\ \beta_{1} \\ \vdots \\ \beta_{p}\end{pmatrix}\)</span>, <span class="math inline">\(\varepsilon = \begin{pmatrix}\varepsilon_{1} \\ \vdots \\ \varepsilon_{n}\end{pmatrix}\)</span></p>
 </div>
 <div class="fragment">
-<p><span class="math display">\[\to y = X\beta + \varepsilon, \quad \varepsilon \sim \mathcal{N}(\textbf{0}, \sigma^2I_n)\]</span></p>
+<p><span class="math display">\[\Rightarrow y = X\beta + \varepsilon, \quad \varepsilon \sim \mathcal{N}(\textbf{0}, \sigma^2\mathbf{I}_n)\]</span></p>
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-<p>אז כעת יש לנו P משתנים מסבירים, ועוד חותך. זה אומר P פלוס אחת פרמטרים, לא כולל את סיגמא בריבוע מהמודל ההסתברותי. דרך נוחה יותר לרשום את זה אם x_i, ובטא הם וקטורי עמודות, ואנחנו מוסיפים 1 לx_i כדי להכפיל אותו בחותך, היא שy_i שווה למכפלה הפנימית בין וקטור הX לוקטור הבטא, ועוד משתנה רעש אפסילון, שכמו מקודם מתפלג נורמלית עם תוחלת אפס ושונות סיגמא בריבוע.</p>
+<p>אז כעת יש לנו P משתנים מסבירים, ועוד חותך. זה אומר P פלוס אחת פרמטרים, לא כולל את סיגמא בריבוע מהמודל ההסתברותי. דרך נוחה יותר לרשום את זה היא אם x_i, ובטא הם וקטורי עמודות, ואנחנו מוסיפים 1 לx_i כדי להכפיל אותו בחותך. אזy_i שווה למכפלה הפנימית בין וקטור הX לוקטור הבטא, ועוד משתנה רעש אפסילון, שכמו מקודם מתפלג נורמלית עם תוחלת אפס ושונות סיגמא בריבוע.</p>
 <p>אבל אם אנחנו כבר נעזרים בוקטורים, נהוג לרשום את Y עצמו גם כן כוקטור עמודה באורך n, אותו דבר לגבי וקטור הבטא ווקטור אפסילון. וX גדול הוא מטריצת הנתונים שלנו, כל שורה היא אותו וקטור x_i עם התוספת 1 לחותך, כלומר קיבלנו מטריצה עם n שורות ל-n תצפיות, וP פלוס 1 עמודות, P עמודות למשתני X ועוד עמודת אחדות שהתווספה מצד שמאל בדרך כלל.</p>
-<p>אז אפשר לרשום את המודל בכתיב וקטורי שעושה את המימוש למהיר הרבה יותר, Y הוא המטריצה X מוכפלת בוקטור בטא, ועוד תוספת וקטור רעש אפסילון. כעת נשים לב שההתפלגות של אפסילון היא התפלגות של וקטור, התוחלת שלו היא וקטור, וקטור האפסים, והשונות שלו היא מטריצה. מטריצה בגודל n על n, שעל האלכסון שלה נמצאות השונויות של כל אלמנט ואלמנט של הוקטור - במקרה שלנו, כולן סיגמא בריבוע. ומחוץ לאלכסון נמצאים הקווריאנסים בין כל שני אלמנטים, במקרה שלנו ההנחה שכל זוג טעויות הן בלתי תלויות, כלומר הקווריאנס הוא אפס. ובקיצור אפשר לרשום את המטריצה כסיגמא בריבוע, הסקלר, כפול מטריצת היחידה בגודל n על n.</p>
+<p>אז אפשר לרשום את המודל בכתיב וקטורי שעושה את המימוש למהיר הרבה יותר, Y הוא המטריצה X מוכפלת בוקטור בטא, ועוד תוספת וקטור רעש אפסילון. כעת נשים לב שההתפלגות של אפסילון היא התפלגות של וקטור. אם אתם לא זוכרים מה זה התפלגות של וקטור משתנים מקריים לא נורא, אנחנו נחזור לזה כשנצטרך את זה ממש. בינתיים שימו-לב, שהתוחלת של הוקטור משתנים מקריים הזה היא וקטור, וקטור האפסים, והשונות שלו היא מטריצה. מטריצה בגודל n על n, שעל האלכסון שלה נמצאות השונויות של כל אלמנט ואלמנט של הוקטור - במקרה שלנו, כולן סיגמא בריבוע. ומחוץ לאלכסון נמצאים הקווריאנסים בין כל שני אלמנטים, במקרה שלנו ההנחה שכל זוג טעויות הן בלתי תלויות, כלומר הקווריאנס הוא אפס. ובקיצור אפשר לרשום את המטריצה כסיגמא בריבוע, הסקלר, כפול מטריצת היחידה בגודל n על n.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -812,7 +812,7 @@
 <section class="slide level2">
 
 <h3 id="from-line-to-hyperplane">From line to (hyper)plane</h3>
-<div id="d95900c3" class="cell" data-execution_count="4">
+<div id="e75df99f" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -840,19 +840,19 @@
 <section class="slide level2">
 
 <h3 id="multiple-linear-regression-ml">Multiple linear regression ML</h3>
-<p><span class="math inline">\(y_i = x_i'\beta + \varepsilon_i  \to y \sim \mathcal{N}(x_i'\beta, \sigma^2) \to\)</span></p>
+<p><span class="math inline">\(y_i = x_i^T\beta + \varepsilon_i  \Rightarrow y \sim \mathcal{N}(x_i^T\beta, \sigma^2) \Rightarrow\)</span></p>
 <div class="fragment">
-<p><span class="math display">\[L(\beta, \sigma^2 | X, y) = \prod_{i = 1}^n f(y_i) = \prod_{i = 1}^n \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left[-\frac{(y_i - x_i'\beta)^2}{2\sigma^2}\right]\]</span></p>
+<p><span class="math display">\[L(\beta, \sigma^2 | X, y) = \prod_{i = 1}^n f(y_i) = \prod_{i = 1}^n \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left[-\frac{(y_i - x_i^T\beta)^2}{2\sigma^2}\right]\]</span></p>
 </div>
 <div class="fragment">
-<p><span class="math display">\[= (2\pi\sigma^2)^{-\frac{n}{2}}\exp\left[-\frac{1}{2\sigma^2}\sum_{i = 1}^n (y_i - x_i'\beta)^2\right]\]</span></p>
+<p><span class="math display">\[= (2\pi\sigma^2)^{-\frac{n}{2}}\exp\left[-\frac{1}{2\sigma^2}\sum_{i = 1}^n (y_i - x_i^T\beta)^2\right]\]</span></p>
 </div>
 <div class="fragment">
-<p><span class="math display">\[= (2\pi\sigma^2)^{-\frac{n}{2}}\exp\left[-\frac{1}{2\sigma^2}(y - X\beta)'(y - X\beta)\right]\]</span></p>
+<p><span class="math display">\[= (2\pi\sigma^2)^{-\frac{n}{2}}\exp\left[-\frac{1}{2\sigma^2}(y - X\beta)^T(y - X\beta)\right]\]</span></p>
 </div>
 <div class="fragment">
 <p>Calculating the log-likelihood we get:</p>
-<p><span class="math inline">\(\ell(\beta, \sigma^2 | X, y) = -\frac{n}{2}\ln(2\pi)-\frac{n}{2}\ln(\sigma^2)-\frac{1}{2\sigma^2}\)</span><span style="color:red;"><span class="math inline">\((y - X\beta)'(y - X\beta)\)</span></span></p>
+<p><span class="math inline">\(\ell(\beta, \sigma^2 | X, y) = -\frac{n}{2}\ln(2\pi)-\frac{n}{2}\ln(\sigma^2)-\frac{1}{2\sigma^2}\)</span><span style="color:red;"><span class="math inline">\((y - X\beta)^T(y - X\beta)\)</span></span></p>
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
@@ -876,34 +876,34 @@
 <section class="slide level2">
 
 <h3 id="linear-regression-mle">Linear regression MLE</h3>
-<p><span class="math inline">\(\ell(\beta, \sigma^2 | X, y) = -\frac{n}{2}\ln(2\pi)-\frac{n}{2}\ln(\sigma^2)-\frac{1}{2\sigma^2}(y - X\beta)'(y - X\beta)\)</span></p>
+<p><span class="math inline">\(\ell(\beta, \sigma^2 | X, y) = -\frac{n}{2}\ln(2\pi)-\frac{n}{2}\ln(\sigma^2)-\frac{1}{2\sigma^2}(y - X\beta)^T(y - X\beta)\)</span></p>
 <div class="fragment">
-<p><span class="math inline">\(= \mathcal{C} - \frac{n}{2}\ln(\sigma^2) - \frac{1}{2\sigma^2}(y'y -2\beta'X'y + \beta'X'X\beta)\)</span></p>
+<p><span class="math inline">\(= \mathcal{C} - \frac{n}{2}\ln(\sigma^2) - \frac{1}{2\sigma^2}(y^Ty -2\beta^TX^Ty + \beta^TX^TX\beta)\)</span></p>
 </div>
 <p><br><br></p>
 <div class="fragment">
-<p><span class="math inline">\(\frac{\partial l}{\partial \beta} = -\frac{1}{2\sigma^2}(2X'y - 2X'X\beta)\)</span></p>
+<p><span class="math inline">\(\frac{\partial l}{\partial \beta} = -\frac{1}{2\sigma^2}(2X^Ty - 2X^TX\beta)\)</span></p>
 </div>
 <div class="fragment">
-<p><span class="math inline">\(\frac{1}{\sigma^2}(X'y - X'X\beta) = 0\)</span></p>
+<p><span class="math inline">\(\frac{1}{\sigma^2}(X^Ty - X^TX\beta) = 0\)</span></p>
 </div>
 <div class="fragment">
-<p><span class="math inline">\(X'X\beta = X'y\)</span></p>
+<p><span class="math inline">\(X^TX\beta = X^Ty\)</span></p>
 </div>
 <div class="fragment">
-<p><span style="color:red;"><span class="math inline">\(\hat{\beta} = (X'X)^{-1}X'y\)</span></span></p>
+<p><span style="color:red;"><span class="math inline">\(\hat{\beta} = (X^TX)^{-1}X^Ty\)</span></span></p>
 </div>
 <p><br><br></p>
 <div class="fragment">
 <p>Similarly:</p>
-<p><span class="math inline">\(\frac{\partial l}{\partial \sigma^2} = -\frac{n}{2\sigma^2} + \frac{1}{2\sigma^4}(y - X\beta)'(y - X\beta)\)</span> <span class="math inline">\(\to\)</span> <span style="color:red;"><span class="math inline">\(\hat{\sigma}^2 = \frac{1}{n}(y - X\beta)'(y - X\beta) = \frac{RSS}{n}\)</span></span></p>
+<p><span class="math inline">\(\frac{\partial l}{\partial \sigma^2} = -\frac{n}{2\sigma^2} + \frac{1}{2\sigma^4}(y - X\beta)^T(y - X\beta)\)</span> <span class="math inline">\(\Rightarrow\)</span> <span style="color:red;"><span class="math inline">\(\hat{\sigma}^2 = \frac{1}{n}(y - X\beta)^T(y - X\beta) = \frac{RSS}{n}\)</span></span></p>
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-<p>הביטוי הראשון הוא כאמור קבוע שאינו תלוי בפרמטרים של הבעיה, בטא וסיגמא בריבוע. את הביטוי השני נעתיק כפי שהוא, ואת הביטוי השלישי נפתח. אם תפתחו את המכפלה הפנימית של לפנינו תקבלו משהו שמזכיר את נוסחאות הכפל המקוצר, יש לנו את המכפלה הפנימית של Y בעצמו, פחות פעמיים המכפלה הפנימית של הוקטור Xbeta בY, ועוד המכפלה הפנימית של הוקטור Xbeta בעצמו.</p>
+<p>הביטוי הראשון הוא כאמור קבוע שאינו תלוי בפרמטרים של הבעיה, בטא וסיגמא בריבוע. את הביטוי השני נעתיק כפי שהוא, ואת הביטוי השלישי נפתח. אם תפתחו את המכפלה הפנימית של הביטוי לפנינו תקבלו משהו שמזכיר את נוסחאות הכפל המקוצר, יש לנו את המכפלה הפנימית של Y בעצמו, פחות פעמיים המכפלה הפנימית של הוקטור Xbeta בY, ועוד המכפלה הפנימית של הוקטור Xbeta בעצמו.</p>
 <p>אנחנו רוצים לגזור את לוג הנראות לפי בטא קודם כל, להשוות לאפס, ולחלץ את האומד לבטא שהוא נקודת מינימום. נשים לב שמה שרשום כאן הוא וקטור של נגזרות חלקיות. אפשר היה לגזור את הביטוי לכל בטא בנפרד, אבל כדי לקצר תהליכים ניעזר קצת בנגזרות פשוטות של וקטורים. את הגורם הכופל נעתיק כפי שהוא. את הגורם שתלוי רק בY נשמיט. כעת הגורם האמצעי הוא כמו לקחת את כל אחת מהבטאות ולכפול אותה פי ביטוי מסוים. הנגזרת תהיה הביטוי עצמו. ולכן ניתן לרשום זאת כוקטור של כל הביטויים האלה, הוא הוקטור שמוכפל פי בטא, X טרנספוז Y.</p>
 <p>באופן דומה נגזור את הביטוי השלישי, אם תפתחו אותו תראו שכל אחת מהבטאות מועלית בריבוע ומוכפלת פי ביטוי מסוים. לכן נגזרת תהיה 2 כפול בטא כפול הביטוי. בכתיב קצר נקבל 2 כפול המטריצה X טרנספוז X כפול וקטור בטא.</p>
-<p>הגורמים של 2 מצטמצמים, ואת הנגזרת המתקבלית אנחנו רוצים להשוות לאפס. מעבירים את הביטוי עם בטא לאגף אחד ואת הביטוי השני לאגף אחר. כלומר אם נכפיל משמאל את המשווה במטריצה ההופכית של X טרנספוז X נוכל לבודד את בטא, וזה אומד הריבועים הפחותים המפורסם לכן הוא צבוע באדום. נזכיר רק שכדי לקבוע שזאת נקודת מקסימום של לוג הנראות צריך לחשב גם את מטריצת הנגזרות השניות ולהראות שהיא שלילית. וכבר עכשיו אפשר לראות שהאומד שקיבלנו הוא צירוף ליניארי של תצפיות Y! ולמי ששואל את עצמו, אז כאן, עבור וקטור בטא של משתנה אחד, כלומר וקטור של בטא-אפס, בטא-אחת, אנחנו צריכים לקבל בחזרה את הנוסחאות הפשוטות של בטא-אפס-האט, ובטא-אחת-האט.</p>
+<p>הגורמים של 2 מצטמצמים, ואת הנגזרת המתקבלת אנחנו רוצים להשוות לאפס. מעבירים את הביטוי עם בטא לאגף אחד ואת הביטוי השני לאגף אחר. כלומר אם נכפיל משמאל את המשוואה במטריצה ההופכית של X טרנספוז X נוכל לבודד את בטא, וזה אומד הריבועים הפחותים המפורסם לכן הוא צבוע באדום. נזכיר רק שכדי לקבוע שזאת נקודת מקסימום של לוג הנראות צריך לחשב גם את מטריצת הנגזרות השניות ולהראות שהיא שלילית. וכבר עכשיו אפשר לראות שהאומד שקיבלנו הוא צירוף ליניארי של תצפיות Y! ולמי ששואל את עצמו, אז כאן, עבור וקטור בטא של משתנה אחד, כלומר וקטור של בטא-אפס, בטא-אחת, אנחנו צריכים לקבל בחזרה את הנוסחאות הפשוטות של בטא-אפס-האט, ובטא-אחת-האט.</p>
 <p>באופן דומה אפשר לגזור את לוג הנראות לפי סיגמא בריבוע ולקבל את אומד הנראות המקסימלית לסיגמא בריבוע, שיוצא באופן אינטואיטיבי שונות המדגם של השאריות, הRSS סכום הריבועים הפחותים או של התצפיות מהאמידה שלהן, מחולק פי n.</p>
 <p>יש לנו את האומדים ברגרסיה ליניארית, וכמו שאמרנו הם משתנים מקריים - אנחנו יכולים לחשב עכשיו את ההתפלגות שלהם.</p>
 </div>
@@ -942,9 +942,9 @@
 <h3 id="distribution-of-the-ols-solution">Distribution of the OLS solution</h3>
 <div>
 <ul>
-<li class="fragment"><p>What we know: <span class="math display">\[(a)\; E(y) = X\beta,\;\;\;\; (b)\; Cov(y) = \sigma^2 I_n ,\;\;\;\;(c)\; \hat{\beta} = (X'X)^{-1} X' y\]</span></p></li>
-<li class="fragment"><p>Mean: <span class="math display">\[E(\hat{\beta}) \stackrel{(c)}{=} (X'X)^{-1} X' E(y) \stackrel{(a)}{=} (X'X)^{-1} X' X\beta = \beta.\]</span></p></li>
-<li class="fragment"><p>Covariance matrix: <span class="math display">\[Cov(\hat{\beta}) \stackrel{(c)}{=} (X'X)^{-1} X' Cov(y) X (X'X)^{-1} \stackrel{(b)}{=} \sigma^2 (X'X)^{-1} (X' X) (X'X)^{-1} = \sigma^2 (X'X)^{-1}.\]</span></p></li>
+<li class="fragment"><p>What we know: <span class="math display">\[(a)\; E(y) = X\beta,\;\;\;\; (b)\; Cov(y) = \sigma^2 I_n ,\;\;\;\;(c)\; \hat{\beta} = (X^TX)^{-1} X^T y\]</span></p></li>
+<li class="fragment"><p>Mean: <span class="math display">\[E(\hat{\beta}) \stackrel{(c)}{=} (X^TX)^{-1} X^T E(y) \stackrel{(a)}{=} (X^TX)^{-1} X^TX\beta = \beta.\]</span></p></li>
+<li class="fragment"><p>Covariance matrix: <span class="math display">\[Cov(\hat{\beta}) \stackrel{(c)}{=} (X^TX)^{-1} X^T Cov(y) X (X^TX)^{-1} \stackrel{(b)}{=} \sigma^2 (X^TX)^{-1} (X^T X) (X^TX)^{-1} = \sigma^2 (X^TX)^{-1}.\]</span></p></li>
 </ul>
 </div>
 <aside class="notes">
@@ -972,7 +972,7 @@
 <h3 id="variance-of-ols-estimators">Variance of OLS estimators</h3>
 <div>
 <ul>
-<li class="fragment"><p>Again: <span class="math inline">\(Cov(\hat{\beta}) = \sigma^2(X'X)^{-1}\)</span></p></li>
+<li class="fragment"><p>Again: <span class="math inline">\(Cov(\hat{\beta}) = \sigma^2(X^TX)^{-1}\)</span></p></li>
 <li class="fragment"><p>For simple regression and scalar <span class="math inline">\(\hat{\beta}_0, \hat{\beta}_1\)</span>, this amounts to the (squared) <span style="color:red;">Standard Errors</span>: <span class="math display">\[SE(\beta_0)^2 = \sigma^2\left[\frac{1}{n} + \frac{\bar{x}^2}{\sum_{i = 1}^n(x_i - \bar{x})^2}\right]; \quad SE(\beta_1)^2 = \frac{\sigma^2}{\sum_{i = 1}^n(x_i - \bar{x})^2}\]</span></p></li>
 <li class="fragment"><p>where, <span class="math inline">\(\sigma^2\)</span> would be replaced by its MLE or unbiased estimator the (squared) <span style="color:red;">Residual Standard Error</span> (RSE): <span class="math inline">\(RSE^2 = \frac{RSS}{n - p - 1}\)</span></p></li>
 </ul>
@@ -993,7 +993,7 @@
 <div style="direction:rtl; font-size:16px">
 <p>אפשר להתעכב קצת על הביטוי לשונות של מקדמי הרגרסיה. קודם כל עבור רגרסיה ליניארית פשוטה, עם משתנה אחד, ניתן לראות שעל האלכסון של מטריצת השונויות שקיבלנו יש ביטויים יחסית פשוטים. כשמוציאים מהם שורש מקבלים את סטיות התקן של האומדים, שמכנים טעויות התקן, סטנדרט ארורז או SE בקיצור.</p>
 <p>בכל מקרה, בין אם מסתכלים על הביטוי הכללי למטריצת השונויות של המקדמים או על הביטויים לטעות התקן של החותך ושל השיפוע ברגרסיה ליניארית פשוטה, אנחנו רואים שיש שם פרמטר לא ידוע סיגמא בריבוע שנהוג להחליף באומד שלו. מקובל אבל להשתמש לא באומד הנראות המקסימלית שכרגע קיבלנו, אלא באומד מעט שונה, הRSS לא מחולק פי n אלא פי n פחות מספר הפרמטרים שאמדנו. באופן כללי אמדנו P ועוד 1 פרמטרים, ועבור רגרסיה ליניארית פשוטה אמדנו 2 פרמטרים, אז נקבל במכנה n פחות 2. כשמוציאים שורש מקבלים את מה שמכונה הRSE, רזידואל סטנדרט ארור.</p>
-<p>הביטויים שקיבלנו הם האומדים לשונויות של האומדים של המקדמים. הם קובעים כמה אנחנו יכולים לסמוך על האומדנים שקיבלנו. אם הם גדולים מאוד למשל, אז האומד שלנו רועש וקשה לסמוך על המספר הזה שיתקבל. ומעניין להסתכל עליהם רגע ולשאול מה משפיע עליהם. דבר אחד ברור, שהם מושפעים מאוד מסיגמא בריבוע, השונות הטבעית של הרעש. עוד הגיוני לראות שהם מושפעים מגודל המדגם. ודבר נוסף יפה לראות, זה שהם מאוד מושפעים מהפיזור של X. ככל שהX שקיבלנו הוא בעל פיזור גדול יותר, הוא מגוון, טעויות התקן של האומדים קטנות יותר, אנחנו יכולים יותר לסמוך עליהן.</p>
+<p>הביטויים שקיבלנו הם האומדים לשונויות של האומדים של המקדמים. הם קובעים כמה אנחנו יכולים לסמוך על האומדנים שקיבלנו. אם הם גדולים מאוד למשל, אז האומד שלנו רועש וקשה לסמוך על המספר הזה שהתקבל. ומעניין להסתכל עליהם רגע ולשאול מה משפיע עליהם. דבר אחד ברור, שהם מושפעים מאוד מסיגמא בריבוע, השונות הטבעית של הרעש. עוד הגיוני לראות שהם מושפעים מגודל המדגם. ודבר נוסף יפה תנסו לראות לבד: מה קורה לטעות התקן, כשX הוא יחסית מפוזר? ככל שהX שקיבלנו הוא בעל פיזור גדול יותר, הוא מגוון, טעויות התקן של האומדים קטנות יותר, אנחנו יכולים יותר לסמוך עליהן.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1010,7 +1010,7 @@
 <section class="slide level2">
 
 <h3 id="se-vs.-x-spread">SE vs.&nbsp;<span class="math inline">\(x\)</span> spread</h3>
-<div id="3c218058" class="cell" data-execution_count="5">
+<div id="f3720418" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1024,7 +1024,7 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-<p>אפשר להדגים את זה בקלות. בשני הגרפים שלפנינו התאמנו קו רגרסיה ל50 תצפיות שמקיימות את המודל הליניארי. אול בגרף השמאלי הפיזור של משתנה הX שלהם קטן יחסית, הם נלקחו מאיזור מצומצם. ובגרף הימני הפיזור של משתנה הX שלהם גדול, הם נלקחו מאיזור רחב.</p>
+<p>אפשר להדגים את זה בקלות. בשני הגרפים שלפנינו התאמנו קו רגרסיה ל50 תצפיות שמקיימות את המודל הליניארי. אבל בגרף השמאלי הפיזור של משתנה הX שלהן קטן יחסית, הם נלקחו מאיזור מצומצם. ובגרף הימני הפיזור של משתנה הX שלהם גדול, הם נלקחו מאיזור רחב.</p>
 <p>אז טכנית אפשר לחשב את טעות התקן לפי הנוסחאות שראינו ולראות שבגרף השמאלי היא פי 5 מבגרף הימני. אפשר אבל גם לחזור על התרגיל כמה פעמים ולסרטט כל פעם את קו הרגרסיה המתקבל ולראות למשל לגבי השיפוע איך הוא יכול להשתנות כשהX כל כך מפוזר, לעומת המצב כשהX מפוזר היטב.</p>
 <p>ברמה הפיסיקלית אפשר להקצין את זה עוד יותר ולשאול מה קורה אם הרגרסיה היתה נקבעת רק משתי נקודות. אם הן נורא נורא קרובות אפשר לדמיין מן נדנדה כזאת לא בטוחה. והתופעה הזאת קשורה מאוד להגדרה של מושג שנקרא לברג’ או משען של נקודות שנראה בהמשך. ככל שהוא גדול כך לנקודות יש יותר השפעה, משקל באיך ייראה קו הרגרסיה.</p>
 </div>
@@ -1050,7 +1050,7 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-<p>לסיום החלק הזה נזכיר תוצאה מעניינית שנקראת משפט גרוס-מרקוב: תחת ההנחות של המודל הסטטיסטי, אומד הריבועים הפחותים הוא אומד בלו: בסט ליניאר אנבייסד אסטימטור. כלומר מתוך כל האומדים הליניארים חסרי הטיה, הוא האומד בעל השונות המינימלית.</p>
+<p>לסיום החלק הזה נזכיר תוצאה מעניינית שנקראת משפט גאוס-מרקוב: תחת ההנחות של המודל הסטטיסטי, אומד הריבועים הפחותים הוא אומד בלו: בסט ליניאר אנבייסד אסטימטור. כלומר מתוך כל האומדים הליניארים חסרי הטיה, הוא האומד בעל השונות המינימלית.</p>
 <p>שימו-לב, לא מכל האומדים האפשריים, אלא אם תיתנו לי איזשהו אומד בטא-טילדא שהוא ליניארי והכוונה ליניארי בY כמו האומד שלנו, והוא חסר-הטייה, השונות שלו בהכרח גדולה או שווה לשונות של בטא-האט שמצאנו. כאן אני כותב את זה בשפה של מטריצות.</p>
 <p>השאלה המתבקשת היא אם יש אומד שהוא לא בהכרח חסר-הטייה שיכולה להיות לו שונות קטנה יותר, והתשובה המפתיעה כפי שנראה כשנדבר על רגרסיית רידג’ היא: כן!</p>
 </div>
@@ -1095,8 +1095,8 @@
 <p><span class="math inline">\(t_{obs} = \frac{\hat{\beta}_1 - 0}{\hat{SE}(\hat{\beta}_1)} \sim T_{n - 2}\)</span></p>
 </div>
 <div class="fragment">
-<p><span class="math inline">\(\to \text{P-value} = P(T_{n - 2} &gt; |t_{obs}|)\)</span></p>
-<p><span class="math inline">\(\to CI_{0.95}(\beta_1) = \hat{\beta}_1 \pm T_{n - 2, 0.975} \cdot \hat{SE}(\hat{\beta}_1) \approx \hat{\beta}_1 \pm 2 \cdot \hat{SE}(\hat{\beta}_1)\)</span></p>
+<p><span class="math inline">\(\Rightarrow \text{P-value} = P(T_{n - 2} &gt; |t_{obs}|)\)</span></p>
+<p><span class="math inline">\(\Rightarrow CI_{0.95}(\beta_1) = \hat{\beta}_1 \pm T_{n - 2, 0.975} \cdot \hat{SE}(\hat{\beta}_1) \approx \hat{\beta}_1 \pm 2 \cdot \hat{SE}(\hat{\beta}_1)\)</span></p>
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
@@ -1129,7 +1129,7 @@
 <p><span class="math inline">\(f_{obs} = \frac{(TSS - RSS)/p}{RSS / (n - p - 1)} \sim F_{p, n - p - 1}\)</span></p>
 </div>
 <div class="fragment">
-<p><span class="math inline">\(\to \text{P-value} = P(F_{p, n - p - 1} &gt; f_{obs})\)</span></p>
+<p><span class="math inline">\(\Rightarrow \text{P-value} = P(F_{p, n - p - 1} &gt; f_{obs})\)</span></p>
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
@@ -1153,15 +1153,15 @@
 <section class="slide level2">
 
 <h3 id="example-with-statsmodels">Example with <code>statsmodels</code></h3>
-<div id="f7fbbe2a" class="cell" data-execution_count="6">
+<div id="75ac0f8f" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-stdout">
 <pre><code>                            OLS Regression Results                            
 ==============================================================================
 Dep. Variable:                 Income   R-squared:                       0.934
 Model:                            OLS   Adj. R-squared:                  0.929
 Method:                 Least Squares   F-statistic:                     191.4
-Date:                Sun, 13 Oct 2024   Prob (F-statistic):           1.13e-16
-Time:                        10:55:49   Log-Likelihood:                -100.15
+Date:                Mon, 28 Oct 2024   Prob (F-statistic):           1.13e-16
+Time:                        18:58:28   Log-Likelihood:                -100.15
 No. Observations:                  30   AIC:                             206.3
 Df Residuals:                      27   BIC:                             210.5
 Df Model:                           2                                         
@@ -1236,7 +1236,7 @@ Notes:
 <p>הדרך לבצע את זה היא להריץ עוד רגרסיה על המודל הקטן יותר עם P-Q משתנים, ולקבל סכום ריבועים של שאריות שנסמן בRSS0. שימו-לב שככל שנוסיף משתנים הRSS יכול רק להיות קטן יותר. כלומר הRSS במודל המקורי הגדול הוא בטוח קטן יותר. אם הוא קטן מספיק לעומת RSS0, שחושב על מודל ללא הQ משתנים שאנחנו בוחנים, אז נגיד שלפחות אחד מהם חשוב. מכמתים את זה שוב עם סטטיסטי שמתפלג F עם דרגות חופש מעט שונות. כדי שהוא יהיה גדול צריך שהמודל הרווי, עם כל הP משתנים יביא לRSS קטן מספיק.</p>
 <p>ואם Q = 1, כלומר אנחנו בודקים האם להכניס או לא משתנה ספציפי מעבר לשאר המשתנים שנמצאים במודל, מסתבר שהערך שנקבל הוא בעצם ערך הטי בריבוע שהיינו מקבלים, עבור מבחן טי פשוט אם להכניס את המשתנה הזה לרגרסיה או לא, בהינתן כל המשתנים האחרים. שימו-לב זה חשוב, ברגרסיה עם משתנה אחד אין משתנים אחרים ולכן השאלה הזאת כלל לא עולה. ההשערה הזאת בודקת האם מעבר למה שתורמים המשתנים האחרים ברגרסיה המשתנה הבודד הנידון מוסיף איזשהו אפקט על Y. מכל מקום אלה הם ערכי הטי והP-values ורווחי הסמך שראינו בפלט הרגרסיה לכל משתנה בנפרד.</p>
 <p>ועכשיו אנחנו רוצים לחזור אחורה ולשאול למה צריך מבחני F. למשל לגבי ההשערה הכוללת של האם לפחות אחד מהמשתנים המסבירים משפיע על Y, אם יש לנו דרך לבצע בדיקת השערות עבור משתנה אחד, אפשר למשל לבדוק השערות לכל אחד מP המשתנים, ואם לפחות אחד מהם יגיע למובהקות סטטיסטית, לקבוע שכן, יש קשר בין המשתנים בX לבין Y.</p>
-<p>זה לא רעיון טוב, מסתבר, במיוחד במודל עם הרבה משתנים. סיבה אחת היא שיכול להיות שהמשתנים כן מתואמים ביניהם, ורק כשלוקחים את כולם או קבוצה מהם אפשר לראות השפעה מצרפית על המשתנה התלוי, השפעה שלא נראה אותה אם נבדוק אותם אחד אחד. סיבה אחרת היא בעיה מפורסמת שנקראת בעיית ההשוואות המרובות. כל אחד מהמשתנים ייבדק מול טעות מסוג ראשון של נאמר 5 אחוז, אבל הסיכוי שלפחות אחד מהם נראה מובהק סטטיסטית כשהוא לא, הוא כבר גדול הרבה יותר. הוא 1 פחות 95 אחוז בחזקת P. עבור שני משתנים זה כבר כמעט 10 אחוז, עבור 100 משתנים זה כבר סיכוי של 100 אחוז לראות משתנה מובהק סטטיסטית למרות שאין אף משתנה בעל קשר לY. אז אנחנו צריכים קודם בדיקת השערות עם טעות מסוג ראשון של 5 אחוז שתקבע האם בכלל להסתכל במבחני הT עבור המקדמים השונים.</p>
+<p>זה לא רעיון טוב, מסתבר, במיוחד במודל עם הרבה משתנים. סיבה אחת היא שיכול להיות שהמשתנים כן מתואמים ביניהם, ורק כשלוקחים את כולם או קבוצה מהם אפשר לראות השפעה מצרפית על המשתנה התלוי, השפעה שלא נראה אותה אם נבדוק אותם אחד אחד. סיבה אחרת היא בעיה מפורסמת שנקראת בעיית ההשוואות המרובות. כל אחד מהמשתנים ייבדק מול טעות מסוג ראשון של נאמר 5 אחוז, אבל הסיכוי שלפחות אחד מהם נראה מובהק סטטיסטית כשהוא לא, הוא כבר גדול הרבה יותר. הוא 1 פחות 95 אחוז בחזקת P. עבור שני משתנים זה כבר כמעט 10 אחוז, עבור 100 משתנים זה כבר סיכוי של 100 אחוז לראות משתנה מובהק סטטיסטית למרות שאין אף משתנה בעל קשר לY. לכן אנחנו צריכים קודם בדיקת השערות עם מבחן F, עם טעות מסוג ראשון של 5 אחוז שתקבע האם בכלל להסתכל במבחני הT עבור המקדמים השונים.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1254,7 +1254,7 @@ Notes:
 <h2>Goodness of Fit and Feature Selection</h2>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-<p>המודל הליניארי, אף על פי שתיכף נדון איך להגמיש אותו, הוא עדיין מודל נוקשה. ובתור מודל נוקשה, בכל פעם שמריצים רגרסיה ליניארית מקובל גם לבדוק את ההנחות שלנו ואת טיב המודל. באופן טבעי נוצרה ספרות שלמה סביב מטריקות ושיטות מדידה לצורך בדיקת טיב המודל, אנחנו רק נזכיר זאת בקצרה ונשתמש בזה כדי לבצע בחירת משתנים או פיצ’ר סלקשן, בצורה פשוטה.</p>
+<p>המודל הליניארי, אף על פי שבשיעור הבא נדון איך להגמיש אותו, הוא עדיין מודל נוקשה. ובתור מודל נוקשה, בכל פעם שמריצים רגרסיה ליניארית מקובל גם לבדוק את ההנחות שלנו ואת טיב המודל. באופן טבעי נוצרה ספרות שלמה סביב מטריקות ושיטות מדידה לצורך בדיקת טיב המודל, אנחנו רק נזכיר זאת בקצרה ונשתמש בזה כדי לבצע בחירת משתנים או פיצ’ר סלקשן, בצורה פשוטה.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1272,7 +1272,7 @@ Notes:
 
 <h3 id="model-fit-plotting">Model Fit: plotting</h3>
 <p>When <span class="math inline">\(p\)</span> is low - draw!</p>
-<div id="b7e68d8a" class="cell" data-execution_count="7">
+<div id="6f565ffb" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1283,7 +1283,7 @@ Notes:
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-<p>אז קודם כל כשמספר המשתנים נמוך, פשוט ציירו את הנתונים. כאן למשל אני מצייר את Y כנגד שני משתנים מסבירים עם תרשים תלת-מימדי. אני מוסיף גם את המישור שיתאים מודל ליניארי. במבט חטוף הוא נראה סביר, ונראה שאין השפעה בכלל למשתנה X1, אבל אם אני מסובב את הצירים קצת, אני רואה שיש ועוד איך השפעה למשתנה X1, אבל זה גל סינוס! אז המודל כפי שהוא כרגע לא מתאים, תיכף ניתן פתרונות.</p>
+<p>אז קודם כל כשמספר המשתנים נמוך, פשוט ציירו את הנתונים. כאן למשל אני מצייר את Y כנגד שני משתנים מסבירים עם תרשים תלת-מימדי. אני מוסיף גם את המישור שיתאים מודל ליניארי. במבט חטוף הוא נראה סביר, ונראה שאין השפעה בכלל למשתנה X1, אבל אם אני מסובב את הצירים קצת, אני רואה שיש ועוד איך השפעה למשתנה X1, אבל כשאני מסובב קצת את הצירים אני רואה שזה מין גל סינוס בX1! אז המודל כפי שהוא כרגע לא מתאים, תיכף ניתן פתרונות.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1300,7 +1300,7 @@ Notes:
 <section class="slide level2">
 
 <h3 id="model-fit-residuals-plots">Model fit: residuals plots</h3>
-<div id="d7d8cd5f" class="cell" data-execution_count="8">
+<div id="4a2956a5" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1330,8 +1330,8 @@ Notes:
 
 <h3 id="model-fit-r-squared">Model Fit: <span class="math inline">\(R\)</span> squared</h3>
 <p>Measure of “explained variance”:</p>
-<p><span class="math inline">\(R^2 = 1 - \frac{\sum_{i = 1}^n (y_i - X\hat{\beta})^2}{\sum_{i = 1}^n (y_i - \bar{y})^2} = 1 - \frac{RSS}{TSS} = 1 - \frac{(y - X\hat{\beta})'(y - X\hat{\beta})}{(y - X\hat{\beta^*_0})'(y - X\hat{\beta^*_0})}\)</span></p>
-<div id="dfe848fa" class="cell" data-execution_count="9">
+<p><span class="math inline">\(R^2 = 1 - \frac{\sum_{i = 1}^n (y_i - x_i^T\hat{\beta})^2}{\sum_{i = 1}^n (y_i - \bar{y})^2} = 1 - \frac{RSS}{TSS} = 1 - \frac{(y - X\hat{\beta})^T(y - X\hat{\beta})}{(y - X\hat{\beta^*_0})^T(y - X\hat{\beta^*_0})}\)</span></p>
+<div id="da4913f0" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
