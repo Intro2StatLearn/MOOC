@@ -518,7 +518,7 @@
 <section class="slide level2">
 
 <h3 id="interactions">Interactions</h3>
-<div id="b7314373" class="cell" data-execution_count="1">
+<div id="21f714c3" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -550,7 +550,7 @@
 <section class="slide level2">
 
 <h3 id="interactions-residuals-plots">Interactions: residuals plots</h3>
-<div id="bc744a85" class="cell" data-execution_count="2">
+<div id="a09c84c1" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -582,7 +582,7 @@
 <section class="slide level2">
 
 <h3 id="interactions-adding-an-interaction-term">Interactions: adding an interaction term</h3>
-<div id="e163360b" class="cell" data-execution_count="3">
+<div id="780a1046" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -626,7 +626,7 @@
 <section class="slide level2">
 
 <h3 id="non-linear-relations">Non-linear relations</h3>
-<div id="1c4e8cd9" class="cell" data-execution_count="4">
+<div id="55fdf8b9" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -641,7 +641,7 @@
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 <p>אינטראקציה היא לא הגורם היחיד שניתן להוסיף על מנת להגמיש את המודל הליניארי. כאן אנחנו רואים נתונים של כ30 מכוניות, ואנחנו מנסים למדל את צריכת הדלק שלהן, מיילים לגלון, כנגד כוח הסוס של המנוע שלהן. מייד ברור שיש יחס יורד, אבל האם הוא ליניארי? הוא נראה יותר עקום. ובאמת תרשים שאריות מראה את זה מייד, נוצרת איזושהי פרסה, שמעידה שהנחות המודל לא מתקיימות.</p>
-<p>יש הרבה גורמים שאפשר לנסות להוסיף ועדיין להישאר במודל הליניארי, סינוס, קוסינוס. אבל בואו נתחיל מהוספת גורמים פולינומיים, כמו X בחזקת 2, 3…</p>
+<p>יש הרבה גורמים שאפשר לנסות להוסיף ועדיין להישאר במודל הליניארי, סינוס, קוסינוס. אבל בואו נתחיל מהוספת גורמים פולינומיאלים, כמו X בחזקת 2, 3…</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -658,7 +658,7 @@
 <section class="slide level2">
 
 <h3 id="plynomial-regression-beware-1">Plynomial regression: Beware 1</h3>
-<div id="0eaa4a2e" class="cell" data-execution_count="5">
+<div id="c3ba55f0" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -687,7 +687,7 @@
 
 <h3 id="plynomial-regression-beware-1-1">Plynomial regression: Beware 1</h3>
 <p>Quadratic:</p>
-<div id="e30794a8" class="cell" data-execution_count="6">
+<div id="a61ca9e3" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display" data-execution_count="6">
 <div>
 <table class="simpletable" data-quarto-postprocess="true">
@@ -734,7 +734,7 @@
 </div>
 </div>
 <p>Cubic:</p>
-<div id="8d8cb475" class="cell" data-execution_count="7">
+<div id="d06b5476" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display" data-execution_count="7">
 <div>
 <table class="simpletable" data-quarto-postprocess="true">
@@ -791,7 +791,7 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-<p>הדרך כמובן להגביל את עצמנו ברגרסיה פולינומיאלית היא להוסיף גורמים בצורה הדרגתית ולעצור אם הם לא מובהקים ונראה שאין בהם צורך, בהסתכלות על מבחנים סטטיסטיים ותרשימי שאריות. כאן ניתן לראות שפולינום ריבועי מתאים היטב לנתונים של המכוניות, שני הגורמים X וX בריבוע מובהקים. כשאנחנו מוסיפים X בשלישית הוא כבר גורם לא חשוב ברגרסיה והוא ממסך גם את ההשפעה של הגורם הריבועי, אז כאן כדאי לעצור ולהישאר עם המודל הריבועי.</p>
+<p>הדרך כמובן להגביל את עצמנו ברגרסיה פולינומיאלית היא להוסיף גורמים בצורה הדרגתית ולעצור אם הם לא מובהקים ונראה שאין בהם צורך, בהסתכלות על מבחנים סטטיסטיים ותרשימי שאריות. כאן אני מוסיף לנתונים של המכוניות X ואז X בריבוע, ואז X בשלישית. ניתן לראות שפולינום ריבועי מתאים היטב לנתונים של המכוניות, שני הגורמים X וX בריבוע מובהקים. כשאנחנו מוסיפים X בשלישית הוא כבר גורם לא חשוב ברגרסיה והוא ממסך גם את ההשפעה של הגורם הריבועי, אז כאן כדאי לעצור ולהישאר עם המודל הריבועי.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -808,7 +808,7 @@
 <section class="slide level2">
 
 <h3 id="plynomial-regression-beware-2">Plynomial regression: Beware 2</h3>
-<div id="8367cfd5" class="cell" data-execution_count="8">
+<div id="5f857962" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -820,7 +820,7 @@
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 <p>סכנה נוספת במעבר מקו ליניארי לפולינום: מה קורה כשמתרחקים, או שחוזים על נקודה חדשה מעבר לסקאלה שראינו?</p>
-<p>הבעיה הזאת חמורה גם לקו ליניארי, אבל קו ליניארי הוא צפוי ואינטואיטיבי. כאן אם נקודה חדשה תהיה מאוד רחוקה מנקודות שראינו עדיין נחזה עבורה ערך צפוי. בפולינום הרבה פעמים מקבלים ערך לא הגיוני בכלל. כאן כבר בפולינום ריבועי המשמעות היא שעבור ערכים גבוהים של כוח סוס החיזוי יעלה. ועבור פולינום ממעלה 5 החיזוי של צריכת דלק ירד בצורה חדה מתחת לאפס!</p>
+<p>הבעיה הזאת חמורה גם לקו ליניארי, אבל קו ליניארי הוא צפוי ואינטואיטיבי. אם נקודה חדשה תהיה מאוד רחוקה מנקודות שראינו עדיין נחזה עבורה ערך צפוי, אבל בפולינום הרבה פעמים מקבלים ערך לא הגיוני בכלל. כאן כבר בפולינום ריבועי המשמעות היא שעבור ערכים גבוהים של כוח סוס החיזוי יעלה. ועבור פולינום ממעלה 5 החיזוי של צריכת דלק ירד בצורה חדה מתחת לאפס!</p>
 <p>אז ראינו כמה דרכים להגמיש את המודל הליניארי. בכל אחת מהדרכים שדיברנו עליהן אבל יש מחיר לשלם, והמחיר הוא פוטנציאל גבוה יותר לאוברפיטינג, ולמודל מורכב מדי שלא יהיו לו ביצועים טובים על נתונים שהמודל לא ראה.</p>
 </div>
 <style type="text/css">
@@ -839,7 +839,7 @@
 <h2>Other issues with linear regression</h2>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-<p>כבר אמרנו שרגרסיה ליניארית הוא אחד המודלים הנחקרים ביותר בספרות, זה אומר שעל כל ניואנס בו נכתבו תלי תלים של מאמרים. לסיכום הנושא נזכיר שתי בעיות שצריך להיות מודעים אליהן ולקרוא עוד קצת על הטיפול בהן: קוליניאריות ותצפיות חריגות.</p>
+<p>כבר אמרנו שרגרסיה ליניארית הוא אחד המודלים הנחקרים ביותר בספרות, זה אומר שעל כל ניואנס בה נכתבו תלי תלים של מאמרים. לסיכום הנושא נזכיר שתי בעיות שצריך להיות מודעים אליהן ולקרוא עוד קצת על הטיפול בהן: קוליניאריות ותצפיות חריגות.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -856,7 +856,7 @@
 <section class="slide level2">
 
 <h3 id="why-not-significant">Why “not significant”?</h3>
-<div id="86e9d5d0" class="cell" data-execution_count="9">
+<div id="1c0d9961" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -865,7 +865,7 @@
 </div>
 </div>
 </div>
-<div id="521bdf77" class="cell" data-execution_count="10">
+<div id="d2b5cad5" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-stdout">
 <pre><code>==============================================================================
                  coef    std err          t      P&gt;|t|      [0.025      0.975]
@@ -936,8 +936,8 @@ X2             0.8772      1.144      0.767      0.445      -1.393       3.147
 <ul>
 <li class="fragment"><p>An observation with high <span style="color:red;">leverage</span> has an extreme <span class="math inline">\(x\)</span> value</p></li>
 <li class="fragment"><p>For simple linear regression: <span class="math inline">\(h_i = \frac{1}{n} + \frac{(x_i - \bar{x})^2}{\sum (x_{i'} - \bar{x})^2}\)</span></p></li>
-<li class="fragment"><p>Observations with large <span class="math inline">\(h_i\)</span> <span class="math inline">\(\to\)</span> large effect on <span class="math inline">\(SE(\hat{\beta})\)</span></p></li>
-<li class="fragment"><p>If such an observation is also an <span style="color:red;">outlier</span> <span class="math inline">\(\to\)</span> the model changes a lot if removed</p></li>
+<li class="fragment"><p>Observations with large <span class="math inline">\(h_i\)</span> <span class="math inline">\(\Rightarrow\)</span> large effect on <span class="math inline">\(SE(\hat{\beta})\)</span></p></li>
+<li class="fragment"><p>If such an observation also has an unusual <span class="math inline">\(y\)</span> – an <span style="color:red;">outlier</span> <span class="math inline">\(\Rightarrow\)</span> the model changes a lot if removed</p></li>
 </ul>
 </div>
 <aside class="notes">
@@ -946,7 +946,7 @@ X2             0.8772      1.144      0.767      0.445      -1.393       3.147
 <p>באופו ספציפי מעניינות אותנו תצפיות עם מנוף או לברג’ גבוה, והכוונה באופן כללי לתצפיות עם ערך X חריג.</p>
 <p>ברגרסיה עם משתנה אחד יש אינדקס H שנהוג לחשב לכל תצפית כדי להגדיר את הלברג’ שלה. אפשר לראות כאן בעצם יחס בין המרחק הריבועי של התצפית מממוצע הX לעומת סך המרחקים הריבועיים של התצפיות X מהממוצע שלהן. ברגרסיה מרובה אגב יש לנו הכללה לזה אבל לא נרשום אותה כאן.</p>
 <p>חשבו מה יכולה להיות הבעיה עם תצפיות עם לברג’ גבוה. קודם כל מתמטית כפי שראינו ברגרסיה ליניארית פשוטה, יש להן אפקט גדול נורא על טעות התקן של האומד. אם המכנה הזה של הסטטיסטי טי מתנפח בגלל תצפית אחת, האומד לא יכול להימצא מובהק סטטיסטית כי השונות שלו נורא גבוהה. נקודה שכזאת יכולה להשפיע כל כך על קו הרגרסיה, לכן היא נקראת מנוף, לברג’.</p>
-<p>אם בנוסף ערך הY של נקודה כזאת גם חריג, זה אומר שיש לנו תצפית חריגה עם מנוף גבוה - אאוטלייר - היא יכולה להטות את המודל לגמרי. בואו נראה דוגמא.</p>
+<p>אם בנוסף ערך הY של נקודה כזאת גם חריג, מה שקרוי אאוטלייר, זה אומר שיש לנו תצפית חריגה עם מנוף גבוה - היא יכולה להטות את המודל לגמרי. בואו נראה דוגמא.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -963,7 +963,7 @@ X2             0.8772      1.144      0.767      0.445      -1.393       3.147
 <section class="slide level2">
 
 <h3 id="high-leverage-and-outlier-observations-1">High-leverage and Outlier observations</h3>
-<div id="5749f041" class="cell" data-execution_count="11">
+<div id="5224e3cb" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -995,7 +995,7 @@ X2             0.8772      1.144      0.767      0.445      -1.393       3.147
 <section class="slide level2">
 
 <h4 id="excluding-high-leverage-outlier">Excluding high-leverage + outlier</h4>
-<div id="2cac10fd" class="cell" data-execution_count="12">
+<div id="ab14ab6a" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1088,10 +1088,10 @@ X2             0.8772      1.144      0.767      0.445      -1.393       3.147
 <ul>
 <li>If we encode <span class="math inline">\(y\)</span> as above what is <span class="math inline">\(E(y|x)\)</span>? It is <span class="math inline">\(P(y=\text{sick}|\;\text{data})\)</span> — a clearly interesting quantity</li>
 </ul>
-<div class="fragment">
+<div>
 <ul>
-<li><p>Problem: as a probability, <span class="math inline">\(0\leq P(y=\text{sick}|\;\text{data}) \leq 1.\)</span> But model predictions <span class="math inline">\(x^T\hat{\beta}\)</span> can fall outside the legal range!</p></li>
-<li><p>Another problem: can we make the model assumptions of normal <span class="math inline">\(\epsilon\)</span>? No — because <span class="math inline">\(y\)</span> can only be <span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span></p></li>
+<li class="fragment"><p>Problem: as a probability, <span class="math inline">\(0\leq P(y=\text{sick}|\;\text{data}) \leq 1.\)</span> But model predictions <span class="math inline">\(x^T\hat{\beta}\)</span> can fall outside the legal range!</p></li>
+<li class="fragment"><p>Another problem: can we make the model assumptions of normal <span class="math inline">\(\epsilon\)</span>? No — because <span class="math inline">\(y\)</span> can only be <span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span></p></li>
 </ul>
 </div>
 <div class="fragment">
@@ -1102,7 +1102,7 @@ X2             0.8772      1.144      0.767      0.445      -1.393       3.147
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 <p>אז איפה פה בכל זאת השגיאה, למה זה לא פתרון טבעי לבעיה?</p>
-<p>נזכור שמה אנחנו ממדלים בעצם ברגרסיה ליניארית? את התוחלת המותנית של Y בהינתן X, את מה שלמדנו על Y בממוצע בעקבות המידע על המשתנים האחרים. ומה זו התוחלת של משתנה שיש לו שתי תוצאות, אפס או 1? כמו משתנה ברנולי, זו ההסתברות שהוא יקבל 1 או ההסתברות שהאדם חולה. בדוגמא שלנו בהינתן שראינו נאמר את נתוני הבדיקה עליו, כמו לחץ דם, נתונים ביופסיה, נתונים גנטיים וכולי.</p>
+<p>נזכור שמה אנחנו ממדלים בעצם ברגרסיה ליניארית? את התוחלת המותנית של Y בהינתן X, את מה שלמדנו על Y בממוצע בעקבות המידע על המשתנים האחרים. ומה זו התוחלת של משתנה שיש לו שתי תוצאות, אפס או 1? כמו משתנה ברנולי, זו ההסתברות שהוא יקבל 1 או ההסתברות שהאדם חולה. בדוגמא שלנו, בהינתן שראינו נאמר את נתוני הבדיקה עליו, כמו לחץ דם, נתוני ביופסיה, נתונים גנטיים וכולי.</p>
 <p>זה מצוין. אבל הסתברות היא כמות בין אפס לאחת! ואין שום אילוץ ברגרסיה ליניארית לקבל תחזיות בין אפס לאחת. נוכל לקבל חיזויים קטנים מאפס, גדולים מאחת, ונוכל לקבל אפילו סט של תחזיות שכולן מתחת לאפס או כולן מעל 1. ואז מה נעשה?</p>
 <p>ניתקל בעוד בעיה כשנרצה לבצע הסקה סטטיסטית: האם סביר להניח שY הוא צירוף ליניארי של משתנים ועוד רעש נורמלי, אפסילון, בלתי תלוי? לא, כי וואי מקבל ערכים אפס או אחת.</p>
 <p>אז אנחנו צריכים גישה אחרת. גישה שכן תתחשב בערכים האפשריים שY יכול לקבל ושתתאים מודל סטטיסטי הולם לבעיה.</p>
@@ -1153,7 +1153,7 @@ X2             0.8772      1.144      0.767      0.445      -1.393       3.147
 <p><span class="math display">\[P(y=1|x) = \text{sigmoid}(x^T\beta) = \frac{\exp(x^T\beta)}{1+\exp(x^T\beta)} \quad\quad P(y=0|x) = 1- P(y=1|x) = \frac{1}{1+\exp(x^T\beta)}\]</span></p>
 </div>
 <div class="fragment">
-<div id="a41d8b8f" class="cell" data-execution_count="13">
+<div id="20e184dc" class="cell" data-execution_count="13">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1166,7 +1166,7 @@ X2             0.8772      1.144      0.767      0.445      -1.393       3.147
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 <p>אם יש לנו את המקדמים ואנחנו רוצים לקבל בחזרה את ההסתברות החזויה, את הכמות בין אפס לאחת, אפשר לראות שהפונקציה ההופכית נראית כך: e בחזקת הצירוף הליניארי, חלקי 1 ועוד e בחזקת הצירוף הליניארי. או ההסתברות המשלימה עם נוסחה קצת יותר נעימה שמופיעה כאן.</p>
-<p>הפונקציה הזאת נקראת פונקצית הזיגמויד, וחשוב להכיר אותה כי היא מקיימת תכונות שטובות לנו, ואחר-כך אנחנו רואים אותה כשאנחנו לומדים על רשתות נירונים. עבור ערכים שליליים מאוד היא שואפת לאפס, עבור ערכים חיוביים מאוד היא שואפת לאחת. ובאמצע - היא מונוטונית עולה. מה שמתאים לנו, כי יחס ליניארי הוא בהכרח גם מונוטוני. אם אנחנו ממדלים למשל את הסיכוי שלקוח יחזיר הלוואה, ואחד המשתנים המסבירים הוא הכנסה. ונאמר שהתקבל המקדם “פלוס 10”. זה אומר שנצפה שככל שההכנסה של לקוח עולה, כך עולה הסיכוי שיחזיר הלוואה. ופונקצית הזיגמויד היא לא האפשרות היחידה שלנו להשיג את האפקט הזה אבל היא בהחלט שימושית.</p>
+<p>הפונקציה הזאת נקראת פונקצית הזיגמויד, וחשוב להכיר אותה כי היא מקיימת תכונות שטובות לנו, ואחר-כך אנחנו רואים אותה כשאנחנו לומדים על רשתות נוירונים. עבור ערכים שליליים מאוד היא שואפת לאפס, עבור ערכים חיוביים מאוד היא שואפת לאחת. ובאמצע - היא מונוטונית עולה. מה שמתאים לנו, כי יחס ליניארי הוא בהכרח גם מונוטוני. אם אנחנו ממדלים למשל את הסיכוי שלקוח יחזיר הלוואה, ואחד המשתנים המסבירים הוא הכנסה. ונאמר שהתקבל המקדם “פלוס 10”. זה אומר שנצפה שככל שההכנסה של לקוח עולה, כך עולה הסיכוי שיחזיר הלוואה. ופונקצית הזיגמויד היא לא האפשרות היחידה שלנו להשיג את האפקט הזה אבל היא בהחלט שימושית.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1217,7 +1217,7 @@ X2             0.8772      1.144      0.767      0.445      -1.393       3.147
 <section class="slide level2">
 
 <h3 id="logistic-regression-likelihood">Logistic Regression Likelihood</h3>
-<div id="b01afcb2" class="cell" data-execution_count="14">
+<div id="4e949475" class="cell" data-execution_count="14">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1228,7 +1228,7 @@ X2             0.8772      1.144      0.767      0.445      -1.393       3.147
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-<p>כאן אנחנו רואים הדגמה של הפונקציה הזאת עם נתונים עבור חותך בטא-אפס ושיפוע של משתנה נוסף, בטא-אחת. ממש ניתן לראות כיצד הפונקציה קעורה או קמורה כלפי מעלה. נהפוך אותה אם ניקח פשוט מינוס והיא תהיה קעורה, מה שאומר שמובטח לנו שבכמה צעדי גרדיאנט נגיע לנקודת המינימום של הבטאות ושהיא מינימום גלובלי, למינוס הנראות.</p>
+<p>כאן אנחנו רואים הדגמה של הפונקציה הזאת עם נתונים עבור חותך בטא-אפס ושיפוע של משתנה נוסף, בטא-אחת. ממש ניתן לראות כיצד הפונקציה קעורה או קמורה כלפי מעלה. נהפוך אותה אם ניקח פשוט מינוס והיא תהיה קמורה, מה שאומר שמובטח לנו שבכמה צעדי גרדיאנט נגיע לנקודת המינימום של הבטאות ושהיא מינימום גלובלי, למינוס הנראות.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1258,10 +1258,10 @@ X2             0.8772      1.144      0.767      0.445      -1.393       3.147
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 <p>כשנקבל את בטא-האט, ותגיע תצפית חדשה ממדגם הטסט, נוכל לחזות את ההסתברות שהיא אחת באמצעות הצבה בנוסחה של הפונקציה ההופכית. ואם אנחנו רוצים חיזוי סופי, האם Y הוא 1 או 0, אפשר להשוות את ההסתברות הנחזית לאיזשהו קאטאוף, לדוגמא חצי. אם היא גדולה מחצי נחזה 1, ואם לא נחזה 0.</p>
-<p>ועוד מילה על המודל שלנו. יחס הסיכויים שאנחנו ממדלים הוא בעצם הodds. בשפה יומיומיות, אם מאורע יכול לקרות בסיכוי שליש, או לא לקרות בסיכוי שני שליש, אנחנו אומרים “הוא יקרה ביחס של 1 ל-2”. כלומר מה שאנחנו ממדלים כצירוף ליניארי הוא הלוג-אודז, לוג יחס הסיכויים.</p>
+<p>ועוד מילה על המודל שלנו. יחס הסיכויים שאנחנו ממדלים הוא בעצם הodds. בשפה יומיומית, אם מאורע יכול לקרות בסיכוי שליש, או לא לקרות בסיכוי שני שליש, אנחנו אומרים “הוא יקרה ביחס של 1 ל-2”. כלומר מה שאנחנו ממדלים כצירוף ליניארי הוא הלוג-אודז, לוג יחס הסיכויים.</p>
 <p>הפרשנות של מקדמי הבטא ברגרסיה לוגיסטית הרבה פחות פשוטה לעומת רגרסיה ליניארית, ועלולה לבלבל, אז נשים לב:</p>
 <p>מה המשמעות של מקדם בטא-ג’יי? עלייה של יחידה אחת בXj, פירושה עלייה של בטא-ג’יי בלוג אודז.</p>
-<p>ואם זה לא אומר הרבה, קחו את האקספוננט של בטא-ג’יי ותראו מה הוא עושה לאודז עצמו. עלייה של בטא-ג’יי בגודל 1 היא עלייה פי e של האודז עצמו.</p>
+<p>ואם זה לא אומר הרבה, קחו את האקספוננט של בטא-ג’יי ותראו מה הוא עושה לאודז עצמו. עלייה של בטא-ג’יי בגודל 1 היא עלייה פי e של האודז עצמו, בערך פי 2.72.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1296,7 +1296,7 @@ X2             0.8772      1.144      0.767      0.445      -1.393       3.147
 <section class="slide level2">
 
 <h3 id="example-south-african-hearth-disease-data">Example: South African Hearth Disease Data</h3>
-<div id="1c6419da" class="cell" data-execution_count="15">
+<div id="897aa47e" class="cell" data-execution_count="15">
 <div class="cell-output cell-output-stdout">
 <pre><code>           sbp  tobacco   ldl  adiposity  famhist  typea  obesity  alcohol  \
 row.names                                                                    
@@ -1340,7 +1340,7 @@ no. of obs in test y: 93</code></pre>
 <section class="slide level2">
 
 <h3 id="saheart-lr-with-statsomdels">SAHeart: LR with <code>statsomdels</code></h3>
-<div id="172561fb" class="cell" data-execution_count="16">
+<div id="601be070" class="cell" data-execution_count="16">
 <div class="cell-output cell-output-stdout">
 <pre><code>Optimization terminated successfully.
          Current function value: 0.513971
@@ -1350,8 +1350,8 @@ no. of obs in test y: 93</code></pre>
 Dep. Variable:                    chd   No. Observations:                  369
 Model:                          Logit   Df Residuals:                      359
 Method:                           MLE   Df Model:                            9
-Date:                Mon, 28 Oct 2024   Pseudo R-squ.:                  0.1994
-Time:                        20:59:16   Log-Likelihood:                -189.66
+Date:                Tue, 29 Oct 2024   Pseudo R-squ.:                  0.1994
+Time:                        14:23:18   Log-Likelihood:                -189.66
 converged:                       True   LL-Null:                       -236.90
 Covariance Type:            nonrobust   LLR p-value:                 2.041e-16
 ==================================================================================
@@ -1390,7 +1390,7 @@ famhist_Absent    -0.8135      0.255     -3.191      0.001      -1.313      -0.3
 <section class="slide level2">
 
 <h3 id="saheart-lr-test-performance">SAHeart: LR Test Performance</h3>
-<div id="02d2c29d" class="cell" data-execution_count="17">
+<div id="9a3955ed" class="cell" data-execution_count="17">
 <div class="cell-output cell-output-display" data-execution_count="17">
 <div>
 <div>
@@ -1435,7 +1435,7 @@ famhist_Absent    -0.8135      0.255     -3.191      0.001      -1.313      -0.3
 </div>
 </div>
 <div class="fragment">
-<div id="c6f63b5b" class="cell" data-execution_count="18">
+<div id="dbaae004" class="cell" data-execution_count="18">
 <div class="cell-output cell-output-stdout">
 <pre><code>Accuracy:  0.76, Misclassification loss:  0.24</code></pre>
 </div>
@@ -1609,8 +1609,8 @@ famhist_Absent    -0.8135      0.255     -3.191      0.001      -1.313      -0.3
 <p>הפרסיז’ן הוא הסיכוי להיות חולה בהינתן שחזיתי חולה. נקרא גם positive predictive value או PPV. באופן דומה אפשר להגדיר את הפרסיז’ן לקלאס האחר, הסיכוי להיות לא-חולה אם חזיתי לא-חולה, או הnegative predictive value. בכל מקרה נרצה שהפרסיז’ן יהיה כמה שיותר גדול.</p>
 <p>מדד אחר הוא הריקול, או sensitivity או true positive rate, TPR. זה הסיכוי שבהינתן חולה המודל אכן חוזה חולה, או שיעור החולים שהמודל אכן מחלץ. גם כאן ניתן לחשוב על הריקול של הקלאס האחר, אחוז הבריאים שהמודל מחלץ נכון. וגם כאן ברור שנרצה שהמדד הזה יהיה גדול ככל שניתן.</p>
 <p>מדד שנרצה שיהיה קטן ככל האפשר הוא הfalse positive rate, הFPR, בהינתן לא-חולה הסיכוי לחזות חולה.</p>
-<p>ומאחר שהמדדים פרסיז’ן וריקול מודדים דברים שונים והיינו רוצים ששניהם יהיו גבוהים מסתכלים לפעמים על הממוצע ההרמוני שלהם, 2 כפול המכפלה שלהם חלקי הסכום שלהם.</p>
-<p>למה צריך את כל זה? בדיוק בגלל מה שאמרנו, יכול להיות לקוח של המודל שלנו, שפשוט לא מסוגל לפספס אף חולה, לקוח כזה ירצה ריקול כמה שיותר גבוה. ויכולה להיות לקוחה שאין לה בעיה לפספס חולים, אבל כשהמודל מסמן לה חולים הוא חייב להיות צודק, היא לא יכולה להעניק טיפול קשה כזה לבריאים – בשביל לקוחה כזאת נרצה אולי למקסם את הפרסיז’ן. וברור שיהיה כאן טריידאוף בין השניים במודל לא מושלם.</p>
+<p>ומאחר שהמדדים פרסיז’ן וריקול מודדים דברים שונים והיינו רוצים ששניהם יהיו גבוהים מסתכלים לפעמים על הממוצע ההרמוני שלהם, 2 כפול המכפלה שלהם חלקי הסכום שלהם. קוראים לזה אף-וואן סקור.</p>
+<p>למה צריך את כל זה? בדיוק בגלל מה שאמרנו, יכול להיות לקוח של המודל שלנו, שפשוט לא מסוגל לפספס אף חולה, לקוח כזה ירצה ריקול כמה שיותר גבוה. ויכולה להיות לקוחה שאין לה בעיה לפספס חולים, אבל כשהמודל מסמן לה חולים הוא חייב להיות צודק, לדוגמא היא רופאה שלא יכולה להעניק טיפול קשה כזה לבריאים – בשביל לקוחה כזאת נרצה אולי למקסם את הפרסיז’ן. וברור שיהיה כאן טריידאוף בין השניים במודל לא מושלם.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1626,7 +1626,7 @@ famhist_Absent    -0.8135      0.255     -3.191      0.001      -1.313      -0.3
 </section>
 <section class="slide level2">
 
-<div id="0197c95b" class="cell" data-execution_count="19">
+<div id="1e8f99c9" class="cell" data-execution_count="19">
 <div class="cell-output cell-output-display" data-execution_count="19">
 <div>
 <div>
@@ -1671,7 +1671,7 @@ famhist_Absent    -0.8135      0.255     -3.191      0.001      -1.313      -0.3
 </div>
 </div>
 <div class="fragment">
-<div id="f5cdf716" class="cell" data-execution_count="20">
+<div id="297a72dd" class="cell" data-execution_count="20">
 <div class="cell-output cell-output-stdout">
 <pre><code>              precision    recall  f1-score   support
 
@@ -1721,7 +1721,7 @@ weighted avg       0.76      0.76      0.76        93
 <p>These different tasks can reflect in the loss function / model evaluation task:</p>
 <ol type="1">
 <li>Correct classification: misclassification loss as above, also precision, recall etc.</li>
-<li>Good probability prediction: using Bernoulli loss / cross entropy: <span class="math display">\[L(y,\hat{p}) = \hat{p}^y (1-\hat{p})^{(1-y)}\]</span></li>
+<li>Good probability prediction: using Bernoulli loss / likelihood: <span class="math display">\[L(y,\hat{p}) = \hat{p}^y (1-\hat{p})^{(1-y)}\]</span></li>
 <li>How do we measure ranking perofrmance of a model on a test set?</li>
 </ol>
 </div>
@@ -1787,7 +1787,7 @@ weighted avg       0.76      0.76      0.76        93
 </section>
 <section class="slide level2">
 
-<div id="97d2a5ff" class="cell" data-execution_count="21">
+<div id="4c3461d3" class="cell" data-execution_count="21">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1799,7 +1799,6 @@ weighted avg       0.76      0.76      0.76        93
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 <p>כך נראית עקומת הROC על מדגם הטסט שלנו, עבור מודל הרגרסיה הלוגיסטית שמנסה לחזות אם פציינט יחלה במחלת לב או לא.</p>
-<p>הקוד בפייתון לבצע את זה נמצא כאן למי שרוצה.</p>
 <p>אנחנו לא רואים את הספים עצמם שהקוד משנה, אבל כן נוצרת עקומה יפה של TPR מול FPR, ואנחנו רואים שעבור ספים נמוכים מתקבל TPR גבוה, ועבור ספים גבוהים מתקבל FPR נמוך. אפשר גם לראות את הטריידאוף בין שני המדדים בצורה יפה.</p>
 <p>ואם רוצים לחזור לניבוי סופי, אפשר לבחור את הקאטאוף שיביא אותנו לנקודה האופטימלית מבחינתנו. אם אין לנו העדפה מסוימת, כמו שהדגמנו קודם, הנקודה האופטימלית שומרת על TPR כמו שיותר גבוה וFPR כמה שיותר נמוך אז זו תהיה הנקודה הכי קרובה לקצה השמאלי העליון של הגרף, נאמר זאת.</p>
 <p>וברור שבמודל מושלם יימצא סף שבאמת מגיע עד הנקודה בקצה השמאלי עליון של הגרף.</p>
