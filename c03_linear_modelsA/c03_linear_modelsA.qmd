@@ -394,7 +394,7 @@ plt.show()
   - $\text{Likelihood}(p) = L(p|x_1, \dots, x_n) = P(x_1, \dots, x_n) = {n \choose k}p^{k}(1-p)^{n -k}$
   - Goal: $\hat{p} = \arg\max_p{L(p|x_1, \dots, x_n)}$
   - Not surprising: $\hat{p} = \frac{k}{n}$
-  - Notice with: $\text{Log-Likelihood}(p) = \ell(p|x_1, \dots, x_n) = \log P(x_1, \dots, x_n) = k\log p + (n -k)\log(1-p)$
+  - Notice with: $\text{Log-Likelihood}(p) = \ell(p|x_1, \dots, x_n) = \log P(x_1, \dots, x_n) \approx k\log p + (n -k)\log(1-p)$
     - we get the same $\hat{p} = \frac{k}{p}$
 :::
 
@@ -1153,7 +1153,7 @@ plt.show()
 
 Measure of "explained variance":
 
-$R^2 = 1 - \frac{\sum_{i = 1}^n (y_i - x_i^T\hat{\beta})^2}{\sum_{i = 1}^n (y_i - \bar{y})^2} = 1 - \frac{RSS}{TSS} = 1 - \frac{(y - X\hat{\beta})^T(y - X\hat{\beta})}{(y - X\hat{\beta^*_0})^T(y - X\hat{\beta^*_0})}$
+$R^2 = \frac{TSS - RSS}{TSS} = 1 - \frac{\sum_{i = 1}^n (y_i - x_i^T\hat{\beta})^2}{\sum_{i = 1}^n (y_i - \bar{y})^2} = 1 - \frac{(y - X\hat{\beta})^T(y - X\hat{\beta})}{(y - X\hat{\beta^*_0})^T(y - X\hat{\beta^*_0})}$
 
 ```{python}
 #| echo: false
