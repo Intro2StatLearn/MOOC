@@ -387,7 +387,7 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-<p>בשיעור הקודם דיברנו כיצד אנחנו בוחרים בין מודלים ואומדים את טעות החיזוי. הבדלנו בין שתי מטרות: מודל סלקשן, בחירה בין מודלים או בין אותו מודל עם פרמטרים שונים, ומודל אססמנט, איך להעריך את הביצועים של המודל, אמידה סופית של טיב החיזוי שלו.</p>
+<p>בשיעור הקודם עסקנו בכיצד אנחנו בוחרים בין מודלים ואומדים את טעות החיזוי. הבדלנו בין שתי מטרות: מודל סלקשן, בחירה בין מודלים או בתוך אותו מודל בחירה בין פרמטרים שונים, ומודל אססמנט, איך להעריך את הביצועים של המודל, אמידה סופית של טיב החיזוי שלו.</p>
 <p>כדי לאמוד את טעות החיזוי, דיברנו על חלוקה יחידה של הדאטא בדרך כלל לשלושה חלקים: טריין, ולידיישן וטסט, ודיברנו על קרוס ולידיישן, שיטה שבה אנחנו מחלקים את הדאטא לK פולדים שווים, כל פעם מאמנים על K - 1 פולדים ואומדים את הטעות על החלק שבו לא נגענו. ראינו שזו גם חלוקה יעילה יותר של הנתונים, כי כל התצפיות משתתפות באמידה, וגם אפשר להסתכל על ממוצע הטעות בין החלקים השונים ולתת איזושהי טעות תקן לאמידה של טעות החיזוי.</p>
 <p>היום נעסוק באמידת בוטסטרפ, ובגישה המסורתית יותר של תיקון טעות הטריין באמצעות אמידת האופטימיזם, עד כמה טעות הטריין אופטימית.</p>
 </div>
@@ -406,7 +406,7 @@
 <section class="slide level2">
 
 <h3 id="the-bootstrap-1">The Bootstrap</h3>
-<div id="698fd82a" class="cell" data-execution_count="1">
+<div id="36aa527b" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -512,7 +512,7 @@ P(\text{observation } i \in \text{bootstrap sample } b) &amp;= 1 - P(\text{obser
 <section class="slide level2">
 
 <h3 id="what-does-bootstrap-error-estimate">What does Bootstrap error estimate?</h3>
-<div id="5bdd47c6" class="cell" data-execution_count="3">
+<div id="6da3c873" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -564,7 +564,7 @@ P(\text{observation } i \in \text{bootstrap sample } b) &amp;= 1 - P(\text{obser
 <li>Natural to ask: by how much is <span class="math inline">\(\overline{err} = \frac{1}{n}\sum_{i=1}^{n} L(y_i, \hat{f}(x_i))\)</span> <span style="color:red;">optimistic</span>?</li>
 </ul>
 <div class="fragment">
-<div id="6c12e3ff" class="cell" data-execution_count="4">
+<div id="5af18f8b" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -638,7 +638,7 @@ P(\text{observation } i \in \text{bootstrap sample } b) &amp;= 1 - P(\text{obser
 <section class="slide level2">
 
 <h3 id="optimism-end-goal">Optimism: End Goal</h3>
-<div id="a3d7c801" class="cell" data-execution_count="5">
+<div id="15d5c376" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -670,7 +670,7 @@ P(\text{observation } i \in \text{bootstrap sample } b) &amp;= 1 - P(\text{obser
 <p><span class="math inline">\(\mathbb{E}_{y, y_0}\|y_0 - \hat{y}\|^2 = \mathbb{E} \left|\left| \underbrace{y_0 - \mathbb{E}(y)}_{A} + \underbrace{\mathbb{E}(y) - \mathbb{E} (\hat{y})}_{B} + \underbrace{\mathbb{E} (\hat{y}) - \hat{y}}_{C}\right|\right|^2\)</span></p>
 </div>
 <div class="fragment">
-<p><span class="math inline">\(= \mathbb{E}\|y_0 - \mathbb{E}(y)\|^2 + \mathbb{E}\|\mathbb{E}(y) - \mathbb{E} (\hat{y})\|^2 + \mathbb{E}\|\mathbb{E} (\hat{y}) - \hat{y}\|^2 +2\mathbb{E}(A'B) + 2\mathbb{E}(A'C) + 2\mathbb{E}(B'C)\)</span></p>
+<p><span class="math inline">\(= \mathbb{E}\|y_0 - \mathbb{E}(y)\|^2 + \mathbb{E}\|\mathbb{E}(y) - \mathbb{E} (\hat{y})\|^2 + \mathbb{E}\|\mathbb{E} (\hat{y}) - \hat{y}\|^2 +2\mathbb{E}(A^TB) + 2\mathbb{E}(A^TC) + 2\mathbb{E}(B^TC)\)</span></p>
 </div>
 <div class="fragment">
 <p><span class="math inline">\(= \text{irreducible error} + \text{bias}^2 + \text{variance}\)</span></p>
@@ -681,9 +681,9 @@ P(\text{observation } i \in \text{bootstrap sample } b) &amp;= 1 - P(\text{obser
 </div>
 <p><br><br></p>
 <div class="fragment">
-<p><span class="math inline">\(2\mathbb{E}(A'B) = 2\mathbb{E}(B'A) = 2B'\mathbb{E}A = 2B'\mathbb{E}\left[y_0 - \mathbb{E}(y)\right] = 2B'\mathbf{0} = 0\)</span></p>
-<p><span class="math inline">\(2\mathbb{E}(B'C) = 2B'\mathbb{E}C = 2B'\mathbb{E}\left[\mathbb{E} (\hat{y}) - \hat{y}\right] = 2B'\mathbf{0} = 0\)</span></p>
-<p><span class="math inline">\(2\mathbb{E}(A'C) = 2\mathbb{E}\left[\left[y_0 - \mathbb{E}(y)\right]'\left[\mathbb{E} (\hat{y}) - \hat{y}\right]\right] = 2\mathbb{E}(A)'\mathbb{E}(C) = 0\)</span></p>
+<p><span class="math inline">\(2\mathbb{E}(A^TB) = 2\mathbb{E}(B^TA) = 2B^T\mathbb{E}A = 2B^T\mathbb{E}\left[y_0 - \mathbb{E}(y)\right] = 2B^T\mathbf{0} = 0\)</span></p>
+<p><span class="math inline">\(2\mathbb{E}(B^TC) = 2B^T\mathbb{E}C = 2B^T\mathbb{E}\left[\mathbb{E} (\hat{y}) - \hat{y}\right] = 2B^T\mathbf{0} = 0\)</span></p>
+<p><span class="math inline">\(2\mathbb{E}(A^TC) = 2\mathbb{E}\left[\left[y_0 - \mathbb{E}(y)\right]^T\left[\mathbb{E} (\hat{y}) - \hat{y}\right]\right] = 2\mathbb{E}(A)^T\mathbb{E}(C) = 0\)</span></p>
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
@@ -718,16 +718,16 @@ P(\text{observation } i \in \text{bootstrap sample } b) &amp;= 1 - P(\text{obser
 <h4 id="decomposing-training-error">Decomposing training error</h4>
 <p><span class="math inline">\(\mathbb{E}_{y, y_0}\|y - \hat{y}\|^2 = \mathbb{E} \left|\left| \underbrace{y - \mathbb{E}(y)}_{A} + \underbrace{\mathbb{E}(y) - \mathbb{E} (\hat{y})}_{B} + \underbrace{\mathbb{E} (\hat{y}) - \hat{y}}_{C}\right|\right|^2\)</span></p>
 <div class="fragment">
-<p><span class="math inline">\(= \mathbb{E}\|y - \mathbb{E}(y)\|^2 + \mathbb{E}\|\mathbb{E}(y) - \mathbb{E} (\hat{y})\|^2 + \mathbb{E}\|\mathbb{E} (\hat{y}) - \hat{y}\|^2 +2\mathbb{E}(A'B) + 2\mathbb{E}(A'C) + 2\mathbb{E}(B'C)\)</span></p>
+<p><span class="math inline">\(= \mathbb{E}\|y - \mathbb{E}(y)\|^2 + \mathbb{E}\|\mathbb{E}(y) - \mathbb{E} (\hat{y})\|^2 + \mathbb{E}\|\mathbb{E} (\hat{y}) - \hat{y}\|^2 +2\mathbb{E}(A^TB) + 2\mathbb{E}(A^TC) + 2\mathbb{E}(B^TC)\)</span></p>
 </div>
 <div class="fragment">
 <p><span class="math inline">\(= \text{irreducible error} + \text{bias}^2 + \text{variance} - 2\sum_{i=1}^{n}Cov(y_i, \hat{y}_i)\)</span></p>
 </div>
 <p><br><br></p>
 <div class="fragment">
-<p><span class="math inline">\(2\mathbb{E}(A'B) = 2\mathbb{E}(B'A) = 2B'\mathbb{E}A = 2B'\mathbb{E}\left[y - \mathbb{E}(y)\right] = 2B'\mathbf{0} = 0\)</span></p>
-<p><span class="math inline">\(2\mathbb{E}(B'C) = 2B'\mathbb{E}C = 2B'\mathbb{E}\left[\mathbb{E} (\hat{y}) - \hat{y}\right] = 2B'\mathbf{0} = 0\)</span></p>
-<p><span class="math inline">\(2\mathbb{E}(A'C) = 2\mathbb{E}\left[\left[y - \mathbb{E}(y)\right]'\left[\mathbb{E} (\hat{y}) - \hat{y}\right]\right] = -2\mathbb{E}\left[\left[y - \mathbb{E}(y)\right]'\left[\hat{y} - \mathbb{E} (\hat{y})\right]\right] = -2\sum_{i=1}^{n}Cov(y_i, \hat{y}_i)\)</span></p>
+<p><span class="math inline">\(2\mathbb{E}(A^TB) = 2\mathbb{E}(B^TA) = 2B^T\mathbb{E}A = 2B^T\mathbb{E}\left[y - \mathbb{E}(y)\right] = 2B^T\mathbf{0} = 0\)</span></p>
+<p><span class="math inline">\(2\mathbb{E}(B^TC) = 2B^T\mathbb{E}C = 2B^T\mathbb{E}\left[\mathbb{E} (\hat{y}) - \hat{y}\right] = 2B^T\mathbf{0} = 0\)</span></p>
+<p><span class="math inline">\(2\mathbb{E}(A^TC) = 2\mathbb{E}\left[\left[y - \mathbb{E}(y)\right]^T\left[\mathbb{E} (\hat{y}) - \hat{y}\right]\right] = -2\mathbb{E}\left[\left[y - \mathbb{E}(y)\right]^T\left[\hat{y} - \mathbb{E} (\hat{y})\right]\right] = -2\sum_{i=1}^{n}Cov(y_i, \hat{y}_i)\)</span></p>
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
@@ -808,8 +808,8 @@ P(\text{observation } i \in \text{bootstrap sample } b) &amp;= 1 - P(\text{obser
   \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
   Cov(y_n, y_1) &amp; Cov(y_n, y_2) &amp; \dots &amp; Cov(y_n, y_n) \\
 \end{pmatrix}\]</span></li>
-<li class="fragment">Mark <span class="math inline">\(\hat{y} = X\hat{\beta} = X(X'X)^{-1}X'y = Hy\)</span></li>
-<li class="fragment">More compactly: <span class="math display">\[op = \frac{2}{n}tr\left[Cov(y, \hat{y})\right] = \frac{2}{n}tr\left[Cov(y, Hy)\right] = \frac{2}{n}tr\left[H Cov(y, y)\right] = \frac{2\sigma^2}{n}tr\left[H \cdot I_n\right]\]</span></li>
+<li class="fragment">Mark <span class="math inline">\(\hat{y} = X\hat{\beta} = X(X^TX)^{-1}X^Ty = Hy\)</span></li>
+<li class="fragment">More compactly: <span class="math display">\[op = \frac{2}{n}\text{Tr}\left[Cov(y, \hat{y})\right] = \frac{2}{n}\text{Tr}\left[Cov(y, Hy)\right] = \frac{2}{n}\text{Tr}\left[H Cov(y, y)\right] = \frac{2\sigma^2}{n}\text{Tr}\left[H \cdot I_n\right]\]</span></li>
 </ul>
 </div>
 <aside class="notes">
@@ -818,7 +818,7 @@ P(\text{observation } i \in \text{bootstrap sample } b) &amp;= 1 - P(\text{obser
 <p>נפתח אותו דרך מטריצת הקווריאנס בין Y לY-hat. נשים לב שסכום הקווריאנסים שאנחנו רוצים הוא בעצם הטרייס של המטריצה הזאת, או בעברית עקבה, סכום האיברים על האלכסון שלה.</p>
 <p>ומהי המטריצה הזאת ברגרסיה ליניארית?</p>
 <p>Y_hat הוא X כפול בטא-האט. בטא-האט הוא הנוסחה שהגענו אליה, האומד חסר ההטייה עם השונות הכי קטנה, X’X בהופכי כפול X טרנספוז כפול Y. לכל המטריצה שכופלת את Y קוראים ההאט-מטריקס. נסמן אותה בH.</p>
-<p>כעת נראה שהאופטימיזם זה 2 חלקי n כפול הטרייס של מטריצת הקווריאנס בין Y לY_hat, או כמו שהבנו בין Y לHy. H מורכב רק מהנתונים בX שאנחנו מתייחסים אליהם כפיקסד, הוא מטריצה של קבועים שיוצאים החוצה מהקווריאנס. אנחנו נשארים עם מטריצת הקווריאנס של Y עם עצמו וזאת פשוט מטריצת השונות של Y. על-פי הנחות המודל הY בלתי תלויים, השונות של כל אחד מהם הם סיגמה בריבוע, כלומר המטריצה הזאת היא מטריצה אלכסונית שעל האלכסון שלה נמצאות סיגמות בריבוע.</p>
+<p>כעת נראה שהאופטימיזם זה 2 חלקי n כפול הטרייס של מטריצת הקווריאנס בין Y לY_hat, או כמו שהבנו בין Y לHy. כעת H מורכב רק מהנתונים בX שאנחנו מתייחסים אליהם כפיקסד, הוא מטריצה של קבועים שיוצאים החוצה מהקווריאנס. אנחנו נשארים עם מטריצת הקווריאנס של Y עם עצמו וזאת פשוט מטריצת השונות של Y. על-פי הנחות המודל הY בלתי תלויים, השונות של כל אחד מהם היא סיגמה בריבוע, כלומר המטריצה הזאת היא מטריצה אלכסונית שעל האלכסון שלה נמצאות סיגמות בריבוע.</p>
 <p>כעת שוב סיגמה בריבוע הוא סקלר והוא יוצא החוצה מהטרייס, ונשאר לנו לחשב רק את הטרייס של ההאט מטריקס H.</p>
 </div>
 <style type="text/css">
@@ -838,8 +838,8 @@ P(\text{observation } i \in \text{bootstrap sample } b) &amp;= 1 - P(\text{obser
 <h3 id="widehatop-in-linear-regression"><span class="math inline">\(\widehat{op}\)</span> in linear regression</h3>
 <div>
 <ul>
-<li class="fragment">From the fact that <span class="math inline">\(tr(AB) = tr(BA)\)</span>: <span class="math display">\[tr(H) = tr(X(X'X)^{-1}X') = tr(X'X(X'X)^{-1}) = tr(I_{p + 1}) = p + 1\]</span></li>
-<li class="fragment">To generalize, if <span class="math inline">\(d\)</span> is the number of features in <span class="math inline">\(X\)</span>: <span class="math inline">\(tr(H) = d\)</span></li>
+<li class="fragment">From the fact that <span class="math inline">\(\text{Tr}(AB) = \text{Tr}(BA)\)</span>: <span class="math display">\[\text{Tr}(H) = \text{Tr}(X(X^TX)^{-1}X^T) = \text{Tr}(X^TX(X^TX)^{-1}) = \text{Tr}(I_{p + 1}) = p + 1\]</span></li>
+<li class="fragment">To generalize, if <span class="math inline">\(d\)</span> is the number of features in <span class="math inline">\(X\)</span>: <span class="math inline">\(\text{Tr}(H) = d\)</span></li>
 <li class="fragment"><span class="math inline">\(op = \frac{2d\sigma^2}{n}\)</span> in linear regression</li>
 <li class="fragment">Mallow’s <span class="math inline">\(C_p\)</span>: <span class="math display">\[C_p = \overline{err} + \frac{2d\hat{\sigma}^2}{n}\]</span> where <span class="math inline">\(\hat{\sigma}^2\)</span> obtained from the mean squared error of a low-bias model</li>
 </ul>
@@ -880,7 +880,7 @@ P(\text{observation } i \in \text{bootstrap sample } b) &amp;= 1 - P(\text{obser
 <section class="slide level2">
 
 <h3 id="c_p-demo"><span class="math inline">\(C_p\)</span> demo</h3>
-<div id="25b74d9d" class="cell" data-execution_count="6">
+<div id="60e9ef22" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>

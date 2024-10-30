@@ -67,7 +67,7 @@ How to estimate prediction error?
 
 ::: {.notes}
 ::: {style="direction:rtl; font-size:16px"}
-בשיעור הקודם דיברנו כיצד אנחנו בוחרים בין מודלים ואומדים את טעות החיזוי. הבדלנו בין שתי מטרות: מודל סלקשן, בחירה בין מודלים או בין אותו מודל עם פרמטרים שונים, ומודל אססמנט, איך להעריך את הביצועים של המודל, אמידה סופית של טיב החיזוי שלו.
+בשיעור הקודם עסקנו בכיצד אנחנו בוחרים בין מודלים ואומדים את טעות החיזוי. הבדלנו בין שתי מטרות: מודל סלקשן, בחירה בין מודלים או בתוך אותו מודל בחירה בין פרמטרים שונים, ומודל אססמנט, איך להעריך את הביצועים של המודל, אמידה סופית של טיב החיזוי שלו.
 
 כדי לאמוד את טעות החיזוי, דיברנו על חלוקה יחידה של הדאטא בדרך כלל לשלושה חלקים: טריין, ולידיישן וטסט, ודיברנו על קרוס ולידיישן, שיטה שבה אנחנו מחלקים את הדאטא לK פולדים שווים, כל פעם מאמנים על K - 1 פולדים ואומדים את הטעות על החלק שבו לא נגענו. ראינו שזו גם חלוקה יעילה יותר של הנתונים, כי כל התצפיות משתתפות באמידה, וגם אפשר להסתכל על ממוצע הטעות בין החלקים השונים ולתת איזושהי טעות תקן לאמידה של טעות החיזוי.
 
@@ -538,7 +538,7 @@ $\mathbb{E}_{y, y_0}\|y_0 - \hat{y}\|^2 = \mathbb{E} \left|\left| \underbrace{y_
 :::
 
 ::: {.fragment}
-$= \mathbb{E}\|y_0 - \mathbb{E}(y)\|^2 + \mathbb{E}\|\mathbb{E}(y) - \mathbb{E} (\hat{y})\|^2 + \mathbb{E}\|\mathbb{E} (\hat{y}) - \hat{y}\|^2 +2\mathbb{E}(A'B) + 2\mathbb{E}(A'C) + 2\mathbb{E}(B'C)$
+$= \mathbb{E}\|y_0 - \mathbb{E}(y)\|^2 + \mathbb{E}\|\mathbb{E}(y) - \mathbb{E} (\hat{y})\|^2 + \mathbb{E}\|\mathbb{E} (\hat{y}) - \hat{y}\|^2 +2\mathbb{E}(A^TB) + 2\mathbb{E}(A^TC) + 2\mathbb{E}(B^TC)$
 :::
 
 ::: {.fragment}
@@ -554,11 +554,11 @@ Important: $\mathbb{E}(y_0) = \mathbb{E}(y) = f(x)$
 <br></br>
 
 ::: {.fragment}
-$2\mathbb{E}(A'B) = 2\mathbb{E}(B'A) = 2B'\mathbb{E}A = 2B'\mathbb{E}\left[y_0 - \mathbb{E}(y)\right] = 2B'\mathbf{0} = 0$
+$2\mathbb{E}(A^TB) = 2\mathbb{E}(B^TA) = 2B^T\mathbb{E}A = 2B^T\mathbb{E}\left[y_0 - \mathbb{E}(y)\right] = 2B^T\mathbf{0} = 0$
 
-$2\mathbb{E}(B'C) = 2B'\mathbb{E}C = 2B'\mathbb{E}\left[\mathbb{E} (\hat{y}) - \hat{y}\right] = 2B'\mathbf{0} = 0$
+$2\mathbb{E}(B^TC) = 2B^T\mathbb{E}C = 2B^T\mathbb{E}\left[\mathbb{E} (\hat{y}) - \hat{y}\right] = 2B^T\mathbf{0} = 0$
 
-$2\mathbb{E}(A'C) = 2\mathbb{E}\left[\left[y_0 - \mathbb{E}(y)\right]'\left[\mathbb{E} (\hat{y}) - \hat{y}\right]\right] = 2\mathbb{E}(A)'\mathbb{E}(C) = 0$
+$2\mathbb{E}(A^TC) = 2\mathbb{E}\left[\left[y_0 - \mathbb{E}(y)\right]^T\left[\mathbb{E} (\hat{y}) - \hat{y}\right]\right] = 2\mathbb{E}(A)^T\mathbb{E}(C) = 0$
 :::
 
 ::: {.notes}
@@ -599,7 +599,7 @@ $2\mathbb{E}(A'C) = 2\mathbb{E}\left[\left[y_0 - \mathbb{E}(y)\right]'\left[\mat
 $\mathbb{E}_{y, y_0}\|y - \hat{y}\|^2 = \mathbb{E} \left|\left| \underbrace{y - \mathbb{E}(y)}_{A} + \underbrace{\mathbb{E}(y) - \mathbb{E} (\hat{y})}_{B} + \underbrace{\mathbb{E} (\hat{y}) - \hat{y}}_{C}\right|\right|^2$
 
 ::: {.fragment}
-$= \mathbb{E}\|y - \mathbb{E}(y)\|^2 + \mathbb{E}\|\mathbb{E}(y) - \mathbb{E} (\hat{y})\|^2 + \mathbb{E}\|\mathbb{E} (\hat{y}) - \hat{y}\|^2 +2\mathbb{E}(A'B) + 2\mathbb{E}(A'C) + 2\mathbb{E}(B'C)$
+$= \mathbb{E}\|y - \mathbb{E}(y)\|^2 + \mathbb{E}\|\mathbb{E}(y) - \mathbb{E} (\hat{y})\|^2 + \mathbb{E}\|\mathbb{E} (\hat{y}) - \hat{y}\|^2 +2\mathbb{E}(A^TB) + 2\mathbb{E}(A^TC) + 2\mathbb{E}(B^TC)$
 :::
 
 ::: {.fragment}
@@ -609,11 +609,11 @@ $= \text{irreducible error} + \text{bias}^2 + \text{variance} - 2\sum_{i=1}^{n}C
 <br></br>
 
 ::: {.fragment}
-$2\mathbb{E}(A'B) = 2\mathbb{E}(B'A) = 2B'\mathbb{E}A = 2B'\mathbb{E}\left[y - \mathbb{E}(y)\right] = 2B'\mathbf{0} = 0$
+$2\mathbb{E}(A^TB) = 2\mathbb{E}(B^TA) = 2B^T\mathbb{E}A = 2B^T\mathbb{E}\left[y - \mathbb{E}(y)\right] = 2B^T\mathbf{0} = 0$
 
-$2\mathbb{E}(B'C) = 2B'\mathbb{E}C = 2B'\mathbb{E}\left[\mathbb{E} (\hat{y}) - \hat{y}\right] = 2B'\mathbf{0} = 0$
+$2\mathbb{E}(B^TC) = 2B^T\mathbb{E}C = 2B^T\mathbb{E}\left[\mathbb{E} (\hat{y}) - \hat{y}\right] = 2B^T\mathbf{0} = 0$
 
-$2\mathbb{E}(A'C) = 2\mathbb{E}\left[\left[y - \mathbb{E}(y)\right]'\left[\mathbb{E} (\hat{y}) - \hat{y}\right]\right] = -2\mathbb{E}\left[\left[y - \mathbb{E}(y)\right]'\left[\hat{y} - \mathbb{E} (\hat{y})\right]\right] = -2\sum_{i=1}^{n}Cov(y_i, \hat{y}_i)$
+$2\mathbb{E}(A^TC) = 2\mathbb{E}\left[\left[y - \mathbb{E}(y)\right]^T\left[\mathbb{E} (\hat{y}) - \hat{y}\right]\right] = -2\mathbb{E}\left[\left[y - \mathbb{E}(y)\right]^T\left[\hat{y} - \mathbb{E} (\hat{y})\right]\right] = -2\sum_{i=1}^{n}Cov(y_i, \hat{y}_i)$
 :::
 
 ::: {.notes}
@@ -676,9 +676,9 @@ $$Cov(y, \hat{y}) = \begin{pmatrix}
     \vdots & \vdots & \ddots & \vdots \\
     Cov(y_n, y_1) & Cov(y_n, y_2) & \dots & Cov(y_n, y_n) \\
 \end{pmatrix}$$
-- Mark $\hat{y} = X\hat{\beta} = X(X'X)^{-1}X'y = Hy$
+- Mark $\hat{y} = X\hat{\beta} = X(X^TX)^{-1}X^Ty = Hy$
 - More compactly:
-$$op = \frac{2}{n}tr\left[Cov(y, \hat{y})\right] = \frac{2}{n}tr\left[Cov(y, Hy)\right] = \frac{2}{n}tr\left[H Cov(y, y)\right] = \frac{2\sigma^2}{n}tr\left[H \cdot I_n\right]$$
+$$op = \frac{2}{n}\text{Tr}\left[Cov(y, \hat{y})\right] = \frac{2}{n}\text{Tr}\left[Cov(y, Hy)\right] = \frac{2}{n}\text{Tr}\left[H Cov(y, y)\right] = \frac{2\sigma^2}{n}\text{Tr}\left[H \cdot I_n\right]$$
 :::
 
 ::: {.notes}
@@ -691,7 +691,7 @@ $$op = \frac{2}{n}tr\left[Cov(y, \hat{y})\right] = \frac{2}{n}tr\left[Cov(y, Hy)
 
 Y_hat הוא X כפול בטא-האט. בטא-האט הוא הנוסחה שהגענו אליה, האומד חסר ההטייה עם השונות הכי קטנה, X'X בהופכי כפול X טרנספוז כפול Y. לכל המטריצה שכופלת את Y קוראים ההאט-מטריקס. נסמן אותה בH.
 
-כעת נראה שהאופטימיזם זה 2 חלקי n כפול הטרייס של מטריצת הקווריאנס בין Y לY_hat, או כמו שהבנו בין Y לHy. H מורכב רק מהנתונים בX שאנחנו מתייחסים אליהם כפיקסד, הוא מטריצה של קבועים שיוצאים החוצה מהקווריאנס. אנחנו נשארים עם מטריצת הקווריאנס של Y עם עצמו וזאת פשוט מטריצת השונות של Y. על-פי הנחות המודל הY בלתי תלויים, השונות של כל אחד מהם הם סיגמה בריבוע, כלומר המטריצה הזאת היא מטריצה אלכסונית שעל האלכסון שלה נמצאות סיגמות בריבוע.
+כעת נראה שהאופטימיזם זה 2 חלקי n כפול הטרייס של מטריצת הקווריאנס בין Y לY_hat, או כמו שהבנו בין Y לHy. כעת H מורכב רק מהנתונים בX שאנחנו מתייחסים אליהם כפיקסד, הוא מטריצה של קבועים שיוצאים החוצה מהקווריאנס. אנחנו נשארים עם מטריצת הקווריאנס של Y עם עצמו וזאת פשוט מטריצת השונות של Y. על-פי הנחות המודל הY בלתי תלויים, השונות של כל אחד מהם היא סיגמה בריבוע, כלומר המטריצה הזאת היא מטריצה אלכסונית שעל האלכסון שלה נמצאות סיגמות בריבוע.
 
 כעת שוב סיגמה בריבוע הוא סקלר והוא יוצא החוצה מהטרייס, ונשאר לנו לחשב רק את הטרייס של ההאט מטריקס H.
 :::
@@ -702,9 +702,9 @@ Y_hat הוא X כפול בטא-האט. בטא-האט הוא הנוסחה שהג�
 ### $\widehat{op}$ in linear regression
 
 ::: {.incremental}
-- From the fact that $tr(AB) = tr(BA)$:
-$$tr(H) = tr(X(X'X)^{-1}X') = tr(X'X(X'X)^{-1}) = tr(I_{p + 1}) = p + 1$$
-- To generalize, if $d$ is the number of features in $X$: $tr(H) = d$
+- From the fact that $\text{Tr}(AB) = \text{Tr}(BA)$:
+$$\text{Tr}(H) = \text{Tr}(X(X^TX)^{-1}X^T) = \text{Tr}(X^TX(X^TX)^{-1}) = \text{Tr}(I_{p + 1}) = p + 1$$
+- To generalize, if $d$ is the number of features in $X$: $\text{Tr}(H) = d$
 - $op = \frac{2d\sigma^2}{n}$ in linear regression
 - Mallow's $C_p$:
 $$C_p = \overline{err} + \frac{2d\hat{\sigma}^2}{n}$$
