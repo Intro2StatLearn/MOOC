@@ -780,7 +780,7 @@ plt.show()
 ::: {.incremental}
 - Problem: as a probability, $0\leq P(y=\text{sick}|\;\text{data}) \leq 1.$ But model predictions $x^T\hat{\beta}$ can fall outside the legal range!
 
-- Another problem: can we make the model assumptions of normal $\epsilon$? No --- because $y$ can only be $0$ or $1$
+- Another problem: can we make the model assumptions of normal $\varepsilon$? No --- because $y$ can only be $0$ or $1$
 :::
 
 ::: {.fragment}
