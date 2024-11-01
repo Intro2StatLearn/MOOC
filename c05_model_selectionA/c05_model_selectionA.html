@@ -584,7 +584,7 @@
 <section class="slide level2">
 
 <h3 id="data-splitting-train-validation-test">Data splitting: Train-Validation-Test</h3>
-<div id="ef866b82" class="cell" data-execution_count="1">
+<div id="91ff7a5d" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -655,7 +655,7 @@
 <p>הטסט סט בשימוש רק פעם אחת! חוקר טוב צריך להיות כן עם עצמו ובשביל אמידת שגיאת החיזוי הסופית צריך להשתמש בדאטא טרי באמת.</p>
 <p>הערה נוספת: מקובל אחרי בחירת המודל הסופי לאחד את כל הדאטא שיש לנו, ה60 אחוז של הטריינינג וה20 אחוז של ולידיישן כדי לאמן את המודל פעם נוספת, ואת המודל הזה להעריך על הטסט סט פעם אחרונה.</p>
 <p>כאמור, אין הוראה ברורה כמה אחוזים בדיוק לתקצב כל אחד מהספליטים, זה תלוי בגודל המדגם הנתון ובמורכבות היחס F בין X לY שאנחנו מנסים להעריך. אם הוא פשוט סביר שלא צריך המון דאטא לאמן אותו, ואם הוא מורכב צריך כמה שיותר מהדאטא לאמן אותו.</p>
-<p>אז זאת הגישה הקלאסית, אבל יש לה שתי בעיות עיקריות: אחת, היא אנחנו מאמנים את כל המודלים המועמדים על 50-60 אחוז מהתצפיות, זה שימוש לא יעיל בנתונים שאפשרי רק אם יש לנו הרבה מהם.</p>
+<p>אז זאת הגישה הקלאסית, אבל יש לה שתי בעיות עיקריות: אחת היא, שאנחנו מאמנים את כל המודלים המועמדים על 50-60 אחוז מהתצפיות, זה שימוש לא יעיל בנתונים שאפשרי רק אם יש לנו הרבה מהם.</p>
 <p>והבעיה השניה היא שאמנם האומד לשגיאת החיזוי חסר הטיה אבל יש לו שונות גבוהה, אנחנו מבססים את האמידה שלנו בכל זאת על סט נתונים אחד ויחיד, אפילו שהוא נדגם מקרית, ובמיוחד עם מודלים מודרנים של למידה סטטיסטית, לא מסוגלים לתת שום אומד לשגיאה של השגיאה, לאיזו סטיית תקן לאומד הסופי הזה של ביצועי המודל.</p>
 <p>והערה אחרונה שלא מדוברת הרבה, ונרחיב עליה יותר עוד שני שיעורים: התוצאה על ה test היא אומד בלתי מוטה לביצועי המודל בעולם האמיתי. אבל כדי שזה יהיה נכון, אנחנו חייבים להניח שהעולם שממנו למדנו אינו משתנה עם הזמן או ליתר דיוק שהתפלגות המדגם שניתן לנו מתאימה להתפלגות העולם.</p>
 </div>
@@ -674,7 +674,7 @@
 <section class="slide level2">
 
 <h3 id="single-split-need-2nd-opinion">Single split: need 2nd opinion</h3>
-<div id="7a44b200" class="cell" data-execution_count="2">
+<div id="d7a57551" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -720,7 +720,7 @@
 <section class="slide level2">
 
 <h3 id="k-fold-cross-validation"><span class="math inline">\(K\)</span>-fold Cross Validation</h3>
-<div id="880b220e" class="cell" data-execution_count="3">
+<div id="aba047ba" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -810,7 +810,7 @@
 <section class="slide level2">
 
 <h3 id="what-does-cv-error-estimate">What does CV error estimate?</h3>
-<div id="e646fe51" class="cell" data-execution_count="4">
+<div id="42eae401" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -839,7 +839,7 @@
 <section class="slide level2">
 
 <h3 id="can-k-fold-cv-be-biased">Can <span class="math inline">\(K\)</span>-fold CV be biased?</h3>
-<div id="1d22d046" class="cell" data-execution_count="5">
+<div id="878b541a" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -990,9 +990,9 @@
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-<p>בעיה ראשונה יכולה להיות כשבדאטה יש תלות אינהרנטית בין התצפיות, שלא נלקחת בחשבון בעת החלוקה לפולדים. דוגמא טובה לזה יכולה להיות כשהנתונים שלנו עם טיים סרייז, סדרה עתית, כמו למשל נתונים על פני ימים רבים של מחירי מניות, והמודל שלנו נבנה כדי לחזות את המחיר של מניה מחר.</p>
+<p>בעיה ראשונה יכולה להיות כשבדאטה יש תלות אינהרנטית בין התצפיות, שלא נלקחת בחשבון בעת החלוקה לפולדים. דוגמא טובה לזה יכולה להיות כשהנתונים שלנו הם טיים סרייז, סדרה עתית, כמו למשל נתונים על פני ימים רבים של מחירי מניות, והמודל שלנו נבנה כדי לחזות את המחיר של מניה מחר.</p>
 <p>אם נבצע חלוקה לפולדים בצורה נאיבית כמו לכל דאטא טבלאי:</p>
-<p>האם אנחנו יכולים לסמוך על ההפחתה בשונות של האומד למדגם אחד, שאנחנו מצפים לקבל בעקבות חזרה על התהליך על פני כמה פולדים? האם אין לנו זליגת של דאטא כל פעם בין מדגם הלמידה למדגם הולידיישן?</p>
+<p>האם אנחנו יכולים לסמוך על ההפחתה בשונות של האומד למדגם אחד, שאנחנו מצפים לקבל בעקבות חזרה על התהליך על פני כמה פולדים? האם אין לנו זליגה של דאטא כל פעם בין מדגם הלמידה למדגם הולידיישן?</p>
 <p>התשובות לשתי השאלות האלה לצערנו הן לא וכן.</p>
 <p>יש כאן שתי בעיות: אחת היא תלות בזמן בין ימים, סביר להניח שיש תלות בין תצפיות מימים עוקבים למשל. והתלות הזאת יכולה להמשיך איתנו בחלוקה לפולדים, אנחנו בטוחים שאנחנו מחלקים את הדאטא בצורה מקרית ל5 או 10 מדגמים שונים, אבל בפועל מקבלים תלות בזמן בין מדגמי הלמידה השונים.</p>
 <p>בעיה נוספת, במיוחד אם המטרה של מודל כזה היא חיזוי של מה שיקרה בעתיד - אנחנו כרגע גרמנו לו לראות את העתיד! אם בחלוקה לפולדים אנחנו לא מוודאים שפולד הטריינינג תמיד מכיל תצפיות מהעבר שהגיוני שהמודל ראה, ופולד הולידיישן תמיד מכיל תצפיות מהעתיד שהגיוני שהמודל צריך לחזות עליהן – זה בדיוק זליגה של דאטא בין פולדים. בסופו של דבר המודל “חוזה” על העתיד, על תצפיות שהוא התאמן קרוב מאוד אליהן, והשגיאה שלו תהיה מוטה כלפי מטה, הוא יהיה אופטימי מדי.</p>
@@ -1051,7 +1051,7 @@
 <section class="slide level2">
 
 <h3 id="use-pipelines">Use <code>Pipeline</code>s</h3>
-<div id="f23f98dd" class="cell" data-execution_count="6">
+<div id="efc39502" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> KFold, GridSearchCV</span>
 <span id="cb1-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
 <span id="cb1-3"><a href="" aria-hidden="true" tabindex="-1"></a></span>
