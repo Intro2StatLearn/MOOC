@@ -407,7 +407,7 @@
 <li>Label set: <span class="math inline">\(y \in \mathcal{Y}\)</span> (start with <span class="math inline">\(\mathcal{Y}  = \{0, 1\}\)</span>)</li>
 <li>True relation: <span class="math inline">\(f: \mathcal{X} \to \mathcal{Y}\)</span></li>
 <li>Classifier: <span class="math inline">\(h: \mathcal{X} \to \mathcal{Y}\)</span> (our <span class="math inline">\(\hat{f}\)</span>)</li>
-<li>Training data: <span class="math inline">\(T = \{x_1, \dots, x_n\}\)</span>, <span class="math inline">\(i.i.d\)</span>, where <span class="math inline">\(y_i = f(x_i)\)</span></li>
+<li>Training data: <span class="math inline">\(T = \{x_1, \dots, x_n\}\)</span>, i.i.d, where <span class="math inline">\(y_i = f(x_i)\)</span></li>
 <li>Risk function: <span class="math inline">\(L(f(x), h(x))\)</span> (start with 0-1 loss)</li>
 <li>Error: <span class="math inline">\(Err_{P_X, f}(h) = \mathbb{E}_{X \sim P_X}\left[L(f(x), h(x))\right] = P_X\left[f(x) \neq h(x)\right]\)</span></li>
 </ul>
@@ -466,10 +466,10 @@
 <ul>
 <li><span class="math inline">\(\overline{err}\)</span> is termed the <span style="color:red;">empirical risk</span>, a.k.a the training error:</li>
 </ul>
-<p><span class="math display">\[\overline{err}_T(h) = \frac{1}{n}\sum_{i=1}^{n} L(y_i, h(x_i)) = \frac{1}{n}\sum_{i=1}^{n} \mathbb{1}\left[f(x_i) \neq h(x_i)\right]\]</span></p>
+<p><span class="math display">\[\overline{err}_T(h) = \frac{1}{n}\sum_{i=1}^{n} L(y_i, h(x_i)) = \frac{1}{n}\sum_{i=1}^{n} \mathbb{I}\left[f(x_i) \neq h(x_i)\right]\]</span></p>
 <div>
 <ul>
-<li class="fragment"><p>A method which outputs <span class="math inline">\(h_T\)</span> by minimizing <span class="math inline">\(\overline{err}_T(h)\)</span> is called empirical risk minimization <span style="color:red;">ERM</span></p></li>
+<li class="fragment"><p>A method which outputs <span class="math inline">\(h_T\)</span> by minimizing <span class="math inline">\(\overline{err}_T(h)\)</span> is called empirical risk minimization (<span style="color:red;">ERM</span>)</p></li>
 <li class="fragment"><p>If <span class="math inline">\(f,h \in \mathcal{H}\)</span>, from <span style="color:red;">Realizability</span>: <span class="math inline">\(\overline{err}_T(h_T) = 0\)</span></p></li>
 <li class="fragment"><p>Can we <em>always</em> find <span class="math inline">\(h\)</span> for which <span class="math inline">\(Err_{P_X, f}(h) = 0\)</span> via ERM (= by minimizing <span class="math inline">\(\overline{err}_T(h)\)</span>)?</p></li>
 <li class="fragment"><p>Counter-example:</p></li>
@@ -583,7 +583,7 @@
 <p>משפט מפורסם בשם No free lunch, אומר לנו שלא. יש הרבה גרסאות למשפט הזה, גם בניסוחים עממיים יותר, כאן אנחנו מביאים ניסוח קצת יותר מדויק עבור הבעיה שלנו שהיא עדיין קלאסיפיקציה בינארית:</p>
 <p>לכל דלתא בין 0 ל1, לכל אפסילון קטן מחצי, לכל לרנר או אלגוריתם A שפועל על מדגם מקרי בגודל n, קיימים התפלגות PX וכלל החלטה F, כך שבהסתברות לפחות דלתא שגיאת החיזוי של מודל שמושג באמצעות האלגוריתם הזה, תהיה גדולה מאפסילון. במילים אחרות לא מושג קריטריון פאק.</p>
 <p>בניסוח מעט עממי יותר נהוג לומר שאין לומד אוניברסלי, שברור שהוא הוא האלגוריתם שהכי טוב לכל בעיה. לכל אלגוריתם אני יכול למצוא מקרים שבהם הוא ייכשל להבטיח קריטריון פאק.</p>
-<p>לא נוכיח את זה כאן אבל בשורה התחתונה קריטריון פאק הוא עדיין מאוד מחמיר ואנחנו יכולים להכשיל כל לומד שינסה להשיג אותו באמצעות התפלגות מסוימת על המרחב של X. לכן נשאלת השאלה איך נמנעים מכישלונות כאלה, או שוב, מה אנחנו כן יכולים לדרוש בצורה ריאלית, כנראה עם עוד רילקסציות.</p>
+<p>לא נוכיח את זה כאן אבל בשורה התחתונה קריטריון פאק הוא עדיין מאוד מחמיר ואנחנו יכולים להכשיל כל לומד שינסה להשיג אותו באמצעות התפלגות מסוימת על המרחב של X. לכן אני שואל, איך נמנעים מכישלונות כאלה, או שוב, מה אנחנו כן יכולים לדרוש בצורה ריאלית, כנראה עם עוד רילקסציות.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -655,10 +655,10 @@
 <div style="direction:rtl; font-size:16px">
 <p>אז כאמור, אנחנו מגיעים למסקנה שלא נוכל להגיע לקריטריון של למידת פאק עבור כל מרחב של קשרים אמיתיים בין X לY. נהיה חייבים להוסיף איזה ידע מוקדם, להגביל את עצמנו בסוג המרחבים שניתנים ללמידת פאק. הגבלה אפשרית אחת, היא שהמרחבים האלה יהיו סופיים.</p>
 <p>למה הכוונה? לדוגמא, אם אנחנו מדברים על קלסיפיקציה בינארית, אני יכול לחשוב על מודל ליניארי בסגנון רגרסיה לוגיסטית. כאן אני שם אותו במרכאות כי אני לא מתכוון ממש למודל של רגרסיה לוגיסטית שלמדנו, עם הנחה של התפלגות ברנולי, אלא למשהו כללי הרבה יותר שעדיין מערב מקדמים של רגרסיה, לדוגמא חותך ושיפוע. ובואו נניח שכל אחד מהם לוקח אלף אפשרויות. עוד מעט נגיד למה זה לא כל כך מופרך כשמגיעים למימוש מודל כזה. מכל מקום מרחב המודלים או ההשערות שאני מציע אם ככה, הוא סופי, יש בדיוק אלף בריבוע אפשרויות למודל, או מיליון.</p>
-<p>הלומד או האלגוריתם מודע למרחב הזה, שם הוא מחפש, זה חלק מהאינפוט, והERM מביא למינימום את השגיאה על מדגם הלמידה, רק במרחב הזה, נסמן את זה כERM H.</p>
+<p>הלומד או האלגוריתם מודע למרחב הזה, שם הוא מחפש, זה חלק מהאינפוט, והERM מביא למינימום את השגיאה על מדגם הלמידה, רק במרחב הזה, נסמן את המודל שיצא כERM H של T.</p>
 <p>והנה משפט די מדהים: תחת כל ההנחות שהיו לנו עד עכשיו, בתוספת ההנחה שמרחב ההשערות H הוא סופי, ישנו חסם תחתון על מספר התצפיות במדגם הלמידה, כך שאם נעבור אותו, מובטח לנו הקריטריון של פאק. בסיכוי לפחות 1 פחות למדא, שגיאת החיזוי, ההכללה על תצפיות שהמודל לא ראה, תהיה עד אפסילון. בפרט זה אומר שמרחבים סופיים, עם הנחת הריאלייזביליטי, ניתנים ללמידת PAC, כשמספר התצפיות הדרוש מתנהג כמו לוג של גודל המרחב.</p>
 <p>אם נחזור לדוגמא של רגרסיה לוגיסטית במרכאות, עם חותך ושיפוע, ונבקש למדא ואפסילון של 0.01 ונציב את גודל המרחב שלנו בחסם התחתון של המשפט, נגיע לזה שאנחנו צריכים לפחות 800 תצפיות במדגם הלמידה כדי להשיג את קריטריון פאק, כלומר בסיכוי לפחות 99 אחוז להיות טועים, בתוחלת, על תצפיות שלא ראינו לכל היותר באחוז אחד.</p>
-<p>ועוד דגש חשוב לפני ההוכחה: שימו לב שהמשפט לא אומר איך למצוא את האלגוריתם הזה, ולא מבטיח שום גבר על הסיבוכיות או היעילות שלו באופן כללי. כלומר הכל בתנאי שמצאנו אלגוריתם ERM שאפשר לעבוד איתו.</p>
+<p>ועוד דגש חשוב לפני ההוכחה: שימו לב שהמשפט לא אומר איך למצוא את האלגוריתם הזה, ולא מבטיח שום דבר על הסיבוכיות או היעילות שלו באופן כללי. כלומר הכל בתנאי שמצאנו אלגוריתם ERM שאפשר לעבוד איתו.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -691,8 +691,8 @@
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 <p>נוכיח את המשפט המדהים הזה.</p>
-<p>אנחנו רוצים להוכיח את מה שכתוב כאן בדרך קצת אחרת, ההסתברות ששגיאת חיזוי מאלגוריתם שנתן הERM על מדגם הלמידה תהיה יותר מאיזשהו אפסילון, היא לכל היותר דלתא, אם נשתמש במדגם למידה גדול מספיק.</p>
-<p>נגדיא את HB כקבוצת ההיפותזות או המודלים הרעים, כלומר כל המודלים שעבורם שגיאת החיזוי היא יותר ממה שאנחנו רוצים, מאפסילון.</p>
+<p>אנחנו רוצים להוכיח את מה שכתוב כאן בדרך קצת אחרת, ההסתברות ששגיאת חיזוי מאלגוריתם שנתן הERM, על מדגם הלמידה במרחב סופי, תהיה יותר מאיזשהו אפסילון, היא לכל היותר דלתא, אם נשתמש במדגם למידה גדול מספיק.</p>
+<p>נגדיר את HB כקבוצת ההיפותזות או המודלים הרעים, כלומר כל המודלים שעבורם שגיאת החיזוי היא יותר ממה שאנחנו רוצים, מאפסילון.</p>
 <p>נגדיר את M להיות קבוצת כל המדגמים שהם מטעים. מה זה אומר מטעים? מדגם הלמידה יכול להראות על אחד מהמודלים הגרועים, שגיאה אפס. כלומר מדגם הלמידה עלול להוביל אותנו למודל גרוע. למה בהכרח אפס? נזכור שתחת הנחת הריאלייזיביליטי שהיא עדיין איתנו, זה בדיוק מה שERM מביא אותנו, לא חוזים לX מסוים Y מסוים ויכול להיות Y אחר בטעות, אפשר בקלות להגיע לשגיאה אפס.</p>
 <p>אז שני דברים חשובים לשים לב אליהם:</p>
 <p>אחד, זה שמה שכתוב לנו בביטוי הההסתברות למעלה הוא בעצם מוכל בM. קבוצת כל מדגמי הלמידה שמביאים לשגיאת חיזוי גדולה יותר ממה שרצינו מוכלת או שווה לקבוצת המדגמים המטעים. מה זה נותן לי? זה אומר שאני יכול לרשום שהסיכוי שאנחנו רוצים הוא קטן או שווה לסיכוי של M, הסיכוי לפגוש מדגם מטעה.</p>
@@ -896,7 +896,7 @@ P_X\left[T: Err_{P_X, f}(ERM_\mathcal{H}(T)) &gt; \varepsilon\right] &amp;\leq P
 <div style="direction:rtl; font-size:16px">
 <p>עכשיו אפשר להציג את ההגדרה הרשמית למה הופך מרחב של מודלים ללמיד, בקריטריון של פאק אגנוסטי.</p>
 <p>יש לנו מדגם למידה טי שנדגם מהמרחב המשותף של X וY. יש לנו פונקציית הפסד מהמרחב המשותף ומהמרחב של המודלים האפשריים אל איזושהי כמות אי-שלילית. ואם נצליח למצוא חסם תחתון nH לכל המרחב הזה לגודל המדגם, ואיזשהו אלגוריתם A שמשיג את עיקרון הפאק החדש, אז נגיד שמרחב או קלאס המודלים הזה, הוא למיד מסוג פאק אגנוסטי.</p>
-<p>ומהו הקריטריון? להיות צודקים בערך, בסבירות גבוהה. שהסבירות לדגום מדגם T טוב, שיביא לאלגוריתם A שמשיג את השגיאה הטובה ביותר שאפשר עד כדי אפסילון, תהיה לכל הפחות אחת פחות דלתא. כשאפסילון ודלתא האם שני שברים קטנים שאנחנו נותנים.</p>
+<p>ומהו הקריטריון? להיות צודקים בערך, בסבירות גבוהה. שהסבירות לדגום מדגם T טוב, שיביא לאלגוריתם A שמשיג את השגיאה הטובה ביותר שאפשר עד כדי אפסילון, תהיה לכל הפחות אחת פחות דלתא. כשאפסילון ודלתא הם שני שברים קטנים שאנחנו נותנים.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -912,7 +912,7 @@ P_X\left[T: Err_{P_X, f}(ERM_\mathcal{H}(T)) &gt; \varepsilon\right] &amp;\leq P
 </section>
 <section class="slide level2">
 
-<h3 id="what-is-agnostic-pac-learnable">What is (agnostic) PAC learnable?</h3>
+<h3 id="what-is-agnostic-pac-learnable-i">What is (agnostic) PAC learnable? (I)</h3>
 <div class="fragment">
 <p>Not so fast, need two definitions:</p>
 </div>
@@ -946,9 +946,9 @@ P_X\left[T: Err_{P_X, f}(ERM_\mathcal{H}(T)) &gt; \varepsilon\right] &amp;\leq P
 <div style="direction:rtl; font-size:16px">
 <p>כמו קודם, זאת היתה רק הגדרה, ועכשיו נשאל, האם אנחנו יודעים לאפיין מחלקות מסוימות של מודלים כלמידות.</p>
 <p>התשובה היא כן, אבל אנחנו צריכים קודם שתי הגדרות בשביל זה:</p>
-<p>הגדרה ראשונה היא של מדגם אפסילון-מייצג. מדגם אפסילון-מייצג, זאת הגדרה ביחס לאיזושהי מחלקה של מודלים או השערות, וזה אומר שאני יכול להבטיח שהטעות על מדגם הלמידה תהיה רחוקה מהטעות הכללית, שגיאת החיזוי בתוחלת, עד כדי אפסילון.</p>
+<p>הגדרה ראשונה היא של מדגם אפסילון-מייצג. מדגם אפסילון-מייצג, זאת הגדרה ביחס לאיזושהי מחלקה של מודלים או השערות, וזה אומר שאני יכול להבטיח שהטעות על מדגם הלמידה תהיה רחוקה מהטעות הכללית, שגיאת החיזוי בתוחלת, עד כדי אפסילון, לכל מודל h.</p>
 <p>הגדרה נוספת שנצטרך שמשתמשת בהגדרה של מדגם אפסילון מייצג, היא של יוניפורם קונברג’נס - התכנסות אחידה. נאמר שמחלקה של מודלים H יש לה את תכונת ההתכנסות האחידה, אם קיים חסם תחתון שנסמן בnHUC, כך שעבור כל אפסילון ודלתא קטנים, אם גודל המדגם שלנו גדול מהחסם, אז לכל התפלגות משותפת PXY, מובטח לנו שהמדגם הוא אפסילון-מייצג בסיכוי לפחות 1 פחות דלתא.</p>
-<p>ההתפלגות האחידה כאן היא על כל התפלגות PXY, ועל כל מודל H מהמשפחה, מובטח לנו שמדגם גדול מספק הוא מייצג, כלומר ששגיאת הלמידה שלו תהיה רחוקה מהשגיאה בתוחלת עד כדי אפסילון, בהסתברות 1 פחות דלתא.</p>
+<p>ההתפלגות האחידה כאן היא על כל התפלגות PXY, ועל כל מודל H מהמשפחה, מובטח לנו שמדגם גדול מספיק הוא מייצג, כלומר ששגיאת הלמידה שלו תהיה רחוקה מהשגיאה בתוחלת עד כדי אפסילון, בהסתברות 1 פחות דלתא.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -964,7 +964,7 @@ P_X\left[T: Err_{P_X, f}(ERM_\mathcal{H}(T)) &gt; \varepsilon\right] &amp;\leq P
 </section>
 <section class="slide level2">
 
-<h3 id="what-is-agnostic-pac-learnable-1">What is (agnostic) PAC learnable?</h3>
+<h3 id="what-is-agnostic-pac-learnable-ii">What is (agnostic) PAC learnable? (II)</h3>
 <div class="fragment">
 <p>Still not done, need “an algorithm <span class="math inline">\(A\)</span>”:</p>
 </div>
@@ -1005,7 +1005,7 @@ P_X\left[T: Err_{P_X, f}(ERM_\mathcal{H}(T)) &gt; \varepsilon\right] &amp;\leq P
 </section>
 <section class="slide level2">
 
-<h3 id="what-is-agnostic-pac-learnable-how">What is (agnostic) PAC learnable? How?</h3>
+<h3 id="what-is-agnostic-pac-learnable-iii">What is (agnostic) PAC learnable? (III)</h3>
 <p>Uniform convergence with <span class="math inline">\(\frac{\varepsilon}{2}\)</span> <span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(T\)</span> is <span class="math inline">\(\frac{\varepsilon}{2}\)</span>-representative <span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(ERM_\mathcal{H}(T)\)</span> gets PAC bound</p>
 <div class="fragment">
 <div class="callout callout-tip callout-style-simple">
@@ -1029,7 +1029,7 @@ P_X\left[T: Err_{P_X, f}(ERM_\mathcal{H}(T)) &gt; \varepsilon\right] &amp;\leq P
 <p>אם אפשר להראות שמודלים כאלה הם בעלי התכונה של התכנסות אחידה עם חצי אפסילון, זה אומר על-פי הגדרה שעבור כל התפלגות משותפת המדגם שניקח יהיה חצי-אפסילון מייצג בהסתברות לפחות 1 פחות למדא. וזה אומר על-פי הטענה שפרידגמת ERM על המחלקה הזאת, תשיג את חסם פאק.</p>
 <p>או בצורה רשמית יותר, מצאנו שאם למחלקה של מודלים H יש את תכונת ההתכנסות האחידה עם חסם תחתון nHUC ביחס לחצי אפסילון, המחלקה היא למידה פאק אגנוסטי, עם מדגם גדול מספיק מחסם תחתון nH שהגדרנו עם אפסילון שלם.</p>
 <p>יתרה מזו, דרך אפשרית ללמוד את האלגוריתם A שישיג את חסם פאק היא עם אמפיריקל ריסק מינימיזיישן, ERM.</p>
-<p>נשים לב שזה תנאי מספיק להגיד שמחלקה של מודלים היא למידה-פאק-אגנוסטי, אבל הוא לא הכרחי, בהחלט יכולות להיות מחלקות שאין להן את התכונה הזאת והן למידות-פאק, עד כמה שאנחנו יודעים. אבל זה שלב חשוב, כי אם נוכל לאפיין אילו מחלקות מקיימות את התנאי הזה של התכנסות אחידה נדע מייד שהן למידות, ואפילו איך ומה צריך להיות גודל המדגם כדי ללמוד אותן. זה בדיוק מה שנעשה בחלק הבא.</p>
+<p>נשים לב שזה תנאי מספיק ללהגיד שמחלקה של מודלים היא למידה-פאק-אגנוסטי, אבל הוא לא הכרחי, בהחלט יכולות להיות מחלקות שאין להן את התכונה הזאת והן למידות-פאק, עד כמה שאנחנו יודעים. אבל זה שלב חשוב, כי אם נוכל לאפיין אילו מחלקות מקיימות את התנאי הזה של התכנסות אחידה נדע מייד שהן למידות, ואפילו איך ומה צריך להיות גודל המדגם כדי ללמוד אותן. זה בדיוק מה שנעשה בחלק הבא.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1097,7 +1097,7 @@ P_X\left[T: Err_{P_X, f}(ERM_\mathcal{H}(T)) &gt; \varepsilon\right] &amp;\leq P
 <p>מה שמחזיר אותנו שוב למחלקות סופיות. משפט חשוב אומר שאם מחלקה היא סופית, ואנחנו משתמשים בפונקצית הפסד שיכולה להחזיר ערכים בין 0 ל-1, אז יש לH התכנסות אחידה עם חסם תחתון על גודל מדגם הלמידה שהוא לכל היותר לוגריתמי בגודל המחלקה עם הביטוי שכאן.</p>
 <p>ולכן, H היא מחלקה של מודלים למידה פאק אגנוסטי באמצעות ERM, עם חסם תחתון על גודל המדגם בביטוי שמופיע כאן. פשוט תראו באפסילון של ההתכנסות האחידה כחצי אפסילון, כשהוא עולה בריבוע מקבלים אפסילון בריבוע חלקי 4, מצטמצם עם 2, ו-2 עולה למונה.</p>
 <p>אז לא נוכיח כאן מדוע למחלקה סופית יש תכונה של התכנסות אחידה עם החסם שמופיע כאן, רק נגיד שמוכיחים זאת באמצעות אי-שוויון הופדינג, שאומר שעבור מדגם מקרי בגודל n של משתנה שחסום בין מספרים A וB, ממוצע המדגם מתרחק מהתוחלת עד כדי כל אפסילון שנרצה, בסיכוי שאפשר לחסום.</p>
-<p>במקרה שלנו המשתנה המקרי הוא הלוס שחסום בין אפס לאחת, ואנחנו מראים שממוצע הלוס לא יכול להתרחק מהתוחלת יותר מדי בסיכוי מסוים, כלומר המדגם אפסילון מייצג וזה אומר שלמחלקה H יש את תכונת ההתכנסות האחידה.</p>
+<p>במקרה שלנו המשתנה המקרי הוא הלוס שחסום בין אפס לאחת, ואנחנו מראים שממוצע הלוס לא יכול להתרחק מהתוחלת יותר מדי בסיכוי מסוים, כלומר המדגם אפסילון מייצג וזה אומר שלמחלקה H יש את תכונת ההתכנסות האחידה ולכן היא למידת פאק אגנוסטי.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1126,7 +1126,7 @@ P_X\left[T: Err_{P_X, f}(ERM_\mathcal{H}(T)) &gt; \varepsilon\right] &amp;\leq P
 </ul></li>
 <li class="fragment">We reach agnostic PAC learnability for any <span class="math inline">\(\varepsilon, \delta \in (0,1)\)</span>!
 <ul>
-<li class="fragment">With <span class="math inline">\(ERM_\mathcal{H}(T) = \hat{\beta} = (X'X)^{-1}X'y\)</span></li>
+<li class="fragment">With <span class="math inline">\(ERM_\mathcal{H}(T) = \hat{\beta} = (X^TX)^{-1}X^Ty\)</span></li>
 <li class="fragment"><span class="math inline">\(n \geq \Bigl\lceil\frac{2\log(2|\mathcal{H}|/\delta)}{\varepsilon^2}\Bigr\rceil \approx \frac{128d + 2\log(2/\delta)}{\varepsilon^2}\)</span></li>
 <li class="fragment">Compare this to the Fixed-<span class="math inline">\(X\)</span> optimism bound: <span class="math inline">\(n \geq \frac{2d\sigma^2}{\varepsilon}\)</span></li>
 </ul></li>
@@ -1142,7 +1142,7 @@ P_X\left[T: Err_{P_X, f}(ERM_\mathcal{H}(T)) &gt; \varepsilon\right] &amp;\leq P
 <p>אבל בכל זאת אפשר לבצע כאן טריק שנקרא הדיסקרטיזיישן טריק, דיסקרטיזציה. בעידן המחשב בכל זאת מספר הוא בדיד, ונגיד שאפשר לייצג אותו עם 64 ביטים.</p>
 <p>אז אם D = P + 1 פרמטרים של בטא, גודל המחלקה שלנו הוא 2 בחזקת 64 D, שזה גודל עצום אבל היא כן סופית.</p>
 <p>ותחת התנאים האלה, מובטחת לנו למידות פאק אגנוסטי עבור איזשהם אפסילון ודלתא קטנים שנספק.</p>
-<p>לא רק זה, אנחנו כבר יודעים את הדרך למצוא את מודל כזה, פתרון ERM במקרה כזה הוא פתרון הריבועים הפחותים שלמדנו, בטא האט, אף על פי שנזכור שהשגנו אותו עם הפסד ריבועי כללי ולא בהכרח הפסד חסום עד 1.</p>
+<p>לא רק זה, אנחנו כבר יודעים את הדרך למצוא מודל כזה, פתרון ERM במקרה כזה הוא פתרון הריבועים הפחותים שלמדנו, בטא האט, אף על פי שנזכור שהשגנו אותו עם הפסד ריבועי כללי ולא בהכרח הפסד חסום עד 1.</p>
 <p>אבל בשורה התחתונה קיבלנו חסם לאיזה גודל מדגם אנחנו צריכים כדי להבטיח למידות פאק עם אפסילון ודלתא שלנו, והוא לוגריתמי בגודל המחלקה. אם נציב את המחלקה שלנו נקבל שאנחנו צריכים מדגם גדול לפחות כמו 128 כפול מספר הפרמטרים D, ועוד קבוע שתלוי בדלתא חלקי אפסילון בריבוע.</p>
 <p>מעניין להשוות את החסם הזה, שהתקבל עם הרבה פחות הנחות, לחסם שהגענו אליו מחישובי האופטימיזם, עבור סטינג של פיקסד איקס, כלומר עבור איקס קבוע. באופן אינטואיטיבי החסם שמניח הרבה פחות הוא גם גדול הרבה יותר בפועל. אנחנו גם מכפילים את D במספר הביטים שאפשר לייצג מספר שזה בימינו לא פחות מ32, וגם מחלקים באפסילון קטן הרבה יותר, מחלקים באפסילון בריבוע.</p>
 </div>
@@ -1259,15 +1259,19 @@ P_X\left[T: Err_{P_X, f}(ERM_\mathcal{H}(T)) &gt; \varepsilon\right] &amp;\leq P
 <li class="fragment">The <span class="math inline">\(\min_{h \in \mathcal{H}} Err_{P_{XY}}(h)\)</span> could be decomposed itself to: <span class="math display">\[\min_{h \in \mathcal{H}} Err_{P_{XY}}(h) = \min_{h \in \mathcal{Y}^\mathcal{X}} Err_{P_{XY}}(h) + \left[\min_{h \in \mathcal{H}} Err_{P_{XY}}(h) - \min_{h \in \mathcal{Y}^\mathcal{X}} Err_{P_{XY}}(h)\right]\]</span></li>
 </ul>
 </div>
-<p><br><br></p>
-<div>
+<div class="fragment">
 <ul>
-<li class="fragment">That is, the best possible (“Bayes optimal”) error for any <span class="math inline">\(\mathcal{H}\)</span> + excess over that which is what we know as bias
+<li>That is, the best possible (“Bayes optimal”) error for any <span class="math inline">\(\mathcal{H}\)</span> + excess over that which is what we know as bias
 <ul>
-<li class="fragment">Under realizability <span class="math inline">\(\min_{h \in \mathcal{Y}^\mathcal{X}} Err_{P_{XY}}(h) = 0\)</span></li>
-<li class="fragment">Under agnostic model it could be <span class="math inline">\(&gt; 0\)</span>, like our <span class="math inline">\(\sigma^2\)</span></li>
+<li>Under realizability <span class="math inline">\(\min_{h \in \mathcal{Y}^\mathcal{X}} Err_{P_{XY}}(h) = 0\)</span></li>
+<li>Under agnostic model it could be <span class="math inline">\(&gt; 0\)</span>, like our <span class="math inline">\(\sigma^2\)</span></li>
 </ul></li>
 </ul>
+<div class="quarto-figure quarto-figure-right">
+<figure>
+<p><img data-src="error_decomposition.png" class="quarto-figure quarto-figure-right" height="230"></p>
+</figure>
+</div>
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
