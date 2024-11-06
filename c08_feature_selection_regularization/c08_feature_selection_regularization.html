@@ -486,7 +486,7 @@
 <section class="slide level2">
 
 <h3 id="best-subset-selection-1">Best subset selection</h3>
-<div id="a7d3853a" class="cell" data-execution_count="1">
+<div id="a221fa4f" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -560,7 +560,7 @@
 <section class="slide level2">
 
 <h3 id="forward-stepwise-selection-1">Forward stepwise selection</h3>
-<div id="4492ae3d" class="cell" data-execution_count="2">
+<div id="3c823ebd" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -848,7 +848,7 @@
 <section class="slide level2">
 
 <h3 id="choosing-the-lambda-hyperparameter">Choosing the <span class="math inline">\(\lambda\)</span> <span style="color:red;">hyperparameter</span></h3>
-<div id="84b018d9" class="cell" data-execution_count="3">
+<div id="81772cda" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -861,7 +861,7 @@
 <div style="direction:rtl; font-size:16px">
 <p>נראה את רגרסיית רידג’ בפעולה על הנתונים שלנו ועל הדרך נדגים גם איך בוחרים את הפרמטר למדא.</p>
 <p>הפרמטר למדא הוא מה שקרוי היפרפרמטר. זה פרמטר שלא ניתן ללמוד ממדגם הלמידה, אלא צריך לבחור אותו באמצעות בדיקה של אפשרויות שונות, בדרך כלל עם קרוס ולידיישן, ולראות איזו מהן נותנת את שגיאת החיזוי הטובה ביותר על מדגמים שהמודל לא ראה. כאן אנחנו בודקים את זה עם קרוס ולידיישן עם חמישה פולדים ומדווחים את ממוצע הMSE על הטריין ועל הטסט.</p>
-<p>אנחנו רואים כאן כמה דברים: שבאופן צפוי השגיאה על הטריין נמוכה יותר מאשר השגיאה על הטסט. שהפרמטר למדא הטוב ביותר שמביא למינימום את השגיאה על הטסט הוא קצת פחות מ10 בחזקת 0 כלומר קצת פחות מ1. והכי חשוב, אנחונ רואים שאם אנחנו משווים לשגיאה של רגרסיה ליניארית רגילה, OLS, שהיא לא תלויה בלמדא בכלל כמובן ומופיעה כאן במקווקו, עבור הלמדא הנכון רידג’ אכן מצליח להגיע לירידה ניכרת בMSE.</p>
+<p>אנחנו רואים כאן כמה דברים: שבאופן צפוי השגיאה על הטריין נמוכה יותר מאשר השגיאה על הטסט. שהפרמטר למדא הטוב ביותר שמביא למינימום את השגיאה על הטסט הוא קצת פחות מ10 בחזקת 0 כלומר קצת פחות מ1. והכי חשוב, אנחנו רואים שאם אנחנו משווים לשגיאה של רגרסיה ליניארית רגילה, OLS, שהיא לא תלויה בלמדא בכלל כמובן ומופיעה כאן במקווקו, עבור הלמדא הנכון רידג’ אכן מצליח להגיע לירידה ניכרת בMSE.</p>
 <p>מצד ימין, אנחנו מראים איך נראים המקדמים הנאמדים של 11 המשתנים שלנו, בהתאם ללמדא. כשהלמדא הוא אפסי, אין ענישה בכלל וכל אומדני המקדמים מקבלים את הערכים שהם היו מקבלים ברגרסיה רגילה. באופן צפוי, ככל שלמדא גדול יותר, העונש על הנורמה של וקטור בטא גדול יותר והאילוץ חמור יותר ומאפשר פחות ופחות חופש למודל והמקדמים הנאמדים נעשים קטנים יותר, הם מתכווצים לכיוון אפס. לתופעה כזאת של כיווץ אנחנו קוראים שרינקג’, אפשר לראות שהיא עשויה מאוד לסייע להקטין את שגיאת החיזוי ונדבר עליה עוד בהמשך.</p>
 </div>
 <style type="text/css">
@@ -926,7 +926,7 @@
 <section class="slide level2">
 
 <h3 id="the-lasso-path">The Lasso Path</h3>
-<div id="c0cb6de9" class="cell" data-execution_count="4">
+<div id="66756bac" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -968,7 +968,7 @@
 <li>But also, surprisingly:</li>
 </ul>
 <div class="fragment">
-<div id="829f6016" class="cell" data-execution_count="5">
+<div id="9c71f862" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1055,7 +1055,7 @@
 <section class="slide level2">
 
 <h3 id="seeing-shrinkage-and-sparsity-i">Seeing Shrinkage and Sparsity (I)</h3>
-<div id="e586fdfc" class="cell" data-execution_count="6">
+<div id="860c9ab3" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1113,7 +1113,7 @@
 </tbody>
 </table>
 <div class="fragment">
-<div id="68e31c49" class="cell" data-execution_count="7">
+<div id="aa6f765a" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1196,7 +1196,7 @@
 <h3 id="conditional-gaussian">Conditional Gaussian</h3>
 <p>For Gaussian distribution, if <span class="math inline">\(X \sim \mathcal{N}(\mu_X, \sigma^2_X), Y \sim \mathcal{N}(\mu_Y, \sigma^2_Y), \rho = Corr(X, Y)\)</span>: <span class="math display">\[Y | X = x \sim \mathcal{N}\left(\mu_Y + \frac{\sigma_Y}{\sigma_X}\rho(x - \mu_X), (1 - \rho^2)\sigma_Y^2\right)\]</span></p>
 <div class="fragment">
-<div id="2eb6f6d4" class="cell" data-execution_count="8">
+<div id="c4bb034a" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1282,7 +1282,7 @@
 <section class="slide level2">
 
 <h3 id="ridge-and-lasso-priors">Ridge and Lasso priors</h3>
-<div id="0326af65" class="cell" data-execution_count="9">
+<div id="6e3ab9c9" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1331,7 +1331,7 @@
 
 <h3 id="recall-pca">Recall: PCA</h3>
 <p>PCA will find the best direction to project the data on, while preserving the maximum “information”:</p>
-<div id="8b03c222" class="cell" data-execution_count="10">
+<div id="5916d1cd" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1410,7 +1410,7 @@
 <li class="fragment">Find <span class="math inline">\(W_{p \times q}\)</span> (usually via SVD decomposition)</li>
 <li class="fragment">Perform (regular) linear regression on <span class="math inline">\(T_{n \times q} = XW\)</span> <span class="math display">\[y_i = \theta_0 + \theta_1 \cdot t_{i1} + \dots + + \theta_q \cdot t_{iq} + \varepsilon_i \quad \text{ or } \quad y = T\theta + \varepsilon\]</span></li>
 <li class="fragment"><span class="math inline">\(q\)</span> becomes a hyperparameter</li>
-<li class="fragment"><span class="math inline">\(\beta = W\theta\)</span>, hence <span class="math inline">\(\beta\)</span> is still constrained</li>
+<li class="fragment"><span class="math inline">\(y = T\theta + \varepsilon = X(W\theta) + \varepsilon \to \beta = W\theta\)</span>, hence <span class="math inline">\(\beta\)</span> is still constrained</li>
 <li class="fragment">SVD decomposition also shows similarities to Ridge regression</li>
 </ul>
 </div>
@@ -1439,7 +1439,7 @@
 <section class="slide level2">
 
 <h3 id="pca-regression-pcr-1">PCA regression (PCR)</h3>
-<div id="51c7e30e" class="cell" data-execution_count="11">
+<div id="f9e03e68" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1451,7 +1451,7 @@
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
 <p>בנתונים שלנו המימד P מלכתחילה לא כל כך גבוה, הוא 11, ולא ברור שצריך הורדת מימד באמצעות PCA או כל שיטה אחרת לפני הרצת רגרסיה.</p>
-<p>ואכן, אם אנחנו בודקים מה הQ שמביא למינימום שגיאת חיזוי באמצעות קרוס ולידיישן כמו שעשינו עד עכשיו, אנחנו מקבלים שבנתונים שלנו לא כדאי כמעט להוריד מימד, הQ הטוב ביותר הוא 10. ואמנם לא רואים את זה בגרף אבל כן יש הפחתה בשורה התחתונה בMSE של הטסט לעומת רגרסיה רגילה, אבל אחוזית זה הפרש די קטן.</p>
+<p>ואכן, אם אנחנו בודקים מה הQ שמביא למינימום שגיאת חיזוי באמצעות קרוס ולידיישן כמו שעשינו עד עכשיו, אנחנו מקבלים שבנתונים שלנו לא כדאי כמעט להוריד מימד, הQ הטוב ביותר הוא 10. ואמנם לא רואים את זה בגרף אבל כן יש הפחתה בשורה התחתונה בMSE של הטסט לעומת רגרסיה רגילה, אם כי אחוזית זה הפרש די קטן.</p>
 <p>נשים לב שברגע שמבינים שאפשר לחזור מוקטור המקדמים תטא אל וקטור המקדמים המקורי בטא באמצעות הכפלה פי מטריצת W, אפשר לראות את פרופיל המקדמים בטא כמו שעשינו עד עכשיו עם פרמטר הפנאלטי למדא. אנחנו רואים שגם בPCR המקדמים עוברים שרינקג’ שמזכיר את רידג’, ככל שQ קטן יותר או הורדת המימד היא אגרסיבית יותר. הכיוון כאן הפוך כי לא רצינו להפוך את ציר הX בצורה מלאכותית מ11 ל-1, אבל הרעיון זהה.</p>
 <p>עד כאן בשיטות בחירה של משתנים ורגולריזציה. בשיעורים הבאים נלמד מודלים מורכבים וגמישים הרבה יותר, חלק מהם כל כך גמישים שהם באים בילט-אין עם רגולריזציה. העקרונות שראינו היום ישמשו אתכם לשיפור כל מודל מורכב שתראו בעתיד והם לא המלצה הם כבר חלק מהמודלים המודרנים ביותר שנמצאים בשימוש יומיומי, ולכן מומלץ להכיר אותם ואת החשיבות שלהם היטב.</p>
 </div>
