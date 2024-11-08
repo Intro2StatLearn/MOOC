@@ -463,7 +463,13 @@ What do you expect the decision rule(s) to look like?
 
 ### LDA: $k-j$ classes decision rule
 
-- Why choose class $k$ over $j$? $P(Y = k|X = x) > P(Y = j|X = x) \Leftrightarrow \pi_kf_k(x) > \pi_jf_j(x) \Leftrightarrow \log\left[\pi_kf_k(x)\right] > \log\left[\pi_jf_j(x)\right]$
+- Why choose class $k$ over $j$?
+
+$P(Y = k|X = x) > P(Y = j|X = x)$
+
+$\Leftrightarrow \pi_kf_k(x) > \pi_jf_j(x)$
+
+$\Leftrightarrow \log\left[\pi_kf_k(x)\right] > \log\left[\pi_jf_j(x)\right]$
 
 ::: {.incremental}
 - Assume $\pi_k, \pi_j, \mu_k, \mu_j, \Sigma$ known
@@ -748,7 +754,8 @@ plt.show()
 $$\begin{align}
   \delta_{k > j}(x)&: \\
   &-\frac{1}{2}x^T\left(\Sigma_k^{-1} - \Sigma_j^{-1}\right)x + x^T\left(\Sigma_k^{-1}\mu_k - \Sigma_j^{-1}\mu_j\right) \\
-  &+ \left[-\frac{1}{2}\mu_k^T\Sigma^{-1}\mu_k +\frac{1}{2}\mu_j^T\Sigma^{-1}\mu_j + \log(\pi_k) - \log(\pi_j) + \frac{1}{2}\left(\log(|\Sigma_j| -\log(|\Sigma_k|)\right)\right]> 0
+  &+ \Bigl[-\frac{1}{2}\mu_k^T\Sigma^{-1}\mu_k +\frac{1}{2}\mu_j^T\Sigma^{-1}\mu_j + \log(\pi_k) - \log(\pi_j) \\
+  &\quad\quad+ \frac{1}{2}\left(\log(|\Sigma_j| -\log(|\Sigma_k|)\right)\Bigr]> 0
   \end{align}$$
 :::
 
@@ -1067,10 +1074,12 @@ plt.show()
 
 ::: {.incremental}
 - For $K = 2$ (though we can show this for any $K$), logistic regression:
-$$\text{logit}(P(Y = 1|X)) = \log\left(\frac{P(Y = 1|X)}{1 - P(Y = 1|X)}\right) = \log\left(\frac{P(Y = 1|X)}{P(Y = 0|X)}\right) = \beta_0 + x^T\beta$$
+$$\begin{align}\text{logit}(P(Y = 1|X)) &= \log\left(\frac{P(Y = 1|X)}{1 - P(Y = 1|X)}\right) \\
+&= \log\left(\frac{P(Y = 1|X)}{P(Y = 0|X)}\right) = \beta_0 + x^T\beta\end{align}$$
 - For $K = 2$ (though we can show this for any $K$), LDA:
 $$\begin{align}\log\left(\frac{P(Y = 1|X)}{P(Y = 0|X)}\right) &= \log\left(\frac{\pi_1 f_1(x)}{\pi_0 f_0(x)}\right) = \log(\pi_1 f_1(x)) - log(\pi_0 f_0(x)) \\
- &= x^T\Sigma^{-1}(\mu_1 - \mu_0) + \left[-\frac{1}{2}\mu_1^T\Sigma^{-1}\mu_1 +\frac{1}{2}\mu_0^T\Sigma^{-1}\mu_0 + \log(\pi_1) - \log(\pi_0)\right] \\
+ &= x^T\Sigma^{-1}(\mu_1 - \mu_0) \\
+ &+ \left[-\frac{1}{2}\mu_1^T\Sigma^{-1}\mu_1 +\frac{1}{2}\mu_0^T\Sigma^{-1}\mu_0 + \log(\pi_1) - \log(\pi_0)\right] \\
  &= \alpha_0 + x^T\alpha\end{align}$$
 :::
 

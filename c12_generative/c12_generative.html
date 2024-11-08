@@ -554,7 +554,7 @@
 <li><span class="math inline">\(f(x) = \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{1}{2\sigma^2}(x-\mu)^2\right)\)</span></li>
 <li><span class="math inline">\(F(x) = P(X \le x) = \int_{-\infty}^x f(x)dx = \Phi\left(\frac{x - \mu}{\sigma}\right)\)</span></li>
 </ul>
-<div id="c1f1633b" class="cell" data-execution_count="1">
+<div id="d0b2dd25" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -593,7 +593,7 @@
 <li class="fragment"><span class="math inline">\(F(x) = P(X_1 \le x_1, X_2 \le x_2) = \int_{-\infty}^{x_2}\int_{-\infty}^{x_1}f(x_1, x_2)dx_1 dx_2\)</span></li>
 </ul>
 </div>
-<div id="888c73fe" class="cell" data-execution_count="2">
+<div id="0574d8f0" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -726,7 +726,7 @@
 <section class="slide level2">
 
 <h3 id="lda-what-to-expect">LDA: What to expect</h3>
-<div id="d6f146bc" class="cell" data-execution_count="3">
+<div id="fb0111fb" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -769,8 +769,11 @@
 
 <h3 id="lda-k-j-classes-decision-rule">LDA: <span class="math inline">\(k-j\)</span> classes decision rule</h3>
 <ul>
-<li>Why choose class <span class="math inline">\(k\)</span> over <span class="math inline">\(j\)</span>? <span class="math inline">\(P(Y = k|X = x) &gt; P(Y = j|X = x) \Leftrightarrow \pi_kf_k(x) &gt; \pi_jf_j(x) \Leftrightarrow \log\left[\pi_kf_k(x)\right] &gt; \log\left[\pi_jf_j(x)\right]\)</span></li>
+<li>Why choose class <span class="math inline">\(k\)</span> over <span class="math inline">\(j\)</span>?</li>
 </ul>
+<p><span class="math inline">\(P(Y = k|X = x) &gt; P(Y = j|X = x)\)</span></p>
+<p><span class="math inline">\(\Leftrightarrow \pi_kf_k(x) &gt; \pi_jf_j(x)\)</span></p>
+<p><span class="math inline">\(\Leftrightarrow \log\left[\pi_kf_k(x)\right] &gt; \log\left[\pi_jf_j(x)\right]\)</span></p>
 <div>
 <ul>
 <li class="fragment">Assume <span class="math inline">\(\pi_k, \pi_j, \mu_k, \mu_j, \Sigma\)</span> known</li>
@@ -874,7 +877,7 @@
 <section class="slide level2">
 
 <h3 id="lda-example">LDA: Example</h3>
-<div id="3ce66e15" class="cell" data-execution_count="4">
+<div id="7c1f9a6e" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -921,7 +924,7 @@
 <section class="slide level2">
 
 <h3 id="a-common-covariance">A common covariance?</h3>
-<div id="b0c3d246" class="cell" data-execution_count="5">
+<div id="76bb85de" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -964,7 +967,8 @@
 <p><span class="math display">\[\begin{align}
   \delta_{k &gt; j}(x)&amp;: \\
   &amp;-\frac{1}{2}x^T\left(\Sigma_k^{-1} - \Sigma_j^{-1}\right)x + x^T\left(\Sigma_k^{-1}\mu_k - \Sigma_j^{-1}\mu_j\right) \\
-  &amp;+ \left[-\frac{1}{2}\mu_k^T\Sigma^{-1}\mu_k +\frac{1}{2}\mu_j^T\Sigma^{-1}\mu_j + \log(\pi_k) - \log(\pi_j) + \frac{1}{2}\left(\log(|\Sigma_j| -\log(|\Sigma_k|)\right)\right]&gt; 0
+  &amp;+ \Bigl[-\frac{1}{2}\mu_k^T\Sigma^{-1}\mu_k +\frac{1}{2}\mu_j^T\Sigma^{-1}\mu_j + \log(\pi_k) - \log(\pi_j) \\
+  &amp;\quad\quad+ \frac{1}{2}\left(\log(|\Sigma_j| -\log(|\Sigma_k|)\right)\Bigr]&gt; 0
   \end{align}\]</span></p>
 </div>
 <div class="fragment">
@@ -1013,7 +1017,7 @@
 <div class="columns">
 <div class="column">
 <div class="fragment">
-<div id="a9cb5a93" class="cell" data-execution_count="6">
+<div id="9752d1c4" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1167,7 +1171,7 @@
 <section class="slide level2">
 
 <h3 id="example-saheart-data">Example: SAHeart data</h3>
-<div id="627744a0" class="cell" data-execution_count="7">
+<div id="6d82d1b2" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1197,9 +1201,11 @@
 <h3 id="lda-vs.-logistic-regression">LDA vs.&nbsp;logistic regression</h3>
 <div>
 <ul>
-<li class="fragment">For <span class="math inline">\(K = 2\)</span> (though we can show this for any <span class="math inline">\(K\)</span>), logistic regression: <span class="math display">\[\text{logit}(P(Y = 1|X)) = \log\left(\frac{P(Y = 1|X)}{1 - P(Y = 1|X)}\right) = \log\left(\frac{P(Y = 1|X)}{P(Y = 0|X)}\right) = \beta_0 + x^T\beta\]</span></li>
+<li class="fragment">For <span class="math inline">\(K = 2\)</span> (though we can show this for any <span class="math inline">\(K\)</span>), logistic regression: <span class="math display">\[\begin{align}\text{logit}(P(Y = 1|X)) &amp;= \log\left(\frac{P(Y = 1|X)}{1 - P(Y = 1|X)}\right) \\
+&amp;= \log\left(\frac{P(Y = 1|X)}{P(Y = 0|X)}\right) = \beta_0 + x^T\beta\end{align}\]</span></li>
 <li class="fragment">For <span class="math inline">\(K = 2\)</span> (though we can show this for any <span class="math inline">\(K\)</span>), LDA: <span class="math display">\[\begin{align}\log\left(\frac{P(Y = 1|X)}{P(Y = 0|X)}\right) &amp;= \log\left(\frac{\pi_1 f_1(x)}{\pi_0 f_0(x)}\right) = \log(\pi_1 f_1(x)) - log(\pi_0 f_0(x)) \\
-&amp;= x^T\Sigma^{-1}(\mu_1 - \mu_0) + \left[-\frac{1}{2}\mu_1^T\Sigma^{-1}\mu_1 +\frac{1}{2}\mu_0^T\Sigma^{-1}\mu_0 + \log(\pi_1) - \log(\pi_0)\right] \\
+&amp;= x^T\Sigma^{-1}(\mu_1 - \mu_0) \\
+&amp;+ \left[-\frac{1}{2}\mu_1^T\Sigma^{-1}\mu_1 +\frac{1}{2}\mu_0^T\Sigma^{-1}\mu_0 + \log(\pi_1) - \log(\pi_0)\right] \\
 &amp;= \alpha_0 + x^T\alpha\end{align}\]</span></li>
 </ul>
 </div>
