@@ -988,7 +988,8 @@ Unfortunately, "real data" looks more like this.
 ::: {.incremental}
 - Similar to polynomial regression we could add quadratic terms:
 $$\max_{\beta^1, \beta^2, \beta_0, \epsilon}M \quad s.t. \\
-\|\beta^1\|^2 + \|\beta^2\|^2 = 1, \quad y_i (\beta_0 + x_i^T\beta^1 + \left(x^2_i\right)^T\beta^2) \ge M(1-\epsilon_i), \quad \epsilon_i \ge 0, \quad \sum_{i = 1}^n \epsilon_i \le C$$
+\|\beta^1\|^2 + \|\beta^2\|^2 = 1, \quad y_i (\beta_0 + x_i^T\beta^1 + \left(x^2_i\right)^T\beta^2) \ge M(1-\epsilon_i)$$
+$$\quad \epsilon_i \ge 0, \quad \sum_{i = 1}^n \epsilon_i \le C$$
 
 - What about cubic terms? What about interactions?
 
@@ -1050,7 +1051,8 @@ $$h(x_i) = (1, \sqrt{2}x_{i1}, \sqrt{2}x_{i2}, x^2_{i1}, x^2_{i2}, \sqrt{2}x_{i1
 - Amazingly, the inner product with any point $x_0$ is quite compact:
 :::
 ::: {.fragment}
-$\langle h(x_i), h(x_0) \rangle = \begin{pmatrix}1 \\ \sqrt{2}x_{i1} \\ \sqrt{2}x_{i2} \\ x^2_{i1} \\ x^2_{i2} \\ \sqrt{2}x_{i1}x_{i2}\end{pmatrix}^T\begin{pmatrix}1 & \sqrt{2}x_{01} & \sqrt{2}x_{02} & x^2_{01} & x^2_{02} & \sqrt{2}x_{01}x_{02}\end{pmatrix} = (1 + x_i^Tx_0)^2$
+$\langle h(x_i), h(x_0) \rangle = \begin{pmatrix}1 \\ \sqrt{2}x_{i1} \\ \sqrt{2}x_{i2} \\ x^2_{i1} \\ x^2_{i2} \\ \sqrt{2}x_{i1}x_{i2}\end{pmatrix}^T\begin{pmatrix}1 & \sqrt{2}x_{01} & \sqrt{2}x_{02} & x^2_{01} & x^2_{02} & \sqrt{2}x_{01}x_{02}\end{pmatrix}=$
+$= (1 + x_i^Tx_0)^2$
 :::
 
 ::: {.fragment}
@@ -1465,10 +1467,10 @@ $\max_{\beta, \beta_0}M \quad s.t. \space \|\beta\| = 1 \text{ and } \quad |y_i 
 $\max_{\beta, \beta_0, \epsilon}M \quad s.t. \space \|\beta\| = 1, \quad y_i (\beta_0 + x_i^T\beta) \ge M(1-\epsilon_i), \quad \epsilon_i \ge 0, \quad \sum_{i = 1}^n \epsilon_i \le C$
 
 - To SVR:
-$\max_{\beta, \beta_0, \epsilon}M \quad s.t. \space \|\beta\| = 1, \quad |y_i - (\beta_0 + x_i^T\beta)| \le M + \epsilon_i, \quad \epsilon_i \ge 0, \quad \sum_{i = 1}^n \epsilon_i \le C$
+$\max_{\beta, \beta_0, \epsilon}M \quad s.t. \space \|\beta\| = 1, \quad |y_i - (\beta_0 + x_i^T\beta)| \le M + \epsilon_i, \quad \epsilon_i \ge 0, \space \sum_{i = 1}^n \epsilon_i \le C$
 
 - Though this is more common:
-$$\min_{\beta, \beta_0, \epsilon}\frac{1}{2}\|\beta\|^2 + C \sum_{i = 1}^n \epsilon_i \quad s.t. \space |y_i - (\beta_0 + x_i^T\beta)| \le M + \epsilon_i, \quad \epsilon_i \ge 0$$
+$$\min_{\beta, \beta_0, \epsilon}\frac{1}{2}\|\beta\|^2 + C \sum_{i = 1}^n \epsilon_i \quad s.t. \space |y_i - (\beta_0 + x_i^T\beta)| \le M + \epsilon_i, \space \epsilon_i \ge 0$$
 
 - And of course SVR can be kernelized as well
 :::
