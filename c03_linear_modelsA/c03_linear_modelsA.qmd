@@ -392,12 +392,13 @@ plt.show()
 ### Maximum likelihood estimation (MLE) (I)
 
 ::: {.incremental}
-- First Generalization:
+- First generalization:
   - $X_i \sim Bernoulli(p)$, $n$ tosses, got $k$ Heads
   - $\text{Likelihood}(p) = L(p|x_1, \dots, x_n) = P(x_1, \dots, x_n) = {n \choose k}p^{k}(1-p)^{n -k}$
   - Goal: $\hat{p} = \arg\max_p{L(p|x_1, \dots, x_n)}$
   - Not surprising: $\hat{p} = \frac{k}{n}$
-  - Notice with: $\text{Log-Likelihood}(p) = \ell(p|x_1, \dots, x_n) = \log P(x_1, \dots, x_n) \approx k\log p + (n -k)\log(1-p)$
+  - Notice with: $\text{Log-Likelihood}(p) = \ell(p|x_1, \dots, x_n) = \log P(x_1, \dots, x_n) =$
+  $\approx k\log p + (n -k)\log(1-p)$
     - we get the same $\hat{p} = \frac{k}{p}$
 :::
 
@@ -729,7 +730,8 @@ $$(a)\; E(y) = X\beta,\;\;\;\; (b)\; Cov(y) = \sigma^2 I_n ,\;\;\;\;(c)\; \hat{\
 $$E(\hat{\beta}) \stackrel{(c)}{=} (X^TX)^{-1} X^T E(y) \stackrel{(a)}{=} (X^TX)^{-1} X^TX\beta = \beta.$$
 
 - Covariance matrix: 
-$$Cov(\hat{\beta}) \stackrel{(c)}{=} (X^TX)^{-1} X^T Cov(y) X (X^TX)^{-1} \stackrel{(b)}{=} \sigma^2 (X^TX)^{-1} (X^T X) (X^TX)^{-1} = \sigma^2 (X^TX)^{-1}.$$
+$$Cov(\hat{\beta}) \stackrel{(c)}{=} (X^TX)^{-1} X^T Cov(y) X (X^TX)^{-1} \stackrel{(b)}{=} \sigma^2 (X^TX)^{-1} (X^T X) (X^TX)^{-1}$$
+$$= \sigma^2 (X^TX)^{-1}$$
 :::
 
 ::: {.notes}

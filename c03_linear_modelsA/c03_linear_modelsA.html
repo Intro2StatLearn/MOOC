@@ -434,7 +434,7 @@
 <section class="slide level2">
 
 <h3 id="from-line-to-rss-surface">From line to RSS surface</h3>
-<div id="248e1e4a" class="cell" data-execution_count="1">
+<div id="8eec89ad" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -498,7 +498,7 @@
 <section class="slide level2">
 
 <h3 id="average-of-many-ols-lines">Average of many OLS lines</h3>
-<div id="1301be17" class="cell" data-execution_count="2">
+<div id="d6568b1a" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -558,7 +558,7 @@
 </ul>
 </div>
 <div class="fragment">
-<div id="255b2428" class="cell" data-execution_count="3">
+<div id="ea28f6ff" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -597,13 +597,13 @@
 <h3 id="maximum-likelihood-estimation-mle-i">Maximum likelihood estimation (MLE) (I)</h3>
 <div>
 <ul>
-<li class="fragment">First Generalization:
+<li class="fragment">First generalization:
 <ul>
 <li class="fragment"><span class="math inline">\(X_i \sim Bernoulli(p)\)</span>, <span class="math inline">\(n\)</span> tosses, got <span class="math inline">\(k\)</span> Heads</li>
 <li class="fragment"><span class="math inline">\(\text{Likelihood}(p) = L(p|x_1, \dots, x_n) = P(x_1, \dots, x_n) = {n \choose k}p^{k}(1-p)^{n -k}\)</span></li>
 <li class="fragment">Goal: <span class="math inline">\(\hat{p} = \arg\max_p{L(p|x_1, \dots, x_n)}\)</span></li>
 <li class="fragment">Not surprising: <span class="math inline">\(\hat{p} = \frac{k}{n}\)</span></li>
-<li class="fragment">Notice with: <span class="math inline">\(\text{Log-Likelihood}(p) = \ell(p|x_1, \dots, x_n) = \log P(x_1, \dots, x_n) \approx k\log p + (n -k)\log(1-p)\)</span>
+<li class="fragment">Notice with: <span class="math inline">\(\text{Log-Likelihood}(p) = \ell(p|x_1, \dots, x_n) = \log P(x_1, \dots, x_n) =\)</span> <span class="math inline">\(\approx k\log p + (n -k)\log(1-p)\)</span>
 <ul>
 <li class="fragment">we get the same <span class="math inline">\(\hat{p} = \frac{k}{p}\)</span></li>
 </ul></li>
@@ -812,7 +812,7 @@
 <section class="slide level2">
 
 <h3 id="from-line-to-hyperplane">From line to (hyper)plane</h3>
-<div id="9a1bf5d9" class="cell" data-execution_count="4">
+<div id="58b1dacf" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -944,7 +944,7 @@
 <ul>
 <li class="fragment"><p>What we know: <span class="math display">\[(a)\; E(y) = X\beta,\;\;\;\; (b)\; Cov(y) = \sigma^2 I_n ,\;\;\;\;(c)\; \hat{\beta} = (X^TX)^{-1} X^T y\]</span></p></li>
 <li class="fragment"><p>Mean: <span class="math display">\[E(\hat{\beta}) \stackrel{(c)}{=} (X^TX)^{-1} X^T E(y) \stackrel{(a)}{=} (X^TX)^{-1} X^TX\beta = \beta.\]</span></p></li>
-<li class="fragment"><p>Covariance matrix: <span class="math display">\[Cov(\hat{\beta}) \stackrel{(c)}{=} (X^TX)^{-1} X^T Cov(y) X (X^TX)^{-1} \stackrel{(b)}{=} \sigma^2 (X^TX)^{-1} (X^T X) (X^TX)^{-1} = \sigma^2 (X^TX)^{-1}.\]</span></p></li>
+<li class="fragment"><p>Covariance matrix: <span class="math display">\[Cov(\hat{\beta}) \stackrel{(c)}{=} (X^TX)^{-1} X^T Cov(y) X (X^TX)^{-1} \stackrel{(b)}{=} \sigma^2 (X^TX)^{-1} (X^T X) (X^TX)^{-1}\]</span> <span class="math display">\[= \sigma^2 (X^TX)^{-1}\]</span></p></li>
 </ul>
 </div>
 <aside class="notes">
@@ -1010,7 +1010,7 @@
 <section class="slide level2">
 
 <h3 id="se-vs.-x-spread">SE vs.&nbsp;<span class="math inline">\(x\)</span> spread</h3>
-<div id="3b292799" class="cell" data-execution_count="5">
+<div id="e9d7b5ec" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1153,15 +1153,15 @@
 <section class="slide level2">
 
 <h3 id="example-with-statsmodels">Example with <code>statsmodels</code></h3>
-<div id="ba20512e" class="cell" data-execution_count="6">
+<div id="94296079" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-stdout">
 <pre><code>                            OLS Regression Results                            
 ==============================================================================
 Dep. Variable:                 Income   R-squared:                       0.934
 Model:                            OLS   Adj. R-squared:                  0.929
 Method:                 Least Squares   F-statistic:                     191.4
-Date:                Wed, 06 Nov 2024   Prob (F-statistic):           1.13e-16
-Time:                        17:04:46   Log-Likelihood:                -100.15
+Date:                Fri, 08 Nov 2024   Prob (F-statistic):           1.13e-16
+Time:                        13:35:29   Log-Likelihood:                -100.15
 No. Observations:                  30   AIC:                             206.3
 Df Residuals:                      27   BIC:                             210.5
 Df Model:                           2                                         
@@ -1272,7 +1272,7 @@ Notes:
 
 <h3 id="model-fit-plotting">Model Fit: plotting</h3>
 <p>When <span class="math inline">\(p\)</span> is low - draw!</p>
-<div id="eba405f1" class="cell" data-execution_count="7">
+<div id="411ab725" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1300,7 +1300,7 @@ Notes:
 <section class="slide level2">
 
 <h3 id="model-fit-residuals-plots">Model fit: residuals plots</h3>
-<div id="bfe29597" class="cell" data-execution_count="8">
+<div id="4a0e9367" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1331,7 +1331,7 @@ Notes:
 <h3 id="model-fit-r-squared">Model Fit: <span class="math inline">\(R\)</span> squared</h3>
 <p>Measure of “explained variance”:</p>
 <p><span class="math inline">\(R^2 = \frac{TSS - RSS}{TSS} = 1 - \frac{\sum_{i = 1}^n (y_i - x_i^T\hat{\beta})^2}{\sum_{i = 1}^n (y_i - \bar{y})^2} = 1 - \frac{(y - X\hat{\beta})^T(y - X\hat{\beta})}{(y - X\hat{\beta^*_0})^T(y - X\hat{\beta^*_0})}\)</span></p>
-<div id="12023634" class="cell" data-execution_count="9">
+<div id="8a468919" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
