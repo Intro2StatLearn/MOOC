@@ -728,7 +728,8 @@ $= \arg\min_{\beta, G} \sum_{i = 1}^n w_i^{(m)}\exp\left[-\beta y_i G(x_i)\right
 - Assuming $\beta > 0$, separate the criterion to "correct" + "incorrect" sums:
 :::
 ::: {.fragment}
-$\sum_{i = 1}^n w_i^{(m)}\exp\left[-\beta y_i G(x_i)\right] = e^{-\beta}\sum_{i = 1}^n w_i^{(m)}\mathbb{I}\left[y_i = G(x_i)\right] + e^{\beta}\sum_{i = 1}^n w_i^{(m)}\mathbb{I}\left[y_i \neq G(x_i)\right]$
+$\sum_{i = 1}^n w_i^{(m)}\exp\left[-\beta y_i G(x_i)\right] =$
+$= e^{-\beta}\sum_{i = 1}^n w_i^{(m)}\mathbb{I}\left[y_i = G(x_i)\right] + e^{\beta}\sum_{i = 1}^n w_i^{(m)}\mathbb{I}\left[y_i \neq G(x_i)\right]$
 :::
 ::: {.fragment}
 - Can also write as:
@@ -799,7 +800,8 @@ $f_m(x) = f_{m - 1}(x) + \beta_m b(x; \gamma_m) = f_{m - 1}(x) + \frac{1}{2}\alp
 ::: {.fragment}
 - Which means next iteration weights are:
 
-$w_i^{(m + 1)} = \exp\left[-y_if_{m+1}(x_i)\right] = \exp\left[-y_i(f_{m}(x) + \frac{1}{2}\alpha_m G_m(x))\right] = w_i^{(m)}\cdot\exp\left[-\frac{1}{2}\alpha_m y_i G_m(x)\right]$
+$w_i^{(m + 1)} = \exp\left[-y_if_{m+1}(x_i)\right] = \exp\left[-y_i(f_{m}(x) + \frac{1}{2}\alpha_m G_m(x))\right] =$
+$= w_i^{(m)}\cdot\exp\left[-\frac{1}{2}\alpha_m y_i G_m(x)\right]$
 :::
 ::: {.fragment}
 - Given that $-y_i G_m(x_i) = 2\cdot\mathbb{I}\left[y_i \neq G_m(x_i)\right] - 1$, we can write:
@@ -895,7 +897,8 @@ The $f(x)$ minimizing exponential loss is also minimizing Binomial negative log-
 
 - Binomial negative log-likelihood (cross-entropy):
 
-   $L_{\text{bin}}(y, f) = \log(1 + \exp(-2 \cdot y \cdot f(x))) / \log(2)$
+   $L_{\text{bin}}(y, f) =$
+   $\quad \log(1 + \exp(-2 \cdot y \cdot f(x))) / \log(2)$
 
 - Squared error loss:
 
@@ -997,7 +1000,8 @@ $$\hat{\Theta} = \arg\min_{\Theta} \sum_{i = 1}^n\left(y_{i} - T(x_i, \Theta)\ri
 ::: {.fragment}
 - So FSAM with squared loss, no problem:
 
-$\Theta_m = \arg\min_{\Theta} \sum_{i = 1}^n L\left(y_i, f_{m-1}(x_i) + T(x_i, \Theta)\right) = \arg\min_{\Theta} \sum_{i = 1}^n\left(y_i - f_{m-1}(x_i) - T(x_i, \Theta)\right)^2$
+$\Theta_m = \arg\min_{\Theta} \sum_{i = 1}^n L\left(y_i, f_{m-1}(x_i) + T(x_i, \Theta)\right) =$
+$= \arg\min_{\Theta} \sum_{i = 1}^n\left(y_i - f_{m-1}(x_i) - T(x_i, \Theta)\right)^2$
 :::
 ::: {.fragment}
 $= \arg\min_{\Theta} \sum_{i = 1}^n\left(r_{im} - T(x_i, \Theta)\right)^2$
@@ -1085,11 +1089,14 @@ plt.show()
   $L_{\text{abs}}(y, f) = |y - f(x)|$
 
 - Huber Loss:
-  
+
+::: {style="font-size: 50%;"}  
   $L_{\text{H}}(y, f) = \begin{cases} 
    (y - f(x))^2 & |y - f(x)| \leq \delta \\
    2\delta |y - f(x)| - \delta^2 & \text{otherwise.}
    \end{cases}$
+:::
+
 :::
 ::::
 

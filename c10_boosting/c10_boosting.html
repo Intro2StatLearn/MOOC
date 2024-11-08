@@ -485,7 +485,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-with-tree-stumps">AdaBoost with Tree Stumps</h3>
-<div id="32c4cce0" class="cell" data-execution_count="1">
+<div id="d30c412a" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -528,7 +528,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-1">AdaBoost: iteration 1</h3>
-<div id="0af056a0" class="cell" data-execution_count="2">
+<div id="9431c08f" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -559,7 +559,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-2">AdaBoost: iteration 2</h3>
-<div id="a21a0e0d" class="cell" data-execution_count="3">
+<div id="6918643c" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -590,7 +590,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-3">AdaBoost: iteration 3</h3>
-<div id="b4e78dfa" class="cell" data-execution_count="4">
+<div id="374bd31a" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -618,7 +618,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-4">AdaBoost: iteration 4</h3>
-<div id="2b0fb51d" class="cell" data-execution_count="5">
+<div id="f2606d98" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -646,7 +646,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-5">AdaBoost: iteration 5</h3>
-<div id="c595b13a" class="cell" data-execution_count="6">
+<div id="d9f62d7d" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -679,7 +679,7 @@
 <p><span class="math inline">\(= \text{sign}\left[1.386G_1(x) + 1.466G_2(x) + 0.934G_3(x) + 1.299G_4(x) + 1.126G_5(x)\right]\)</span></p>
 </div>
 <div class="fragment">
-<div id="10ffcd3f" class="cell" data-execution_count="7">
+<div id="2b23c5cd" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -904,7 +904,7 @@
 </ul>
 </div>
 <div class="fragment">
-<div id="dc44fc8f" class="cell" data-execution_count="8">
+<div id="b8eed4e3" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -990,7 +990,7 @@
 </ul>
 </div>
 <div class="fragment">
-<p><span class="math inline">\(\sum_{i = 1}^n w_i^{(m)}\exp\left[-\beta y_i G(x_i)\right] = e^{-\beta}\sum_{i = 1}^n w_i^{(m)}\mathbb{I}\left[y_i = G(x_i)\right] + e^{\beta}\sum_{i = 1}^n w_i^{(m)}\mathbb{I}\left[y_i \neq G(x_i)\right]\)</span></p>
+<p><span class="math inline">\(\sum_{i = 1}^n w_i^{(m)}\exp\left[-\beta y_i G(x_i)\right] =\)</span> <span class="math inline">\(= e^{-\beta}\sum_{i = 1}^n w_i^{(m)}\mathbb{I}\left[y_i = G(x_i)\right] + e^{\beta}\sum_{i = 1}^n w_i^{(m)}\mathbb{I}\left[y_i \neq G(x_i)\right]\)</span></p>
 </div>
 <div class="fragment">
 <ul>
@@ -1076,7 +1076,7 @@
 <ul>
 <li>Which means next iteration weights are:</li>
 </ul>
-<p><span class="math inline">\(w_i^{(m + 1)} = \exp\left[-y_if_{m+1}(x_i)\right] = \exp\left[-y_i(f_{m}(x) + \frac{1}{2}\alpha_m G_m(x))\right] = w_i^{(m)}\cdot\exp\left[-\frac{1}{2}\alpha_m y_i G_m(x)\right]\)</span></p>
+<p><span class="math inline">\(w_i^{(m + 1)} = \exp\left[-y_if_{m+1}(x_i)\right] = \exp\left[-y_i(f_{m}(x) + \frac{1}{2}\alpha_m G_m(x))\right] =\)</span> <span class="math inline">\(= w_i^{(m)}\cdot\exp\left[-\frac{1}{2}\alpha_m y_i G_m(x)\right]\)</span></p>
 </div>
 <div class="fragment">
 <ul>
@@ -1115,7 +1115,7 @@
 <h3 id="classification-losses">Classification losses</h3>
 <div class="columns">
 <div class="column">
-<div id="584bcf27" class="cell" data-execution_count="9">
+<div id="a598870b" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1146,7 +1146,7 @@
 <li><p>Exponential loss:</p>
 <p><span class="math inline">\(L_{\text{exp}}(y, f) = \exp(-y \cdot f(x))\)</span></p></li>
 <li><p>Binomial negative log-likelihood (cross-entropy):</p>
-<p><span class="math inline">\(L_{\text{bin}}(y, f) = \log(1 + \exp(-2 \cdot y \cdot f(x))) / \log(2)\)</span></p></li>
+<p><span class="math inline">\(L_{\text{bin}}(y, f) =\)</span> <span class="math inline">\(\quad \log(1 + \exp(-2 \cdot y \cdot f(x))) / \log(2)\)</span></p></li>
 <li><p>Squared error loss:</p>
 <p><span class="math inline">\(L_{\text{sq}}(y, f) = (1 - y \cdot f(x))^2\)</span></p></li>
 <li><p>Support vector (hinge Loss):</p>
@@ -1271,7 +1271,7 @@
 <ul>
 <li>So FSAM with squared loss, no problem:</li>
 </ul>
-<p><span class="math inline">\(\Theta_m = \arg\min_{\Theta} \sum_{i = 1}^n L\left(y_i, f_{m-1}(x_i) + T(x_i, \Theta)\right) = \arg\min_{\Theta} \sum_{i = 1}^n\left(y_i - f_{m-1}(x_i) - T(x_i, \Theta)\right)^2\)</span></p>
+<p><span class="math inline">\(\Theta_m = \arg\min_{\Theta} \sum_{i = 1}^n L\left(y_i, f_{m-1}(x_i) + T(x_i, \Theta)\right) =\)</span> <span class="math inline">\(= \arg\min_{\Theta} \sum_{i = 1}^n\left(y_i - f_{m-1}(x_i) - T(x_i, \Theta)\right)^2\)</span></p>
 </div>
 <div class="fragment">
 <p><span class="math inline">\(= \arg\min_{\Theta} \sum_{i = 1}^n\left(r_{im} - T(x_i, \Theta)\right)^2\)</span></p>
@@ -1318,7 +1318,7 @@
 <h3 id="what-about-more-robust-losses">What about more <span style="color:red;">robust</span> losses?</h3>
 <div class="columns">
 <div class="column">
-<div id="bbff4d73" class="cell" data-execution_count="10">
+<div id="7c5d242e" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1333,12 +1333,14 @@
 <p><span class="math inline">\(L_{\text{sq}}(y, f) = (y - f(x))^2\)</span></p></li>
 <li><p>Absolute Error Loss:</p>
 <p><span class="math inline">\(L_{\text{abs}}(y, f) = |y - f(x)|\)</span></p></li>
-<li><p>Huber Loss:</p>
-<p><span class="math inline">\(L_{\text{H}}(y, f) = \begin{cases}
-(y - f(x))^2 &amp; |y - f(x)| \leq \delta \\
-2\delta |y - f(x)| - \delta^2 &amp; \text{otherwise.}
-\end{cases}\)</span></p></li>
+<li><p>Huber Loss:</p></li>
 </ul>
+<div style="font-size: 50%;">
+<p><span class="math inline">\(L_{\text{H}}(y, f) = \begin{cases}
+   (y - f(x))^2 &amp; |y - f(x)| \leq \delta \\
+   2\delta |y - f(x)| - \delta^2 &amp; \text{otherwise.}
+   \end{cases}\)</span></p>
+</div>
 </div>
 </div>
 <aside class="notes">
@@ -1383,7 +1385,7 @@
 
 <h3 id="gradient-descent-algorithms">Gradient descent algorithms</h3>
 <p>Minimize a function <span class="math inline">\(J(\theta)\)</span> by moving in the opposite direction of the gradient: <span class="math display">\[\hat\theta_{i+1} = \hat\theta_i - \varepsilon \frac{\partial J(\theta)}{\partial \theta}\]</span></p>
-<div id="71478c50" class="cell" data-execution_count="11">
+<div id="b878bbcb" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1598,7 +1600,7 @@
 <section class="slide level2">
 
 <h3 id="example-credit-data">Example: credit data</h3>
-<div id="8edb8a82" class="cell" data-execution_count="12">
+<div id="6e5ebdf0" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
