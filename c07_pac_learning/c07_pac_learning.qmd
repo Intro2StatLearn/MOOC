@@ -53,7 +53,8 @@ html-math-method:
 
 ::: {.incremental}
 - For linear regression, squared error loss, Fixed $X$:
-$$op = \mathbb{E}_{y}\left[Err_{in} - \overline{err}|X\right] = \mathbb{E}_{y}\left[\frac{1}{n}\sum_{i=1}^n\mathbb{E}_{y_0}\left[L(y_0, \hat{f}(x_i))|T\right] - \frac{1}{n}\sum_{i=1}^{n} L(y_i, \hat{f}(x_i))\right] = \frac{2d\sigma^2}{n}$$
+$$op = \mathbb{E}_{y}\left[Err_{in} - \overline{err}|X\right] = \mathbb{E}_{y}\left[\frac{1}{n}\sum_{i=1}^n\mathbb{E}_{y_0}\left[L(y_0, \hat{f}(x_i))|T\right] - \frac{1}{n}\sum_{i=1}^{n} L(y_i, \hat{f}(x_i))\right]$$
+$$= \frac{2d\sigma^2}{n}$$
 
 - For Fixed $X$, for any $\varepsilon > 0$, if $n \ge \frac{2d\sigma^2}{\varepsilon}$, $\mathbb{E}_{y}\left[\overline{err}\right]$ is up to $\varepsilon$ smaller than $\mathbb{E}_{y}\left[Err_{in}\right]$!
 
@@ -420,7 +421,7 @@ $\Rightarrow n \geq \frac{\log(|\mathcal{H}| / \delta)}{\varepsilon}$
 | Truth         | $f \in \mathcal{H}$                                       | not in class or doesn't exist                                                                       |
 | Risk          | $Err_{P_X, f}(h) = P_X\left[f(x) \neq h(x)\right]$        | $Err_{P_{XY}}(h) = \mathbb{E}_{P_{XY}}\left[L(h, (x, y))\right]$ |
 | Probably      | $P_X\left[T: \text{Approximately}\right] \geq 1 - \delta$ | $P_{XY}\left[T: \text{Approximately}\right] \geq 1 - \delta$     |
-| Approximately | $Err_{P_X, f}(A(T)) \leq \varepsilon$                     | $Err_{P_{XY}}(A(T)) \leq \min_{h \in \mathcal{H}}Err_{P_{XY}}(h) + \varepsilon$ |
+| Approximately | $Err_{P_X, f}(A(T)) \leq \varepsilon$                     | $\begin{align}& Err_{P_{XY}}(A(T)) \leq \\ & \min_{h \in \mathcal{H}}Err_{P_{XY}}(h) + \varepsilon\end{align}$ |
 
 :::
 

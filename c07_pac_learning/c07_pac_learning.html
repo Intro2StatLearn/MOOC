@@ -370,7 +370,7 @@
 <h3 id="previously-on-model-selection">Previously on Model Selection</h3>
 <div>
 <ul>
-<li class="fragment"><p>For linear regression, squared error loss, Fixed <span class="math inline">\(X\)</span>: <span class="math display">\[op = \mathbb{E}_{y}\left[Err_{in} - \overline{err}|X\right] = \mathbb{E}_{y}\left[\frac{1}{n}\sum_{i=1}^n\mathbb{E}_{y_0}\left[L(y_0, \hat{f}(x_i))|T\right] - \frac{1}{n}\sum_{i=1}^{n} L(y_i, \hat{f}(x_i))\right] = \frac{2d\sigma^2}{n}\]</span></p></li>
+<li class="fragment"><p>For linear regression, squared error loss, Fixed <span class="math inline">\(X\)</span>: <span class="math display">\[op = \mathbb{E}_{y}\left[Err_{in} - \overline{err}|X\right] = \mathbb{E}_{y}\left[\frac{1}{n}\sum_{i=1}^n\mathbb{E}_{y_0}\left[L(y_0, \hat{f}(x_i))|T\right] - \frac{1}{n}\sum_{i=1}^{n} L(y_i, \hat{f}(x_i))\right]\]</span> <span class="math display">\[= \frac{2d\sigma^2}{n}\]</span></p></li>
 <li class="fragment"><p>For Fixed <span class="math inline">\(X\)</span>, for any <span class="math inline">\(\varepsilon &gt; 0\)</span>, if <span class="math inline">\(n \ge \frac{2d\sigma^2}{\varepsilon}\)</span>, <span class="math inline">\(\mathbb{E}_{y}\left[\overline{err}\right]\)</span> is up to <span class="math inline">\(\varepsilon\)</span> smaller than <span class="math inline">\(\mathbb{E}_{y}\left[Err_{in}\right]\)</span>!</p></li>
 <li class="fragment"><p>Can we learn <em>any</em> <span class="math inline">\(f\)</span> with <em>any</em> large-enough training sample, ensuring <span class="math inline">\(\overline{err}\)</span> is up to <span class="math inline">\(\varepsilon\)</span> smaller than <span class="math inline">\(Err = \mathbb{E}_{x_0, y_0, T}\left[L(y_0, \hat{f}(x_0))\right]\)</span> (no overfitting)?</p></li>
 <li class="fragment"><p>Spoiler: no, but <span style="color:red;">learnability</span> is key concept:</p>
@@ -848,7 +848,7 @@ P_X\left[T: Err_{P_X, f}(ERM_\mathcal{H}(T)) &gt; \varepsilon\right] &amp;\leq P
 <tr class="even">
 <td>Approximately</td>
 <td><span class="math inline">\(Err_{P_X, f}(A(T)) \leq \varepsilon\)</span></td>
-<td><span class="math inline">\(Err_{P_{XY}}(A(T)) \leq \min_{h \in \mathcal{H}}Err_{P_{XY}}(h) + \varepsilon\)</span></td>
+<td><span class="math inline">\(\begin{align}&amp; Err_{P_{XY}}(A(T)) \leq \\ &amp; \min_{h \in \mathcal{H}}Err_{P_{XY}}(h) + \varepsilon\end{align}\)</span></td>
 </tr>
 </tbody>
 </table>
