@@ -835,7 +835,9 @@ $$ 0\leq P(y=1|x) \leq 1 \;\; \Leftrightarrow\;\; -\infty \leq \log\frac{P(y=1|x
 ::: {.fragment}
 Another way of writing this:
 
-$$P(y=1|x) = \text{sigmoid}(x^T\beta) = \frac{\exp(x^T\beta)}{1+\exp(x^T\beta)} \quad\quad P(y=0|x) = 1- P(y=1|x) = \frac{1}{1+\exp(x^T\beta)}$$
+$P(y=1|x) = \text{sigmoid}(x^T\beta) = \frac{\exp(x^T\beta)}{1+\exp(x^T\beta)}$
+
+$P(y=0|x) = 1- P(y=1|x) = \frac{1}{1+\exp(x^T\beta)}$
 :::
 
 ::: {.fragment}
