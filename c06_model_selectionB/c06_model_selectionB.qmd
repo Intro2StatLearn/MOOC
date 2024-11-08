@@ -541,20 +541,19 @@ $\mathbb{E}_{y, y_0}\|y_0 - \hat{y}\|^2 = \mathbb{E} \left|\left| \underbrace{y_
 :::
 
 ::: {.fragment}
-$= \mathbb{E}\|y_0 - \mathbb{E}(y)\|^2 + \mathbb{E}\|\mathbb{E}(y) - \mathbb{E} (\hat{y})\|^2 + \mathbb{E}\|\mathbb{E} (\hat{y}) - \hat{y}\|^2 +2\mathbb{E}(A^TB) + 2\mathbb{E}(A^TC) + 2\mathbb{E}(B^TC)$
+$= \mathbb{E}\|y_0 - \mathbb{E}(y)\|^2 + \mathbb{E}\|\mathbb{E}(y) - \mathbb{E} (\hat{y})\|^2 + \mathbb{E}\|\mathbb{E} (\hat{y}) - \hat{y}\|^2$
+$+2\mathbb{E}(A^TB) + 2\mathbb{E}(A^TC) + 2\mathbb{E}(B^TC)$
 :::
 
 ::: {.fragment}
 $= \text{irreducible error} + \text{bias}^2 + \text{variance}$
 :::
 
-<br></br>
-
 ::: {.fragment}
+::: {.callout-note}
 Important: $\mathbb{E}(y_0) = \mathbb{E}(y) = f(x)$
 :::
-
-<br></br>
+:::
 
 ::: {.fragment}
 $2\mathbb{E}(A^TB) = 2\mathbb{E}(B^TA) = 2B^T\mathbb{E}A = 2B^T\mathbb{E}\left[y_0 - \mathbb{E}(y)\right] = 2B^T\mathbf{0} = 0$
@@ -603,7 +602,8 @@ $2\mathbb{E}(A^TC) = 2\mathbb{E}\left[\left[y_0 - \mathbb{E}(y)\right]^T\left[\m
 $\mathbb{E}_{y, y_0}\|y - \hat{y}\|^2 = \mathbb{E} \left|\left| \underbrace{y - \mathbb{E}(y)}_{A} + \underbrace{\mathbb{E}(y) - \mathbb{E} (\hat{y})}_{B} + \underbrace{\mathbb{E} (\hat{y}) - \hat{y}}_{C}\right|\right|^2$
 
 ::: {.fragment}
-$= \mathbb{E}\|y - \mathbb{E}(y)\|^2 + \mathbb{E}\|\mathbb{E}(y) - \mathbb{E} (\hat{y})\|^2 + \mathbb{E}\|\mathbb{E} (\hat{y}) - \hat{y}\|^2 +2\mathbb{E}(A^TB) + 2\mathbb{E}(A^TC) + 2\mathbb{E}(B^TC)$
+$= \mathbb{E}\|y - \mathbb{E}(y)\|^2 + \mathbb{E}\|\mathbb{E}(y) - \mathbb{E} (\hat{y})\|^2 + \mathbb{E}\|\mathbb{E} (\hat{y}) - \hat{y}\|^2$
+$+ 2\mathbb{E}(A^TB) + 2\mathbb{E}(A^TC) + 2\mathbb{E}(B^TC)$
 :::
 
 ::: {.fragment}
@@ -617,7 +617,8 @@ $2\mathbb{E}(A^TB) = 2\mathbb{E}(B^TA) = 2B^T\mathbb{E}A = 2B^T\mathbb{E}\left[y
 
 $2\mathbb{E}(B^TC) = 2B^T\mathbb{E}C = 2B^T\mathbb{E}\left[\mathbb{E} (\hat{y}) - \hat{y}\right] = 2B^T\mathbf{0} = 0$
 
-$2\mathbb{E}(A^TC) = 2\mathbb{E}\left[\left[y - \mathbb{E}(y)\right]^T\left[\mathbb{E} (\hat{y}) - \hat{y}\right]\right] = -2\mathbb{E}\left[\left[y - \mathbb{E}(y)\right]^T\left[\hat{y} - \mathbb{E} (\hat{y})\right]\right] = -2\sum_{i=1}^{n}Cov(y_i, \hat{y}_i)$
+$2\mathbb{E}(A^TC) = 2\mathbb{E}\left[\left[y - \mathbb{E}(y)\right]^T\left[\mathbb{E} (\hat{y}) - \hat{y}\right]\right] = -2\mathbb{E}\left[\left[y - \mathbb{E}(y)\right]^T\left[\hat{y} - \mathbb{E} (\hat{y})\right]\right] =$
+$= -2\sum_{i=1}^{n}Cov(y_i, \hat{y}_i)$
 :::
 
 ::: {.notes}
@@ -682,7 +683,8 @@ $$Cov(y, \hat{y}) = \begin{pmatrix}
 \end{pmatrix}$$
 - Mark $\hat{y} = X\hat{\beta} = X(X^TX)^{-1}X^Ty = Hy$
 - More compactly:
-$$op = \frac{2}{n}\text{Tr}\left[Cov(y, \hat{y})\right] = \frac{2}{n}\text{Tr}\left[Cov(y, Hy)\right] = \frac{2}{n}\text{Tr}\left[H Cov(y, y)\right] = \frac{2\sigma^2}{n}\text{Tr}\left[H \cdot I_n\right]$$
+$$op = \frac{2}{n}\text{Tr}\left[Cov(y, \hat{y})\right] = \frac{2}{n}\text{Tr}\left[Cov(y, Hy)\right] = \frac{2}{n}\text{Tr}\left[H Cov(y, y)\right]=$$
+$= \frac{2\sigma^2}{n}\text{Tr}\left[H \cdot I_n\right]$
 :::
 
 ::: {.notes}
@@ -809,7 +811,8 @@ plt.show()
 $$AIC = -\frac{2}{n}\cdot \ell(\hat{\theta}) + \frac{2d}{n}$$
 - Advantage: for any likelihood model (e.g. logistic regression)
 - For linear regression (Gaussian likelihood):
-$$AIC = -\frac{2}{n}\left[-\frac{n}{2}\ln(2\pi\sigma^2)-\frac{1}{2\sigma^2}RSS\right] + \frac{2d}{n} = C(\sigma^2) + \frac{\overline{err}}{\sigma^2} + \frac{2d}{n} = C(\sigma^2) + \frac{C_p}{\sigma^2}$$
+$$AIC = -\frac{2}{n}\left[-\frac{n}{2}\ln(2\pi\sigma^2)-\frac{1}{2\sigma^2}RSS\right] + \frac{2d}{n} = C(\sigma^2) + \frac{\overline{err}}{\sigma^2} + \frac{2d}{n} =$$
+$$= C(\sigma^2) + \frac{C_p}{\sigma^2}$$
 :::
 
 ::: {.notes}

@@ -406,7 +406,7 @@
 <section class="slide level2">
 
 <h3 id="the-bootstrap-1">The Bootstrap</h3>
-<div id="00ecfc0e" class="cell" data-execution_count="1">
+<div id="d45fe068" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -512,7 +512,7 @@ P(\text{observation } i \in \text{bootstrap sample } b) &amp;= 1 - P(\text{obser
 <section class="slide level2">
 
 <h3 id="what-does-bootstrap-error-estimate">What does Bootstrap error estimate?</h3>
-<div id="b567d814" class="cell" data-execution_count="3">
+<div id="871cc378" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -564,7 +564,7 @@ P(\text{observation } i \in \text{bootstrap sample } b) &amp;= 1 - P(\text{obser
 <li>Natural to ask: by how much is <span class="math inline">\(\overline{err} = \frac{1}{n}\sum_{i=1}^{n} L(y_i, \hat{f}(x_i))\)</span> <span style="color:red;">optimistic</span>?</li>
 </ul>
 <div class="fragment">
-<div id="4de9e631" class="cell" data-execution_count="4">
+<div id="d78548a8" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -638,7 +638,7 @@ P(\text{observation } i \in \text{bootstrap sample } b) &amp;= 1 - P(\text{obser
 <section class="slide level2">
 
 <h3 id="optimism-end-goal">Optimism: End Goal</h3>
-<div id="dc580ff5" class="cell" data-execution_count="5">
+<div id="cec5812d" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -670,16 +670,23 @@ P(\text{observation } i \in \text{bootstrap sample } b) &amp;= 1 - P(\text{obser
 <p><span class="math inline">\(\mathbb{E}_{y, y_0}\|y_0 - \hat{y}\|^2 = \mathbb{E} \left|\left| \underbrace{y_0 - \mathbb{E}(y)}_{A} + \underbrace{\mathbb{E}(y) - \mathbb{E} (\hat{y})}_{B} + \underbrace{\mathbb{E} (\hat{y}) - \hat{y}}_{C}\right|\right|^2\)</span></p>
 </div>
 <div class="fragment">
-<p><span class="math inline">\(= \mathbb{E}\|y_0 - \mathbb{E}(y)\|^2 + \mathbb{E}\|\mathbb{E}(y) - \mathbb{E} (\hat{y})\|^2 + \mathbb{E}\|\mathbb{E} (\hat{y}) - \hat{y}\|^2 +2\mathbb{E}(A^TB) + 2\mathbb{E}(A^TC) + 2\mathbb{E}(B^TC)\)</span></p>
+<p><span class="math inline">\(= \mathbb{E}\|y_0 - \mathbb{E}(y)\|^2 + \mathbb{E}\|\mathbb{E}(y) - \mathbb{E} (\hat{y})\|^2 + \mathbb{E}\|\mathbb{E} (\hat{y}) - \hat{y}\|^2\)</span> <span class="math inline">\(+2\mathbb{E}(A^TB) + 2\mathbb{E}(A^TC) + 2\mathbb{E}(B^TC)\)</span></p>
 </div>
 <div class="fragment">
 <p><span class="math inline">\(= \text{irreducible error} + \text{bias}^2 + \text{variance}\)</span></p>
 </div>
-<p><br><br></p>
 <div class="fragment">
+<div class="callout callout-note callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
 <p>Important: <span class="math inline">\(\mathbb{E}(y_0) = \mathbb{E}(y) = f(x)\)</span></p>
 </div>
-<p><br><br></p>
+</div>
+</div>
+</div>
 <div class="fragment">
 <p><span class="math inline">\(2\mathbb{E}(A^TB) = 2\mathbb{E}(B^TA) = 2B^T\mathbb{E}A = 2B^T\mathbb{E}\left[y_0 - \mathbb{E}(y)\right] = 2B^T\mathbf{0} = 0\)</span></p>
 <p><span class="math inline">\(2\mathbb{E}(B^TC) = 2B^T\mathbb{E}C = 2B^T\mathbb{E}\left[\mathbb{E} (\hat{y}) - \hat{y}\right] = 2B^T\mathbf{0} = 0\)</span></p>
@@ -719,7 +726,7 @@ P(\text{observation } i \in \text{bootstrap sample } b) &amp;= 1 - P(\text{obser
 <h4 id="decomposing-training-error">Decomposing training error</h4>
 <p><span class="math inline">\(\mathbb{E}_{y, y_0}\|y - \hat{y}\|^2 = \mathbb{E} \left|\left| \underbrace{y - \mathbb{E}(y)}_{A} + \underbrace{\mathbb{E}(y) - \mathbb{E} (\hat{y})}_{B} + \underbrace{\mathbb{E} (\hat{y}) - \hat{y}}_{C}\right|\right|^2\)</span></p>
 <div class="fragment">
-<p><span class="math inline">\(= \mathbb{E}\|y - \mathbb{E}(y)\|^2 + \mathbb{E}\|\mathbb{E}(y) - \mathbb{E} (\hat{y})\|^2 + \mathbb{E}\|\mathbb{E} (\hat{y}) - \hat{y}\|^2 +2\mathbb{E}(A^TB) + 2\mathbb{E}(A^TC) + 2\mathbb{E}(B^TC)\)</span></p>
+<p><span class="math inline">\(= \mathbb{E}\|y - \mathbb{E}(y)\|^2 + \mathbb{E}\|\mathbb{E}(y) - \mathbb{E} (\hat{y})\|^2 + \mathbb{E}\|\mathbb{E} (\hat{y}) - \hat{y}\|^2\)</span> <span class="math inline">\(+ 2\mathbb{E}(A^TB) + 2\mathbb{E}(A^TC) + 2\mathbb{E}(B^TC)\)</span></p>
 </div>
 <div class="fragment">
 <p><span class="math inline">\(= \text{irreducible error} + \text{bias}^2 + \text{variance} - 2\sum_{i=1}^{n}Cov(y_i, \hat{y}_i)\)</span></p>
@@ -728,7 +735,7 @@ P(\text{observation } i \in \text{bootstrap sample } b) &amp;= 1 - P(\text{obser
 <div class="fragment">
 <p><span class="math inline">\(2\mathbb{E}(A^TB) = 2\mathbb{E}(B^TA) = 2B^T\mathbb{E}A = 2B^T\mathbb{E}\left[y - \mathbb{E}(y)\right] = 2B^T\mathbf{0} = 0\)</span></p>
 <p><span class="math inline">\(2\mathbb{E}(B^TC) = 2B^T\mathbb{E}C = 2B^T\mathbb{E}\left[\mathbb{E} (\hat{y}) - \hat{y}\right] = 2B^T\mathbf{0} = 0\)</span></p>
-<p><span class="math inline">\(2\mathbb{E}(A^TC) = 2\mathbb{E}\left[\left[y - \mathbb{E}(y)\right]^T\left[\mathbb{E} (\hat{y}) - \hat{y}\right]\right] = -2\mathbb{E}\left[\left[y - \mathbb{E}(y)\right]^T\left[\hat{y} - \mathbb{E} (\hat{y})\right]\right] = -2\sum_{i=1}^{n}Cov(y_i, \hat{y}_i)\)</span></p>
+<p><span class="math inline">\(2\mathbb{E}(A^TC) = 2\mathbb{E}\left[\left[y - \mathbb{E}(y)\right]^T\left[\mathbb{E} (\hat{y}) - \hat{y}\right]\right] = -2\mathbb{E}\left[\left[y - \mathbb{E}(y)\right]^T\left[\hat{y} - \mathbb{E} (\hat{y})\right]\right] =\)</span> <span class="math inline">\(= -2\sum_{i=1}^{n}Cov(y_i, \hat{y}_i)\)</span></p>
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
@@ -810,7 +817,7 @@ P(\text{observation } i \in \text{bootstrap sample } b) &amp;= 1 - P(\text{obser
   Cov(y_n, \hat{y}_1) &amp; Cov(y_n, \hat{y}_2) &amp; \dots &amp; Cov(y_n, \hat{y}_n) \\
 \end{pmatrix}\]</span></li>
 <li class="fragment">Mark <span class="math inline">\(\hat{y} = X\hat{\beta} = X(X^TX)^{-1}X^Ty = Hy\)</span></li>
-<li class="fragment">More compactly: <span class="math display">\[op = \frac{2}{n}\text{Tr}\left[Cov(y, \hat{y})\right] = \frac{2}{n}\text{Tr}\left[Cov(y, Hy)\right] = \frac{2}{n}\text{Tr}\left[H Cov(y, y)\right] = \frac{2\sigma^2}{n}\text{Tr}\left[H \cdot I_n\right]\]</span></li>
+<li class="fragment">More compactly: <span class="math display">\[op = \frac{2}{n}\text{Tr}\left[Cov(y, \hat{y})\right] = \frac{2}{n}\text{Tr}\left[Cov(y, Hy)\right] = \frac{2}{n}\text{Tr}\left[H Cov(y, y)\right]=\]</span> <span class="math inline">\(= \frac{2\sigma^2}{n}\text{Tr}\left[H \cdot I_n\right]\)</span></li>
 </ul>
 </div>
 <aside class="notes">
@@ -881,7 +888,7 @@ P(\text{observation } i \in \text{bootstrap sample } b) &amp;= 1 - P(\text{obser
 <section class="slide level2">
 
 <h3 id="c_p-demo"><span class="math inline">\(C_p\)</span> demo</h3>
-<div id="49b001b4" class="cell" data-execution_count="6">
+<div id="1f0513e7" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -917,7 +924,7 @@ P(\text{observation } i \in \text{bootstrap sample } b) &amp;= 1 - P(\text{obser
 <li class="fragment">For <em>(negative) log-likelihood</em> loss: <span class="math inline">\(-2 \cdot\mathbb{E}_{y}\left[\log\text{Pr}(y)\right] \approx -\frac{2}{n}\cdot E_{y}\left[\ell(\hat{\theta})\right] + \frac{2d}{n}\)</span></li>
 <li class="fragment">Akaike information criterion (AIC): <span class="math display">\[AIC = -\frac{2}{n}\cdot \ell(\hat{\theta}) + \frac{2d}{n}\]</span></li>
 <li class="fragment">Advantage: for any likelihood model (e.g.&nbsp;logistic regression)</li>
-<li class="fragment">For linear regression (Gaussian likelihood): <span class="math display">\[AIC = -\frac{2}{n}\left[-\frac{n}{2}\ln(2\pi\sigma^2)-\frac{1}{2\sigma^2}RSS\right] + \frac{2d}{n} = C(\sigma^2) + \frac{\overline{err}}{\sigma^2} + \frac{2d}{n} = C(\sigma^2) + \frac{C_p}{\sigma^2}\]</span></li>
+<li class="fragment">For linear regression (Gaussian likelihood): <span class="math display">\[AIC = -\frac{2}{n}\left[-\frac{n}{2}\ln(2\pi\sigma^2)-\frac{1}{2\sigma^2}RSS\right] + \frac{2d}{n} = C(\sigma^2) + \frac{\overline{err}}{\sigma^2} + \frac{2d}{n} =\]</span> <span class="math display">\[= C(\sigma^2) + \frac{C_p}{\sigma^2}\]</span></li>
 </ul>
 </div>
 <aside class="notes">
