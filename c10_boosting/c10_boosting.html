@@ -485,7 +485,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-with-tree-stumps">AdaBoost with Tree Stumps</h3>
-<div id="0f604bbc" class="cell" data-execution_count="1">
+<div id="0377581e" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -528,7 +528,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-1">AdaBoost: iteration 1</h3>
-<div id="65037d37" class="cell" data-execution_count="2">
+<div id="15435d73" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -559,7 +559,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-2">AdaBoost: iteration 2</h3>
-<div id="d8c65f06" class="cell" data-execution_count="3">
+<div id="63b1c654" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -590,7 +590,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-3">AdaBoost: iteration 3</h3>
-<div id="e50ba27e" class="cell" data-execution_count="4">
+<div id="dbf312f0" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -618,7 +618,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-4">AdaBoost: iteration 4</h3>
-<div id="9d0bdf21" class="cell" data-execution_count="5">
+<div id="ab1991f8" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -646,7 +646,7 @@
 <section class="slide level2">
 
 <h3 id="adaboost-iteration-5">AdaBoost: iteration 5</h3>
-<div id="1edd5563" class="cell" data-execution_count="6">
+<div id="b21f0900" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -679,7 +679,7 @@
 <p><span class="math inline">\(= \text{sign}\left[1.386G_1(x) + 1.466G_2(x) + 0.934G_3(x) + 1.299G_4(x) + 1.126G_5(x)\right]\)</span></p>
 </div>
 <div class="fragment">
-<div id="080e31e0" class="cell" data-execution_count="7">
+<div id="c53ed01e" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -904,7 +904,7 @@
 </ul>
 </div>
 <div class="fragment">
-<div id="86357cd7" class="cell" data-execution_count="8">
+<div id="ea38b5ff" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1077,13 +1077,13 @@
 <ul>
 <li>Which means next iteration weights are:</li>
 </ul>
-<p><span class="math inline">\(w_i^{(m + 1)} = \exp\left[-y_if_{m+1}(x_i)\right] = \exp\left[-y_i(f_{m}(x) + \frac{1}{2}\alpha_m G_m(x))\right] =\)</span> <span class="math inline">\(= w_i^{(m)}\cdot\exp\left[-\frac{1}{2}\alpha_m y_i G_m(x)\right]\)</span></p>
+<p><span class="math inline">\(w_i^{(m)} = \exp\left[-y_if_{m}(x_i)\right] = \exp\left[-y_i(f_{m-1}(x) + \frac{1}{2}\alpha_m G_m(x))\right] =\)</span> <span class="math inline">\(= w_i^{(m-1)}\cdot\exp\left[-\frac{1}{2}\alpha_m y_i G_m(x)\right]\)</span></p>
 </div>
 <div class="fragment">
 <ul>
 <li>Given that <span class="math inline">\(-y_i G_m(x_i) = 2\cdot\mathbb{I}\left[y_i \neq G_m(x_i)\right] - 1\)</span>, we can write:</li>
 </ul>
-<p><span class="math inline">\(w_i^{(m + 1)} = w_i^{(m)} \cdot \exp\left[\alpha_m \cdot \mathbb{I}\left[y_i \neq G_m(x_i)\right]\right] \cdot Const\)</span></p>
+<p><span class="math inline">\(w_i^{(m)} = w_i^{(m-1)} \cdot \exp\left[\alpha_m \cdot \mathbb{I}\left[y_i \neq G_m(x_i)\right]\right] \cdot Const\)</span></p>
 </div>
 <div class="fragment">
 <ul>
@@ -1094,7 +1094,7 @@
 <div style="direction:rtl; font-size:16px">
 <p>ולמה העובדה הזאת אומרת שהגענו בדיוק לאותו משקול?</p>
 <p>כעת האלגוריתם פורוורד סטייג’וויז אומר לעדכן את החיזוי להיות החיזוי באיטרציה הקודמת f אמ-מינוס-1, ועוד, צעד בטא כפול הפונקציה בי עם הפרמטר גאמא הטוב ביותר שנמצא. אצלינו זה פשוט אומר החיזוי עד עכשיו ועוד חצי אלפא-אם כפול הקלסיפייר G הכי טוב שנמצא.</p>
-<p>אבל זה אומר שהמשקולות שלנו בכל איטרציה הן בדיוק מה שאדאבוסט אומר לנו לחשב: המשקולות שהגענו אליהן לפני שני שקפים הן הלוס האקספוננצילי מהאיטרציה הקודמת. מציבים את הביטוי שפורוורד סטייג’וויז אומר לנו בfm-1. ומקבלים שהעדכון שווה למשקולת הקודמת כפול ביטוי שכבר מתחיל להזכיר את הביטוי שאנחנו רוצים להגיע אליו, שמערב את אלפא-אם.</p>
+<p>אבל זה אומר שהמשקולות שלנו בכל איטרציה הן בדיוק מה שאדאבוסט אומר לנו לחשב: המשקולות שהגענו אליהן לפני שני שקפים הן הלוס האקספוננצילי מהאיטרציה הקודמת. מציבים את הביטוי שפורוורד סטייג’וויז אומר לנו בfm. ומקבלים שהעדכון שווה למשקולת הקודמת כפול ביטוי שכבר מתחיל להזכיר את הביטוי שאנחנו רוצים להגיע אליו, שמערב את אלפא-אם.</p>
 <p>הוא מזכיר מאוד כי הוא שקול! נשים לב שאפשר להגיע בקלות מהמכפלה של y כפול G לביטוי שאנחנו רוצים, האינדיקטור שבודק האם יש לנו כאן חיזוי נכון או לא. באמצעות הקשר מינוס y כפול G שווה לפעמיים האינדיקטור פחות 1.</p>
 <p>אנחנו מציבים את הקשר הזה ורואים שהמשקולת באיטרציה הבאה היא תמיד תהיה המשקולת הנוכחית כפול קבוע אקספוננט בחזקת אלפא-אם אם היה חיזוי שגוי, או תישאר כפי שהיא אם היה חיזוי נכון. כל זה כפול איזה קבוע שמכפילים בו את כל המשקולות ולכן אפשר להתעלם ממנו.</p>
 <p>בכך קיבלנו את שלב 2d של אדאבוסט, ושוב מומלץ לראות אותו מול העיניים שלכם כדי לראות את זה. ובעצם סיימנו להראות שאדאבוסט מקרה פרטי של אלגוריתם כללי יותר, פורוורד סטייג’וויז אדיטיב, שנותן הנחיה מה לעשות עם כל לוס שנרצה, וגם לסטינג של רגרסיה. זה אולי ידהים אתכם לדעת שהתובנה הזאת לא הגיעה אלא לפחות חמש שנים אחרי שאדאבוסט פותח.</p>
@@ -1116,7 +1116,7 @@
 <h3 id="classification-losses">Classification losses</h3>
 <div class="columns">
 <div class="column">
-<div id="c7e96bce" class="cell" data-execution_count="9">
+<div id="3d9c7d6f" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1319,7 +1319,7 @@
 <h3 id="what-about-more-robust-losses">What about more <span style="color:red;">robust</span> losses?</h3>
 <div class="columns">
 <div class="column">
-<div id="2d5a1004" class="cell" data-execution_count="10">
+<div id="d2d9e288" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1386,7 +1386,7 @@
 
 <h3 id="gradient-descent-algorithms">Gradient descent algorithms</h3>
 <p>Minimize a function <span class="math inline">\(J(\theta)\)</span> by moving in the opposite direction of the gradient: <span class="math display">\[\hat\theta_{i+1} = \hat\theta_i - \varepsilon \frac{\partial J(\theta)}{\partial \theta}\]</span></p>
-<div id="25342202" class="cell" data-execution_count="11">
+<div id="4b1cf3de" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1602,7 +1602,7 @@
 <section class="slide level2">
 
 <h3 id="example-credit-data">Example: credit data</h3>
-<div id="bfd432c1" class="cell" data-execution_count="12">
+<div id="fb54bd3b" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
