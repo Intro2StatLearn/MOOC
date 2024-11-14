@@ -561,7 +561,7 @@
 <section class="slide level2">
 
 <h3 id="k-means-demo-initial-guess">K-means Demo: Initial Guess</h3>
-<div id="a967fb3a" class="cell" data-execution_count="2">
+<div id="75d5b128" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -589,7 +589,7 @@
 <section class="slide level2">
 
 <h3 id="k-means-demo-iteration-1">K-means Demo: Iteration 1</h3>
-<div id="37f633d3" class="cell" data-execution_count="3">
+<div id="f6ee0de1" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -618,7 +618,7 @@
 <section class="slide level2">
 
 <h3 id="k-means-demo-iteration-2">K-means Demo: Iteration 2</h3>
-<div id="a4d91c11" class="cell" data-execution_count="4">
+<div id="752a0b3f" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -647,7 +647,7 @@
 <section class="slide level2">
 
 <h3 id="k-means-demo-iteration-3">K-means Demo: Iteration 3</h3>
-<div id="d0609b08" class="cell" data-execution_count="5">
+<div id="c7328e29" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1024,24 +1024,50 @@ But: <span class="math inline">\(\text{Tr}(Xww^TX^T) = \text{Tr}(w^TX^TXw) = w^T
 <li>Focus on preserving <strong>global</strong> structure</li>
 <li>No probabilistic meaning?</li>
 </ul>
-<div class="fragment">
-<p>Enter <strong>t-Distributed Stochastic Neighbor Embedding</strong> (t-SNE):</p>
+<aside class="notes">
+<div style="direction:rtl; font-size:16px">
+<p>יש הרבה ביקורות על PCA שהביאו חוקרים לפתח שיטות אחרות. ראינו שPCA הוא בהגדרה שיטה ליניארית. אולי אנקודר ודיקודר גמישים יותר ולא-ליניאריים יכולים להביא לקריטריון טוב יותר? ואם כבר מדברים על קריטריון, כמו ברגרסיה ראינו שהקריטריון של PCA מביא למינימום שגיאה ריבועית. שגיאה ריבועית זו בחירה אחת, אולי בחירות אחרות יביאו לתוצאות טובות יותר, הרי ידוע למשל ששגיאה ריבועית מענישה יותר שגיאות גדולות, כלומר גם אם אנחנו עובדים עם נתונים שעברו סטנדרטיזציה, PCA מאוד מושפע מתצפיות חריגות. ביקורת נוספת היא שבכלל כל ההסתכלות של PCA היא גלובלית, בצורה שקצת מזכירה רגרסיה. אולי אם נאפשר פונקציה אחרת לכל שורה של הנתונים, או התיחסות לוקאלית נקבל תוצאות טובות יותר? והביקורת האחרונה היא לא נכונה. במשך הרבה שנים היה נהוג לומר שPCA הוא רק בעיית אופטימיזציה אלגברית, כמו שראינו שאפשר לראות ברגרסיה ליניארית. ואין לה איזשהו פרוש סטטיסטי, בניגוד לרגרסיה ליניארית. כלומר אין כאן מודל עם הנחה של התפלגות שפתרון PCA הוא המודל הטוב ביותר שמתאים לנתונים שלנו. נראה תיכף שזה התגלה כלא נכון.</p>
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<h4 id="t-distributed-stochastic-neighbor-embedding">t-Distributed Stochastic Neighbor Embedding</h4>
+<div id="656a9a85" class="cell" data-execution_count="6">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="c13_unsupervised_files/figure-revealjs/cell-7-output-1.png" width="758" height="278"></p>
+</figure>
+</div>
+</div>
+</div>
+<div>
 <ul>
-<li>Non-linear mapping</li>
-<li>Focus on preserving <strong>local</strong> structure through pairwise similarites:
+<li class="fragment">Non-linear mapping</li>
+<li class="fragment">Focus on preserving <strong>local</strong> structure through pairwise similarites:
 <ul>
-<li>close observations in high dimension should likely be close in low dimension</li>
-<li>distant observations in high dimension should likely be distant in low dimension</li>
+<li class="fragment">close observations in high dimension should likely be close in low dimension</li>
+<li class="fragment">distant observations in high dimension should likely be distant in low dimension</li>
 </ul></li>
-<li>Specifically designed for visualization (2-D, 3-D)</li>
-<li>Probabilistic meaning</li>
+<li class="fragment">Specifically designed for visualization (2-D, 3-D)</li>
+<li class="fragment">Probabilistic meaning</li>
 </ul>
 </div>
 <aside class="notes">
 <div style="direction:rtl; font-size:16px">
-<p>יש הרבה ביקורות על PCA שהביאו חוקרים לפתח שיטות אחרות. ראינו שPCA הוא בהגדרה שיטה ליניארית. אולי אנקודר ודיקודר גמישים יותר ולא-ליניאריים יכולים להביא לקריטריון טוב יותר? ואם כבר מדברים על קריטריון, כמו ברגרסיה ראינו שהקריטריון של PCA מביא למינימום שגיאה ריבועית. שגיאה ריבועית זו בחירה אחת, אולי בחירות אחרות יביאו לתוצאות טובות יותר, הרי ידוע למשל ששגיאה ריבועית מענישה יותר שגיאות גדולות, כלומר גם אם אנחנו עובדים עם נתונים שעברו סטנדרטיזציה, PCA מאוד מושפע מתצפיות חריגות. ביקורת נוספת היא שבכלל כל ההסתכלות של PCA היא גלובלית, בצורה שקצת מזכירה רגרסיה. אולי אם נאפשר פונקציה אחרת לכל שורה של הנתונים, או התיחסות לוקאלית נקבל תוצאות טובות יותר? והביקורת האחרונה היא לא נכונה. במשך הרבה שנים היה נהוג לומר שPCA הוא רק בעיית אופטימיזציה אלגברית, כמו שראינו שאפשר לראות ברגרסיה ליניארית. ואין לה איזשהו פרוש סטטיסטי, בניגוד לרגרסיה ליניארית. כלומר אין כאן מודל עם הנחה של התפלגות שפתרון PCA הוא המודל הטוב ביותר שמתאים לנתונים שלנו. נראה תיכף שזה התגלה כלא נכון.</p>
-<p>מכל מקום, כל הבעיות האלה הביאו חוקרים לנסח אלגוריתם קצת שונה להורדת מימד, ספציפית למטרה של ויזאליזציה של נתונים: הt-distributed stochastic neighbor embedding, או הטיסני בקיצור. אנחנו נראה שהמיפוי או האמבדינג למימד נמוך יותר הוא כבר לא ליניארי, שהפוקוס הוא לא על איזשהו אנקודר/דיקודר גלובליים להורדת מימד, אלא משהו הרבה יותר לוקאלי, המטרה של השיטה היא לדאוג שכל זוג תצפיות שדומה זו לזו במימד המקורי הגבוה, יהיה גם קרוב במימד הנמוך או בהסתברות גבוהה, ולהיפך: זוג רחוק יהיה רחוק בממד הנמוך.</p>
-<p>בנוסף לזה טיסני יוסיף לנו משמעות הסתברותית בצורה מיידית מזו של PCA. לכל זוג תצפיות יש הסתברות להיות “בשכונה” אחת לשניה, בממד הנמוך. אם הן קרובות בממד המקורי, ההסתברות הזאת גדולה, ואם הן רחוקות היא קטנה. כלומר המרחק ביניהן בממד המקורי הגבוה יכתיב את ההסתברות שלהן להיות שכנות בממד הנמוך.</p>
+<p>מכל מקום, כל הבעיות האלה הביאו חוקרים לנסח אלגוריתם קצת שונה להורדת מימד, ספציפית למטרה של ויזאליזציה של נתונים: הt-distributed stochastic neighbor embedding, או הטיסני בקיצור. אנחנו נראה שהמיפוי או האמבדינג ממימד גבוה X למימד נמוך יותר Y, הוא כבר לא ליניארי, שהפוקוס הוא לא על איזשהו אנקודר/דיקודר גלובליים להורדת מימד, אלא משהו הרבה יותר לוקאלי, המטרה של השיטה היא לדאוג שכל זוג תצפיות שדומה זו לזו במימד המקורי הגבוה X, יהיה גם קרוב במימד הנמוך Y, או בהסתברות גבוהה, ולהיפך: זוג רחוק יהיה רחוק בממד הנמוך.</p>
+<p>בנוסף לזה טיסני יוסיף לנו משמעות הסתברותית בצורה מיידית מזו של PCA. לכל זוג תצפיות יש הסתברות להיות “בשכונה” אחת של השניה במימד הגבוה X, ובממד הנמוך Y. אם הן קרובות בממד המקורי, ההסתברות הזאת גדולה, ואם הן רחוקות היא קטנה, ונרצה לראות התפלגות דומה בממד הנמוך Y. כלומר המרחק ביניהן בממד המקורי הגבוה X יכתיב את ההסתברות שלהן להיות שכנות בממד הנמוך Y.</p>
 </div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1119,11 +1145,11 @@ But: <span class="math inline">\(\text{Tr}(Xww^TX^T) = \text{Tr}(w^TX^TXw) = w^T
 </ul>
 </div>
 <div class="fragment">
-<div id="5522cbd4" class="cell" data-execution_count="6">
+<div id="3ae8bdf2" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="c13_unsupervised_files/figure-revealjs/cell-7-output-1.png" width="366" height="263"></p>
+<p><img data-src="c13_unsupervised_files/figure-revealjs/cell-8-output-1.png" width="366" height="263"></p>
 </figure>
 </div>
 </div>
@@ -1157,11 +1183,11 @@ But: <span class="math inline">\(\text{Tr}(Xww^TX^T) = \text{Tr}(w^TX^TXw) = w^T
 </ul>
 </div>
 <div class="fragment">
-<div id="472fc174" class="cell" data-execution_count="7">
+<div id="59ea3a79" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="c13_unsupervised_files/figure-revealjs/cell-8-output-1.png" class="quarto-figure quarto-figure-center" width="328" height="226"></p>
+<p><img data-src="c13_unsupervised_files/figure-revealjs/cell-9-output-1.png" class="quarto-figure quarto-figure-center" width="328" height="226"></p>
 </figure>
 </div>
 </div>
